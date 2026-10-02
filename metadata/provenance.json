@@ -1687,8 +1687,8 @@
   },
   {
    "path": "scripts/check_archive_map.py",
-   "bytes": 7871,
-   "sha256": "43b49b54c4a9a8ea8a1d6bdfb81810adf9375ae58b93bba8ce35113b7e66196f"
+   "bytes": 8450,
+   "sha256": "9262a6e815393bd86c994e31ac5e625f8949ca5fafaefb39d7c92125d662f0ee"
   },
   {
    "path": "scripts/collect_provenance.py",
@@ -1697,8 +1697,8 @@
   },
   {
    "path": "scripts/cut_release.sh",
-   "bytes": 12584,
-   "sha256": "8211b52a3358a48cc613eae5c49e53f59eb560956285201ee70d15ef39513c57"
+   "bytes": 12855,
+   "sha256": "0c50fc3307376f3cc0d692b6c3fba5a7cc9a1b07f4855f8b90d3fde6787b6b42"
   },
   {
    "path": "scripts/verify_from_clone.sh",

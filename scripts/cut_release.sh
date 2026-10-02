@@ -139,23 +139,25 @@ else
 fi
 
 if [ -f metadata/ARCHIVE_MAP.md ]; then
-  # The status key is four-state (VERIFIED / DERIVABLE / GAP / n-a). ⚠️ is no longer a
-  # status — it now marks layer caveats — so count GAP rows: those are the ones a
-  # release must consciously accept.
+  # The GAP count comes from scripts/check_archive_map.py (--counts), which reads the
+  # status column of the item tables. Counting 🔴 in the whole file — the obvious way,
+  # used here before — also counts the status key that defines the mark and the summary
+  # line that reports it, and so over-report. A count taken from the wrong universe is
+  # the same defect class as the drifted summary line this map has already had once.
   #
-  # Count with Python, NOT grep. Under Git Bash on Windows, grep fails to match the
+  # Note also why this is not grep: under Git Bash on Windows, grep fails to match the
   # 4-byte emoji and silently returns 0, which would report "no GAP rows" on a file
-  # containing 15 of them. Two other traps avoided here: `grep -c` exits 1 on no
-  # match (so `|| echo 0` appends a second line), and the U+26A0 checkmark carries a
-  # variation selector.
-  N=$("${PY}" -c "
-import sys
-try:
-    t = open('metadata/ARCHIVE_MAP.md', encoding='utf-8').read()
-except Exception:
-    print(0); raise SystemExit
+  # containing five of them.
+  if [ -f scripts/check_archive_map.py ]; then
+    # NOT `set -- $(...)`: that would clobber $1, which holds the target version.
+    AMC=$("$PY" scripts/check_archive_map.py --counts 2>/dev/null)
+    N=$(printf '%s' "$AMC" | awk '{print $4}')
+  else
+    N=$("${PY}" -c "
+t = open('metadata/ARCHIVE_MAP.md', encoding='utf-8').read()
 print(t.count('\U0001F534'))
 " 2>/dev/null) || N=0
+  fi
   N=${N:-0}
   if [ "$N" -eq 0 ]; then
     ok "ARCHIVE_MAP.md has no GAP rows"
@@ -171,7 +173,7 @@ print(t.count('\U0001F534'))
   # three, plus the column declaration and the locality vocabulary.
   if [ -f scripts/check_archive_map.py ]; then
     if AM=$("$PY" scripts/check_archive_map.py 2>&1); then
-      ok "$(printf '%s' "$AM" | tail -1 | sed 's/^ *//')"
+      ok "$(printf '%s' "$AM" | tail -1 | sed 's/^ *//; s/^\[ ok \] //')"
     else
       bad "metadata/ARCHIVE_MAP.md is structurally unsound:"
       printf '%s\n' "$AM" | grep -E 'problem|    - ' | head -8 | sed 's/^/         /'

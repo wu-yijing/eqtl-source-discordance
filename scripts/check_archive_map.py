@@ -94,7 +94,9 @@ def locality_of(cs):
 
 
 def main():
-    verbose = '-v' in sys.argv[1:] or '--verbose' in sys.argv[1:]
+    argv = sys.argv[1:]
+    verbose = '-v' in argv or '--verbose' in argv
+    counts_only = '--counts' in argv
     if not os.path.isfile(MAP):
         print('  [FAIL] %s not found' % MAP)
         return 1
@@ -151,6 +153,16 @@ def main():
 
     # ---- 3. the summary counts must equal the machine count
     counts = Counter(r[2] for r in item_rows)
+
+    if counts_only:
+        # Consumed by cut_release.sh, which needs the number of GAP rows. Counting the
+        # emoji in the whole file — the obvious way, and what that script used to do —
+        # also counts the status key that defines the mark and the summary line that
+        # reports it, so it over-reports. Only the item tables are a count of items.
+        print('%d %d %d %d %d' % (len(item_rows), counts['✅'], counts['🟡'],
+                                  counts['🔴'], counts['➖']))
+        return 0
+
     m = re.search(r'Of (\d+) items checked[^:]*:\s*\*\*(\d+) ✅, (\d+) 🟡, (\d+) 🔴, '
                   r'(\d+) ➖\*\*', text)
     if not m:
