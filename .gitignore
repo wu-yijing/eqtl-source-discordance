@@ -1,68 +1,78 @@
+# ---------------------------------------------------------------------------
 # Python
+# ---------------------------------------------------------------------------
 __pycache__/
-*.pyc
-*.pyo
+*.py[cod]
 *.egg-info/
-dist/
-build/
-
-# Environment
-.env
-venv/
+.ipynb_checkpoints/
 .venv/
+venv/
 
+# ---------------------------------------------------------------------------
 # R
-.Rproj.user
+# ---------------------------------------------------------------------------
+.Rproj.user/
 .Rhistory
 .RData
 .Ruserdata
+renv/library/
+renv/staging/
+renv/local/
+renv/cellar/
 
-# OS
+# ---------------------------------------------------------------------------
+# Runtime outputs — never commit; regenerate with code/run_all.sh
+# (root-anchored: the predecessor repository legitimately tracks
+#  analyses/logs/*.txt and data/.../*.csv.gz, so do not use bare directory names)
+# ---------------------------------------------------------------------------
+/figs/
+/results/
+/outputs/
+/logs/
+/tmp/
+/scratch/
+*.log
+
+# ---------------------------------------------------------------------------
+# OS / editor
+# ---------------------------------------------------------------------------
 .DS_Store
 Thumbs.db
-
-# IDE
+desktop.ini
 .idea/
 .vscode/
 *.swp
-*.swo
 
-# Figures (generated)
-figs/*.png
-figs/*.pdf
-figs/*.svg
-
-# Misc
-*.log
-*.tmp
-
-# Docker (keep Dockerfile, ignore intermediate build artifacts)
-.dockerignore
-docker-compose*.yml
-
-# ===== SCZ replication large intermediates (regenerate via scripts) =====
-scz_replication/weights.db
-scz_replication/_rdat_tmp/
-scz_replication/*.tar
-scz_replication/*.tar.gz
-scz_replication/*.crdownload
-scz_replication/gtex_v8_mashr_snp_covariance.txt.gz
-
-# ===== Confidential manuscript & cover letter (NOT tracked — keep local only) =====
-manuscript/
-
-# ===== Internal analysis reports (working notes, keep local only — not public) =====
-analysis_reports/
-*.tar
-analyses_logs.zip
-
-# ===== Local backup / scratch files (not for repo) =====
+# ---------------------------------------------------------------------------
+# Confidential / internal — inherited from the predecessor repository
+# ---------------------------------------------------------------------------
+/manuscript/
+/analysis_reports/
 *_BACKUP_*.csv
 *_BACKUP_*.py
 *.bak_*
 
-# ===== Figures & tables — manuscript artefacts, MUST NOT be committed (2026-09-23) =====
-figures/
-tables/
-*_caption.txt
-*_legend.txt
+# ---------------------------------------------------------------------------
+# Data hygiene
+# ---------------------------------------------------------------------------
+# Raw third-party inputs are NOT redistributed. Keep only the manifest.
+data/external/
+data/raw/
+# Large archives and alignment/genotype formats belong in Zenodo / figshare /
+# iProX, not in git history.
+# NOTE: bare `*.gz` is deliberately NOT ignored — the predecessor repository
+# tracks small gzipped derived tables such as data/.../*.csv.gz.
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.bam
+*.bai
+*.cram
+*.vcf
+*.vcf.gz
+*.bgz
+*.tbk
+*.h5
+*.rds
+*.RData

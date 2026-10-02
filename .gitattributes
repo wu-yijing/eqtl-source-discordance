@@ -1,0 +1,36 @@
+# --- newline handling -------------------------------------------------------
+* text=auto eol=lf
+
+*.sh   text eol=lf
+*.py   text eol=lf
+*.R    text eol=lf
+*.r    text eol=lf
+*.yml  text eol=lf
+*.yaml text eol=lf
+*.json text eol=lf
+*.md   text eol=lf
+
+*.bat  text eol=crlf
+*.ps1  text eol=crlf
+
+# --- binary / do not diff ---------------------------------------------------
+*.pdf  binary
+*.png  binary
+*.jpg  binary
+*.jpeg binary
+*.tif  binary
+*.tiff binary
+*.svg  text
+*.xlsx binary
+*.docx binary
+
+# --- large-file handling ----------------------------------------------------
+# Figures and derived tables are small enough to track directly. If a future
+# artefact exceeds ~20 MB, route it through Git LFS by uncommenting and
+# extending the patterns below, and record the object in data/README.md.
+# *.pdf filter=lfs diff=lfs merge=lfs -text
+# *.h5  filter=lfs diff=lfs merge=lfs -text
+
+# --- linguist: keep the archive out of language statistics ------------------
+data/derived/*.csv linguist-generated=true
+figures/*.svg      linguist-generated=true

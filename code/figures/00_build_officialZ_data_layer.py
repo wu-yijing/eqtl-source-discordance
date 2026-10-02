@@ -1,8 +1,15 @@
 # -*- coding: utf-8 -*-
 """
 P0 收口 Step 1：建立官方 Z 单一数据源 + 隔离标记陈旧数据层
-- 从 Additional file 1 的官方表（S2/S17/S14/S12）导出 data/processed_officialZ/
-- 在 data/processed/ 写入弃用声明（不删除任何文件）
+- 从 Supporting Information 的官方表导出 data/derived/
+- 在 data/superseded/ 保留弃用说明（不删除任何文件）
+
+⚠️ 2026-10-02 — 路径随仓库重排更新；**表索引尚未随新 SI 重新校验**。
+    本文按 `tabs[i]` 的**序号**读表，序号来自旧的 Additional file 1 版式
+    （读的是第 2/4/14/16/19 张表）。现行 Supporting Information 已重排为
+    Tables S1–S30 且插入了新表，序号**很可能已经错位**。
+    → 使用前必须逐表核对：先用 `AF1_DOCX` 指向现行 SI，打印各表首行确认对应关系，
+      再把下面的 `grid(i)` 序号改正。**在核对完成前，不要把本脚本的输出当作权威数据层。**
 """
 import os, csv, json, shutil
 from docx import Document
@@ -12,8 +19,12 @@ import paths_config as P  # 统一路径入口（2026-09-20）
 
 AF = P.need(P.AF1, 'Additional file 1（从期刊补充材料下载后用 AF1_DOCX 指定）')
 REPO = P.REPO
-PROC = os.path.join(REPO, 'data', 'processed')
-NEW = os.path.join(REPO, 'data', 'processed_officialZ')
+# 2026-10-02 — path update for the reorganized repository:
+#   authoritative layer:  data/processed_officialZ/  ->  data/derived/
+#   pre-correction layer: data/processed/            ->  data/superseded/
+PROC = os.path.join(REPO, 'data', 'superseded')
+NEW = os.path.join(REPO, 'data', 'derived')
+META = os.path.join(REPO, 'metadata')
 os.makedirs(NEW, exist_ok=True)
 
 d = Document(AF)
@@ -30,7 +41,7 @@ def write_csv(name, header, rows):
 # ---- GTEx 官方（Table S2）----
 S2 = grid(1); h2 = S2[0]
 gt = [r for r in S2[1:] if len(r) >= 10 and r[0]]
-write_csv('gtex_official_Z.csv',
+write_csv('gtex_Z.csv',
           ['Gene', 'Trait', 'Z_Nerve_Tibial', 'Z_Whole_Blood', 'Z_multi_tissue',
            'P_Stouffer', 'FDR_q_Stouffer', 'P_ACAT_O', 'FDR_q_ACAT_O', 'n_Tissues'],
           [[r[0], r[1], r[2], r[3], r[4], r[5], r[6], r[7], r[8], r[9]] for r in gt])
@@ -46,20 +57,20 @@ try:
             rows.append([r[0], r[1], 'Housekeeping', r[2], r[3], r[4], r[5], 'Yes' if float(r[4]) < 0.05 else 'No'])
 except Exception as e:
     print('  S14 merge skipped:', e)
-write_csv('eqtlgen_official_Z.csv',
+write_csv('eqtlgen_Z.csv',
           ['Gene', 'Trait', 'Group', 'Z_eQTLGen', 'P', 'BH_q', 'Model_SNPs', 'FDR_significant'], rows)
 
 # ---- 主比较 96 对（Table S12）----
 S12 = grid(13)
-write_csv('primary_arm_96pairs_official.csv', S12[0], [r for r in S12[1:] if len(r) >= 5 and r[0]])
+write_csv('primary_arm_96pairs.csv', S12[0], [r for r in S12[1:] if len(r) >= 5 and r[0]])
 
 # ---- 跨队列（Table S4）----
 S4 = grid(3)
-write_csv('crosscohort_TableS4_official.csv', S4[0], [r for r in S4[1:] if len(r) >= 8 and r[0]])
+write_csv('crosscohort.csv', S4[0], [r for r in S4[1:] if len(r) >= 8 and r[0]])
 
 # ---- 组分配（Table S1）----
 S1 = grid(0)
-write_csv('gene_groups_TableS1_official.csv', S1[0], [r for r in S1[1:] if len(r) >= 2 and r[0]])
+write_csv('gene_groups.csv', S1[0], [r for r in S1[1:] if len(r) >= 2 and r[0]])
 
 # ---- 弃用声明 ----
 DEP = """# ⚠️ 本目录（data/processed/）已作废 —— 请勿用于出图或统计
@@ -99,16 +110,18 @@ Table S2 / S12 / S14 / S17 / Table S4 逐值一致）。
 **建议**：出图脚本一律从 `data/processed_officialZ/` 读数；本目录保留仅作历史对照，
 并在下次归档（Zenodo/GitHub）时于 README 中标注为 superseded。
 """
-open(os.path.join(PROC, '_DEPRECATED_勿用_修正前数据_20260917.md'), 'w', encoding='utf-8').write(DEP)
-print('  deprecation notice written to data/processed/')
+# 2026-10-02: the pre-correction layer already carries its deprecation notice at
+# data/superseded/ in the reorganized repository; do not rewrite it here.
+print('  pre-correction layer: %s (notice not rewritten)' % PROC)
 
 STALE = [f for f in sorted(os.listdir(PROC)) if f.endswith(('.csv', '.json', '.txt')) and 'DEPRECATED' not in f]
 meta = dict(deprecated_at='2026-09-17',
             reason='pre-correction S-PrediXcan (missing sigma_i factor; PLINK 2-bit decoding bug)',
-            superseded_by='data/processed_officialZ/',
-            official_reference='Additional file 1 Tables S2/S12/S14/S17; doi concept 10.5281/zenodo.21238202',
+            superseded_by='data/derived/',
+            official_reference='Supporting Information tables S2/S3/S13/S18/S5a; legacy concept DOI 10.5281/zenodo.21238202',
             stale_files=STALE)
-open(os.path.join(NEW, '_PROVENANCE.json'), 'w', encoding='utf-8').write(
+os.makedirs(META, exist_ok=True)
+open(os.path.join(META, 'provenance_source.json'), 'w', encoding='utf-8').write(
     json.dumps(meta, indent=1, ensure_ascii=False))
-print('  %d stale files listed' % len(STALE))
-print('\nfiles now in processed_officialZ:', sorted(os.listdir(NEW)))
+print('  %d pre-correction files listed' % len(STALE))
+print('\nfiles now in data/derived:', sorted(os.listdir(NEW)))

@@ -1,0 +1,62 @@
+cff-version: 1.2.0
+message: "If you use this code or data, please cite it using the metadata below."
+title: "eQTL-source discordance in transcriptome-wide association studies: analysis code and processed data"
+abstract: >-
+  Analysis code, processed data and a containerized reproducibility environment for a
+  methodological audit of eQTL weight-source dependence in transcriptome-wide association
+  studies. With the GWAS input and analytic pipeline held fixed, the audit quantifies how
+  the choice of eQTL weight source (GTEx v8 versus eQTLGen) changes TWAS gene candidacy,
+  calibrates the resulting rates against disease-agnostic controls, and benchmarks the
+  framework on an independent genome-wide trait.
+type: software
+license: MIT
+license-url: "https://opensource.org/license/mit"
+repository-code: "https://github.com/wu-yijing/eqtl-source-discordance"
+url: "https://github.com/wu-yijing/eqtl-source-discordance"
+version: 4.0.0
+date-released: "2026-10-02"
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.<CONCEPT>
+    description: "Concept DOI — always resolves to the latest archived version"
+keywords:
+  - transcriptome-wide association study
+  - TWAS
+  - eQTL weight-source dependence
+  - eQTL-source discordance
+  - S-PrediXcan
+  - MetaXcan
+  - reproducibility
+  - disease-agnostic control
+  - endpoint calibration
+authors:
+  - family-names: Wu
+    given-names: Yijing
+    orcid: "https://orcid.org/0009-0006-3921-9984"
+    affiliation: "Department of Endocrinology, The First Affiliated Hospital of Anhui Medical University, Hefei, China; Department of Endocrinology, Bengbu First People's Hospital, Bengbu, China"
+  - family-names: Chen
+    given-names: Mingwei
+    orcid: "https://orcid.org/0000-0002-8439-0469"
+    affiliation: "Department of Endocrinology, The First Affiliated Hospital of Anhui Medical University, Hefei, China"
+  - family-names: Wu
+    given-names: Qiuyan
+    orcid: "https://orcid.org/0009-0002-4957-0015"
+    affiliation: "Department of Endocrinology, The First Affiliated Hospital of Bengbu Medical University, Bengbu, China"
+  - family-names: Zhao
+    given-names: Jingyi
+    orcid: "https://orcid.org/0009-0008-2547-4786"
+    affiliation: "Department of Endocrinology, The First Affiliated Hospital of Bengbu Medical University, Bengbu, China"
+  - family-names: Jin
+    given-names: Guoxi
+    orcid: "https://orcid.org/0000-0002-2364-0364"
+    affiliation: "Department of Endocrinology, The First Affiliated Hospital of Bengbu Medical University, Bengbu, China"
+contact:
+  - family-names: Jin
+    given-names: Guoxi
+    orcid: "https://orcid.org/0000-0002-2364-0364"
+    affiliation: "Department of Endocrinology, The First Affiliated Hospital of Bengbu Medical University, Bengbu, China"
+# preferred-citation:
+#   Uncomment and complete once the associated article has a DOI.
+#   type: article
+#   title: "..."
+#   doi: "10.xxxx/xxxxx"

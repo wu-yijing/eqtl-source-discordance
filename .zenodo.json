@@ -1,65 +1,49 @@
 {
+    "title": "eQTL-source discordance in transcriptome-wide association studies: analysis code and processed data",
+    "description": "<p>Analysis code, processed data and a containerized reproducibility environment for a methodological audit of <b>eQTL weight-source dependence in transcriptome-wide association studies (TWAS)</b>.</p><p>With the GWAS input and the analytic pipeline held fixed, the study quantifies how the choice of eQTL weight source (GTEx v8 versus eQTLGen) changes TWAS gene candidacy; <i>eQTL-source discordance</i> denotes here the systematic perturbation of gene-candidacy conclusions (Z-score sign, candidate rank and FDR candidacy) induced by the weight source, when the GWAS input and pipeline are held fixed. It is an operational description and not a claim of causal confounding.</p><p>The audit decomposes that perturbation into a resource/sample-size axis and a tissue-context axis, calibrates it against disease-agnostic controls on a 104-gene testbed across three diabetic microvascular complications, and benchmarks it genome-wide on an independent trait. All headline Z-scores are recomputed with the unmodified official MetaXcan v0.8.1 binary after three-way allele harmonisation.</p><p><b>Scope.</b> This record is a code and processed-data release. It contains no figures, figure captions, tables or table legends; those accompany the manuscript and its Supporting Information. Raw RNA pull-down / LC-MS/MS spectra are deposited separately in the ProteomeXchange Consortium via iProX. External inputs that are not redistributed here are listed with identifiers, versions, retrieval dates and checksums in <code>data/README.md</code>.</p>",
     "creators": [
         {
-            "name": "Yijing Wu",
-            "affiliation": "Department of Endocrinology, The First Affiliated Hospital of Anhui Medical University, Hefei 230022, Anhui Province, China; Department of Endocrinology, Bengbu First People's Hospital, Bengbu 233000, Anhui Province, China"
+            "name": "Wu, Yijing",
+            "affiliation": "Department of Endocrinology, The First Affiliated Hospital of Anhui Medical University, Hefei 230022, Anhui Province, China; Department of Endocrinology, Bengbu First People's Hospital, Bengbu 233000, Anhui Province, China",
+            "orcid": "0009-0006-3921-9984"
         },
         {
-            "name": "Mingwei Chen",
-            "affiliation": "Department of Endocrinology, The First Affiliated Hospital of Anhui Medical University, Hefei 230022, Anhui Province, China"
+            "name": "Chen, Mingwei",
+            "affiliation": "Department of Endocrinology, The First Affiliated Hospital of Anhui Medical University, Hefei 230022, Anhui Province, China",
+            "orcid": "0000-0002-8439-0469"
         },
         {
-            "name": "Qiuyan Wu",
-            "affiliation": "Department of Endocrinology, The First Affiliated Hospital of Bengbu Medical University, No. 287 Changhuai Road, Bengbu 233004, Anhui Province, China"
+            "name": "Wu, Qiuyan",
+            "affiliation": "Department of Endocrinology, The First Affiliated Hospital of Bengbu Medical University, No. 287 Changhuai Road, Bengbu 233004, Anhui Province, China",
+            "orcid": "0009-0002-4957-0015"
         },
         {
-            "name": "Jingyi Zhao",
-            "affiliation": "Department of Endocrinology, The First Affiliated Hospital of Bengbu Medical University, No. 287 Changhuai Road, Bengbu 233004, Anhui Province, China"
+            "name": "Zhao, Jingyi",
+            "affiliation": "Department of Endocrinology, The First Affiliated Hospital of Bengbu Medical University, No. 287 Changhuai Road, Bengbu 233004, Anhui Province, China",
+            "orcid": "0009-0008-2547-4786"
         },
         {
-            "name": "Guoxi Jin",
-            "affiliation": "Department of Endocrinology, The First Affiliated Hospital of Bengbu Medical University, No. 287 Changhuai Road, Bengbu 233004, Anhui Province, China"
+            "name": "Jin, Guoxi",
+            "affiliation": "Department of Endocrinology, The First Affiliated Hospital of Bengbu Medical University, No. 287 Changhuai Road, Bengbu 233004, Anhui Province, China",
+            "orcid": "0000-0002-2364-0364"
         }
     ],
-    "title": "eQTL weight-source choice reshapes TWAS gene candidacy: a two-axis dual-source audit with disease-agnostic calibration and a genome-wide benchmark (code & data)",
-    "description": "Analysis scripts, processed data and containerized reproducibility environment for: \"eQTL weight-source choice reshapes TWAS gene candidacy: a two-axis dual-source audit with disease-agnostic calibration and a genome-wide benchmark\" (BMC Genomics submission). eQTL-source discordance denotes here the systematic perturbation of TWAS gene-candidacy conclusions (Z-score sign, candidate rank and FDR candidacy) induced by the eQTL weight source when the GWAS input and analytic pipeline are held fixed; it is operational and not a claim of causal confounding. The archive decomposes that perturbation into a resource/sample-size axis and a tissue-context axis, calibrates it against disease-agnostic controls on a 104-gene HOTAIR-interactome testbed across three Finnish diabetic complications (FinnGen R13), and benchmarks it genome-wide in PGC3 schizophrenia. All headline Z-scores are recomputed with the unmodified official MetaXcan v0.8.1 binary after three-way allele harmonization.",
     "license": "MIT",
-    "keywords": [
-        "TWAS",
-        "eQTL weight-source dependence",
-        "endpoint calibration",
-        "disease-agnostic control",
-        "two-axis decomposition",
-        "genome-wide calibration",
-        "cross-cohort replication",
-        "transcriptome-wide association study",
-        "diabetic complications",
-        "schizophrenia",
-        "reproducibility",
-        "S-PrediXcan",
-        "MetaXcan",
-        "GTEx",
-        "eQTLGen"
-    ],
     "upload_type": "software",
     "access_right": "open",
-    "communities": [
-        {
-            "identifier": "bioinformatics"
-        }
-    ],
-    "related_identifiers": [
-        {
-            "scheme": "url",
-            "identifier": "https://github.com/wu-yijing/twas-eqtl-source-discordance",
-            "relation": "isSupplementTo"
-        },
-        {
-            "scheme": "doi",
-            "identifier": "10.5281/zenodo.21238202",
-            "relation": "isNewVersionOf"
-        }
-    ],
-    "version": "2.7.0",
-    "language": "eng"
+    "language": "eng",
+    "version": "4.0.0",
+    "keywords": [
+        "transcriptome-wide association study",
+        "TWAS",
+        "eQTL weight-source dependence",
+        "eQTL-source discordance",
+        "S-PrediXcan",
+        "MetaXcan",
+        "endpoint calibration",
+        "disease-agnostic control",
+        "reproducibility",
+        "GTEx",
+        "eQTLGen"
+    ]
 }

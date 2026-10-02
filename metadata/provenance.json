@@ -1,0 +1,119 @@
+{
+  "_note": "Provenance manifest. Regenerate with scripts/collect_provenance.py before each release. One record per external input and per derived artefact that a reported number depends on.",
+  "schema_version": "1.0",
+  "generated_utc": "<YYYY-MM-DDTHH:MM:SSZ>",
+  "generated_by": {
+    "script": "scripts/collect_provenance.py",
+    "script_commit": "<commit hash>",
+    "host": "<hostname>",
+    "python": "<version>",
+    "R": "<version>",
+    "metaxcan": "MetaXcan v0.8.1 (official binary)"
+  },
+  "external_inputs": [
+    {
+      "id": "GTEx_v8_MASHR_PredictDB",
+      "role": "eQTL weight source A",
+      "version": "GTEx v8 MASHR elastic-net models",
+      "retrieved": "<YYYY-MM-DD>",
+      "source_url": "<url>",
+      "sha256": "<hash or 'not redistributed'>"
+    },
+    {
+      "id": "eQTLGen_phaseI",
+      "role": "eQTL weight source B",
+      "version": "eQTLGen phase I cis-eQTL summary statistics",
+      "retrieved": "<YYYY-MM-DD>",
+      "source_url": "<url>",
+      "sha256": "<hash or 'not redistributed'>"
+    },
+    {
+      "id": "FinnGen_R13",
+      "role": "primary GWAS input (DR / DN / DPN)",
+      "version": "R13",
+      "retrieved": "<YYYY-MM-DD>",
+      "source_url": "<url>",
+      "sha256": "<hash or 'not redistributed'>"
+    },
+    {
+      "id": "GCST90043640",
+      "role": "UK Biobank diabetic retinopathy GWAS (cross-cohort check)",
+      "version": "as distributed by GWAS Catalog",
+      "retrieved": "<YYYY-MM-DD>",
+      "source_url": "https://www.ebi.ac.uk/gwas/studies/GCST90043640",
+      "sha256": "<hash or 'not redistributed'>"
+    },
+    {
+      "id": "GCST90018832",
+      "role": "diabetic nephropathy cross-population resource (DN check)",
+      "version": "as distributed by GWAS Catalog",
+      "retrieved": "<YYYY-MM-DD>",
+      "source_url": "https://www.ebi.ac.uk/gwas/studies/GCST90018832",
+      "ancestry_note": "Records the FULL population composition of the source resource, including every ancestry component, together with the subset actually used here. Do not record only the component used.",
+      "sha256": "<hash or 'not redistributed'>"
+    },
+    {
+      "id": "PGC3_SCZ_wave3",
+      "role": "independent-trait genome-wide benchmark",
+      "version": "wave 3, European ancestry",
+      "retrieved": "<YYYY-MM-DD>",
+      "source_url": "<url>",
+      "sha256": "<hash or 'not redistributed'>"
+    },
+    {
+      "id": "1000G_EUR_LD_panel",
+      "role": "LD reference panel",
+      "version": "1000 Genomes EUR",
+      "retrieved": "<YYYY-MM-DD>",
+      "source_url": "<url>",
+      "sha256": "<hash or 'not redistributed'>"
+    },
+    {
+      "id": "HRT_Atlas",
+      "role": "hormone-regulated target annotation",
+      "version": "<version>",
+      "retrieved": "<YYYY-MM-DD>",
+      "source_url": "<url>",
+      "sha256": "<hash or 'not redistributed'>"
+    }
+  ],
+  "derived_artefacts": [
+    {
+      "path": "data/derived/gene_groups_official.csv",
+      "rows": 104,
+      "reproduces": "Supporting Information Table S2",
+      "sha256": "<hash>"
+    },
+    {
+      "path": "data/derived/gtex_official_Z.csv",
+      "rows": 222,
+      "reproduces": "Supporting Information Table S3",
+      "sha256": "<hash>"
+    },
+    {
+      "path": "data/derived/primary_arm_96pairs_official.csv",
+      "rows": 96,
+      "reproduces": "Supporting Information Table S13; headline 68.8% and rho = 0.39",
+      "sha256": "<hash>"
+    },
+    {
+      "path": "data/derived/eqtlgen_official_Z.csv",
+      "rows": 288,
+      "reproduces": "Supporting Information Table S18",
+      "sha256": "<hash>"
+    },
+    {
+      "path": "data/derived/scz_z_4arm_official.csv",
+      "rows": 15875,
+      "reproduces": "Supporting Information Table S24 (8,315-gene complete-case set)",
+      "sha256": "<hash>"
+    }
+  ],
+  "superseded_layers": [
+    {
+      "path": "data/superseded/",
+      "reason": "Earlier in-house implementation: missing S-PrediXcan sigma_i expression-variance factor and a PLINK 2-bit decoding defect. Retained only as an equivalence cross-check; maximum residual |dZ| = 3e-08 against the official binary.",
+      "must_not_be_quoted": true
+    }
+  ]
+}

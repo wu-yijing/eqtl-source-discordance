@@ -6,7 +6,8 @@ def _find_root(start):
         if _os.path.isdir(_os.path.join(p, "data", "processed")):
             return p
         nxt = _os.path.dirname(p)
-        if nxt == p:/n            break
+        if nxt == p:
+            break
         p = nxt
     return _os.path.dirname(start)
 ROOT = _find_root(HERE)

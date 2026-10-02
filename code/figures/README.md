@@ -1,3 +1,23 @@
+> ## ⚠️ Read [`FIGURE_NUMBER_MAP.md`](FIGURE_NUMBER_MAP.md) first
+>
+> **2026-10-02 — this directory moved and the manuscript was re-laid out.**
+>
+> 1. This pipeline now lives at `code/figures/` (was `figure_scripts_officialZ_20260917/`),
+>    and the authoritative data layer is now `data/derived/`
+>    (was `data/processed_officialZ/`). `paths_config.py` has been updated and now
+>    resolves the repository root by walking up to the directory containing `.zenodo.json`.
+> 2. **The figure numbers in the filenames below do NOT match the current manuscript.**
+>    The scripts were written against an 8-figure layout; the submitted paper has four main
+>    figures and four Supporting Information figures. The mapping is in
+>    [`FIGURE_NUMBER_MAP.md`](FIGURE_NUMBER_MAP.md). **Do not rename the scripts** — the
+>    numbers are load-bearing for the execution order and for each script's regression assertions.
+> 3. Where this file and `FIGURE_NUMBER_MAP.md` disagree about **Fig. S6**, the map governs:
+>    `10_redraw_FigS6_20260921.py` supersedes `10_redraw_FigS6_20260920.py`. The execution
+>    order below still names the 20260920 version and has not been re-validated.
+> 4. Two scripts here produce figures the current manuscript does not contain
+>    (`01_redraw_Fig5_Fig7.py`, `08_redraw_Fig6_labels_20260920.py`). They are retained for
+>    provenance and for possible revision requests.
+
 # figure_scripts_officialZ_20260917
 
 **本目录是 2026-09-17 P0 修复后唯一的出图脚本来源。**
