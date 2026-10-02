@@ -48,8 +48,6 @@ STATUS_MARKS = ('✅', '🟡', '🔴', '➖')
 #: an em dash and a reason. Keep in step with the Status key in the map itself.
 LOCALITY = {
     'clone': 'every input ships; a fresh clone re-runs it end to end',
-    'clone (outcome)': 'the numbers re-run from shipped inputs, but the upstream layer '
-                       'is only reproducible as an outcome',
     'clone + SI': 're-runs once you supply a document published with the paper',
     'none': 'nothing in this archive produces it',
     '—': 'no data artefact',

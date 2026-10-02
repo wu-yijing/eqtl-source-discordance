@@ -78,6 +78,7 @@ These are asserted in [`../metadata/ARCHIVE_MAP.md`](../metadata/ARCHIVE_MAP.md)
 | `derived/gtex_official_finngen/gtex_official_zscores_wide.csv.gz` | 15,655 genes × 6 columns | the official MetaXcan GTEx × FinnGen layer, flattened; feeds the Table S9 ACAT-O chain |
 | `derived/s9_pools/{POOL_A,both_A,POOL_818,both_818}.txt` | 11,820 / 10,450 / 818 / 767 | the Table S9 pools; see the quirk note below |
 | `derived/s9_pools/disease_blacklist.txt` | 144 | Table S9 exclusion step |
+| `derived/mashr_nsnps.csv.gz` | 16,812 symbols × 2 tissues | `n.snps.in.model` from both mashr model databases — the only thing the Table S9 pool filters read out of 10.5 MB of SQLite, exported so the **re-derivation** runs from a clone. Added 2026-10-02. |
 | `derived/hrt/Human_Mouse_Common.csv` | — | HRT Atlas v1.0 human–mouse common set; POOL_818 source |
 | `derived/hrt_random_control/` | 3 files | official MetaXcan output for the random-control genes; Table S9 rates |
 | `derived/groups.json` | 4 keys | POOL_818 / arm group definitions |

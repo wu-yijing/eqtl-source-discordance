@@ -93,6 +93,20 @@ def src(key):
     return v
 
 
+def shipped_or(key, rel):
+    """Prefer the copy that already ships here; fall back to the external source.
+
+    Once a layer is in `data/derived/`, requiring its original again is a false
+    dependency: it made the Table S9 pool derivation unrunnable from a clone even after
+    the data layer had landed, which is the whole distinction ARCHIVE_MAP's `Input
+    locality` column draws.
+    """
+    p = os.path.join(P.DERIVED, *rel.split('/'))
+    if os.path.exists(p):
+        return p
+    return src(key)
+
+
 def log(*a):
     print('  ' + ' '.join(str(x) for x in a))
 
@@ -188,15 +202,8 @@ def build_gtex_official_wide():
         % (len(genes), len(cols)))
 
 
-def build_pools():
-    panel = {r['Gene'].upper() for r in csv.DictReader(open(src('covariate'), encoding='utf-8'))}
-    fams = set()
-    for g in panel:
-        m = re.match(r'^([A-Za-z]+)', g)
-        if m and len(m.group(1)) >= 3:
-            fams.add(m.group(1).upper())
-    disease = disease_blacklist()
-
+def read_mashr_dbs():
+    """{tissue: {SYMBOL: n_snps_in_model}}, straight out of the mashr model databases."""
     mash = src('mashr')
     meta = {}
     for t in TISSUES:
@@ -207,6 +214,80 @@ def build_pools():
         meta[t] = {gn.upper(): n for _, gn, n in
                    conn.execute('SELECT gene, genename, "n.snps.in.model" FROM extra') if gn}
         conn.close()
+    return meta
+
+
+def build_mashr_nsnps():
+    """Export the single column the Table S9 pool filters actually read.
+
+    The mashr model databases are 10.5 MB of SQLite that only an R toolchain opens, and
+    the pool construction reads exactly one thing from them: `n.snps.in.model`, per gene,
+    for two tissues. Exporting that as a projection makes the pool re-derivation — as
+    opposed to the reproduction of its outcome — possible from a clone, which is what
+    ARCHIVE_MAP's `Input locality` column distinguishes. About 60 kB gzipped.
+    """
+    db = read_mashr_dbs()
+    genes = sorted(set(db[TISSUES[0]]) | set(db[TISSUES[1]]))
+    path = os.path.join(P.DERIVED, 'mashr_nsnps.csv.gz')
+    with gzip.GzipFile(path, 'wb', mtime=0) as f:
+        w = io.TextIOWrapper(f, encoding='utf-8', newline='')
+        cw = csv.writer(w)
+        cw.writerow(['gene'] + list(TISSUES))
+        for g in genes:
+            cw.writerow([g] + [db[t].get(g, '') for t in TISSUES])
+        w.flush()
+    os.utime(path, (315532800, 315532800))
+    log('mashr_nsnps.csv.gz  %d genes x %d tissues  (%d / %d with a model)'
+        % (len(genes), len(TISSUES),
+           len(db[TISSUES[0]]), len(db[TISSUES[1]])))
+
+
+def load_model_snps():
+    """The model-SNP counts, from the shipped projection rather than the databases.
+
+    If `REPRO_MASHR_DB_DIR` is set the databases are read as well and the two must agree
+    exactly. That is the point of the cross-check: a projection that has silently drifted
+    from the models it summarises would keep reproducing the published chain while no
+    longer standing for anything.
+    """
+    path = os.path.join(P.DERIVED, 'mashr_nsnps.csv.gz')
+    if not os.path.exists(path):
+        raise SystemExit('[missing input] %s\n  run 00_build_mashr_nsnps (see INPUTS.md A)'
+                         % path)
+    meta = {t: {} for t in TISSUES}
+    with gzip.open(path, 'rt', encoding='utf-8') as fh:
+        for row in csv.DictReader(fh):
+            for t in TISSUES:
+                v = (row.get(t) or '').strip()
+                if v:
+                    meta[t][row['gene'].upper()] = int(v)
+
+    if os.environ.get('REPRO_MASHR_DB_DIR'):
+        db = read_mashr_dbs()
+        for t in TISSUES:
+            if db[t] != meta[t]:
+                shared = set(db[t]) & set(meta[t])
+                raise SystemExit(
+                    '[projection mismatch] %s: %d gene(s) only in the databases, %d only in '
+                    'the projection, %d value(s) differ — regenerate it'
+                    % (t, len(set(db[t]) - set(meta[t])), len(set(meta[t]) - set(db[t])),
+                       sum(1 for g in shared if db[t][g] != meta[t][g])))
+        log('mashr_nsnps.csv.gz cross-checked against both databases: identical')
+    return meta
+
+
+def build_pools():
+    panel = {r['Gene'].upper() for r in
+             csv.DictReader(open(shipped_or('covariate', 'covariate_matrix.csv'),
+                                 encoding='utf-8'))}
+    fams = set()
+    for g in panel:
+        m = re.match(r'^([A-Za-z]+)', g)
+        if m and len(m.group(1)) >= 3:
+            fams.add(m.group(1).upper())
+    disease = disease_blacklist()
+
+    meta = load_model_snps()
 
     def strip(gs):
         gs = {g for g in gs if g not in panel}
@@ -228,7 +309,8 @@ def build_pools():
     log('  (published: 12,622 -> 12,555 -> 11,885 -> POOL_A 11,820, of which 10,450 both-tissue)')
 
     hrt = set()
-    with open(src('hrt'), encoding='utf-8', errors='replace') as f:
+    with open(shipped_or('hrt', 'hrt/Human_Mouse_Common.csv'),
+              encoding='utf-8', errors='replace') as f:
         for line in f:
             line = line.strip()
             if not line or line.lower().startswith('mouse'):
@@ -251,19 +333,36 @@ def build_pools():
 
 
 def copy_small():
-    os.makedirs(os.path.join(P.DERIVED, 'hrt'), exist_ok=True)
-    shutil.copyfile(src('hrt'), os.path.join(P.DERIVED, 'hrt', 'Human_Mouse_Common.csv'))
-    log('hrt/Human_Mouse_Common.csv')
-    shutil.copyfile(src('covariate'), os.path.join(P.DERIVED, 'covariate_matrix.csv'))
-    log('covariate_matrix.csv')
-    shutil.copyfile(src('groups'), os.path.join(P.DERIVED, 'groups.json'))
-    log('groups.json')
+    """Place the small shipped inputs. Skip any whose source is absent but whose copy
+    already ships — the aim is that a clone can rebuild the derivations, not that it can
+    obtain third-party originals it was never given.
+
+    `copy_lf`, not `shutil.copyfile`: the sources are CRLF on the author's disk while
+    `.gitattributes` declares `eol=lf` for these files, so a plain copy produced a shipped
+    input whose MD5 could never match the recorded one.
+    """
+    jobs = [('hrt', 'hrt/Human_Mouse_Common.csv', 'hrt/Human_Mouse_Common.csv'),
+            ('covariate', 'covariate_matrix.csv', 'covariate_matrix.csv'),
+            ('groups', 'groups.json', 'groups.json')]
+    for key, rel, dst_rel in jobs:
+        dst = os.path.join(P.DERIVED, *dst_rel.split('/'))
+        os.makedirs(os.path.dirname(dst), exist_ok=True)
+        s = shipped_or(key, dst_rel)
+        if s == dst:
+            log('%-34s already shipped, left as is' % dst_rel)
+            continue
+        copy_lf(s, dst)
+        log(dst_rel)
     os.makedirs(os.path.join(P.DERIVED, 'hrt_random_control'), exist_ok=True)
     for tr in TRAITS:
+        dst = os.path.join(P.DERIVED, 'hrt_random_control', 'official_rand_%s.csv' % tr)
+        if os.path.exists(dst) and not os.environ.get('REPRO_RAND_DIR'):
+            log('hrt_random_control/official_rand_%s.csv  already shipped' % tr)
+            continue
         s = os.path.join(src('rand'), 'official_rand_%s.csv' % tr)
         if not os.path.exists(s):
             raise SystemExit('[missing source] %s' % s)
-        shutil.copyfile(s, os.path.join(P.DERIVED, 'hrt_random_control', 'official_rand_%s.csv' % tr))
+        copy_lf(s, dst)
         log('hrt_random_control/official_rand_%s.csv' % tr)
 
 
@@ -276,6 +375,7 @@ if __name__ == '__main__':
     print('=== building ===')
     build_genomewide()
     build_gtex_official_wide()
+    build_mashr_nsnps()
     build_pools()
     copy_small()
     print()

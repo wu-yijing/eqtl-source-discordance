@@ -29,6 +29,7 @@ python paths_config.py                      # prints every resolved path and sel
 | `primary_arm` | `primary_arm_96pairs.csv` | `95ad96362314861ce110610a66ffac39` | 2,842 | `repo_crosscheck/`, `r2_fix/` |
 | `crosscohort` | `crosscohort.csv` | `48c6012874f83fdc959432603fbc457f` | 831 | `repo_crosscheck/` |
 | `hk_genes` | `hk_genes.txt` | `eb7c1a1156029e4118cb003f3be41178` | 1,468 | — |
+| `mashr_nsnps` | `mashr_nsnps.csv.gz` | `e3b549b55a509ed211e28245f316044d` | 62,725 | `00_build_added_derived.py` (pool **re-derivation**) |
 | `ukb_dr_dir` | `ukb_dr/` (4 files) | — | — | `recompute.py` (Table S5a/S5b) |
 | `genomewide/eqz_full.csv.gz` | eQTLGen whole-blood Z, genome-wide | `5c69596eb9e508123fb6cdd7948eda00` | 136,150 | `recompute_scz.py` |
 | `genomewide/gtex_official_Whole_Blood.csv.gz` | GTEx v8 MASHR Whole_Blood Z | `7775c350817879cdf55feddd9c59c5b0` | 691,052 | `recompute_scz.py` |
@@ -110,19 +111,25 @@ further, optional documents — the predecessor BMC submission (`REPRO_PRED_MS_D
 > `tNN.tsv` files pre-extracted into a session directory; those are gone.
 > Table object *i* is `Table S(i+1)` throughout the document (31 objects, S1–S30).
 
-### B.2 The mashr eQTL model databases (2 files, 10.5 MB)
+### B.2 The mashr eQTL model databases (2 files, 10.5 MB) — **optional as of 2026-10-02**
 
 | File | MD5 | Bytes |
 |---|---|---|
 | `mashr_Whole_Blood.db` | `1613d73c3fcc53a27dc1422118680b97` | 4,612,096 |
 | `mashr_Nerve_Tibial.db` | `9983e7b1557230162331839acf5ed228` | 5,910,528 |
 
-Env var `REPRO_MASHR_DB_DIR`. Needed only by `r3/recompute_r3_s9_s20.py`, and only
-to **rebuild** the Table S9 pools from scratch. The pool *membership* ships in
-`data/derived/s9_pools/`, so the script runs without these files; setting the
-variable switches it to route 1 and cross-checks the two routes gene by gene.
+Env var `REPRO_MASHR_DB_DIR`.
 
-These are third-party model layers, so `data/README.md` keeps them out of git.
+The pool filters read **one** column out of these files — `n.snps.in.model`, per gene, for two
+tissues. That projection now ships as `data/derived/mashr_nsnps.csv.gz` (61 kB, section A), so
+**nothing in this repository requires the databases any more**, including the pool
+re-derivation. Set the variable anyway and `load_model_snps()` reads both databases as well and
+refuses to continue unless every gene and every count agrees with the projection — a projection
+that had silently drifted from the models it summarises would otherwise keep reproducing the
+published chain while standing for nothing.
+
+These are third-party model layers, so `data/README.md` keeps them out of git. Regenerating the
+projection is the only operation that needs them.
 
 ### B.3 The official MetaXcan GTEx × FinnGen tables (6 files, 12.3 MB)
 
@@ -168,7 +175,7 @@ maps them onto the environment variables above.
 |---|---|---|---|
 | `scripts/recompute.py` | `ukb_dr/` | manuscript, SI | — |
 | `scripts/recompute_scz.py` | `scz_z_4arm`, 5 × `genomewide/` | — | — |
-| `scripts/r3/recompute_r3_s9_s20.py` | `covariate_matrix`, `hrt_source`, `rand_*`, `pool_*`, `disease_blacklist`, `gtex_official_wide` | SI | mashr DBs, GTEx official ×6 |
+| `scripts/r3/recompute_r3_s9_s20.py` | `covariate_matrix`, `hrt_source`, `rand_*`, `pool_*`, `disease_blacklist`, `gtex_official_wide`, `mashr_nsnps` | SI | mashr DBs (cross-check only), GTEx official ×6 (rebuild only) |
 | `scripts/r3/simulation_validation.py` | **none** | — | — |
 | `scripts/r3/m15/m15_pc.py` | — | af1 | — |
 | `scripts/repo_crosscheck/*` (13) | `gtex_Z`, `eqtlgen_Z`, `gene_groups`, `primary_arm` | SI (2 of them) | — |
@@ -201,10 +208,11 @@ the exclusion chain, `POOL_818`, the coverage counts, the 16 random-control rate
 null-distribution values, the 4 percentiles and the in-pool strata — all reproduce from a
 clone plus the SI `.docx`, because the pool *membership* ships as
 `data/derived/s9_pools/*.txt` and the official GTEx × FinnGen layer ships flattened as
-`gtex_official_finngen/gtex_official_zscores_wide.csv.gz`. What still needs the mashr
-databases is only **re-deriving the pools from scratch**; that is `00_build_added_derived.py`,
-not the reproduction, and it is the one thing on this page a reader cannot do without the
-third-party models. Verified 2026-10-02 with `REPRO_MASHR_DB_DIR` unset:
+`gtex_official_finngen/gtex_official_zscores_wide.csv.gz`. **Re-deriving the pools from
+scratch is also a clone-only operation as of 2026-10-02**: the mashr model databases were
+10.5 MB of SQLite from which the pool filters read exactly one column, and that column now
+ships as `data/derived/mashr_nsnps.csv.gz` (61 kB). Verified 2026-10-02 with every source
+variable unset — `build_pools()` emitted all four pool files byte-identically and printed:
 
 ```
 1. 池构建

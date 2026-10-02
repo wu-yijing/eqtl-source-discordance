@@ -23,6 +23,66 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-02 (fifth pass) — the last two caveats, one closed and one made specific
+
+**No reported number changes.** S9's published values, and every other value in the Supporting
+Information, are untouched. What changes is that one of the two remaining "you cannot re-run
+this" statements is now false, and the other is now measured.
+
+**S9 — closed, not merely declared.** The row said `clone (outcome)`: the published numbers
+reproduce from a clone, but re-deriving the pools needs the mashr model databases, which this
+archive does not distribute. That framed the wrong thing as the obstacle. The pool filters read
+**one column** out of those 10.5 MB of SQLite — `n.snps.in.model`, per gene, for two tissues —
+so the dependency was reduced to what is actually used and shipped as
+`data/derived/mashr_nsnps.csv.gz` (61 kB; 16,812 symbols × 2 tissues). `build_pools()` now
+reads the projection, and it was run with **every** source variable unset:
+
+```
+POOL_A chain: WB model genes 12,622 -> minus 104-panel 12,555 -> minus panel families 11,885
+              -> minus disease blacklist = POOL_A 11,820 -> of which have BOTH-tissue models 10,450
+POOL_818 = 818 (published 818), both-tissue 767 (published 767), WB-only 51 (published 51)
+```
+
+Every published figure of the chain, and the four pool files it writes came out
+**byte-identical** (`git status` clean afterwards). `REPRO_MASHR_DB_DIR` is no longer needed to
+re-derive anything: set it and `load_model_snps()` reads both databases *as well* and refuses to
+continue unless every gene and count agrees — verified by changing one count in the projection
+and confirming it reports `1 value(s) differ`. S9's locality label is therefore `clone`, and the
+`clone (outcome)` label was retired: it existed for that single row and an unused category
+invites the reader to hunt for the row it belongs to.
+
+Two false dependencies were removed on the way. `build_pools()` and `copy_small()` still
+demanded the *external* originals for `covariate_matrix.csv`, `Human_Mouse_Common.csv`,
+`groups.json` and the three random-control files even though those ship — so the derivation
+refused to run from a clone after the data layer had landed. They now prefer the shipped copy.
+`copy_small()` also used raw `shutil.copyfile` on files `.gitattributes` declares `eol=lf`, which
+is the same defect as the CRLF hash table: a plain copy of a CRLF source produces a shipped input
+whose MD5 can never match. It uses `copy_lf`.
+
+**S17 — the caveat is now measured rather than inherited.** The row said the gene-cluster half
+needs "the housekeeping layers carried in SI Tables S6/S15". Checked, and it is
+narrower and more interesting than that. The five `repo_crosscheck/verify_cluster*.py` scripts
+read only `data/derived/primary_arm_96pairs.csv` and **do reproduce from a clone**. The
+gene-cluster rows are one script, `bmc_ref/verify_s17_cluster.py`, and it reads four SI tables
+from the `.docx`: t02 = S3, t06 = S6, t15 = S15, t18 = S18. Three of those four are redundant in
+principle — S3 is `data/derived/gtex_Z.csv`, S15 and S18 are the `Group` column of
+`data/derived/eqtlgen_Z.csv`. **Only t06 = S6 is genuinely absent**, and it cannot be recovered
+from `gtex_Z.csv` because the housekeeping genes are excluded from the 74-gene panel by that
+panel's own pre-specified rules — measured overlap **0 of 30**. The z-scores are *not* the
+obstacle: the shipped wide table carries 29 of the 30 (TUT1 absent). The obstacle is the
+combination rule into an ACAT-O p-value, and it is **not recovered**: recombining those
+z-scores by the textbook Cauchy/ACAT-O recipe misses the published values on the *candidate*
+genes, where ground truth exists (ACTB/DR: published 0.2085, recomputed 0.2116). That route is
+closed until the rule is established, and saying so is more useful to a reader than "needs the
+SI". The row keeps `clone + SI`, now for a reason someone can check.
+
+**S20 is unchanged and still `clone + SI`** — its generator `m15_pc.py` reads three tables out
+of Additional file 1 by position, and shipping those values is a decision about redistributing
+submission content, not a reduction like the one above. It is left as it stands.
+
+Distribution is unchanged: **20 ✅ / 12 🟡 / 5 🔴 / 9 ➖**. The locality vocabulary is now four
+labels — `` `clone` `` (28 rows, was 27), `` `clone + SI` `` (2), `` `none` `` (7), `` `—` `` (9).
+
 ### 2026-10-02 (fourth pass) — checks that can fail, and a map that checks itself
 
 **No reported number changes.** The data layer, the estimators and every value in the

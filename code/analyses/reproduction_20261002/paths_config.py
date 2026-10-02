@@ -88,6 +88,7 @@ SHIPPED_SPEC = {
     'primary_arm':        (_SH, 'primary_arm_96pairs.csv', '95ad96362314861ce110610a66ffac39', 2842),
     'crosscohort':        (_SH, 'crosscohort.csv', '48c6012874f83fdc959432603fbc457f', 831),
     'hk_genes':           (_SH, 'hk_genes.txt', 'eb7c1a1156029e4118cb003f3be41178', 1468),
+    'mashr_nsnps':        (_SH, 'mashr_nsnps.csv.gz', 'e3b549b55a509ed211e28245f316044d', 62725),
     'ukb_dr_dir':         (_SH, 'ukb_dr', None, None),
     # --- added 2026-10-02 (see 00_build_added_derived.py) ---
     'groups_json':        (_SH, 'groups.json', '5e4be2aa31fa0a87e5e4d0f0b81e26c4', 3753),
