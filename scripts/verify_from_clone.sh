@@ -49,7 +49,13 @@ done
 
 CLONE="$(mktemp -d "$BASE/eqtl-verify-XXXXXX")"
 RMDIR="$CLONE/repo"
-trap '[ "$KEEP" = "1" ] || rm -rf "$CLONE"' EXIT
+# Step out of the clone before removing it, or Windows reports "Device or resource busy"
+# on the temp directory because the shell's own cwd is inside the tree being deleted.
+cleanup() {
+  cd /
+  [ "$KEEP" = "1" ] || rm -rf "$CLONE" 2>/dev/null || true
+}
+trap cleanup EXIT
 
 echo
 echo "== cloning =="
@@ -99,7 +105,7 @@ fi
 echo
 echo "== 2. archive map is self-consistent =="
 if "$PY" scripts/check_archive_map.py > "$CLONE/map.txt" 2>&1; then
-  ok "$(tail -1 "$CLONE/map.txt" | sed 's/^ *//')"
+  ok "$(tail -1 "$CLONE/map.txt" | sed 's/^ *//; s/^\[ ok \] //')"
 else
   bad "check_archive_map.py failed:"
   sed -n '/problem/,$p' "$CLONE/map.txt" | head -8 | sed 's/^/         /'
@@ -123,7 +129,7 @@ else
   tail -5 "$CLONE/st.txt" | sed 's/^/         /'
 fi
 if "$PY" code/analyses/reproduction_20261002/check_wiring.py > "$CLONE/wire.txt" 2>&1; then
-  ok "$(grep '^wired:' "$CLONE/wire.txt" | sed 's/^/         /')"
+  ok "$(grep '^wired:' "$CLONE/wire.txt" | sed 's/^ *//')"
 else
   bad "check_wiring.py reports broken scripts:"
   grep 'FAIL' "$CLONE/wire.txt" | head -6 | sed 's/^/         /'
