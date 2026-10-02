@@ -1567,8 +1567,8 @@
   },
   {
    "path": "docs/RELEASE_PROCESS.md",
-   "bytes": 9445,
-   "sha256": "99f418227f63a31997cd3bd3f9e7c14e13206e1d9818c7eaedaa6eae95ef783e"
+   "bytes": 9991,
+   "sha256": "9abe7216c2cfdc59e9985f59c362177708281d1dd40fb07f6c16c23edc292be7"
   },
   {
    "path": "docs/audit_notes/AF1与主稿图表同步核查报告_20260920.md",
@@ -1707,8 +1707,8 @@
   },
   {
    "path": "scripts/verify_from_clone.sh",
-   "bytes": 6112,
-   "sha256": "cc53be7a47595c6075224f8c86a484fa1bb7b7ee55a435934e8b623d69c658eb"
+   "bytes": 7988,
+   "sha256": "385b159b954125eec85e5ad0845acfff8bcbded482564105bb896b1b148b497d"
   },
   {
    "path": "scripts/verify_provenance.py",

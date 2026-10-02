@@ -58,6 +58,12 @@ Manual equivalent:
 | **Shipped inputs byte-exact** | `python code/analyses/reproduction_20261002/paths_config.py` | exit 0 |
 | **`ARCHIVE_MAP.md` is self-consistent** | `python scripts/check_archive_map.py` | exit 0 |
 | **The headline numbers reproduce** | `python code/analyses/reproduction_min/reproduce_headline.py` | exit 0, 0 mismatches |
+| **Table S9's pools re-derive from a clone** | `python code/analyses/reproduction_20261002/00_build_added_derived.py`'s `build_pools()` with every `REPRO_*` unset, then `git status --porcelain data/derived` | prints 11,820 / 818; empty status |
+
+The last row runs inside `verify_from_clone.sh` and not in `cut_release.sh`, deliberately:
+it writes to `data/derived/`, and a pre-flight check on the author's own tree must be
+read-only. In a throwaway clone, writing to it is the point — the check is that the files
+come back **byte-identical**.
 
 The four rows in bold were added on **2026-10-02**, each because a check that existed could
 not fail the build: a check that only prints its verdict (the `paths_config` self-check), a

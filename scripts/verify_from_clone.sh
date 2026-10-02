@@ -149,6 +149,44 @@ else
 fi
 
 echo
+echo "== 6. the Table S9 pool re-derivation runs from the clone alone =="
+# The map claims `clone` for S9, which asserts that re-deriving the pools needs nothing but
+# what ships. Asserting it is not testing it: this runs build_pools() with every source
+# variable cleared and checks that it reproduces the published chain AND leaves the tree
+# untouched — byte-identical pool files. Without this step the claim would rest on one run
+# on the author's machine, which is the failure mode this whole script exists to correct.
+if [ -f code/analyses/reproduction_20261002/00_build_added_derived.py ]; then
+  if ( unset REPRO_MASHR_DB_DIR REPRO_COVARIATE REPRO_HRT_SOURCE REPRO_GROUPS_JSON \
+           REPRO_RAND_DIR REPRO_T1_DIR REPRO_GTEX_OFFICIAL_DIR
+       "$PY" - <<'PYEOF'
+import importlib.util as iu
+spec = iu.spec_from_file_location(
+    'b', 'code/analyses/reproduction_20261002/00_build_added_derived.py')
+m = iu.module_from_spec(spec)
+spec.loader.exec_module(m)
+m.build_pools()
+PYEOF
+     ) > "$CLONE/pools.txt" 2>&1; then
+    if grep -q '11,820' "$CLONE/pools.txt" && grep -q 'POOL_818 = 818' "$CLONE/pools.txt"; then
+      if [ -z "$(git status --porcelain data/derived)" ]; then
+        ok "build_pools() rebuilt POOL_A 11,820 / POOL_818 818 with no source variables set, byte-identically"
+      else
+        bad "the pool re-derivation changed data/derived — not byte-identical:"
+        git status --short data/derived | head -5 | sed 's/^/         /'
+      fi
+    else
+      bad "the pool re-derivation ran but did not print the published chain:"
+      tail -6 "$CLONE/pools.txt" | sed 's/^/         /'
+    fi
+  else
+    bad "build_pools() failed with every source variable unset — S9 is not `clone`:"
+    tail -6 "$CLONE/pools.txt" | sed 's/^/         /'
+  fi
+else
+  warn "00_build_added_derived.py missing — S9's locality claim is not checked"
+fi
+
+echo
 echo "=================================================="
 printf ' verified from a clone: %d failure(s)\n' "$fail"
 if [ "$KEEP" = "1" ]; then
