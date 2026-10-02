@@ -1,12 +1,16 @@
 # -*- coding: utf-8 -*-
 """把 m15_pc.py 的重跑输出与两份归档 JSON 逐键比对。"""
 import json, os
+import sys as _sys, os as _os
+_p = _os.path.dirname(_os.path.abspath(__file__))
+while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
+    _p = _os.path.dirname(_p)
+_sys.path.insert(0, _p)
+import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
+_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 new = json.load(open(os.path.join(HERE, 'm15_positive_control.json'), encoding='utf-8'))
-import sys as _sys, os as _os
-_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))))
-import paths as _paths          # noqa: E402  集中路径解析，见 ../../../paths.py
 cands = {
     '本仓库 code/figures/m15_positive_control.json': str(_paths.fig('m15_json')),
     # 归档副本是可选的：分别用 EQTL_M15_ARCHIVE_1 / _2 指向即可，缺则跳过

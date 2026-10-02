@@ -69,17 +69,34 @@ S2/S3/S5a/S13/S15/S18/S24, and S27–S29. They cannot reproduce these:
 | S16 — framework-layer contrast | the elastic-net side of the full-universe Z (`en/official_en_*.csv`) | no |
 | S17 — **gene-cluster** rows | the housekeeping layer, carried only in the SI `.docx` (its t06/t15 blocks) | no |
 | S20 — endpoint calibration | `Additional file 1_审稿意见修订_20260917.docx` | no (the *output* JSON does ship) |
-| BMC↔GE cross-check (`bmc_ref/`) | `si_tables/*.tsv`, the predecessor BMC manuscript and Additional file | no |
+| BMC↔GE cross-check (`bmc_ref/`) | `si_tables/*.tsv`, the predecessor BMC manuscript and Additional file | no — **but re-run and verified on 2026-10-02** when those files are supplied; see below |
 | The **executable** run of the headline chain | the two submitted `.docx` | no — but the *values* reproduce from `data/derived/`, which does ship |
 | SCZ universe beyond S24 (10,357 / 9,048 / 8,890 / 6,310 / 4,098 / 3,910 / 6,014) | `t1_full/` | partly — the SCZ four-arm table ships, the full universe does not |
 
 [`INPUTS.md`](INPUTS.md) §4 carries the same statement; `paths.py` raises a message naming the
 file and its source the moment one of these is missing, rather than dying on a `FileNotFoundError`.
 
+### The diagnostic scripts were re-run on 2026-10-02
+
+All 18 scripts under `repo_crosscheck/` and `bmc_ref/` were executed against their real inputs.
+Their first run in the archive's history exposed four latent defects, all now fixed: the wrong
+bootstrap depth (24 scripts), the wrong data-layer filename passed to `load()`/`rd()`, and two
+index bugs of the author's that had never surfaced because the scripts could not previously run
+at all (`verify_cluster3.py` built a 0-d array with `np.array(generator)`; `verify_cluster4.py`
+indexed a positional list by gene name; `diag_s9_s20b.py` resolved its sibling script through the
+current directory). All 18 now exit 0.
+
+The BMC↔GE result, re-established rather than assumed: **83 statistics cross-checked, 63 present
+in both documents, 20 in the BMC predecessor only, 0 unique to the GE submission** — i.e. the GE
+revision introduced no number that the predecessor lacks, which is what the "same document under
+two numberings" claim requires. `bmc_ref/si_compare.py` also confirms the renumbering directly:
+the predecessor *Additional file 1* carries 27 tables, the GE *Supporting Information* 31.
+
 ## Layout
 
 ```
 paths.py                          every input this package resolves — read this first
+check_wiring.py                   proves every script here can import paths (release gate)
 INPUTS.md                         each input, its MD5 (from results/), and whether it ships
 scripts/
   recompute.py                    document-level recompute (SI S2/S3/S5a/S6/S13/S15/S18/S23 -> headline chain)
@@ -93,6 +110,31 @@ scripts/
   r2_fix/                         estimators examined for the three residual R2 items
 results/                          machine-readable outputs and run logs for every script above
 ```
+
+**Looking for the five-minute version?** [`../reproduction_min/`](../reproduction_min/) is a
+single ~180-line script that needs nothing but `data/derived/` and numpy, and reproduces the
+headline result, the tissue-only arm and the three SCZ arms. This directory is the forensic
+package; that one is the *self-contained* one.
+
+## How the scripts find `paths.py`
+
+Every script carries the same six-line bootstrap, which walks up from its own directory until it
+finds `paths.py`:
+
+```python
+import sys as _sys, os as _os
+_p = _os.path.dirname(_os.path.abspath(__file__))
+while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
+    _p = _os.path.dirname(_p)
+_sys.path.insert(0, _p)
+import paths as _paths
+```
+
+It is written as a walk rather than a fixed number of `os.path.dirname(...)` levels on purpose.
+The first portable revision used fixed levels and got them wrong for the four directories that sit
+one level deeper — 24 scripts, all compiling and all dying at run time with
+`ModuleNotFoundError: No module named 'paths'`. `check_wiring.py` now executes every script's
+preamble and fails the release if that happens again.
 
 ## Running it
 

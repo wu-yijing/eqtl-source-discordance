@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 import csv, numpy as np
 import sys as _sys, os as _os
-_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+_p = _os.path.dirname(_os.path.abspath(__file__))
+while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
+    _p = _os.path.dirname(_p)
+_sys.path.insert(0, _p)
+import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
+_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
 D=str(_paths.derived('gtex_Z').parent)
 def load(fn): return list(csv.DictReader(open(D+'\\'+fn,encoding='utf-8-sig')))
 def num(x):
@@ -14,7 +18,7 @@ def bh_q(p):
     for i in range(m-1,-1,-1):
         j=o[i]; prev=min(prev, p[j]*m/(i+1)); q[j]=prev
     return q
-G=load('gtex_official_Z.csv'); T1=load('gene_groups_TableS1_official.csv')
+G=load('gtex_Z.csv'); T1=load('gene_groups.csv')
 grp={r['Gene']:r['Group'] for r in T1}
 missing=[r['Gene'] for r in G if r['Gene'] not in grp]
 print('gtex 层中无分组的基因:',sorted(set(missing))[:10],'共',len(set(missing)))

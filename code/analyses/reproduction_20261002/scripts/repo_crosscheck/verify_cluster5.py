@@ -3,8 +3,12 @@ import csv, math
 import numpy as np
 from scipy.stats import rankdata, t as tdist
 import sys as _sys, os as _os
-_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+_p = _os.path.dirname(_os.path.abspath(__file__))
+while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
+    _p = _os.path.dirname(_p)
+_sys.path.insert(0, _p)
+import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
+_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
 P=str(_paths.derived('primary_arm_96pairs'))
 rows=list(csv.DictReader(open(P,encoding='utf-8-sig')))
 x=np.array([float(r['Z_GTEx']) for r in rows]); y=np.array([float(r['Z_eQTLGen']) for r in rows])

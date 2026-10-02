@@ -10,6 +10,12 @@
 
 Large binaries belong in a repository, not in git: use Zenodo, figshare, or iProX (for the proteomics data) and record the accession here.
 
+**Older name for the same layer.** The predecessor repository called `derived/` **`processed_officialZ/`**.
+Both names still appear in this repository's historical documents, so the old name resolves to a
+redirect: [`processed_officialZ/README.md`](processed_officialZ/README.md). The two are
+byte-identical — 6 files of 6, same MD5 — and `code/analyses/reproduction_20261002/paths.py`
+rewrites the old name automatically.
+
 ---
 
 ## External-input manifest

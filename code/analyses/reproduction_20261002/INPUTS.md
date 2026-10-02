@@ -128,6 +128,13 @@ The scripts originally read a **second local clone of a different repository**
 (`eqtl-source-discordance-audit`) at `data/processed_officialZ/`. That directory has never
 existed in this repository, yet the tree referenced it 56 times. `paths.py` now maps it:
 
+**Verified directly, 2026-10-02.** The predecessor repository
+([`wu-yijing/eqtl-source-discordance-audit`](https://github.com/wu-yijing/eqtl-source-discordance-audit))
+was cloned and its `data/processed_officialZ/` compared file by file: **6 of 6 are byte-identical
+(same MD5, same length)** to `data/derived/`. The mapping below is a measurement, not an
+inference from the 2026-10-02 audit. A redirect for anyone following an older reference lives at
+[`../../../data/processed_officialZ/README.md`](../../../data/processed_officialZ/README.md).
+
 | Legacy path | Resolves to | Equivalence established 2026-10-02 |
 |---|---|---|
 | `data/processed_officialZ/scz_z_4arm_official.csv` | `data/derived/scz_z_4arm.csv` | identical, MD5 `55caa68e…` |
@@ -147,13 +154,14 @@ existed in this repository, yet the tree referenced it 56 times. `paths.py` now 
 
 | Scope | Reproducible from this archive alone? |
 |---|---|
+| Everything in `code/analyses/reproduction_min/` — headline, per-phenotype, tissue-only arm, SCZ three arms | **Yes** — one script, `data/derived/` and numpy only, 15 assertions |
 | Headline 68.75% / ρ 0.3896, per-phenotype split, tissue-only arm, SCZ three arms | **Yes** — `recompute.py`, `recompute_scz.py`, `data/derived/` only |
 | SI S2, S3, S5a, S13, S15, S18, S24; main Table 2(A); S27–S29 and Note S5 | **Yes** |
 | **S9** (architecture-unselected random controls) | **No** — needs `mashr_dir`, `groups_json`, `t1_s8rand_dir`, `metaxcan_run_dir` |
 | **S16** (framework-layer alternative test) | **No** — needs the elastic-net side of `t1_full_dir`; no elastic-net Z ships here |
 | **S17** (cluster-aware uncertainty) | **Partly** — the primary-arm half is reproducible from `data/derived/primary_arm_96pairs.csv`; the gene-cluster half needs the housekeeping layer carried only in the SI `.docx` |
 | **S20** (endpoint calibration) | **No** — `m15_pc.py` is shipped, but its input `additional_file1_docx` is not |
-| BMC↔GE cross-check | **No** — needs `si_tables_dir` and the two BMC documents |
+| BMC↔GE cross-check | **No** — needs `si_tables_dir`, `bmc_manuscript_docx`, `bmc_additional_file1_docx`. **Re-run and verified 2026-10-02** once those were supplied: 83 statistics checked, 63 in both documents, 0 unique to the GE submission |
 
 The four "No"/"Partly" rows are exactly the rows `metadata/ARCHIVE_MAP.md` marks 🟡 with the
 note *"reproduced, but the inputs it rests on are not in this repository"*.

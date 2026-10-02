@@ -251,6 +251,26 @@ def apply_args(args) -> Path:
     return REPO_ROOT
 
 
+def bootstrap_args(argv=None) -> Path:
+    """Consume `--repo-root` / `--input` in a script that has no parser of its own.
+
+    The diagnostic scripts under `repo_crosscheck/`, `bmc_ref/` and `r2_fix/` take no
+    options, so they cannot use `add_common_args()` + `apply_args()`. Without this they
+    would ignore `--input` entirely and only respond to environment variables — which is
+    exactly how they behaved when first rewired. Call it once, right after
+    `import paths`, and `--input NAME=PATH` works everywhere in the package.
+
+    `parse_known_args` + `add_help=False` mean the script's own behaviour is untouched:
+    anything this does not recognise is left for the script.
+    """
+    ap = add_common_args(argparse.ArgumentParser(add_help=False))
+    args, _ = ap.parse_known_args(argv)
+    if getattr(args, 'list_inputs', False):
+        print(list_inputs())
+        raise SystemExit(0)
+    return apply_args(args)
+
+
 def list_inputs() -> str:
     out = ['distributed (ships in this repository):']
     for k in sorted(DISTRIBUTED):

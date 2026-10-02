@@ -5,8 +5,12 @@ import numpy as np
 from scipy.stats import rankdata, t as tdist, f as fdist
 
 import sys as _sys, os as _os
-_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+_p = _os.path.dirname(_os.path.abspath(__file__))
+while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
+    _p = _os.path.dirname(_p)
+_sys.path.insert(0, _p)
+import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
+_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
 P=str(_paths.derived('primary_arm_96pairs'))
 rows=list(csv.DictReader(open(P,encoding='utf-8-sig')))
 x=np.array([float(r['Z_GTEx']) for r in rows]); y=np.array([float(r['Z_eQTLGen']) for r in rows])
@@ -63,7 +67,10 @@ for tag,fac in [('RandomState(MT19937)',lambda: np.random.RandomState(20260915))
         yp=y.copy()
         for t in traits:
             ii=ty[t]; gs_t=list(dict.fromkeys(gene[i] for i in ii))
-            pos={g:np.where(np.array(gene[i] for i in ii)==g)[0] for g in gs_t}
+            # 2026-10-02 修：`gene` 是 list，原写法 `np.array(gene[i] for i in ii)` 会得到 0-d
+            # object 数组，np.where 直接抛 ValueError。转成 ndarray 再按位索引。
+            gi=np.asarray(gene)[ii]
+            pos={g:np.where(gi==g)[0] for g in gs_t}
             order=rng.permutation(len(gs_t))
             for j,g in enumerate(gs_t):
                 src=gs_t[order[j]]; yp[ii[pos[g]]]=y[ii[pos[src]]]

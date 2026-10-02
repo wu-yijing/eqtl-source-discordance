@@ -20,8 +20,12 @@ def load(path):
             out.append((len(rows), len(rows[0]) if rows else 0, (last[-1] if last else ''), rows))
     return out
 import sys as _sys, os as _os
-_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+_p = _os.path.dirname(_os.path.abspath(__file__))
+while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
+    _p = _os.path.dirname(_p)
+_sys.path.insert(0, _p)
+import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
+_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
 B=load(str(_paths.external('bmc_additional_file1_docx')))
 G=load(str(_paths.external('si_docx')))
 def tabno(t):

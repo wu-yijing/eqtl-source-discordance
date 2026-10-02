@@ -6,8 +6,12 @@ GE SI: <si_tables_dir>/tNN.tsv（由 docx 抽取；--input si_tables_dir=…，�
 import csv, os
 import numpy as np
 import sys as _sys, os as _os
-_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+_p = _os.path.dirname(_os.path.abspath(__file__))
+while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
+    _p = _os.path.dirname(_p)
+_sys.path.insert(0, _p)
+import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
+_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
 SI=str(_paths.external('si_tables_dir'))
 D=str(_paths.derived('gtex_Z').parent)
 
@@ -44,32 +48,32 @@ def cmp(tag, si_hdr, si_rows, si_keycols, rep_rows, rep_keycols, valcols, tol=1e
     print(f'    最大绝对差 = {worst:.3e}   {worst_k}')
 
 print('='*100); print('GE 稿件 SI 表 ←→ 审计仓库官方 Z 层'); print('='*100)
-# 1) GTEx 侧：GE SI t02 ↔ gtex_official_Z.csv
-h,rows=tsv('t02.tsv'); G=rd('gtex_official_Z.csv')
-print(f'\n[1] GTEx 侧   SI t02 ({h[:3]}...)  {len(rows)} 行  ←→  gtex_official_Z.csv {len(G)} 行')
-cmp('Table S3 ↔ gtex_official_Z.csv', h, rows, (0,1), G, ('Gene','Trait'),
+# 1) GTEx 侧：GE SI t02 ↔ gtex_Z.csv
+h,rows=tsv('t02.tsv'); G=rd('gtex_Z.csv')
+print(f'\n[1] GTEx 侧   SI t02 ({h[:3]}...)  {len(rows)} 行  ←→  gtex_Z.csv {len(G)} 行')
+cmp('Table S3 ↔ gtex_Z.csv', h, rows, (0,1), G, ('Gene','Trait'),
     [(2,'Z_Nerve_Tibial'),(3,'Z_Whole_Blood'),(4,'Z_multi_tissue'),
      (5,'P_Stouffer'),(6,'FDR_q_Stouffer'),(7,'P_ACAT_O'),(8,'FDR_q_ACAT_O'),(9,'n_Tissues')])
-# 2) eQTLGen 侧：GE SI t18 ↔ eqtlgen_official_Z.csv
-h,rows=tsv('t18.tsv'); E=rd('eqtlgen_official_Z.csv')
-print(f'\n[2] eQTLGen 侧   SI t18  {len(rows)} 行  ←→  eqtlgen_official_Z.csv {len(E)} 行')
+# 2) eQTLGen 侧：GE SI t18 ↔ eqtlgen_Z.csv
+h,rows=tsv('t18.tsv'); E=rd('eqtlgen_Z.csv')
+print(f'\n[2] eQTLGen 侧   SI t18  {len(rows)} 行  ←→  eqtlgen_Z.csv {len(E)} 行')
 E_nohk=[r for r in E if r['Group']!='Housekeeping']
 print(f'    仓库层去掉 Housekeeping 后 = {len(E_nohk)} 行（SI 为 {len(rows)} 行）')
-cmp('Table S18 ↔ eqtlgen_official_Z.csv（非管家子集）', h, rows, (0,1), E_nohk, ('Gene','Trait'),
+cmp('Table S18 ↔ eqtlgen_Z.csv（非管家子集）', h, rows, (0,1), E_nohk, ('Gene','Trait'),
     [(3,'Z_eQTLGen'),(4,'P'),(5,'BH_q')])
-# 3) 基因分组：GE SI t01 ↔ gene_groups_TableS1_official.csv
-h,rows=tsv('t01.tsv'); T=rd('gene_groups_TableS1_official.csv')
-print(f'\n[3] 基因分组   SI t01  {len(rows)} 行  ←→  gene_groups_TableS1_official.csv {len(T)} 行')
+# 3) 基因分组：GE SI t01 ↔ gene_groups.csv
+h,rows=tsv('t01.tsv'); T=rd('gene_groups.csv')
+print(f'\n[3] 基因分组   SI t01  {len(rows)} 行  ←→  gene_groups.csv {len(T)} 行')
 R={r['Gene'].strip():r for r in T}
 diff=[]
 for r in rows:
     g=r[0].strip()
     if g in R and R[g]['Group'].strip()!=r[1].strip(): diff.append((g,r[1],R[g]['Group']))
 print(f'    基因名命中 {sum(1 for r in rows if r[0].strip() in R)}/{len(rows)}；分组标签不一致 {len(diff)} 个 {diff[:5]}')
-# 4) 主臂：GE SI t13 ↔ primary_arm_96pairs_official.csv
-h,rows=tsv('t13.tsv'); A=rd('primary_arm_96pairs_official.csv')
-print(f'\n[4] 主臂   SI t13  {len(rows)} 行  ←→  primary_arm_96pairs_official.csv {len(A)} 行')
-cmp('Table S13 ↔ primary_arm_96pairs_official.csv', h, rows, (0,1), A, ('Gene','Trait'),
+# 4) 主臂：GE SI t13 ↔ primary_arm_96pairs.csv
+h,rows=tsv('t13.tsv'); A=rd('primary_arm_96pairs.csv')
+print(f'\n[4] 主臂   SI t13  {len(rows)} 行  ←→  primary_arm_96pairs.csv {len(A)} 行')
+cmp('Table S13 ↔ primary_arm_96pairs.csv', h, rows, (0,1), A, ('Gene','Trait'),
     [(2,'Z_GTEx'),(3,'Z_eQTLGen')])
 print()
 print('='*100)

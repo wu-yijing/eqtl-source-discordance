@@ -5,14 +5,19 @@ import numpy as np
 from scipy.stats import rankdata, t as tdist
 
 import sys as _sys, os as _os
-_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+_p = _os.path.dirname(_os.path.abspath(__file__))
+while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
+    _p = _os.path.dirname(_p)
+_sys.path.insert(0, _p)
+import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
+_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
 P=str(_paths.derived('primary_arm_96pairs'))
 rows=list(csv.DictReader(open(P,encoding='utf-8-sig')))
 x=np.array([float(r['Z_GTEx']) for r in rows]); y=np.array([float(r['Z_eQTLGen']) for r in rows])
 gene=np.array([r['Gene'] for r in rows]); trait=np.array([r['Trait'] for r in rows])
 gs=list(dict.fromkeys(gene)); K=len(gs); N=len(rows)
 idx=[np.where(gene==g)[0] for g in gs]
+gpos={g:k for k,g in enumerate(gs)}     # 2026-10-02 修：idx 是按位置的列表，按基因名索引需先映射
 def prep(a):  return rankdata(a)-(len(a)+1)/2.0
 xa=prep(x); xb=prep(y)
 Sxx=xa@xa; Syy=xb@xb
@@ -38,7 +43,7 @@ for tag,fac in [('MT19937',lambda: np.random.RandomState(20260915)),('PCG64',lam
     rng=fac(); B=10000; R=np.empty(B)
     for b in range(B):
         pick=[gs[j] for j in rng.choice(K,size=K,replace=True)]
-        ii=np.concatenate([idx[j] for j in pick])
+        ii=np.concatenate([idx[gpos[j]] for j in pick])
         a=prep(x[ii]); c=prep(y[ii])
         R[b]=float(a@c/math.sqrt((a@a)*(c@c)))
     print(f'  {tag:8s} bootstrap SD(ρ) = {R.std(ddof=1):.4f}   (SE 候选)')

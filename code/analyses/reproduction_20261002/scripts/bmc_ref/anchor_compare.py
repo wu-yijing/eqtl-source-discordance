@@ -19,8 +19,12 @@ def full(path):
     return ' \u241F '.join(x for x in parts if x.strip())
 
 import sys as _sys, os as _os
-_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+_p = _os.path.dirname(_os.path.abspath(__file__))
+while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
+    _p = _os.path.dirname(_p)
+_sys.path.insert(0, _p)
+import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
+_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
 BMC=full(str(_paths.external('bmc_manuscript_docx')))
 GE =full(str(_paths.external('manuscript_docx')))
 print(f'BMC 字符 {len(BMC):,}  |  GE 字符 {len(GE):,}')

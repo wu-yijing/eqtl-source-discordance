@@ -34,7 +34,7 @@ before/after value table are in that directory's `README.md`.
 
 The pre-correction data layer is likewise quarantined: `data/processed/` carries a
 `_DEPRECATED_勿用_修正前数据_20260917.md` notice; the authoritative layer is
-`data/processed_officialZ/`.
+`data/derived/`.
 
 This directory is retained **only for audit** (so that the earlier release can be
 reproduced verbatim). It is not referenced by the current `README.md` figure-set section.

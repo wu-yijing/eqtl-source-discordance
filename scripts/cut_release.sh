@@ -142,6 +142,34 @@ else
 fi
 
 echo
+echo "== 4b. reproduction-package wiring =="
+# The bootstrap that lets each script find paths.py is duplicated per script. A wrong
+# number of os.path.dirname(...) levels compiles fine and dies at run time with
+# "No module named 'paths'" — which is what shipped in the first portable revision of
+# the package. This executes every script's preamble and fails if `paths` is not
+# importable. It stubs third-party modules that this interpreter lacks, so it works
+# under a bare Python.
+WIRE="code/analyses/reproduction_20261002/check_wiring.py"
+if [ -f "$WIRE" ]; then
+  if "$PY" "$WIRE" > /dev/null 2>&1; then
+    N=$("$PY" "$WIRE" 2>/dev/null | awk '/^wired:/ {print $2}')
+    ok "every reproduction-package script imports paths (${N:-?} wired)"
+  else
+    bad "at least one reproduction-package script cannot import paths — run: $PY $WIRE"
+  fi
+else
+  warn "$WIRE missing"
+fi
+
+if [ -f code/analyses/reproduction_min/reproduce_headline.py ]; then
+  if (cd "$(git rev-parse --show-toplevel)" && "$PY" code/analyses/reproduction_min/reproduce_headline.py > /dev/null 2>&1); then
+    ok "reproduction_min reproduces the headline values from data/derived/ alone"
+  else
+    warn "reproduction_min did not run under $PY (needs numpy) — check manually"
+  fi
+fi
+
+echo
 echo "== 5. labelling placeholders =="
 PH=$(git ls-files -z 2>/dev/null | xargs -0 grep -l '<CONCEPT>\|<VER>\|PLACEHOLDER' 2>/dev/null | head -10)
 [ -z "$PH" ] && ok "no <CONCEPT>/<VER> placeholders left" || { warn "placeholders still present in:"; echo "$PH" | sed 's/^/         /'; }

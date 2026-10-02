@@ -6,8 +6,12 @@ import csv, math, numpy as np
 from scipy import stats
 
 import sys as _sys, os as _os
-_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+_p = _os.path.dirname(_os.path.abspath(__file__))
+while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
+    _p = _os.path.dirname(_p)
+_sys.path.insert(0, _p)
+import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
+_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
 D=str(_paths.derived('gtex_Z').parent)
 def load(fn):
     return list(csv.DictReader(open(D+'\\'+fn, encoding='utf-8-sig')))
@@ -25,9 +29,9 @@ def bh_q(p):
     return q
 
 print('='*100)
-print('A. GTEx 官方层（gtex_official_Z.csv）：用 Z 精确重建 P，再复算 BH q')
+print('A. GTEx 官方层（gtex_Z.csv）：用 Z 精确重建 P，再复算 BH q')
 print('='*100)
-G=load('gtex_official_Z.csv')
+G=load('gtex_Z.csv')
 print(f'  行数 {len(G)}  列 {list(G[0].keys())}')
 # ACAT-O 侧
 for pcol,qcol,zcol in [('P_ACAT_O','FDR_q_ACAT_O',None),('P_Stouffer','FDR_q_Stouffer',None)]:
@@ -52,9 +56,9 @@ q=bh_q(pp); print(f'  单一全域 (m={len(pp)}): max|Δq| = {np.nanmax(np.abs(q
 
 print()
 print('='*100)
-print('B. eQTLGen 官方层（eqtlgen_official_Z.csv）：用 Z 精确重建 P，再复算 BH q')
+print('B. eQTLGen 官方层（eqtlgen_Z.csv）：用 Z 精确重建 P，再复算 BH q')
 print('='*100)
-E=load('eqtlgen_official_Z.csv')
+E=load('eqtlgen_Z.csv')
 print(f'  行数 {len(E)}  列 {list(E[0].keys())}')
 from collections import Counter
 print('  Trait 分布:',dict(Counter(r['Trait'] for r in E)))

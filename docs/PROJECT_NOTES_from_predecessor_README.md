@@ -1,5 +1,12 @@
 # TWAS eQTL Weight-Source Discordance — Two-Axis Dual-Source Audit
 
+> ⚠️ **Path note (2026-10-02).** This file is the **predecessor repository's README, kept verbatim**.
+> It names `data/processed_officialZ/` throughout — that is the predecessor's own layout for the
+> layer this archive now calls **`data/derived/`**. The two are byte-identical, 6 files of 6; the
+> mapping is tabulated in [`../data/processed_officialZ/README.md`](../data/processed_officialZ/README.md).
+> The paths below are part of this document's record and have deliberately **not** been rewritten.
+> When you need to open a file, read `data/derived/`.
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.21238202.svg)](https://doi.org/10.5281/zenodo.21238202)
 

@@ -7,10 +7,12 @@ from xml.etree import ElementTree as ET
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # ---------------- 复用主脚本前段（池 / 官方 ACAT-O / 覆盖率） ----------------
-src = open(os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                        'recompute_r3_s9_s20.py'), encoding='utf-8').read()
+_here = os.path.dirname(os.path.abspath(__file__))
+src = open(os.path.join(_here, 'recompute_r3_s9_s20.py'), encoding='utf-8').read()
 head = src.split('# ============================================================ 3. 零分布')[0]
-G = {'__file__': os.path.abspath('recompute_r3_s9_s20.py'), '__name__': 'head'}
+# 2026-10-02 修：__file__ 原为 os.path.abspath('recompute_r3_s9_s20.py')，即 cwd 相对路径——
+# 只在 cwd 恰为 scripts/r3/ 时成立，换目录运行就会让被 exec 的头部找不到 paths.py。
+G = {'__file__': os.path.join(_here, 'recompute_r3_s9_s20.py'), '__name__': 'head'}
 exec(compile(head, 'head', 'exec'), G)
 COV600, gz, TRAITS, pacat_of = G['COV600'], G['gz'], G['TRAITS'], G['pacat_of']
 both_A, both_818, COV818 = G['both_A'], G['both_818'], G['COV818']
@@ -77,8 +79,12 @@ print('  SI: 600 -> 21/1326=1.6% / 7/378=1.9% ; 818 -> 20/1827=1.1% / 6/477=1.3%
 print()
 print('=' * 74); print('S20 单基因 spike-in 最小 λ（经验零池 = 同来源真实 Z）'); print('=' * 74)
 import sys as _sys, os as _os
-_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+_p = _os.path.dirname(_os.path.abspath(__file__))
+while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
+    _p = _os.path.dirname(_p)
+_sys.path.insert(0, _p)
+import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
+_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
 SI = str(_paths.external('si_docx'))
 Wn = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
 tb = [c for c in list(ET.fromstring(zipfile.ZipFile(SI).read('word/document.xml')).find(Wn + 'body'))

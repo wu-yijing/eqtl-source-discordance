@@ -23,6 +23,62 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-02 (third pass) — the last three audit items, and four defects the re-runs exposed
+
+The audit's remediation list had fifteen items. Nine landed in the second-pass commit; this one
+closes the remaining three and fixes what actually running the diagnostic scripts turned up.
+
+#### Added
+- **`code/analyses/reproduction_min/`** — a single ~180-line script that needs nothing but
+  `data/derived/` and numpy and reproduces the headline result, the per-phenotype split, the
+  tissue-only arm and the three SCZ arms. **15 assertions, 0 mismatches.** This is the only
+  100%-self-contained reproduction in the archive; before it, a reader with a bare clone could not
+  verify a single reported number. Wired into `cut_release.sh`.
+- **`code/analyses/reproduction_20261002/check_wiring.py`** — executes every script's import
+  preamble and fails if `paths` is not importable. Stubs third-party modules it lacks, so it runs
+  under a bare Python; called by `scripts/cut_release.sh`. Its own first version was vacuous — the
+  checker's directory was on `sys.path`, so everything "passed" — and was corrected and
+  re-verified by deliberately re-introducing the bug.
+- **`data/processed_officialZ/README.md`** — a redirect for the 15 remaining references to the
+  predecessor repository's name for `data/derived/`, all inside historical documents that are
+  correct as written.
+- **Table-note text for SI Table S24** in `docs/audit_notes/R2残余差异消除方案_20261002.md` §五
+  item 7: `multiZ` carries **77 exact zeros** in the complete-case universe; scoring a zero as
+  positive moves the dual arm 5,506 → 5,544 (+0.46 pp). The convention was never stated.
+
+#### Fixed
+- **24 scripts shipped with a too-short path bootstrap.** Making the package portable, each script
+  was wired with a fixed number of `os.path.dirname(...)` levels — right for `scripts/`, one level
+  short for `scripts/<subdir>/`. All 24 compiled and all 24 died at run time with
+  `ModuleNotFoundError: No module named 'paths'`. Replaced by a depth-independent walk up to
+  `paths.py`, and guarded from here on.
+- **36 live references to `data/processed_officialZ/`** across 7 files rewritten to `data/derived/`.
+  The predecessor repository was cloned to confirm the mapping: **6 of 6 files byte-identical to
+  `data/derived/`**.
+- The diagnostic scripts had never actually been run in this archive. Doing so exposed three more
+  latent defects of the author's: `verify_cluster3.py` passed a 0-d array to `np.where`;
+  `verify_cluster4.py` indexed a positional list by gene name; `diag_s9_s20b.py` resolved its
+  sibling script through the current working directory. All 18 diagnostic scripts now exit 0.
+- `paths.bootstrap_args()` added, so `--input NAME=PATH` / `--repo-root` work in the 24 scripts
+  that have no argument parser of their own. Without it they honoured environment variables only.
+- Legacy data-layer filenames inside the scripts (`gtex_official_Z.csv` and five others) remapped
+  to the names that exist in `data/derived/`.
+
+#### Changed
+- `metadata/ARCHIVE_MAP.md` §8 records the follow-up in full: what was still open, how each item
+  closed, the four defects, and the re-run BMC↔GE result.
+- `data/README.md`, `README.md`, the reproduction package README and `INPUTS.md` updated for all of
+  the above. `INPUTS.md` §3 states the `processed_officialZ/` → `derived/` equivalence as a direct
+  measurement rather than an inference from the audit.
+
+#### Numbers
+- **No reported number changes.** The BMC↔GE cross-check, which had been asserted rather than
+  measured, was re-run: **83 statistics checked, 63 present in both documents, 20 in the
+  predecessor only, 0 unique to the GE submission** — the GE revision introduces no number the
+  predecessor lacks. `reproduction_min` reproduces the headline values exactly; the predecessor
+  *Additional file 1* carries 27 tables against the GE *Supporting Information*'s 31, which is the
+  `S`*n* → `S`*n+1* renumbering.
+
 ### 2026-10-02 (second pass) — the reproduction package is made portable, and three statuses are corrected
 
 An independent audit of `91afa33` — clone from the remote, enumerate the 281 tracked files, extract

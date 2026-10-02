@@ -6,6 +6,11 @@ deprecation decisions that bear directly on the figures and data archived here.
 They are deliberately kept separate from `analysis_reports/`, which is a **local-only working
 directory** and is listed in `.gitignore` (internal working notes — not published).
 
+> ⚠️ **Path note (2026-10-02).** The dated notes below are kept as written. Where one names
+> `data/processed_officialZ/` — the predecessor repository's layout — today's archive calls that
+> layer **`data/derived/`**; the two are byte-identical, 6 files of 6. Mapping:
+> [`../../data/processed_officialZ/README.md`](../../data/processed_officialZ/README.md).
+
 | Note | Date | What it records |
 |---|---|---|
 | `AF1与主稿图表同步核查报告_20260920.md` | 2026-09-20 | *Additional file 1* vs the manuscript: figure/table numbering, captions, cross-references and values all in sync; one **duplicated figure** was found and removed, with before/after verification at both the docx and PDF layers |

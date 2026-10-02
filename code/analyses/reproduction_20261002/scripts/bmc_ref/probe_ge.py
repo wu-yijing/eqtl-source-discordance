@@ -16,8 +16,12 @@ def full(path):
             parts.append(' | '.join(' '.join(pt(p) for p in tc.findall(W+'p')).strip() for tc in tr.findall(W+'tc')))
     return ' \u241F '.join(x for x in parts if x.strip())
 import sys as _sys, os as _os
-_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
-import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+_p = _os.path.dirname(_os.path.abspath(__file__))
+while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
+    _p = _os.path.dirname(_p)
+_sys.path.insert(0, _p)
+import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
+_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
 GE=full(str(_paths.external('manuscript_docx')))
 BMC=full(str(_paths.external('bmc_manuscript_docx')))
 PROBES=['df','permutation','67.6','0.373','102','5,584','5,551','5,506','9,048','0.784','0.638','0.525','0.647',

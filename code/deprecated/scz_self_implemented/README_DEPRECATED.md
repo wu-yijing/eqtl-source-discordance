@@ -15,12 +15,12 @@ The current manuscript recomputes every S-PrediXcan statistic — including the 
 schizophrenia arm — with the **unmodified official MetaXcan v0.8.1 binary**. The archived,
 authoritative SCZ Z-matrix is therefore
 
-**`data/processed_officialZ/scz_z_4arm_official.csv`** (`gene`, `eqZ`, `wbZ`, `ntZ`, `multiZ`).
+**`data/derived/scz_z_4arm.csv`** (`gene`, `eqZ`, `wbZ`, `ntZ`, `multiZ`).
 
 The two pipelines do not agree, and the difference is large enough to change the headline
 numbers:
 
-| Quantity | This directory (`results/`) | Current (`data/processed_officialZ/`) |
+| Quantity | This directory (`results/`) | Current (`data/derived/`) |
 |---|---|---|
 | Complete-case denominator | 2,511 genes | **8,315** genes (pool 10,357) |
 | Panel-only analogue (eQTLGen vs GTEx Whole_Blood) | *not computed here* | **ρ = +0.469** |
@@ -35,7 +35,7 @@ per-gene Z behind any current table or figure.
 
 | Need | Use |
 |---|---|
-| SCZ per-gene Z, four arms | `data/processed_officialZ/scz_z_4arm_official.csv` |
+| SCZ per-gene Z, four arms | `data/derived/scz_z_4arm.csv` |
 | SCZ arm correlations, denominators, axis contrast | Additional file 1 — Table S15 (and Fig. 8) |
 | Cluster-aware uncertainty of the primary (HOTAIR) arm | Additional file 1 — Table S16 |
 | Summary of the current SCZ numbers | `README.md` → *SCZ 2×2 Decomposition Replication* |

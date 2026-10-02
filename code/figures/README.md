@@ -4,7 +4,7 @@
 >
 > 1. This pipeline now lives at `code/figures/` (was `figure_scripts_officialZ_20260917/`),
 >    and the authoritative data layer is now `data/derived/`
->    (was `data/processed_officialZ/`). `paths_config.py` has been updated and now
+>    (was `data/processed_officialZ/`, the predecessor repository's name for the same layer). `paths_config.py` has been updated and now
 >    resolves the repository root by walking up to the directory containing `.zenodo.json`.
 > 2. **The figure numbers in the filenames below do NOT match the current manuscript.**
 >    The scripts were written against an 8-figure layout; the submitted paper has four main
@@ -46,7 +46,7 @@ MetaXcan v0.8.1 的 Z，图却没有跟着重出。本目录的脚本修复了�
 | 环境变量 | 含义 | 默认 |
 |---|---|---|
 | `TWAS_REPO` | 仓库根（含 `data/`、`figures/`） | 脚本目录的上一级 |
-| `TWAS_DATA_Z` | 官方 MetaXcan Z 数据层 | `<TWAS_REPO>/data/processed_officialZ` |
+| `TWAS_DATA_Z` | 官方 MetaXcan Z 数据层 | `<TWAS_REPO>/data/derived` |
 | `FIG_OUT_MAIN` | 正文图输出目录（Fig1–Fig8） | `<TWAS_REPO>/figures` |
 | `FIG_OUT_SUPP` | 补充图输出目录（FigS1–FigS6） | 同 `FIG_OUT_MAIN` |
 | `AF1_DOCX` | Additional file 1 的 `.docx` | `<TWAS_REPO>/additional_file_1/Additional file 1.docx` |
@@ -57,7 +57,7 @@ MetaXcan v0.8.1 的 Z，图却没有跟着重出。本目录的脚本修复了�
 ```bash
 python paths_config.py
 #   REPO      = .../twas-eqtl-source-discordance
-#   DATA_Z    = .../data/processed_officialZ
+#   DATA_Z    = .../data/derived
 #   OUT_MAIN  = .../figures
 #   OUT_SUPP  = .../figures
 #   AF1       = .../additional_file_1/Additional file 1.docx
@@ -73,8 +73,8 @@ AF1_DOCX="/path/to/Additional file 1.docx" python 00_build_officialZ_data_layer.
 
 ## 执行顺序
 
-1. `00_build_officialZ_data_layer.py` — 从 Additional file 1 的官方表（S1/S2/S4/S12/S14/S17）导出 `data/processed_officialZ/`
-2. `01_redraw_Fig5_Fig7.py` — 候选基因 dumbbell + RNH1 跨队列（读 `data/processed_officialZ/`）
+1. `00_build_officialZ_data_layer.py` — 从 Additional file 1 的官方表（S1/S2/S4/S12/S14/S17）导出 `data/derived/`
+2. `01_redraw_Fig5_Fig7.py` — 候选基因 dumbbell + RNH1 跨队列（读 `data/derived/`）
 3. `02_redraw_Fig3.py` — 头条散点图（96 对）
 4. `04_redraw_Fig8.py` — 跨性状三基因集
 5. `06_redraw_Fig4.py` — 轴分解 + Δρ 配对 bootstrap（B = 5,000, seed 20260915；结果写回 `fig4_bootstrap_officialZ.json`）
@@ -114,7 +114,7 @@ AF1_DOCX="/path/to/Additional file 1.docx" python 00_build_officialZ_data_layer.
 
 ## 数据纪律
 
-所有脚本**只读** `data/processed_officialZ/` 与 Additional file 1 的表格，
+所有脚本**只读** `data/derived/` 与 Additional file 1 的表格，
 **不读** `data/processed/`。该陈旧目录已加弃用声明（`_DEPRECATED_勿用_修正前数据_20260917.md`），
 保留仅作历史对照。
 
@@ -134,7 +134,7 @@ AF1_DOCX="/path/to/Additional file 1.docx" python 00_build_officialZ_data_layer.
 
 | 项 | 内容 |
 |---|---|
-| 路径 | 12 个脚本的 **10 处硬编码绝对路径 + 3 处会话临时目录依赖**全部收敛到 `paths_config.py`；`07` 的输入改指仓库内 `data/processed_officialZ/scz_z_4arm_official.csv`（与旧临时文件**逐字节相同**） |
+| 路径 | 12 个脚本的 **10 处硬编码绝对路径 + 3 处会话临时目录依赖**全部收敛到 `paths_config.py`；`07` 的输入改指仓库内 `data/derived/scz_z_4arm.csv`（与旧临时文件**逐字节相同**） |
 | 随包输入 | `m15_positive_control.json`、`fig4_bootstrap_officialZ.json` 移入本目录并随包/随仓库发布 |
 | AF1 指向 | 由已失效的 `Additional file 1.docx` / 被取代的 `…_20260917.docx` 改为可配置的 `AF1_DOCX`（本次核验用 `…_20260920.docx`；两版之间仅 S15/S16 变动，脚本所读表未变） |
 | 验证 | 用 `AF1_DOCX=…0920.docx` + 定稿图集/补充图作为输出目录**实跑整条管线**：7 张图（Fig3/4/5/6/7/8/S6）重出后与重构前**逐像素 0 差异**（PNG mean\|Δ\| = 0.0000），PDF 文本层相同 |

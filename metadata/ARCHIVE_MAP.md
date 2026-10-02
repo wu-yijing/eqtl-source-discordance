@@ -252,3 +252,38 @@ manifest does not cover the tree. The three status marks are corrected above.
 S20 are distributed (as extra files, or as a Zenodo deposit referenced from `INPUTS.md`), or the
 README states plainly which items a third party cannot reproduce. `INPUTS.md` §4 carries that
 statement as of this revision.
+
+### Follow-up, same day — the residue the first pass left
+
+The audit's list had fifteen items. Nine were done in `1b5f397`; the remaining three were done
+afterwards, together with four defects the re-runs exposed.
+
+| Was still open | Closed how |
+|---|---|
+| **P2-8** — 36 live references still pointed at `data/processed_officialZ/`, a directory that has never existed here | All 36 rewritten to `data/derived/` (7 files), *plus* [`../data/processed_officialZ/README.md`](../data/processed_officialZ/README.md), a redirect that covers the references inside **historical** documents — the predecessor README and the dated audit notes — where the old name is part of the record and has been left as written. The predecessor repository's `data/processed_officialZ/` was located and compared: **6 of 6 files byte-identical (same MD5) to `data/derived/`**, so the redirect is not a claim, it is a measurement |
+| **P3-15** — no self-contained reproduction | [`../code/analyses/reproduction_min/`](../code/analyses/reproduction_min/) added: one script, `data/derived/` and numpy only, no argument, no `.docx`. Reproduces the headline 66/96 = 68.75% and ρ = 0.38964, the per-phenotype split, the tissue-only arm 138 · 91 · 65.9% · +0.4138, and the SCZ arms 5,584 · 5,551 · 5,506 at ρ +0.4690 · +0.4199 · +0.4465. **15 assertions, 0 mismatches**, exit 0 |
+| **P3-16** — the unstated zero convention in Table S24 | Paste-ready English table note added to [`../docs/audit_notes/R2残余差异消除方案_20261002.md`](../docs/audit_notes/R2残余差异消除方案_20261002.md) §五 item 7, with the evidence: **77 exact zeros in `multiZ`** among the 8,315 complete-case genes (8 in `wbZ`, 7 in `ntZ`, none in `eqZ`); scoring them as positive moves the dual arm 5,506 → 5,544 (**+38 pairs, +0.46 pp**), and the other two arms by +1 and +5. Note the universe: all 15,875 rows hold 88 zeros in `multiZ`; the 77 figure is the complete case, which is what Table S24 uses |
+
+**Four defects the re-runs exposed**, none of which any existing check could have caught:
+
+1. **The bootstrap shipped too short.** Making the package portable first time round, 24 scripts
+   were wired with a fixed number of `os.path.dirname(...)` levels — correct for `scripts/`, one
+   level short for `scripts/<subdir>/`. Every one compiled; every one died at run time with
+   `ModuleNotFoundError: No module named 'paths'`. Fixed by a depth-independent walk up to
+   `paths.py`, and now guarded by `code/analyses/reproduction_20261002/check_wiring.py`, which
+   executes each script's preamble and is called by `scripts/cut_release.sh`. The guard was itself
+   verified two ways: re-introducing the bug is reported as `[FAIL]`, and the first version of the
+   guard was found to be **vacuous** — it passed everything because the checker's own directory
+   was on `sys.path` — and was corrected.
+2. `verify_cluster3.py` built a 0-d array with `np.array(generator)` and passed it to `np.where`.
+3. `verify_cluster4.py` indexed a positional list by gene name.
+4. `diag_s9_s20b.py` resolved its sibling script through the current working directory, so it only
+   ran from one directory.
+
+**The BMC↔GE cross-check is no longer "undeclared".** All 18 diagnostic scripts were re-run with
+the predecessor BMC manuscript supplied. Result: **83 statistics cross-checked, 63 in both
+documents, 20 in the predecessor only, 0 unique to the GE submission**; and the predecessor
+*Additional file 1* carries 27 tables against the GE *Supporting Information*'s 31, which is the
+`S`*n* → `S`*n+1* renumbering. The `bmc_ref/` scripts still need those two documents, which this
+archive does not redistribute — but the claim they support is now a recorded measurement rather
+than an assertion.
