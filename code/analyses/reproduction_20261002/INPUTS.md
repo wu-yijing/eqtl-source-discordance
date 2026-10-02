@@ -36,11 +36,20 @@ python paths_config.py                      # prints every resolved path and sel
 | `genomewide/en_official_en_Whole_Blood.csv.gz` | GTEx v8 elastic-net Whole_Blood Z | `a076675dea8c74347179c83e6d31cbb4` | 490,098 | `recompute_scz.py` |
 | `genomewide/en_official_en_Nerve_Tibial.csv.gz` | GTEx v8 elastic-net Nerve_Tibial Z | `d320ccb64ddb7a8dd243a78751527937` | 672,935 | `recompute_scz.py` |
 | `gtex_official_wide` | `gtex_official_finngen/gtex_official_zscores_wide.csv.gz` | `5c19740b0445e70d13936e939d5af558` | 735,045 | `r3/recompute_r3_s9_s20.py` |
-| `covariate_matrix` | `covariate_matrix.csv` | `0f6088e1d53fd061f4ced40940dbf6c1` | 6,628 | `r3/recompute_r3_s9_s20.py` |
-| `hrt_source` | `hrt/Human_Mouse_Common.csv` | `bf1d7bcdc6b4def62dd0eafcdd1085e4` | 16,486 | `r3/recompute_r3_s9_s20.py` |
-| `rand_dr` / `rand_dn` / `rand_dpn` | `hrt_random_control/official_rand_{DR,DN,DPN}.csv` | `f15a051a…` / `f89401fa…` / `39580903…` | 8,106 / 8,101 / 8,113 | `r3/recompute_r3_s9_s20.py` |
-| `pool_a` / `both_a` / `pool_818` / `both_818` | `s9_pools/*.txt` | `e288ce3e…` / `b462e42c…` / `5b83bf85…` / `46e6d133…` | 92,559 / 81,315 / 5,896 / 5,525 | `r3/recompute_r3_s9_s20.py` |
-| `disease_blacklist` | `s9_pools/disease_blacklist.txt` | `7aba29c67430e2a6982cd464e9a33391` | 988 | `r3/recompute_r3_s9_s20.py` |
+| `covariate_matrix` | `covariate_matrix.csv` | `5efef7f83d3b8808eb0a0e7492bc0e0e` | 6,523 | `r3/recompute_r3_s9_s20.py` |
+| `hrt_source` | `hrt/Human_Mouse_Common.csv` | `8403fef37ede36089b4a32b7ef95bae9` | 15,355 | `r3/recompute_r3_s9_s20.py` |
+| `rand_dr` / `rand_dn` / `rand_dpn` | `hrt_random_control/official_rand_{DR,DN,DPN}.csv` | `58985581…` / `951d7a62…` / `77885fdc…` | 8,050 / 8,045 / 8,057 | `r3/recompute_r3_s9_s20.py` |
+| `pool_a` / `both_a` / `pool_818` / `both_818` | `s9_pools/*.txt` | `83f9895b…` / `906bbc67…` / `b080de50…` / `d61bf5c2…` | 80,739 / 70,865 / 5,078 / 4,758 | `r3/recompute_r3_s9_s20.py` |
+| `disease_blacklist` | `s9_pools/disease_blacklist.txt` | `1a150a298639bc9122fafbea9df68fc5` | 844 | `r3/recompute_r3_s9_s20.py` |
+
+> **The MD5s above are the hashes of the files as a fresh clone checks them out**, i.e. with LF
+> endings. They are deliberately *not* the hashes of the author's original CRLF copies: the two
+> differ by exactly one byte per line, and the first version of this table recorded the CRLF values
+> for the newly added inputs while recording the LF values for the older ones. The result was that
+> `paths_config.check_shipped()` passed on the machine that built the package and **failed for every
+> reader who cloned it** — 11 of the shipped inputs reported `MD5 MISMATCH`. Found on 2026-10-02 by
+> cloning and running `python paths_config.py` inside the clone; the whole tree is now normalised to
+> LF and the values above are the checked-out ones. Re-record them only from a clone.
 
 The block from `genomewide/eqz_full.csv.gz` down was added on **2026-10-02** and is
 built by [`00_build_added_derived.py`](00_build_added_derived.py) from the sources in
@@ -62,10 +71,12 @@ README and the dated audit notes — where the old name is part of the record.
 **Verified directly, 2026-10-02.** The predecessor repository
 [`wu-yijing/eqtl-source-discordance-audit`](https://github.com/wu-yijing/eqtl-source-discordance-audit)
 was cloned and its `data/processed_officialZ/` compared file by file: **6 of 6 are
-byte-identical (same MD5, same length)** to `data/derived/`. The mapping is a measurement,
-not an inference:
+byte-identical line for line** to `data/derived/`. The mapping is a measurement,
+not an inference. Note that the predecessor repository stores these files with CRLF endings, so the
+MD5s quoted below differ from this archive's LF ones by exactly one byte per line — the *content* is
+the same file; see the note under the section A table for why that distinction is load-bearing:
 
-| Predecessor `data/processed_officialZ/` | Here | MD5 (both) |
+| Predecessor `data/processed_officialZ/` | Here | MD5 in the predecessor (CRLF) |
 |---|---|---|
 | `scz_z_4arm_official.csv` | `data/derived/scz_z_4arm.csv` | `55caa68e5015a43c98f19a0556c40dd2` |
 | `gtex_official_Z.csv` | `data/derived/gtex_Z.csv` | `9b8520dda0a689533ae778a431e1561d` |

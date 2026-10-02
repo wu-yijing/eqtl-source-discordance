@@ -18,6 +18,11 @@ pinned by checksum in metadata/provenance.json"* was false for every one of its
 eight external inputs. The coverage gate in `cut_release.sh` now makes that
 impossible: manifest entries + declared exclusions must equal `git ls-files`.
 
+The hashes are taken from the **index** — i.e. from the bytes a fresh clone receives —
+not from the working tree. Hashing the working tree made the manifest verify on the
+machine that produced it and fail anywhere the line endings differed; `index_blobs()`
+records what a reader actually gets.
+
 The only exclusion is the manifest itself, which cannot hash itself.
 
 The external-input half is documentation, not discovery: those resources are not
@@ -127,17 +132,65 @@ def tracked_files():
     return sorted(p.decode('utf-8') for p in out.split(b'\0') if p)
 
 
+def index_blobs():
+    """`path -> content bytes`, taken from the INDEX, not the working tree.
+
+    WHY THE INDEX. Hashing the working tree records bytes that depend on the
+    platform: a Windows checkout of a `eol=lf` file can differ from a Linux one,
+    and any script that writes a log or a CSV with Python's default text mode puts
+    CRLF back. Both make the manifest verify on the machine that produced it and
+    fail for a reader who cloned — which is the opposite of the point. The index
+    content IS what a fresh clone receives, so that is what gets hashed.
+
+    Returns (blobs, missing) where `blobs` maps path -> bytes and `missing` lists
+    paths whose object is not in the store.
+    """
+    raw = subprocess.run(['git', 'ls-files', '-s', '-z'], cwd=REPO,
+                         stdout=subprocess.PIPE, check=True).stdout
+    sha_by_path = {}
+    for rec in raw.split(b'\0'):
+        if not rec:
+            continue
+        meta, _, path = rec.partition(b'\t')
+        parts = meta.split()
+        if len(parts) >= 2:
+            sha_by_path[path.decode('utf-8')] = parts[1].decode('ascii')
+
+    sha_list = sorted(set(sha_by_path.values()))
+    feed = b''.join(s.encode('ascii') + b'\n' for s in sha_list)
+    out = subprocess.run(['git', 'cat-file', '--batch'], cwd=REPO, input=feed,
+                         stdout=subprocess.PIPE, check=True).stdout
+
+    blobs, pos, missing = {}, 0, []
+    for sha in sha_list:
+        nl = out.find(b'\n', pos)
+        header = out[pos:nl].split()
+        if len(header) < 3 or header[1] != b'blob':
+            missing.append(sha)
+            pos = nl + 1
+            continue
+        size = int(header[2])
+        blobs[sha] = out[nl + 1: nl + 1 + size]
+        pos = nl + 1 + size + 1                    # skip the trailing newline
+    by_path = {p: blobs.get(s) for p, s in sha_by_path.items()}
+    return by_path, set(missing)
+
+
 def main():
     excluded_paths = {p for p, _ in EXCLUDED}
+    blobs, missing = index_blobs()
     files, skipped = [], []
     for rel in tracked_files():
         if rel in excluded_paths:
             continue
-        p = os.path.join(REPO, *rel.split('/'))
-        if not os.path.isfile(p):
-            skipped.append({'path': rel, 'reason': 'tracked but absent from the working tree'})
+        content = blobs.get(rel)
+        if content is None:
+            skipped.append({'path': rel,
+                            'reason': 'staged object not readable as a blob%s'
+                                      % (' (object missing)' if missing else '')})
             continue
-        files.append({'path': rel, 'bytes': os.path.getsize(p), 'sha256': sha256(p)})
+        files.append({'path': rel, 'bytes': len(content),
+                      'sha256': hashlib.sha256(content).hexdigest()})
     files.sort(key=lambda x: x['path'])
 
     excluded = [{'path': p, 'reason': r} for p, r in EXCLUDED]

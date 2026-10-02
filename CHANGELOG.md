@@ -53,6 +53,15 @@ that keep it that way, and records the two things a reader is still owed.
   working copy differs byte-wise from a Linux one, and `metadata/provenance.json`, which records a
   SHA-256 per file, would verify on one platform and fail on the other. The committed blobs change
   once; nothing else does.
+- **`paths_config.SHIPPED_SPEC` recorded the wrong hashes — 11 of the 20 shipped inputs failed their
+  own check in a clone.** The table mixed two conventions: the older entries carried the LF hashes of
+  the checked-out files, the newly added ones carried the CRLF hashes of the author's originals. The
+  two differ by exactly one byte per line. Consequence: `python paths_config.py` reported *all
+  shipped inputs present and byte-exact* on the machine that built the package and reported
+  **11 `MD5 MISMATCH` for anyone who cloned it** — i.e. the package's integrity mechanism, added to
+  make the archive verifiable, failed precisely for the people it was meant to protect. Found on
+  2026-10-02 by cloning `--no-hardlinks` and running the self-check inside the clone; all values are
+  now the checked-out ones and the table carries a note saying to re-record them only from a clone.
 - `scripts/collect_provenance.py` hashes **every tracked file** (previously three hand-picked
   directories, 36 files against a tree of 281) and records the non-redistributed reproduction
   inputs separately, with their SHA-256. `scripts/cut_release.sh` asserts
@@ -74,7 +83,8 @@ that keep it that way, and records the two things a reader is still owed.
   predecessor *Additional file 1* carries 27 tables against the GE *Supporting Information*'s 31 —
   the `S`*n* → `S`*n+1* renumbering.
 - The predecessor repository was cloned to check the `processed_officialZ/` → `derived/` mapping:
-  **6 of 6 files byte-identical**. `code/analyses/reproduction_20261002/INPUTS.md` §A.1 records it
+  **6 of 6 files identical line for line** (the predecessor stores them with CRLF, so its recorded
+  MD5s differ from this archive's LF ones by exactly one byte per line). `code/analyses/reproduction_20261002/INPUTS.md` §A.1 records it
   as a measurement rather than an inference.
 - All 18 diagnostic scripts exit 0.
 
