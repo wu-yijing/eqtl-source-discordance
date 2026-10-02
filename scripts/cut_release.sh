@@ -91,10 +91,22 @@ fi
 
 if [ -f metadata/ARCHIVE_MAP.md ]; then
   # The status key is four-state (VERIFIED / DERIVABLE / GAP / n-a). ⚠️ is no longer a
-  # status — it now marks layer caveats, so counting it would be misleading. Count GAP
-  # rows instead: those are the ones a release should consciously accept.
-  # NOTE: `grep -c` exits 1 on no match, so `|| echo 0` would append a second line.
-  N=$(grep -c '🔴' metadata/ARCHIVE_MAP.md 2>/dev/null) || N=0
+  # status — it now marks layer caveats — so count GAP rows: those are the ones a
+  # release must consciously accept.
+  #
+  # Count with Python, NOT grep. Under Git Bash on Windows, grep fails to match the
+  # 4-byte emoji and silently returns 0, which would report "no GAP rows" on a file
+  # containing 15 of them. Two other traps avoided here: `grep -c` exits 1 on no
+  # match (so `|| echo 0` appends a second line), and the U+26A0 checkmark carries a
+  # variation selector.
+  N=$("${PY}" -c "
+import sys
+try:
+    t = open('metadata/ARCHIVE_MAP.md', encoding='utf-8').read()
+except Exception:
+    print(0); raise SystemExit
+print(t.count('\U0001F534'))
+" 2>/dev/null) || N=0
   N=${N:-0}
   if [ "$N" -eq 0 ]; then
     ok "ARCHIVE_MAP.md has no GAP rows"
