@@ -1,119 +1,278 @@
 {
-  "_note": "Provenance manifest. Regenerate with scripts/collect_provenance.py before each release. One record per external input and per derived artefact that a reported number depends on.",
-  "schema_version": "1.0",
-  "generated_utc": "<YYYY-MM-DDTHH:MM:SSZ>",
-  "generated_by": {
-    "script": "scripts/collect_provenance.py",
-    "script_commit": "<commit hash>",
-    "host": "<hostname>",
-    "python": "<version>",
-    "R": "<version>",
-    "metaxcan": "MetaXcan v0.8.1 (official binary)"
+ "_note": "Provenance manifest. Regenerate with scripts/collect_provenance.py before each release. 'external_inputs' is documentation; 'files' are hashed from this tree.",
+ "schema_version": "2.0",
+ "generated_by": {
+  "script": "scripts/collect_provenance.py",
+  "python": "3.13.14",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "metaxcan": "MetaXcan v0.8.1 (official binary)",
+  "analysis_env": "Python 3.13.0 / R 4.5.2 with MatchIt, pinned as env/environment.yml and env/renv.lock"
+ },
+ "external_inputs": [
+  {
+   "id": "FinnGen",
+   "role": "primary GWAS input: DR / DN / DPN",
+   "version": "Data Freeze 13 (R13)",
+   "source_url": "https://www.finngen.fi/en/access_results",
+   "retrieved": "2026-09-08",
+   "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
+   "sha256": "not-held",
+   "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file."
   },
-  "external_inputs": [
-    {
-      "id": "GTEx_v8_MASHR_PredictDB",
-      "role": "eQTL weight source A",
-      "version": "GTEx v8 MASHR elastic-net models",
-      "retrieved": "<YYYY-MM-DD>",
-      "source_url": "<url>",
-      "sha256": "<hash or 'not redistributed'>"
-    },
-    {
-      "id": "eQTLGen_phaseI",
-      "role": "eQTL weight source B",
-      "version": "eQTLGen phase I cis-eQTL summary statistics",
-      "retrieved": "<YYYY-MM-DD>",
-      "source_url": "<url>",
-      "sha256": "<hash or 'not redistributed'>"
-    },
-    {
-      "id": "FinnGen_R13",
-      "role": "primary GWAS input (DR / DN / DPN)",
-      "version": "R13",
-      "retrieved": "<YYYY-MM-DD>",
-      "source_url": "<url>",
-      "sha256": "<hash or 'not redistributed'>"
-    },
-    {
-      "id": "GCST90043640",
-      "role": "UK Biobank diabetic retinopathy GWAS (cross-cohort check)",
-      "version": "as distributed by GWAS Catalog",
-      "retrieved": "<YYYY-MM-DD>",
-      "source_url": "https://www.ebi.ac.uk/gwas/studies/GCST90043640",
-      "sha256": "<hash or 'not redistributed'>"
-    },
-    {
-      "id": "GCST90018832",
-      "role": "diabetic nephropathy cross-population resource (DN check)",
-      "version": "as distributed by GWAS Catalog",
-      "retrieved": "<YYYY-MM-DD>",
-      "source_url": "https://www.ebi.ac.uk/gwas/studies/GCST90018832",
-      "ancestry_note": "Records the FULL population composition of the source resource, including every ancestry component, together with the subset actually used here. Do not record only the component used.",
-      "sha256": "<hash or 'not redistributed'>"
-    },
-    {
-      "id": "PGC3_SCZ_wave3",
-      "role": "independent-trait genome-wide benchmark",
-      "version": "wave 3, European ancestry",
-      "retrieved": "<YYYY-MM-DD>",
-      "source_url": "<url>",
-      "sha256": "<hash or 'not redistributed'>"
-    },
-    {
-      "id": "1000G_EUR_LD_panel",
-      "role": "LD reference panel",
-      "version": "1000 Genomes EUR",
-      "retrieved": "<YYYY-MM-DD>",
-      "source_url": "<url>",
-      "sha256": "<hash or 'not redistributed'>"
-    },
-    {
-      "id": "HRT_Atlas",
-      "role": "hormone-regulated target annotation",
-      "version": "<version>",
-      "retrieved": "<YYYY-MM-DD>",
-      "source_url": "<url>",
-      "sha256": "<hash or 'not redistributed'>"
-    }
-  ],
-  "derived_artefacts": [
-    {
-      "path": "data/derived/gene_groups_official.csv",
-      "rows": 104,
-      "reproduces": "Supporting Information Table S2",
-      "sha256": "<hash>"
-    },
-    {
-      "path": "data/derived/gtex_official_Z.csv",
-      "rows": 222,
-      "reproduces": "Supporting Information Table S3",
-      "sha256": "<hash>"
-    },
-    {
-      "path": "data/derived/primary_arm_96pairs_official.csv",
-      "rows": 96,
-      "reproduces": "Supporting Information Table S13; headline 68.8% and rho = 0.39",
-      "sha256": "<hash>"
-    },
-    {
-      "path": "data/derived/eqtlgen_official_Z.csv",
-      "rows": 288,
-      "reproduces": "Supporting Information Table S18",
-      "sha256": "<hash>"
-    },
-    {
-      "path": "data/derived/scz_z_4arm_official.csv",
-      "rows": 15875,
-      "reproduces": "Supporting Information Table S24 (8,315-gene complete-case set)",
-      "sha256": "<hash>"
-    }
-  ],
-  "superseded_layers": [
-    {
-      "path": "data/superseded/",
-      "reason": "Earlier in-house implementation: missing S-PrediXcan sigma_i expression-variance factor and a PLINK 2-bit decoding defect. Retained only as an equivalence cross-check; maximum residual |dZ| = 3e-08 against the official binary.",
-      "must_not_be_quoted": true
-    }
-  ]
+  {
+   "id": "GCST90043640",
+   "role": "UK Biobank diabetic retinopathy GWAS (PheCode 250.7); cross-cohort arm",
+   "version": "as distributed by GWAS Catalog",
+   "source_url": "https://www.ebi.ac.uk/gwas/studies/GCST90043640",
+   "retrieved": "2026-09-08",
+   "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
+   "sha256": "not-held",
+   "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file.",
+   "citation": "Publication recorded by GWAS Catalog: Jiang L, Zheng Z, Fang H, Yang J. Nat Genet 2021;53:1616-1621. doi:10.1038/s41588-021-00954-4"
+  },
+  {
+   "id": "GCST90018832",
+   "role": "cross-population diabetic nephropathy meta-analysis (DN check)",
+   "version": "as distributed by GWAS Catalog",
+   "source_url": "https://www.ebi.ac.uk/gwas/studies/GCST90018832",
+   "retrieved": "2026-09-08",
+   "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
+   "sha256": "not-held",
+   "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file."
+  },
+  {
+   "id": "PGC3_SCZ_wave3",
+   "role": "independent-trait genome-wide benchmark",
+   "version": "schizophrenia wave 3 (scz2022)",
+   "source_url": "https://pgc.unc.edu/for-researchers/download-results/",
+   "retrieved": "2026-09-08",
+   "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
+   "sha256": "not-held",
+   "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file."
+  },
+  {
+   "id": "GTEx_v8_MASHR",
+   "role": "eQTL weight source A: Nerve_Tibial and Whole_Blood",
+   "version": "GTEx v8 MASHR models",
+   "source_url": "https://predictdb.org/post/2021/07/21/gtex-v8-models-on-eqtl-and-sqtl",
+   "retrieved": "2026-09-08",
+   "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
+   "sha256": "not-held",
+   "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file."
+  },
+  {
+   "id": "eQTLGen_phaseI",
+   "role": "eQTL weight source B",
+   "version": "phase I cis-eQTL, N = 31,684",
+   "source_url": "https://www.eqtlgen.org/",
+   "retrieved": "2026-09-08",
+   "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
+   "sha256": "not-held",
+   "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file."
+  },
+  {
+   "id": "1000G_phase3_EUR",
+   "role": "linkage-disequilibrium reference panel",
+   "version": "Phase 3 European panel",
+   "source_url": "https://www.internationalgenome.org/",
+   "retrieved": "2026-09-08",
+   "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
+   "sha256": "not-held",
+   "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file."
+  },
+  {
+   "id": "ProteomeXchange_iProX",
+   "role": "RNA pull-down LC-MS/MS",
+   "version": "PXD083775 (iProX IPX0019439000, subproject IPX0019439001)",
+   "source_url": "https://proteomecentral.proteomexchange.org/",
+   "retrieved": "2026-09-08",
+   "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
+   "sha256": "not-held",
+   "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file."
+  }
+ ],
+ "external_input_caveat": "For every GWAS resource, record the COMPLETE population composition of the source and state separately which subset was used. GCST90018832, for example, is a cross-population diabetic-nephropathy resource that includes East Asian participants alongside European participants; a table note listing only the European component is incomplete, and a Limitations statement that says 'all GWAS analyzed here comprise participants of European ancestry' contradicts the Methods. Both defects existed in an earlier revision.",
+ "files": [
+  {
+   "path": "code/analyses/recovered/README.md",
+   "bytes": 2896,
+   "sha256": "ac1b6f826aba3c23921d367ce09771758b470a448a1230ba0c34382936bab6d7"
+  },
+  {
+   "path": "code/analyses/recovered/scz_arm_recount_si_fix.py",
+   "bytes": 9660,
+   "sha256": "abae9bf4a5b86d65387cb6d0034ce12802a75081e9490a336a411ca355726822"
+  },
+  {
+   "path": "code/analyses/recovered/tost_and_newcombe.py",
+   "bytes": 3840,
+   "sha256": "cdc1573c8426a65b1b30736e239a6a7451252b8d9b09ad7e1c766c4a563e66fe"
+  },
+  {
+   "path": "code/analyses/recovered/tost_ci_calculator.py",
+   "bytes": 1673,
+   "sha256": "896bdd24b5646a75649bcd32a4bd93f0ec709a7919da99e0228980b6f1d1086e"
+  },
+  {
+   "path": "code/figures/00_build_officialZ_data_layer.py",
+   "bytes": 6773,
+   "sha256": "66ca4c70345ab20096888500bd90fb1c452ed1641ddc94e62230aa3c2ec9fb77"
+  },
+  {
+   "path": "code/figures/01_redraw_Fig5_Fig7.py",
+   "bytes": 7174,
+   "sha256": "157f788bc8d347cb1a886b6854034e4a1fddd253f16d28d6df7c5e593877add1"
+  },
+  {
+   "path": "code/figures/02_redraw_Fig3.py",
+   "bytes": 7381,
+   "sha256": "f6ce30e27020c97270881d7dc43f64677700b26e923f49591835f6dd61a4b4a2"
+  },
+  {
+   "path": "code/figures/03_redraw_Fig6.py",
+   "bytes": 5525,
+   "sha256": "447310a1ba8d79f89bf439ea5ca26699f624558bab0e33033a6eb32356e57ef2"
+  },
+  {
+   "path": "code/figures/04_redraw_Fig8.py",
+   "bytes": 6889,
+   "sha256": "0c8889f9179c3e8d3a966a15ec7e54bcb5ed9027f9f20a137d386eaa0f825918"
+  },
+  {
+   "path": "code/figures/05_recompute_arms.py",
+   "bytes": 3413,
+   "sha256": "10358eadce628150a85b43080c5f5af71506fb8d5c4f5bca3c995a9521a2762c"
+  },
+  {
+   "path": "code/figures/06_redraw_Fig4.py",
+   "bytes": 6199,
+   "sha256": "d56495ed6435c9e7b85d2007895ed8c72d779034b31047a7bab5175838be883e"
+  },
+  {
+   "path": "code/figures/07_verify_SCZ_denominators.py",
+   "bytes": 2092,
+   "sha256": "a3201f67c77d6459f69a5c798b24d51689fc4c1d0b24763dd004a2e9f40f94c9"
+  },
+  {
+   "path": "code/figures/08_redraw_Fig6_labels_20260920.py",
+   "bytes": 9528,
+   "sha256": "32581b8f21b78bedce7b544fe309667ab5e8989ee150eb1fff7062e9f6fa540b"
+  },
+  {
+   "path": "code/figures/10_redraw_FigS6_20260920.py",
+   "bytes": 6402,
+   "sha256": "0bd750400e99c8ce713828f2f5100f95365486720133f750b2ffc916c1230e8a"
+  },
+  {
+   "path": "code/figures/10_redraw_FigS6_20260921.py",
+   "bytes": 8085,
+   "sha256": "6bb095899161af50a42270f9fb22a38e834d0df2840ca9d2294d4a6b58096c3b"
+  },
+  {
+   "path": "code/figures/11_figure_precheck.py",
+   "bytes": 4280,
+   "sha256": "88a6a0cb61dd6dc0797f6b4c1dd8a51e59885a94736397a6e225986507061fb4"
+  },
+  {
+   "path": "code/figures/FIGURE_NUMBER_MAP.md",
+   "bytes": 4450,
+   "sha256": "6625fa705e014701cdbcf5da7ec5031e03bfc7d8b70ccd7a625b6b37929c33fd"
+  },
+  {
+   "path": "code/figures/README.md",
+   "bytes": 10425,
+   "sha256": "6612d1952a8977cc4dc56fb85398f09f534da6fcc58720b526ca96ceab5e69be"
+  },
+  {
+   "path": "code/figures/_numbers_figs4.json",
+   "bytes": 677,
+   "sha256": "a7f93f2cf37147691e72c21738f69d9e8e8c6a137f1ff4e9c0df4c3c514db7e2"
+  },
+  {
+   "path": "code/figures/_recon_Fig6.py",
+   "bytes": 1377,
+   "sha256": "2e06e305c358df942b11547ae154277f42b3b39868627c63e90b57e6e5c4cd81"
+  },
+  {
+   "path": "code/figures/fig4_bootstrap_officialZ.json",
+   "bytes": 211,
+   "sha256": "f7cb84b663d63e2d516c605188c91e66fb353bcf9b81c7cc0ef59cd8a58113cd"
+  },
+  {
+   "path": "code/figures/m15_positive_control.json",
+   "bytes": 16985,
+   "sha256": "dc0f90a9efc0f837b77ef285a21d62f4a334497c2c48a616b99c086c6f1f9c06"
+  },
+  {
+   "path": "code/figures/paths_config.py",
+   "bytes": 3876,
+   "sha256": "4486a7f8be55f1e2dcaf8c71b48dcd3287727636fd4686cccab30d508ae18ebf"
+  },
+  {
+   "path": "data/derived/crosscohort.csv",
+   "bytes": 836,
+   "sha256": "f79230f98be0c885c6a45ddc29f449e16d03b0f5feaf6532a88bf65b15c878ab"
+  },
+  {
+   "path": "data/derived/eqtlgen_Z.csv",
+   "bytes": 15942,
+   "sha256": "9451e73e159c412ac18431564fadc13b85c4e3b3dad65b50272cf450e10b11c5"
+  },
+  {
+   "path": "data/derived/gene_groups.csv",
+   "bytes": 5715,
+   "sha256": "3bd87de2b9a8770c861f485e1baa901c0c16f86f3d6c37c7e2f05566746ca94e"
+  },
+  {
+   "path": "data/derived/gtex_Z.csv",
+   "bytes": 13213,
+   "sha256": "2427f1ffef9f7bdd1ecb67dff02c46b6f70e7074542226d2b5c4ecda053e20c3"
+  },
+  {
+   "path": "data/derived/hk_genes.txt",
+   "bytes": 1517,
+   "sha256": "4ce18981e158feb7d7d781c88714fed8054ad6422be59c424e4b961b47d28cff"
+  },
+  {
+   "path": "data/derived/primary_arm_96pairs.csv",
+   "bytes": 2939,
+   "sha256": "c6f9cfcde83b70580b082d1fde9611b47dbd875820aad9c733c1898c3fe514ed"
+  },
+  {
+   "path": "data/derived/scz_z_4arm.csv",
+   "bytes": 677967,
+   "sha256": "677083d760554859fb5eaec9263505b0c0dc7e81f05390493b3675f6bd3c5cc4"
+  },
+  {
+   "path": "data/derived/ukb_dr/README.md",
+   "bytes": 1668,
+   "sha256": "31c18c7bd6270b3b2f4a77dd2aad6c8fabb613b38758d4f1f6b21c9d0b19fc74"
+  },
+  {
+   "path": "data/derived/ukb_dr/RNH1_official_metaxcan_Z.csv",
+   "bytes": 401,
+   "sha256": "65b860445f9cd16c69ffb68658c858da7e2641e52a6f6059d83d3a82fd253708"
+  },
+  {
+   "path": "data/derived/ukb_dr/finngen_r13_dr_eqtlgen_official.csv",
+   "bytes": 14281,
+   "sha256": "1d65539ca6ecb5fb04951accb58ec265350062c5c403ea784b130a6ce5fff626"
+  },
+  {
+   "path": "data/derived/ukb_dr/ukb_gcst90043640_eqtlgen_official.csv",
+   "bytes": 14455,
+   "sha256": "0a4492c033cb9efa0001e068812b3f3514d90f1c471bd823ed953a431c0f815a"
+  },
+  {
+   "path": "data/derived/ukb_dr/ukb_gcst90043640_gtex_Nerve_Tibial_official.csv.gz",
+   "bytes": 893782,
+   "sha256": "e1cae72faa90d715c1b7a4e3fc25f71d794e49ea50e05de498f5ea2d087e2d16"
+  },
+  {
+   "path": "data/derived/ukb_dr/ukb_gcst90043640_gtex_Whole_Blood_official.csv.gz",
+   "bytes": 720863,
+   "sha256": "331cdb04f802d9093b8f613d2cfd644d4e3ea5729a29ee66832b25a6f06af750"
+  }
+ ],
+ "file_count": 36
 }

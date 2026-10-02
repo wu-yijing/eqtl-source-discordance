@@ -20,7 +20,7 @@
 | 🔴 **GAP** | **Nothing in this repository produces it.** The generating script was not archived | Must be fixed or declared before release |
 | ➖ **NOT A DATA ARTEFACT** | A text or table rendered directly in the Supporting Information | Nothing |
 
-**A map that over-claims is worse than a map that admits gaps.** Of 46 items checked: **16 ✅, 12 🟡, 10 🔴, 8 ➖**.
+**A map that over-claims is worse than a map that admits gaps.** Of 46 items checked: **16 ✅, 13 🟡, 9 🔴, 8 ➖**.
 
 ---
 
@@ -60,7 +60,7 @@
 | **S5a** | RNH1 cross-population replication | `data/derived/crosscohort.csv` | ✅ | 4 rows, 11 cols; +2.31 / +0.72 / +0.55 / +1.51 (0.79); 0.056 / 1.26; 20.6; 0.51 / −0.33 to +3.36 — all match SI row 1 |
 | S5b | Group-level direction consistency, 8 genes | inputs verified: `data/derived/gtex_Z.csv` (RNH1 DR Nerve_Tibial Z = 2.6675 = SI "+2.668") + `data/derived/ukb_dr/RNH1_official_metaxcan_Z.csv` (UKB/GTEx-NT Z = 0.5451, P = 0.585687 = SI "+0.55 / 0.586") | 🟡 | Inputs verified; the 8-gene assembly is not shipped |
 | S6 | Housekeeping control gene list + dual-tissue results | **NONE — the repository holds the pre-correction side only**, at `data/superseded/hk_reselect_20260830/` | 🔴 | **GAP-1, diagnosed.** The 30-gene roster and the model-SNP column match the Supporting Information; every Z value is the pre-2026-09-17 computation. Evidence chain in §4 |
-| S7 | Margin-sensitivity of the enrichment contrast | — | 🔴 | **GAP-6** |
+| S7 | Margin-sensitivity of the enrichment contrast | **recovered 2026-10-02**: `code/analyses/recovered/tost_ci_calculator.py` and `tost_and_newcombe.py` | 🟡 | Difference and Newcombe 90% CI **verified reproduced** (GTEx −9.7 to +15.4, eQTLGen −13.3 to +12.6; TOST p 0.181/0.060/0.014 and 0.116/0.034/0.007 — all match the published values). The "Smallest margin attained" column still has no source |
 | S8 | Fixed-threshold enrichment reanalysis | derivable from `data/derived/gtex_Z.csv` / `eqtlgen_Z.csv` | 🟡 | Counting at p < 0.05 is mechanical; the script is not shipped |
 | S9 | Architecture-unselected random controls | outputs partly present at `data/superseded/hk_reselect_20260830/d3_*` and `d3b_*`, **but they are from the same pre-correction computation** | 🔴 | **GAP-7.** Reclassified: the surviving data cannot stand in for the published table |
 | S10 | Cross-population direction check for DN | — | 🔴 | **GAP-8.** Also carries the peer-review item M3: the table note must state the **full** population composition of the source resource (European **and** East Asian components), not only the component used |
@@ -141,7 +141,13 @@ reproduce all 30 genes of the published Table S6, resolve the 8-gene anomaly, an
 
 ## 5. GAP register — what is missing, and whether it can be recovered
 
-The generating scripts are **not** in this repository. A bounded search of the local disk found some of them living in **session working directories that are not archived** — for example `2026-09-22-14-24-45/work/si_fix.py` (margin sensitivity), `2026-09-09-16-50-19/audit/_tost.py` (Newcombe intervals), `2026-09-11-19-30-45/apply_d2.py` / `apply_d3.py` / `apply_s11.py`, `2026-09-11-18-13-13/_apply_edits.py`, `2026-09-14-21-25-36/apply_m1m2.py`, `2026-09-18-07-04-15/.tmp/round4_checks.py`.
+A bounded search of the local disk found the surviving scripts living in **session working directories that are not archived**. They fall into two classes, and the distinction determines whether recovering them helps:
+
+**Class 1 — genuine computation (recovered 2026-10-02, in [`../code/analyses/recovered/`](../code/analyses/recovered/README.md)).** These take explicit inputs and derive the published values. `tost_ci_calculator.py` and `tost_and_newcombe.py` were run and **reproduce** the published TOST p-values and Newcombe intervals. `scz_arm_recount_si_fix.py` recomputes from `data/derived/scz_z_4arm.csv`.
+
+**Class 2 — `.docx` editors carrying hard-coded literals (recovered to [`../code/deprecated/si_editors/`](../code/deprecated/si_editors/README.md)).** These read **no data at all**; the numbers appear as English prose literals in the source. The workflow was *compute elsewhere → paste the numbers into a patching script → write them into the Supporting Information*. Recovering them documents **what was published and when**, but does not make those tables reproducible.
+
+⚠️ **This is the sharper finding of the two.** Several gaps are not "the script got lost" but "the number was pasted in from somewhere that was never captured". Searching for a missing script will not close them; the value has to be re-derived from first principles.
 
 | # | Item(s) | What is missing | Recoverable? |
 |---|---|---|---|
@@ -150,7 +156,7 @@ The generating scripts are **not** in this repository. A bounded search of the l
 | GAP-3 | Table 2(B) | arm join (dual / panel-only / tissue-only) | **Yes** — write `code/analyses/arm_partition.py` |
 | GAP-4 | Fig. S1, Fig. S2 | figure scripts | Figure files may exist outside the repository |
 | GAP-5 | S27, S28, S29 (+ Note S5) | simulation scripts; only the split-half null is shipped | **Partly** — `code/simulations/split_half_null/` covers one of the three |
-| GAP-6 | S7 | margin-sensitivity / Newcombe interval script | Likely — located on disk (see above) |
+| GAP-6 | S7 | ~~script missing~~ **partly closed 2026-10-02** — the TOST / Newcombe calculators were recovered and run; the "Smallest margin attained" column remains unsourced | **Yes for the CI half** |
 | GAP-7 | S9 | architecture-unselected control pipeline | Likely — output data is in `data/derived/hk_reselect/` |
 | GAP-8 | S10 | DN cross-population check | Unknown; also needs the M3 population-composition correction |
 | GAP-9 | S16 | framework-layer contrast | **Yes** — derivable, or recover from `code/analyses/m6_ne_weighted_sensitivity.py` lineage |

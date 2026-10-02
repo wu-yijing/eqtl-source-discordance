@@ -16,9 +16,11 @@ Analysis, figure and simulation scripts.
 | Directory | Contents |
 |---|---|
 | `analyses/` | Scripts that produce the numbers reported in the manuscript and the Supporting Information tables |
-| `figures/` | One script per figure panel; consumes `data/derived/` and writes to the runtime output directory |
+| `analyses/recovered/` | Scripts recovered on 2026-10-02 from unarchived session directories, copied verbatim. Two of them **reproduce published values** (TOST / Newcombe). See its README before use — they carry hard-coded paths from 2026-09 |
+| `figures/` | One script per figure panel; consumes `data/derived/` and writes to the runtime output directory. Read `figures/FIGURE_NUMBER_MAP.md` first — the scripts' internal figure numbers do **not** match the submitted paper |
 | `simulations/` | The synthetic validation experiments (seed recorded in each header) |
-| `deprecated/` | Superseded generations, retained only for provenance. Must never be reachable from `run_all.sh`. |
+| `deprecated/` | Superseded generations, retained only for provenance. Must never be reachable from `run_all.sh` |
+| `deprecated/si_editors/` | The `.docx`-patching scripts that wrote the Supporting Information. They carry their values as **hard-coded literals** and read no data — they are an audit trail, not reproducibility material |
 
 ## Script → manuscript item map
 
