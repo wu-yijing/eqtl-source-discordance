@@ -90,8 +90,15 @@ else
 fi
 
 if [ -f metadata/ARCHIVE_MAP.md ]; then
-  N=$(grep -c '⚠️' metadata/ARCHIVE_MAP.md 2>/dev/null || echo 0)
-  [ "$N" -eq 0 ] && ok "ARCHIVE_MAP.md has no unverified rows" || warn "ARCHIVE_MAP.md has $N row(s) still marked unverified"
+  # The status key is four-state (VERIFIED / DERIVABLE / GAP / n-a). ⚠️ is no longer a
+  # status — it now marks layer caveats, so counting it would be misleading. Count GAP
+  # rows instead: those are the ones a release should consciously accept.
+  N=$(grep -c '🔴' metadata/ARCHIVE_MAP.md 2>/dev/null || echo 0)
+  if [ "$N" -eq 0 ]; then
+    ok "ARCHIVE_MAP.md has no GAP rows"
+  else
+    warn "ARCHIVE_MAP.md has $N row(s) marked GAP — each must be fixed or explicitly declared in README before release"
+  fi
 else
   warn "metadata/ARCHIVE_MAP.md missing"
 fi
