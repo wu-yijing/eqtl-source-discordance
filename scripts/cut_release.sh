@@ -162,10 +162,17 @@ else
 fi
 
 if [ -f code/analyses/reproduction_min/reproduce_headline.py ]; then
-  if (cd "$(git rev-parse --show-toplevel)" && "$PY" code/analyses/reproduction_min/reproduce_headline.py > /dev/null 2>&1); then
-    ok "reproduction_min reproduces the headline values from data/derived/ alone"
+  # This one is a hard check when it can be made: if numpy is present and a reported
+  # value no longer reproduces, the release must not go out. Only a missing numpy is
+  # a skip, because that is a property of the interpreter, not of the archive.
+  if "$PY" -c "import numpy" > /dev/null 2>&1; then
+    if "$PY" code/analyses/reproduction_min/reproduce_headline.py > /dev/null 2>&1; then
+      ok "reproduction_min reproduces the headline values from data/derived/ alone"
+    else
+      bad "reproduction_min FAILED under $PY — a reported value no longer reproduces"
+    fi
   else
-    warn "reproduction_min did not run under $PY (needs numpy) — check manually"
+    ok "reproduction_min: skipped, $PY has no numpy (interpreter limitation, not an archive fault)"
   fi
 fi
 

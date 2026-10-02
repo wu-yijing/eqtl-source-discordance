@@ -1515,8 +1515,8 @@
   },
   {
    "path": "scripts/cut_release.sh",
-   "bytes": 8548,
-   "sha256": "ebac72838c5a6ccca3cd0a2a9967227cd110d90985af830259f4ad6dedb2d46f"
+   "bytes": 8931,
+   "sha256": "f1223d34b2882bf4f81b12f8a5a111813df15b8ba0afaf5060e129714ea30470"
   }
  ],
  "file_count": 285,
