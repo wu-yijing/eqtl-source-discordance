@@ -23,6 +23,73 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-02 (fourth pass) — checks that can fail, and a map that checks itself
+
+**No reported number changes.** The data layer, the estimators and every value in the
+Supporting Information are untouched. What changes is whether the repository can tell when
+something *has* changed.
+
+Three questions drove this pass. Each produced a defect that had been passing review.
+
+**1. Can the archive prove a reader gets what we claim?** Not from here. Four defects have
+shipped from a green pre-flight: a path bootstrap one directory level short (it compiles,
+then dies at run time), a hash table recording CRLF values for files a clone checks out as
+LF, a manifest hashing the working tree, and a rebuild writing a shipped input with the
+platform's line ending. Every one of them passed on the machine that produced it. The checks
+now run where the reader is:
+
+- **`scripts/verify_from_clone.sh`** — makes a `git clone --no-hardlinks` into a temp
+  directory and runs every check inside it, including a CRLF sweep of the checked-out tree.
+  It is the definition of "it passes". `docs/RELEASE_PROCESS.md` §1 now requires it
+  alongside `cut_release.sh`, and `cut_release.sh` says in its own header why it is not
+  sufficient on its own.
+- **`scripts/verify_provenance.py`** — recomputes every SHA-256 and byte count in
+  `metadata/provenance.json` from the index, and compares. Until now nothing re-checked the
+  manifest: `cut_release.sh` confirmed only that it was valid JSON and free of placeholders.
+
+**2. Can a check fail?** Four could not.
+
+- `paths_config.py`'s shipped-input self-check printed its verdict and **exited 0 either
+  way**, so no gate could rely on it. It now exits non-zero, and `cut_release.sh` calls it.
+- `check_wiring.py` gained **`--self-test`**: it runs itself against two probes of its own —
+  one wired correctly, one stopped a directory short — and fails unless the first passes and
+  the second is caught. That checker was vacuous once (its own directory was on `sys.path`,
+  so every script "passed"), and a gate nobody has watched fail is not a gate. The
+  demonstration is now part of every release.
+- `check_wiring.py` also grew into a round trip: the wiring-package rebuild now writes
+  `s9_pools/disease_blacklist.txt` through `write_lf()`. It was written with the default text
+  mode, which translates `\n` to `os.linesep` — so **rebuilding the package on Windows broke
+  the package's own integrity check**, producing a CRLF file whose MD5 did not match the LF
+  value recorded in `paths_config.SHIPPED`. Reproduced, fixed, and re-verified by writing the
+  file both ways.
+
+**3. Is `metadata/ARCHIVE_MAP.md` checked at all?** It was checked by eye, and eyes stop
+checking. Three defects were sitting in it:
+
+- The `Input locality` column — added exactly to separate "verified" from "checkable by
+  you" — had been written into the rows but **not into the table headers**. Markdown
+  renderers drop cells beyond the header, so the column that protects the manuscript's
+  conclusions was invisible in the rendered file while looking present in the source.
+- An unescaped `|` inside a cell (`(\|Z\| density)`) split one row into extra cells, shifting
+  every value in it one column to the right.
+- The summary line is hand-maintained and had already drifted once (it read 16 ✅ / 13 🟡 /
+  9 🔴 / 8 ➖ against a table holding 12 ✅ and 12 🔴).
+
+  **`scripts/check_archive_map.py`** now enforces the column declaration, every row's cell
+  count against its header, the summary counts against the status column, and a controlled
+  vocabulary for the locality labels. `cut_release.sh` runs it. It was verified by
+  re-introducing all three defects and confirming each is reported.
+
+**The map now states the two axes explicitly.** The tables previously answered "is the value
+right?" and "can I re-run it?" with a single mark, which is how both went wrong. `Status`
+now answers only the first; `Input locality` answers only the second, from a defined
+vocabulary — `` `clone` ``, `` `clone (outcome)` ``, `` `clone + SI` ``, `` `none` ``,
+`` `—` `` — and the Status key says plainly that **a locality label is not a doubt about the
+value**. S9 stays ✅ (the published numbers reproduce from a clone without either the mashr
+databases or the original GTEx × FinnGen tables) with `clone (outcome)` recording that
+*re-deriving the pools* is not possible from this archive. S16 is ✅ `clone`. S17 and S20 are
+✅ `clone + SI`. Distribution is unchanged at **20 ✅ / 12 🟡 / 5 🔴 / 9 ➖**.
+
 ### 2026-10-02 (third pass) — guard rails, a self-contained check, and one convention still owed
 
 The second pass made the package runnable and shipped the data layer. This pass adds the checks

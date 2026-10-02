@@ -295,7 +295,9 @@ r_full = rho(g_(ewb, FULL), g_(wb, FULL)); d_full = 100 * same(g_(ewb, FULL), g_
 log(f'\n  框架 WB 在 6,310 宇宙: ρ = {r_full:+.4f} (报告 0.784), DC = {d_full:.1f}% (报告 82.1%)')
 R['framework_full6310'] = dict(n=len(FULL), rho=round(r_full, 4), dc_pct=round(d_full, 2))
 
-json.dump(R, open(os.path.join(OUTD, 'recompute_scz_results.json'), 'w', encoding='utf-8'),
+json.dump(R, open(os.path.join(OUTD, 'recompute_scz_results.json'), 'w', encoding='utf-8',
+                  newline='\n'),
           ensure_ascii=False, indent=1, default=str)
-open(os.path.join(OUTD, 'recompute_scz_log.txt'), 'w', encoding='utf-8').write('\n'.join(LOG))
+open(os.path.join(OUTD, 'recompute_scz_log.txt'), 'w', encoding='utf-8',
+     newline='\n').write('\n'.join(LOG))
 log('\n[完成] recompute_scz_results.json / recompute_scz_log.txt 已写出')

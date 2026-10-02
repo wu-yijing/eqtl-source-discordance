@@ -115,8 +115,11 @@ def disease_blacklist():
     genes = sorted(set(tokens))
     out = os.path.join(P.DERIVED, 's9_pools')
     os.makedirs(out, exist_ok=True)
-    with open(os.path.join(out, 'disease_blacklist.txt'), 'w', encoding='utf-8') as f:
-        f.write('\n'.join(genes) + '\n')
+    # write_lf, not open(..., 'w'): the default text mode translates '\n' to os.linesep,
+    # so on Windows this rebuild produced a CRLF file whose MD5 did not match the LF
+    # value recorded in paths_config.SHIPPED — rebuilding the package broke the
+    # package's own integrity check.
+    write_lf(os.path.join(out, 'disease_blacklist.txt'), '\n'.join(genes) + '\n')
     mixed = [g for g in genes if g != g.upper()]
     log('s9_pools/disease_blacklist.txt   %3d tokens%s'
         % (len(genes), ('  (not all-caps, so inert: %s)' % ', '.join(mixed)) if mixed else ''))

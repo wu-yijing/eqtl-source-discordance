@@ -664,7 +664,9 @@ log(f'\n  Table S5b 八基因方向一致: {c}/{len(S5b)} = {100*c/len(S5b):.1f}
 R['s5b'] = dict(k=int(c), n=int(len(S5b)), rate_pct=float(100*c/len(S5b)),
                 binom_p=float(stats.binomtest(int(c), len(S5b), .5).pvalue))
 
-json.dump(R, open(os.path.join(OUTD, 'recompute_results.json'), 'w', encoding='utf-8'),
+json.dump(R, open(os.path.join(OUTD, 'recompute_results.json'), 'w', encoding='utf-8',
+                  newline='\n'),
           ensure_ascii=False, indent=1, default=str)
-open(os.path.join(OUTD, 'recompute_log.txt'), 'w', encoding='utf-8').write('\n'.join(LOG))
+open(os.path.join(OUTD, 'recompute_log.txt'), 'w', encoding='utf-8',
+     newline='\n').write('\n'.join(LOG))
 log('\n[完成] merged_pairs.csv / recompute_results.json / recompute_log.txt 已写出')

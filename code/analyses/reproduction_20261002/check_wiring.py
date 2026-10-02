@@ -20,9 +20,15 @@ become importable.
 
     python code/analyses/reproduction_20261002/check_wiring.py
     python code/analyses/reproduction_20261002/check_wiring.py -v
+    python code/analyses/reproduction_20261002/check_wiring.py --self-test
 
 Exit code 0 = every script wired. Non-zero = at least one is broken; the report names the
 file and the error. `scripts/cut_release.sh` runs this before a release.
+
+`--self-test` runs the checker against two probes of its own — one wired correctly and one
+the same but stopped one directory short — and fails unless the first passes and the second
+is caught. A gate that has never been observed to fail is not a gate; this one was vacuous
+once, so the demonstration is now part of every release rather than a memory.
 
 Two properties this check must have, both learned the hard way:
 
@@ -87,6 +93,79 @@ class _Stub(types.ModuleType):
         return _Stub(self.__name__ + '()')
 
 
+# --------------------------------------------------------------------------------------
+# Self-test: a gate that has never been observed to fail is not a gate
+# --------------------------------------------------------------------------------------
+#: Directory used for the probes below. Excluded from the scan, in case a previous run
+#: died before its cleanup.
+SELFTEST_DIR = '_wiring_selftest'
+
+#: Two probes with the same code and different bootstrap reach. Written as source text so
+#: that `preamble()` reads them exactly the way it reads the real scripts.
+PROBE = '''import os as _os
+import sys as _sys
+
+
+def _repro_pkg():
+    d = _os.path.dirname(_os.path.abspath(__file__))
+    for _ in range(%(depth)d):
+        if _os.path.exists(_os.path.join(d, 'paths_config.py')):
+            return d
+        d = _os.path.dirname(d)
+    raise RuntimeError('paths_config.py not found above %%s' %% __file__)
+
+
+_sys.path.insert(0, _repro_pkg())
+import paths_config as P
+'''
+
+
+def self_test():
+    """Prove this checker can fail.
+
+    Places two probes three directories below `paths_config.py`: one whose bootstrap walks
+    up far enough, and one that stops short — the exact defect class this file exists for.
+    The first must pass and the second must fail. If both pass, the checker is vacuous and
+    the release gate is decorative; that has happened here once already, so it is now a
+    test rather than a memory.
+
+    Returns (ok, report_lines).
+    """
+    import shutil
+    import tempfile
+
+    report = []
+    sandbox = os.path.join(HERE, SELFTEST_DIR)
+    if os.path.isdir(sandbox):
+        shutil.rmtree(sandbox, ignore_errors=True)
+    probe_dir = os.path.join(sandbox, 'scripts', 'sub')
+    os.makedirs(probe_dir)
+    try:
+        good = os.path.join(probe_dir, 'good.py')
+        bad = os.path.join(probe_dir, 'bad.py')
+        with open(good, 'w', encoding='utf-8', newline='\n') as fh:
+            fh.write(PROBE % {'depth': 8})
+        with open(bad, 'w', encoding='utf-8', newline='\n') as fh:
+            fh.write(PROBE % {'depth': 1})
+
+        ok_good, detail_good = check_one(good)
+        ok_bad, detail_bad = check_one(bad)
+
+        report.append('  [%s] a correct bootstrap passes            %s'
+                      % (' ok ' if ok_good else 'FAIL', detail_good or ''))
+        report.append('  [%s] a one-level-short bootstrap is caught %s'
+                      % (' ok ' if ok_bad is False else 'FAIL', detail_bad or ''))
+        if ok_good is not True:
+            report.append('      -> the checker rejects a script that is wired correctly; '
+                          'its verdicts cannot be trusted')
+        if ok_bad is not False:
+            report.append('      -> the checker ACCEPTS the defect it exists to catch; '
+                          'the release gate is vacuous')
+        return (ok_good is True and ok_bad is False), report
+    finally:
+        shutil.rmtree(sandbox, ignore_errors=True)
+
+
 def install_stubs():
     """Stub only the third-party modules that genuinely fail to import."""
     missing = []
@@ -102,7 +181,8 @@ def install_stubs():
 
 def scripts():
     for dirpath, dirnames, filenames in os.walk(HERE):
-        dirnames[:] = [d for d in dirnames if d != '__pycache__']
+        dirnames[:] = [d for d in dirnames
+                       if d not in ('__pycache__', SELFTEST_DIR)]
         for fn in sorted(filenames):
             if fn.endswith('.py'):
                 yield os.path.join(dirpath, fn)
@@ -172,9 +252,21 @@ def main():
     ap.add_argument('-v', '--verbose', action='store_true')
     ap.add_argument('--strict', action='store_true',
                     help='do not stub missing third-party modules (use the real ones)')
+    ap.add_argument('--self-test', action='store_true',
+                    help='prove the checker can fail, then exit without scanning')
     args = ap.parse_args()
 
     stubbed = [] if args.strict else install_stubs()
+
+    ok_selftest = True
+    if args.self_test:
+        ok_selftest, report = self_test()
+        print('self-test:')
+        for line in report:
+            print(line)
+        print('  self-test: %s' % ('the checker both passes and fails as it should'
+                                   if ok_selftest else 'THE CHECKER IS UNRELIABLE'))
+        return 0 if ok_selftest else 1
 
     wired = broken = skipped = 0
     for path in scripts():

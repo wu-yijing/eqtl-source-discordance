@@ -6,6 +6,16 @@
 #
 # Exit code 0 = all checks passed. Non-zero = do NOT cut the release.
 # This script performs READ-ONLY checks. It never commits, tags or pushes.
+#
+# THIS RUNS WHERE THE AUTHOR WORKS, which is exactly why it is not sufficient. Four
+# defects have shipped from here that passed locally and failed for every reader: a path
+# bootstrap one directory short, a hash table recording CRLF values for files a clone
+# checks out as LF, a manifest hashing the working tree, and a rebuild that wrote a
+# shipped input with the platform's line ending. Before publishing, run
+#
+#     bash scripts/verify_from_clone.sh
+#
+# which re-runs everything in a fresh `git clone --no-hardlinks`.
 
 set -uo pipefail
 
@@ -109,6 +119,21 @@ PYEOF
   else
     bad "provenance.json covers $MAN of $TRACK tracked files — run scripts/collect_provenance.py"
   fi
+  # --- the hashes must actually be right, not merely present -----------------
+  # The coverage gate above counts entries; it says nothing about whether they
+  # match. verify_provenance.py recomputes every SHA-256 from the INDEX — the bytes
+  # a clone receives — and compares. Without this the manifest could be stale and
+  # the release would still pass.
+  if [ -f scripts/verify_provenance.py ]; then
+    if VP=$("$PY" scripts/verify_provenance.py 2>&1); then
+      ok "$(printf '%s' "$VP" | grep 'manifest:' | head -1 | sed 's/^ *//')"
+    else
+      bad "metadata/provenance.json does not match the tree:"
+      printf '%s\n' "$VP" | grep -E 'FAIL|do not agree' | head -6 | sed 's/^/         /'
+    fi
+  else
+    warn "scripts/verify_provenance.py missing — the manifest is never re-checked"
+  fi
 else
   warn "metadata/provenance.json missing"
 fi
@@ -137,6 +162,23 @@ print(t.count('\U0001F534'))
   else
     warn "ARCHIVE_MAP.md has $N row(s) marked GAP — each must be fixed or explicitly declared in README before release"
   fi
+  # --- the map must be checkable, not just present ---------------------------
+  # The GAP count above reads the status column. It cannot see the markdown
+  # structure, and that is where the map has actually gone wrong: a summary count
+  # that drifted from the table, an `Input locality` column added to the rows but
+  # not to the headers (so Markdown renderers dropped it), and an unescaped pipe
+  # that shifted a row one column to the right. check_archive_map.py checks all
+  # three, plus the column declaration and the locality vocabulary.
+  if [ -f scripts/check_archive_map.py ]; then
+    if AM=$("$PY" scripts/check_archive_map.py 2>&1); then
+      ok "$(printf '%s' "$AM" | tail -1 | sed 's/^ *//')"
+    else
+      bad "metadata/ARCHIVE_MAP.md is structurally unsound:"
+      printf '%s\n' "$AM" | grep -E 'problem|    - ' | head -8 | sed 's/^/         /'
+    fi
+  else
+    warn "scripts/check_archive_map.py missing — the map is checked by eye only"
+  fi
 else
   warn "metadata/ARCHIVE_MAP.md missing"
 fi
@@ -159,6 +201,34 @@ if [ -f "$WIRE" ]; then
   fi
 else
   warn "$WIRE missing"
+fi
+
+# --- the gate must prove it can fail ----------------------------------------
+# check_wiring.py was itself vacuous in its first version, because the directory it lives
+# in was already on sys.path, so every script "passed". This makes the demonstration part
+# of every release instead of a thing somebody once did by hand.
+if [ -f "$WIRE" ]; then
+  if ST=$("$PY" "$WIRE" --self-test 2>&1); then
+    ok "check_wiring --self-test: the checker passes a good bootstrap and catches a short one"
+  else
+    bad "check_wiring --self-test FAILED — the wiring gate cannot be trusted:"
+    printf '%s\n' "$ST" | grep -E 'FAIL|->' | head -4 | sed 's/^/         /'
+  fi
+fi
+
+# --- a shipped input that is present but altered -----------------------------
+# paths_config records an MD5 and a byte count per shipped input. The self-check used to
+# print its verdict and exit 0 either way; it now exits non-zero, which is what makes it
+# usable here. This is the check that would have caught the CRLF hash table.
+PC="code/analyses/reproduction_20261002/paths_config.py"
+if [ -f "$PC" ]; then
+  if "$PY" "$PC" > /dev/null 2>&1; then
+    ok "paths_config: every shipped input present and byte-exact"
+  else
+    bad "paths_config reports a shipped input missing or altered — run: $PY $PC"
+  fi
+else
+  warn "$PC missing"
 fi
 
 if [ -f code/analyses/reproduction_min/reproduce_headline.py ]; then

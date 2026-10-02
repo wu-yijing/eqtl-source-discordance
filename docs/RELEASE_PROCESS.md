@@ -25,7 +25,16 @@ Follow the steps in order. Do not skip step 1.
 
 ```bash
 bash scripts/cut_release.sh          # runs every check below and prints a report
+bash scripts/verify_from_clone.sh    # and then the same checks where a reader sits
 ```
+
+**Run both.** `cut_release.sh` runs where the author works, and four defects have shipped
+from a green pre-flight here: a path bootstrap one directory short (compiles, dies at run
+time), a hash table recording CRLF values for files a clone checks out as LF, a manifest
+hashing the working tree, and a rebuild that wrote a shipped input with the platform's line
+ending. Each passed locally and failed for every reader. `verify_from_clone.sh` makes a
+fresh `git clone --no-hardlinks` and re-runs the checks there, which is the only place the
+claim "a third party can reproduce this" can be tested.
 
 Manual equivalent:
 
@@ -43,8 +52,18 @@ Manual equivalent:
 | No stray runtime output tracked | `git ls-files \| grep -E '^(figs\|results\|outputs\|logs\|tmp)/'` | empty |
 | `metadata/provenance.json` regenerated | `python scripts/collect_provenance.py` | no diff, or committed diff |
 | `provenance.json` covers the tracked tree | `len(files) + len(excluded) == git ls-files` — checked by `scripts/cut_release.sh` | equal |
+| **`provenance.json` hashes still match** | `python scripts/verify_provenance.py` | exit 0 |
 | Every reproduction script can import its path module | `python code/analyses/reproduction_20261002/check_wiring.py` — also run by `cut_release.sh` | exit 0 |
-| No `⚠️` rows left in `metadata/ARCHIVE_MAP.md` for items claimed as verified | `grep -c '⚠️' metadata/ARCHIVE_MAP.md` | reviewed |
+| **That wiring gate can fail** | `python ... check_wiring.py --self-test` | exit 0 |
+| **Shipped inputs byte-exact** | `python code/analyses/reproduction_20261002/paths_config.py` | exit 0 |
+| **`ARCHIVE_MAP.md` is self-consistent** | `python scripts/check_archive_map.py` | exit 0 |
+| **The headline numbers reproduce** | `python code/analyses/reproduction_min/reproduce_headline.py` | exit 0, 0 mismatches |
+
+The four rows in bold were added on **2026-10-02**, each because a check that existed could
+not fail the build: a check that only prints its verdict (the `paths_config` self-check), a
+check that is never run against a tree other than the author's, a check that was vacuous
+because its own directory was on `sys.path`, and a document nothing parsed at all. A check
+that cannot fail a release is not a gate.
 
 **Freeze rule.** Every script that produces a reported number must already be merged. Nothing that can change a number may be touched after this point.
 

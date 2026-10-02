@@ -446,6 +446,7 @@ def report():
     print()
     print('  self-check: %s' % ('all shipped inputs present and byte-exact'
                                 if not bad else '%d problem(s): %s' % (len(bad), bad)))
+    return bad
 
 
 def cli_path(name, default=None):
@@ -493,4 +494,8 @@ for _k, _d in DOCS.items():
 
 if __name__ == '__main__':
     apply_cli_overrides()
-    report()
+    # Non-zero exit on a mismatch. The first version only printed the verdict, so a
+    # release gate could not distinguish "all shipped inputs byte-exact" from "11 of
+    # them altered" without parsing English prose — and a check that cannot fail the
+    # build is not a gate.
+    sys.exit(1 if report() else 0)

@@ -145,5 +145,6 @@ for gsize in [32, 64]:
 json.dump(dict(seed=SEED, G=G, P=P, npair=NPAIR, rho_sd=RHO_SD,
                n1=N1, nrep2=NREP2, B2=B2, nrep3=NREP3, B3=B3,
                sim1=sim1, sim2=sim2, sim3=sim3),
-          open(os.path.join(_OUT, '_sim_results.json'), 'w'), indent=1, ensure_ascii=False)
+          open(os.path.join(_OUT, '_sim_results.json'), 'w', newline='\n'),
+          indent=1, ensure_ascii=False)
 print("\n结果已写入 " + os.path.join(_OUT, '_sim_results.json'))

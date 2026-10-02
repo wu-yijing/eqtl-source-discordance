@@ -190,7 +190,8 @@ for r in drows(18, 8):
 O['PC3_endpoint_fired'] = fired
 O['PC3_counts'] = {f'{a}|{b}': c for (a, b), c in Counter((x['source'], x['group']) for x in fired).items()}
 
-json.dump(O, open(os.path.join(OUT_DIR, 'm15_positive_control.json'), 'w', encoding='utf-8'),
+json.dump(O, open(os.path.join(OUT_DIR, 'm15_positive_control.json'), 'w',
+                   encoding='utf-8', newline='\n'),
           indent=1, ensure_ascii=False, default=str)
 
 print('=== 反转：双来源 |Z|>=1.96 且反向 ===')

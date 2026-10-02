@@ -492,7 +492,9 @@ for nm, n, rep in [('GTEx candidate (28)', 28, 3.95), ('GTEx T2DM control (19)',
     flag = 'OK' if abs(g - rep) < 1e-9 else ('差一个网格步' if abs(g - rep) <= 0.0501 else '不符')
     log(f'    {nm:30s} |Z|c={c:.3f}  闭式 λ={lam:.3f}  网格 → {g:.2f}   (SI {rep})  {flag}')
 
-json.dump(R, open(os.path.join(OUTD, 'recompute_r3_s9_s20_results.json'), 'w', encoding='utf-8'),
+json.dump(R, open(os.path.join(OUTD, 'recompute_r3_s9_s20_results.json'), 'w',
+                       encoding='utf-8', newline='\n'),
           ensure_ascii=False, indent=1, default=str)
-open(os.path.join(OUTD, 'recompute_r3_s9_s20_log.txt'), 'w', encoding='utf-8').write('\n'.join(LOG))
+open(os.path.join(OUTD, 'recompute_r3_s9_s20_log.txt'), 'w', encoding='utf-8',
+     newline='\n').write('\n'.join(LOG))
 log('\n[完成] recompute_r3_s9_s20_results.json / _log.txt 已写出')
