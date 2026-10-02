@@ -56,3 +56,21 @@ this file. **Treating the whole directory as unusable is as wrong as treating al
 ---
 
 *Written 2026-10-02. The previous repository labelled this directory `data/processed/` and relied on two ad-hoc notice files inside it; the classification above is the first complete statement of what is and is not still usable.*
+
+---
+
+## Addendum 2026-10-02 — `s1_cluster_robustness/`
+
+Two per-pair tables were **moved out of `data/derived/` and into this directory** after their values
+were compared with the authoritative table:
+
+| File | Value at ANXA1/DR | Generation |
+|---|---|---|
+| `data/derived/primary_arm_96pairs.csv` (authoritative) | 0.4283 / 0.9302 | official MetaXcan v0.8.1 |
+| `s1_cluster_robustness/s1_primary_arm_96pairs.csv` | 1.2913 / 2.1391 | **v2.5.0 generation** |
+| `s1_cluster_robustness/s1_anchor_102pairs.csv` | 1.2913 / 2.1391 | **v2.5.0 generation** |
+
+The directory's own README states that its numbers were computed on this pre-correction layer and
+that its code is **not** the script set behind the values the manuscript now reports. Their row
+counts (96 and 102) are superficially similar to the authoritative table, which is exactly why they
+were mis-filed in the first place — **compare values, not row counts.**

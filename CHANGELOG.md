@@ -30,6 +30,19 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ### Changed
 - Archive map re-keyed to the current Supporting Information numbering (Tables S1–S30). The predecessor `ARCHIVE_NOTE.md` used an older Additional-file numbering and is **not** carried over.
+- Archive map verified item by item against `Supporting_Information_GenetEpidemiol_20260930.docx` (2026-10-02): every one of the 46 items now carries a status backed by a table title, header, column/row count or an actual cell value. The status key gained a fourth state — 🟡 **DERIVABLE** (inputs present and verified, producing step not shipped) — so that "we hold the inputs" is no longer conflated with "we can reproduce the table".
+
+### Fixed
+- `data/derived/s1_anchor_102pairs.csv` and `data/derived/s1_primary_arm_96pairs.csv` were **mis-filed in the authoritative layer**. Their ANXA1/DR values are 1.2913 / 2.1391; the authoritative table has 0.4283 / 0.9302. Their row counts (102, 96) happen to look right, which is how the error survived. Both are v2.5.0-generation output and now sit in `data/superseded/s1_cluster_robustness/`.
+- The archive map no longer claims that `figures/` holds the figure files. **The repository contains no figure files** — `figures/` holds only its README; what is shipped is the *scripts* that produce some of the panels.
+
+### Known gaps (declared, not hidden)
+- 9 items are marked 🔴 in `metadata/ARCHIVE_MAP.md`: SI Tables S6, S7, S9, S10, S16, S17, S27, S28, S29, plus Figs. S1 and S2. No file in this repository produces them.
+- **SI Table S6 is a discrepancy, not merely a gap.** Its 30 housekeeping genes match `data/derived/hk_reselect/` exactly, but every value checked differs (ANKRD40/DR GTEx-Nerve_Tibial Z: Supporting Information −0.5863, repository −0.9925; ACAT-O P 0.598 versus 0.2556). A full-disk search found no source for the published values. Because the housekeeping layer reaches the main text through Table 1, **this must be resolved before submission** — see `metadata/ARCHIVE_MAP.md` §4.
+- The generating scripts for the missing tables exist on the local disk only inside unarchived session directories (`2026-09-22-14-24-45/work/si_fix.py`, `2026-09-11-19-30-45/apply_d2.py`, `2026-09-11-18-13-13/_apply_edits.py`, …). They are recoverable, but nothing has been copied in yet.
+
+### Numbers
+- **No reported number changes.** This commit moves two mis-filed files out of the authoritative layer, corrects documentation, and declares gaps. Every value the manuscript reports is unaffected.
 
 ---
 

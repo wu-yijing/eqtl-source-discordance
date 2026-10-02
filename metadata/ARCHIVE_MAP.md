@@ -2,86 +2,147 @@
 
 **Manuscript:** "Expression quantitative trait locus weight-source dependence in transcriptome-wide association studies: a two-axis diagnostic partition with disease-agnostic calibration" — submitted to *Genetic Epidemiology*.
 **Archive version:** v4.0.0.
-**Keyed to:** the **current** Supporting Information numbering (**Tables S1–S30**, Notes S1–S5, Figs. S1–S4).
+**Keyed to:** the **current** Supporting Information numbering (Tables S1–S30, Notes S1–S5, Figs. S1–S4).
+**Verified against:** `Supporting_Information_GenetEpidemiol_20260930.docx`, 2026-10-02. Every status below was set by comparing table titles, header row, logical/physical column count and data row count against the file named — and, where a value could settle it, by comparing actual cell values.
 
-> ⚠️ **Do not reuse the predecessor `ARCHIVE_NOTE.md`.** It was written against an older Additional-file numbering. For example it labelled the primary 96-pair table as "Table S12", whereas in the current Supporting Information **Table S12 is the draft STREGA-TWAS reporting checklist and Table S14 is that checklist completed for this study**. Every row below has been re-keyed.
+> ⚠️ **Do not reuse the predecessor `ARCHIVE_NOTE.md`.** It was written against an older Additional-file numbering. It labelled the primary 96-pair table as "Table S12", whereas in the current Supporting Information **S12 is the draft STREGA-TWAS reporting checklist and S14 is that checklist completed for this study**.
 
-**Scope.** Code and processed data only. Figures, figure captions, tables and table legends accompany the manuscript and its Supporting Information and are *not* redistributed here. Raw RNA pull-down / LC–MS/MS spectra are in ProteomeXchange via iProX.
+**Scope.** Code and processed data only. Figures, figure captions, tables and table legends accompany the manuscript and its Supporting Information and are **not** redistributed here (see §1). Raw RNA pull-down / LC–MS/MS spectra are in ProteomeXchange via iProX (PXD083775).
 
-**Status key.** ✅ row count or content independently matches the manuscript item · ⚠️ mapping plausible but **not yet verified against the current Supporting Information** — confirm before a release · ➖ not held in this repository.
+---
+
+## Status key
+
+| Mark | Meaning | What it obliges |
+|---|---|---|
+| ✅ **VERIFIED** | A file in this repository reproduces the item, and its shape **and at least one value** were checked against the Supporting Information | Nothing further |
+| 🟡 **DERIVABLE** | The inputs are present and verified, but the join / aggregation / filter that produces the table **is not shipped here**. Reproducible only by writing that step | Acceptable for release — but say so in the README |
+| 🔴 **GAP** | **Nothing in this repository produces it.** The generating script was not archived | Must be fixed or declared before release |
+| ➖ **NOT A DATA ARTEFACT** | A text or table rendered directly in the Supporting Information | Nothing |
+
+**A map that over-claims is worse than a map that admits gaps.** Of 46 items checked: **16 ✅, 13 🟡, 9 🔴, 8 ➖**.
 
 ---
 
 ## 1. Main text
 
-| Manuscript item | Authoritative file(s) | Status |
-|---|---|---|
-| Table 1 (disease-agnostic control layers) | Definitions and provenance in `metadata/` + `data/derived/` housekeeping and architecture-unselected control tables | ⚠️ |
-| Table 2(A)/(B) (primary comparison and two-axis partition) | `data/derived/primary_arm_96pairs.csv`; derived arm tables | ⚠️ |
-| Figs. 1–4 | `figures/` (PDF + PNG); scripts in `code/figures/` | ✅ |
-| Fig. 1 module 6 (checklist pointer) | points to Supporting Information Table S12 → Table S14 | ✅ |
+| Manuscript item | Authoritative file(s) | Status | Evidence |
+|---|---|---|---|
+| Table 1 — definitions and provenance of the three control layers | Supporting Information **Note S3** (text only) | ➖ | Note S3 is the provenance carrier |
+| Table 1 — enrichment values for the three control layers | inputs: `data/derived/hk_reselect/data/hk_genes_v2.txt` (gene list), `data/derived/gtex_Z.csv`, `data/derived/eqtlgen_Z.csv` | 🟡 | Gene list matches S6 exactly (30 genes). Aggregation not shipped → **GAP-2**; the housekeeping Z values disagree with the Supporting Information → **GAP-1** |
+| Table 2(A) — primary comparison | `data/derived/primary_arm_96pairs.csv` (**96 rows**) | ✅ | ANXA1/DR = 0.4283, 0.9302 = first data row of SI Table S13; 66/96 = 68.8%, ρ = 0.3898 |
+| Table 2(B) — two-axis partition (dual 198 / panel-only 159 / tissue-only 138 pairs) | derived by joining `data/derived/gtex_Z.csv` × `data/derived/eqtlgen_Z.csv` | 🟡 | **No arm table is shipped.** The join reproduces the published arm figures but must be written from scratch → **GAP-3** |
+| Figs. 1–4 | **not in this repository** | 🟡 | `figures/` contains only its README. The repository ships the *scripts* for some panels, never the figure files. See [`../code/figures/FIGURE_NUMBER_MAP.md`](../code/figures/FIGURE_NUMBER_MAP.md) |
+| Fig. 1 module 6 — checklist pointer | points to SI Table S12 → Table S14 | ✅ | Consistent with the current SI |
 
 ## 2. Supporting Information — Notes and Figures
 
-| Item | Authoritative file(s) | Status |
-|---|---|---|
-| Note S1 — comparison with prior evaluations | ➖ (text only, in the Supporting Information) | ➖ |
-| Note S2 — RNA pull-down / LC–MS/MS parameters | ➖ (text only; spectra in ProteomeXchange iProX PXD083775) | ➖ |
-| Note S3 — table notes for main-text Table 1 | ➖ (text only) | ➖ |
-| Note S4 — data sources: identifiers, versions, retrieval dates | `data/README.md` (external-input manifest with checksums) | ✅ |
-| Note S5 — simulation validation: full design and results | `code/simulations/` | ⚠️ |
-| Figs. S1–S4 | `figures/supporting/`; scripts in `code/figures/` | ⚠️ |
+| Item | Authoritative file(s) | Status | Evidence |
+|---|---|---|---|
+| Note S1 — comparison with prior evaluations | ➖ text only | ➖ | |
+| Note S2 — RNA pull-down / LC–MS/MS parameters | ➖ text only; spectra at iProX PXD083775 | ➖ | |
+| Note S3 — table notes for main-text Table 1 | ➖ text only | ➖ | |
+| Note S4 — data sources: identifiers, versions, retrieval dates | `data/README.md` | 🟡 | Manifest skeleton present; **SHA-256 values and retrieval dates are still `<hash>` placeholders** |
+| Note S5 — simulation validation: full design and results | `code/simulations/split_half_null/` covers the split-half null only | 🔴 | **GAP-4**: the generators for SI Tables S27 and S29 are absent |
+| Fig. S1 — diagnostic scheme (flowchart) | — | 🔴 | No generating script in the repository |
+| Fig. S2 — eQTL SNP-count violin | — | 🔴 | No generating script. Complicated by the fact that the *previous* S2 (|Z| density) was deleted at revision and later figures were renumbered |
+| Fig. S3 — endpoint calibration and spike-in control | `code/figures/10_redraw_FigS6_20260921.py` + `code/figures/m15_positive_control.json` | ✅ | Script reads `PC1a_BH_boundary` / `PC1b_null_calibration` / `PC2a` / `PC2b` from the bundled JSON, which is the S20 content. ⚠️ the script's internal assertion label still says "SI Table S19" — stale label, same data |
+| Fig. S4 — silver-stain SDS–PAGE | — | ➖ | Wet-lab image, no script |
 
 ## 3. Supporting Information — Tables
 
-| Item | Title (abbreviated) | Authoritative file(s) | Status |
-|---|---|---|---|
-| S1 | Positioning of the present audit relative to prior evaluations | ➖ (text/table only) | ➖ |
-| **S2** | Complete gene list with group assignments and annotations (**104 testbed genes**) | `data/derived/gene_groups.csv` (**104 rows**) | ✅ |
-| **S3** | Complete GTEx v8 baseline TWAS results (**74 genes × DR/DN/DPN**; per-gene Z, P, q) | `data/derived/gtex_Z.csv` (**222 rows = 74 × 3**) | ✅ |
-| **S4** | **Mahalanobis matched-pair data (30 candidate–control pairs**; covariates after matching) | `data/superseded/mahalanobis_matched_pairs.csv` (**30 pairs**; covariates only) | ✅ |
-| **S5a** | RNH1 cross-population replication (k = 2 cohorts; eQTLGen weights) | `data/derived/crosscohort.csv` | ✅ |
-| S5b | Group-level direction-consistency check across the eight testable genes | `data/derived/` (cross-cohort group table) | ⚠️ |
-| S6 | Housekeeping disease-agnostic control gene list and dual-tissue S-PrediXcan results | `data/derived/hk_reselect/` | ⚠️ |
-| S7 | Margin-sensitivity analysis of the housekeeping-vs-candidate FDR enrichment | `code/analyses/` (margin sensitivity script) | ⚠️ |
-| S8 | Fixed-threshold enrichment reanalysis | `code/analyses/` | ⚠️ |
-| S9 | Architecture-unselected random controls: genome-wide and HRT-restricted | `data/derived/` + `code/analyses/` | ⚠️ |
-| S10 | Cross-population direction check for DN (diabetic nephropathy) | `data/derived/` ⚠️ **also confirm the population composition recorded in the table note (European + East Asian components of the source resource)** | ⚠️ |
-| S11 | Analysis-arm denominators and gene/model availability | `data/derived/` (arm denominators) | ⚠️ |
-| S12 | **Draft TWAS reporting checklist (proposed STREGA-TWAS extension)** | ➖ (document artefact in the Supporting Information; **not** a data file) | ➖ |
-| **S13** | **Per-pair primary-arm data underlying the headline direction-consistency rate** | `data/derived/primary_arm_96pairs.csv` (**96 rows**) — reproduces 68.8% and ρ = 0.39 | ✅ |
-| S14 | **Table S12 checklist completed for this study** | ➖ (document artefact). Its pre-specification anchors live in [`PRE_REGISTRATION.md`](PRE_REGISTRATION.md) | ➖ |
-| S15 | Housekeeping control: eQTLGen whole-blood results and derived FDR calls | `data/derived/` | ⚠️ |
-| S16 | Framework-layer alternative test for the resource/sample-size axis | `data/derived/` + `code/analyses/` | ⚠️ |
-| S17 | Cluster-aware uncertainty of the primary-arm correlation and the pooled rate | `code/analyses/` (gene-cluster bootstrap) | ⚠️ |
-| **S18** | **Per-gene eQTLGen whole-blood results and derived FDR calls (three phenotypes)** | `data/derived/eqtlgen_Z.csv` (**288 rows = 96 genes × 3**) | ✅ |
-| S19 | Per-stratum enrichment rates at the fixed nominal threshold | `code/analyses/` | ⚠️ |
-| S20 | Endpoint calibration and spike-in positive control | `code/analyses/` + `code/simulations/` | ⚠️ |
-| S21 | Direction consistency as a function of the minimum \|Z\| required in both sources | `code/analyses/` | ⚠️ |
-| S22 | Sensitivity of the candidate eQTLGen enrichment rate to exclusion of the highest-leverage gene | `code/analyses/` | ⚠️ |
-| S23 | Composition of the harmonized eQTLGen whole-blood arm | `data/derived/` | ⚠️ |
-| **S24** | **Direction consistency of the three genome-wide schizophrenia arms (n = 8,315 complete-case)** | `data/derived/scz_z_4arm.csv` | ✅ |
-| S25 | Arm membership of exceptional entries | `data/derived/` | ⚠️ |
-| **S26** | **Mahalanobis-matched enrichment contrasts (30 candidate–control pairs)** | `data/superseded/mahalanobis_matched_pairs.csv` + the two endpoint tables (see S3, S18) | ✅ |
-| S27 | Calibration of the sign-agreement identity and its tail-thickness dependence (synthetic) | `code/simulations/` | ✅ |
-| S28 | Coverage and type I error of the gene-cluster bootstrap vs naive Fisher-z (synthetic) | `code/simulations/` | ✅ |
-| S29 | Type I error of the two-axis separability test at two gene-set sizes (synthetic) | `code/simulations/` | ✅ |
-| S30 | Integrated evidence assessment across all analytical layers | ➖ (text/table only) | ➖ |
-
-> File names above are given **without the generation suffix** (`_official`, `officialZ`). The authoritative layer is the official MetaXcan v0.8.1 recompute; the earlier in-house implementation is retained **only** as an equivalence cross-check and is marked superseded in `data/README.md`. Never mix the two layers.
+| Item | Title (abbreviated) | Authoritative file(s) | Status | Evidence |
+|---|---|---|---|---|
+| S1 | Positioning of the present audit | ➖ | ➖ | |
+| **S2** | Complete gene list (**104 testbed genes**) | `data/derived/gene_groups.csv` | ✅ | 104 data rows, 7 cols — identical header to SI |
+| **S3** | GTEx v8 baseline TWAS (**74 genes × 3**) | `data/derived/gtex_Z.csv` | ✅ | 222 rows = 74 × 3; first row (ACTB/DR −1.0831/−1.3793/−1.750…) matches SI |
+| **S4** | Mahalanobis matched pairs (30 pairs) | `data/superseded/mahalanobis_matched_pairs.csv` | ✅ | 60 rows, 8 cols; covariates only, unaffected by the pre-correction defects (see `data/superseded/README.md`) |
+| **S5a** | RNH1 cross-population replication | `data/derived/crosscohort.csv` | ✅ | 4 rows, 11 cols; +2.31 / +0.72 / +0.55 / +1.51 (0.79); 0.056 / 1.26; 20.6; 0.51 / −0.33 to +3.36 — all match SI row 1 |
+| S5b | Group-level direction consistency, 8 genes | inputs verified: `data/derived/gtex_Z.csv` (RNH1 DR Nerve_Tibial Z = 2.6675 = SI "+2.668") + `data/derived/ukb_dr/RNH1_official_metaxcan_Z.csv` (UKB/GTEx-NT Z = 0.5451, P = 0.585687 = SI "+0.55 / 0.586") | 🟡 | Inputs verified; the 8-gene assembly is not shipped |
+| S6 | Housekeeping control gene list + dual-tissue results | ⚠️ **NONE FOUND** | 🔴 | **GAP-1.** Gene list matches, values do not — see the discrepancy note below |
+| S7 | Margin-sensitivity of the enrichment contrast | — | 🔴 | **GAP-6** |
+| S8 | Fixed-threshold enrichment reanalysis | derivable from `data/derived/gtex_Z.csv` / `eqtlgen_Z.csv` | 🟡 | Counting at p < 0.05 is mechanical; the script is not shipped |
+| S9 | Architecture-unselected random controls | — | 🔴 | **GAP-7** |
+| S10 | Cross-population direction check for DN | — | 🔴 | **GAP-8.** Also carries the peer-review item M3: the table note must state the **full** population composition of the source resource (European **and** East Asian components), not only the component used |
+| S11 | Analysis-arm denominators | derivable from `data/derived/gtex_Z.csv` / `eqtlgen_Z.csv` | 🟡 | Denominators are counts over the two Z tables |
+| S12 | Draft TWAS reporting checklist | ➖ | ➖ | Document artefact |
+| **S13** | Per-pair primary-arm data | `data/derived/primary_arm_96pairs.csv` | ✅ | 96 rows, 5 cols, identical header; reproduces 68.8% and ρ = 0.39 |
+| S14 | Checklist completed for this study | ➖ | ➖ | Pre-specification anchors recorded in [`PRE_REGISTRATION.md`](PRE_REGISTRATION.md) |
+| **S15** | Housekeeping control — eQTLGen results | `data/derived/eqtlgen_Z.csv`, filter `Group == 'Housekeeping'` (81 rows) | ✅ | ANKRD40/DR = −0.6222, 0.534, 0.6005, 130/137 = SI row 1 **exactly**. The SI carries 90 rows because 9 are placeholders for genes with no eQTLGen model |
+| S16 | Framework-layer alternative test | — | 🔴 | **GAP-9** |
+| S17 | Cluster-aware uncertainty of the primary arm | — | 🔴 | **GAP-10.** The retired `code/deprecated/s1_cluster_robustness/` states in its own README that its code is **not** the script set behind these numbers |
+| **S18** | Per-gene eQTLGen results, three gene groups | `data/derived/eqtlgen_Z.csv`, filter `Group != 'Housekeeping'` | ✅ | Yields exactly **207** rows = SI's 207 data rows (81 candidate + 75 non-candidate + 51 T2DM control) |
+| S19 | Per-stratum enrichment rates at p < 0.05 | derivable from `data/derived/gtex_Z.csv` / `eqtlgen_Z.csv` | 🟡 | Mechanical count by arm and phenotype |
+| **S20** | Endpoint calibration and spike-in control | `code/figures/m15_positive_control.json` | ✅ | Keys `PC1a_BH_boundary` (strata 13…87, e.g. n = 27 → \|Z\| = 3.11) and `PC1b_null_calibration` carry the S20 content; the Fig. S3 script asserts against it |
+| S21 | Direction consistency vs min \|Z\| threshold | derivable from `data/derived/primary_arm_96pairs.csv` | 🟡 | Thresholding at 0.0 reproduces 96 / 66 / 68.8% = SI row 1 |
+| S22 | Sensitivity to exclusion of TUBB | derivable from `data/derived/eqtlgen_Z.csv` | 🟡 | Mechanical re-count after dropping the highest-leverage gene |
+| S23 | Composition of the harmonized eQTLGen arm | derivable from `data/derived/eqtlgen_Z.csv` (`Model_SNPs` column) | 🟡 | SI has 61 data rows — a subset of the 96-gene universe |
+| **S24** | Three genome-wide SCZ arms (n = 8,315) | `data/derived/scz_z_4arm.csv` | ✅ | 15,875 rows; panel-only row = 8,315 / 5,584 / 67.2% / 66.1–68.2 / +0.469 matches SI row 1 |
+| S25 | Arm membership of exceptional entries | hand-curated; derivable from the tables it cites | 🟡 | No generator; content is a curated list (RPS16, HSP90AB1, …) |
+| S26 | Mahalanobis-matched enrichment contrasts | `data/superseded/mahalanobis_matched_pairs.csv` + `data/derived/gtex_Z.csv` + `data/derived/eqtlgen_Z.csv` | 🟡 | The two Fisher values (2/84 vs 1/60 → 1.00; 5/81 vs 0/57 → 0.077) appear as embedded constants in `code/figures/10_redraw_FigS6_*.py`, but the producing script is not shipped |
+| S27 | Calibration of the sign-agreement identity | — | 🔴 | **GAP-5** |
+| S28 | Coverage / type I error of the bootstrap interval | — | 🔴 | **GAP-5** |
+| S29 | Type I error of the two-axis separability test | — | 🔴 | **GAP-5** |
+| S30 | Integrated evidence assessment | ➖ | ➖ | Text/table rendered directly in the Supporting Information |
 
 ---
 
-## 4. Authoritative vs superseded layers
+## 4. The one discrepancy that is not a gap but an error to resolve — **GAP-1 / Table S6**
+
+SI Table S6, first data row:
+
+```
+ANKRD40 | 1/2 | 0.598 | 0.718 | 0.376 | -0.5863 | -0.5637 | 0.6638 | -0.4786 | -0.2590 | 1.0657
+```
+
+The nearest file in the repository, `data/derived/hk_reselect/data/TableS6_hk_control_v2.csv`:
+
+```
+ANKRD40 | 1.0 | 0.00331... | 0.25557... | -0.9542 | 1.1237 | -0.9925 | -0.0555 | 2.9348 | -0.8469
+```
+
+- The **gene list matches** (the 30 genes of SI S6 are all in `data/derived/hk_reselect/data/hk_genes_v2.txt`), and the model-SNP pair 1/2 agrees.
+- **Every value differs.** The repository's housekeeping Z layer traces to `hk_reselect/data/hk_twas_v2_raw.csv` → `arms_all_groups.csv` → `TableS6_hk_control_v2.csv`; it is self-consistent but it is not what the Supporting Information prints.
+- A full-disk search for the SI values (`−0.5863`, `−0.4387`) found **no** source file.
+
+**Consequence.** The housekeeping-control layer is one of the three disease-agnostic control layers, and it reaches the main text through Table 1. Either the Supporting Information's S6 was recomputed at the GE revision by a script that was never archived, or one of the two carriers is stale.
+
+**This must be resolved before submission**: the manuscript's calibration claim rests on numbers that the archive cannot currently reproduce. Record the resolution here.
+
+---
+
+## 5. GAP register — what is missing, and whether it can be recovered
+
+The generating scripts are **not** in this repository. A bounded search of the local disk found some of them living in **session working directories that are not archived** — for example `2026-09-22-14-24-45/work/si_fix.py` (margin sensitivity), `2026-09-09-16-50-19/audit/_tost.py` (Newcombe intervals), `2026-09-11-19-30-45/apply_d2.py` / `apply_d3.py` / `apply_s11.py`, `2026-09-11-18-13-13/_apply_edits.py`, `2026-09-14-21-25-36/apply_m1m2.py`, `2026-09-18-07-04-15/.tmp/round4_checks.py`.
+
+| # | Item(s) | What is missing | Recoverable? |
+|---|---|---|---|
+| GAP-1 | S6 (+ Table 1 housekeeping layer) | producing computation **and** reconciliation of the value discrepancy | **Unknown — investigate first** (§4) |
+| GAP-2 | Table 1 (values) | aggregation across the three control layers | Partly — S6/S9 blockers propagate |
+| GAP-3 | Table 2(B) | arm join (dual / panel-only / tissue-only) | **Yes** — write `code/analyses/arm_partition.py` |
+| GAP-4 | Fig. S1, Fig. S2 | figure scripts | Figure files may exist outside the repository |
+| GAP-5 | S27, S28, S29 (+ Note S5) | simulation scripts; only the split-half null is shipped | **Partly** — `code/simulations/split_half_null/` covers one of the three |
+| GAP-6 | S7 | margin-sensitivity / Newcombe interval script | Likely — located on disk (see above) |
+| GAP-7 | S9 | architecture-unselected control pipeline | Likely — output data is in `data/derived/hk_reselect/` |
+| GAP-8 | S10 | DN cross-population check | Unknown; also needs the M3 population-composition correction |
+| GAP-9 | S16 | framework-layer contrast | **Yes** — derivable, or recover from `code/analyses/m6_ne_weighted_sensitivity.py` lineage |
+| GAP-10 | S17 | cluster-aware uncertainty | **Yes** — the values are quoted in `code/deprecated/s1_cluster_robustness/README.md`; the script must be rebuilt, not reused |
+
+**Recommended action before the first release:** either (a) locate and commit the generators for GAP-3, GAP-5, GAP-6, GAP-9, GAP-10, or (b) add a row to `README.md` stating plainly that those Supporting Information tables are not reproducible from this archive. Do not leave the gap implicit.
+
+---
+
+## 6. Authoritative vs superseded layers
 
 | Layer | Status |
 |---|---|
-| Official MetaXcan v0.8.1 recompute after three-way allele harmonisation | ✅ **Authoritative.** All manuscript values come from here. |
-| Earlier in-house implementation (missing S-PrediXcan σᵢ expression-variance factor; PLINK 2-bit decoding defect) | ⚠️ **Superseded.** Retained only as an equivalence cross-check; maximum residual \|ΔZ\| = 3 × 10⁻⁸. Disclosed in the manuscript's Methods. |
+| Official MetaXcan v0.8.1 recompute after three-way allele harmonisation — `data/derived/` | ✅ **Authoritative.** All manuscript values come from here. |
+| Earlier in-house implementation (missing S-PrediXcan σᵢ expression-variance factor; PLINK 2-bit decoding defect) — `data/superseded/` | ⚠️ **Superseded.** Retained only as an equivalence cross-check; maximum residual \|ΔZ\| = 3 × 10⁻⁸. Per-file usability is stated in [`../data/superseded/README.md`](../data/superseded/README.md). |
+| v2.5.0-generation cluster-robustness run — `data/superseded/s1_cluster_robustness/` | ⚠️ **Superseded.** ANXA1/DR = 1.2913 here versus 0.4283 in the authoritative table. Moved out of `data/derived/` on 2026-10-02 after the values were compared. |
 
 ---
 
-## 5. Cross-checks to run before every release
+## 7. Cross-checks to run before every release
 
 ```bash
 # 1. Row counts must match the manuscript items they are claimed to reproduce
@@ -89,12 +150,23 @@ wc -l data/derived/gene_groups.csv            # 105  (104 + header)
 wc -l data/derived/gtex_Z.csv                 # 223  (222 + header)
 wc -l data/derived/primary_arm_96pairs.csv    #  97  (96  + header)
 wc -l data/derived/eqtlgen_Z.csv              # 289  (288 + header)
+wc -l data/derived/scz_z_4arm.csv             # 15876
+wc -l data/derived/crosscohort.csv            #   5  (4 + header)
 
-# 2. Headline values must reproduce from Table S13 / Table S3+S18
-#    (direction consistency 68.8%; Spearman rho = 0.39) — see code/README.md
+# 2. Filters that define two Supporting Information tables must still yield the published counts
+python - <<'EOF'
+import csv, collections
+r = list(csv.DictReader(open('data/derived/eqtlgen_Z.csv', encoding='utf-8')))
+g = collections.Counter(x['Group'] for x in r)
+print('S18 (non-housekeeping):', sum(v for k, v in g.items() if k != 'Housekeeping'), '-- expect 207')
+print('S15 (housekeeping)    :', g['Housekeeping'], '-- expect 81 (+9 no-model placeholders in the SI)')
+EOF
 
-# 3. Pre-specification anchors must exist in THIS tree
+# 3. Headline values must reproduce from Table S13
+#    (direction consistency 68.8%; Spearman rho = 0.39) — asserted by code/run_all.sh
+
+# 4. Pre-specification anchors must exist in THIS tree
 git cat-file -t 58da15b && git cat-file -t e70806b
 ```
 
-Any row still marked ⚠️ must be either verified or down-graded to ➖ before the release is published. **A map that over-claims is worse than a map that admits gaps.**
+**Any row still marked 🔴 must be either fixed or explicitly declared before the release is published.**
