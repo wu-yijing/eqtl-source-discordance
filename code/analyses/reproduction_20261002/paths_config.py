@@ -418,12 +418,39 @@ def si_table_rows(address, path=None):
     return si_table_by_address(address, path)['rows']
 
 
+def si_labels(path=None):
+    """The caption-derived label of every table object, in document order.
+
+    Returns e.g. `['S1', 'S2', 'S3', 'S4', 'S5a', 'S5b', 'S6', ...]`.
+
+    **Do not assume `object i = Table S(i+1)`.** That rule is true only up to the fourth
+    object: the submitted Supporting Information splits `Table S5` into two table objects
+    (S5a and S5b), so from the fifth object onward the offset disappears —
+    `si_labels()[6] == 'S6'`, not `'S7'`. Resolve tables by caption (`si_table_rows('S17')`)
+    or through this list; never by arithmetic on the object index.
+    """
+    out = []
+    for t in si_tables(path):
+        m = re.match(r'\s*Table\s*S?(\d+[a-z]?)', t['title'], re.I)
+        out.append('S' + m.group(1) if m else '?')
+    return out
+
+
+def si_table_by_label(label, path=None):
+    """Rows of `Table S13` / `S5a` resolved through the caption, not the object index."""
+    want = label.strip().lstrip('Ss').lower()
+    for lab, t in zip(si_labels(path), si_tables(path)):
+        if lab.lstrip('Ss').lower() == want:
+            return t['rows']
+    raise KeyError('Supporting Information has no table labelled %r' % label)
+
+
 def si_rows_by_object(i, path=None):
     """Rows for table *object* `i`, i.e. the order the tables appear in the docx.
 
-    The submitted Supporting Information places `Table S1` at object 0; because
-    S5 is split into S5a and S5b the mapping `object i = Table S(i+1)` holds for
-    the whole document (31 objects, S1-S30).
+    Kept because two diagnostic scripts index tables this way, but prefer
+    `si_table_rows('S17')` or `si_table_by_label('S5a')`: the object index is not the
+    table number (see `si_labels`). `si_labels()[i]` tells you what object `i` actually is.
     """
     return si_tables(path)[i]['rows']
 

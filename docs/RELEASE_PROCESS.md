@@ -58,9 +58,13 @@ Manual equivalent:
 | **Shipped inputs byte-exact** | `python code/analyses/reproduction_20261002/paths_config.py` | exit 0 |
 | **`ARCHIVE_MAP.md` is self-consistent** | `python scripts/check_archive_map.py` | exit 0 |
 | **The headline numbers reproduce** | `python code/analyses/reproduction_min/reproduce_headline.py` | exit 0, 0 mismatches |
+| **The two documents follow from the archive** | `python scripts/audit_documents_vs_repo.py --si <SI.docx> --manuscript <MS.docx>` | exit 0; 0 Class A mismatches |
 | **Table S9's pools re-derive from a clone** | `python code/analyses/reproduction_20261002/00_build_added_derived.py`'s `build_pools()` with every `REPRO_*` unset, then `git status --porcelain data/derived` | prints 11,820 / 818; empty status |
 
-The last row runs inside `verify_from_clone.sh` and not in `cut_release.sh`, deliberately:
+The document audit needs the two submitted `.docx` files, which this archive does not
+redistribute, so it is a step to run when they are at hand rather than part of either script.
+
+The pool re-derivation row runs inside `verify_from_clone.sh` and not in `cut_release.sh`, deliberately:
 it writes to `data/derived/`, and a pre-flight check on the author's own tree must be
 read-only. In a throwaway clone, writing to it is the point — the check is that the files
 come back **byte-identical**.

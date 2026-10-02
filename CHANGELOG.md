@@ -23,6 +23,45 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-02 (sixth pass) — the documents audited against the archive; one row does not reproduce
+
+**No reported number changes.** New check, and one status that was wrong.
+
+`scripts/audit_documents_vs_repo.py` answers the question a reviewer actually asks — are the
+numbers in the manuscript and the Supporting Information in here — in two strengths, and says
+which is which. Run against `Supporting_Information_GenetEpidemiol_20260930.docx` (31 tables)
+and `Manuscript_GenetEpidemiol_20260930.docx` (4 tables):
+
+* **Class A, structural equality** — 8 tables that are a straight projection of a shipped
+  table, compared **cell by cell** after aligning rows on their key columns:
+  **4,398 cells, 0 mismatches.** S2 728/728, S3 1,554/1,554, S4 420/420, S13 288/288,
+  S15 243/243 (+9 declared placeholders), S18 1,035/1,035, S23 122/122, main-text
+  Table 2(A) 4/4.
+* **Class B, value presence** — every other table's numbers looked up in the archive at the
+  precision the document prints them: **2,850 of 2,851.** Class B is a necessary condition,
+  not a sufficient one, and the script says so.
+* **Class C** — 8 items the archive map already declares as gaps or as needing a submission
+  document, listed so the report accounts for every table instead of the easy ones.
+
+**The single absent value is a real finding, and it changes a status.** SI Table S5a has four
+data rows; `data/derived/crosscohort.csv` carries rows 1, 2 and 4 (under different labels) but
+**not row 3, the √N_e direct-weighting sensitivity (pooled Z +2.09; Q 76.6; I² 98.7)**. The map
+marked S5a ✅ on the strength of row 1 alone. It is now **🟡**, with the three reproducible rows
+named and the fourth identified. Distribution: **19 ✅ / 13 🟡 / 5 🔴 / 9 ➖**.
+
+Three classes of apparent mismatch turned out to be conventions, not data, and the comparator
+now encodes them — each was worth 30–84 phantom cells: the documents print `—` where the CSVs
+leave a field empty (Table S3); they print `Non-candidate` where the CSV holds `NonCandidate`
+(Table S4); and Table S23 prints the **denominator** of a `matched/total` field, not the
+numerator — which is easy to miss because for ACTB the two coincide (`23/23`) while CKAP4 prints
+659 against `633/659`.
+
+Also fixed: `paths_config.si_tables()` documented `object i = Table S(i+1)`, which is **false**.
+The submitted SI splits Table S5 into two table objects (S5a, S5b), so the rule holds only up to
+the fourth object — `si_labels()[6]` is `'S6'`, not `'S7'`. Nothing depended on it, but a caller
+trusting it would have read the wrong table. `si_labels()` and `si_table_by_label('S5a')` now
+address tables by caption, which is what the existing diagnostics were really doing.
+
 ### 2026-10-02 (fifth pass) — the last two caveats, one closed and one made specific
 
 **No reported number changes.** S9's published values, and every other value in the Supporting
