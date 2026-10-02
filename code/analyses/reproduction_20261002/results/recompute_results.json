@@ -1,0 +1,440 @@
+{
+ "primary": {
+  "n": 96,
+  "genes": 32,
+  "k": 66,
+  "rate_pct": 68.75,
+  "rho": 0.3896391049857908,
+  "rho_reported": 0.39,
+  "naive_p": 8.712036752234289e-05,
+  "t": 4.101871961363953,
+  "df": 94,
+  "Same_column_consistent": true
+ },
+ "by_phenotype": {
+  "DR": {
+   "n": 32,
+   "k": 23,
+   "rate_pct": 71.875
+  },
+  "DN": {
+   "n": 32,
+   "k": 21,
+   "rate_pct": 65.625
+  },
+  "DPN": {
+   "n": 32,
+   "k": 22,
+   "rate_pct": 68.75
+  }
+ },
+ "reversal": {
+  "eQTLGen_pos_GTEx_neg": 12,
+  "GTEx_pos_eQTLGen_neg": 18,
+  "binom_p": 0.36159460805356514
+ },
+ "extremes": {
+  "max_absZ_gtex": 2.6809,
+  "max_absZ_eqtlgen": 2.8258,
+  "max_min_absZ": 2.3983
+ },
+ "by_minZ": [
+  {
+   "thr": 0.0,
+   "n": 96,
+   "k": 66,
+   "rate_pct": 68.8,
+   "cp95": "58.5-77.8"
+  },
+  {
+   "thr": 0.5,
+   "n": 41,
+   "k": 31,
+   "rate_pct": 75.6,
+   "cp95": "59.7-87.6"
+  },
+  {
+   "thr": 1.0,
+   "n": 17,
+   "k": 15,
+   "rate_pct": 88.2,
+   "cp95": "63.6-98.5"
+  },
+  {
+   "thr": 1.5,
+   "n": 5,
+   "k": 5,
+   "rate_pct": 100.0,
+   "cp95": "47.8-100.0"
+  },
+  {
+   "thr": 2.0,
+   "n": 1,
+   "k": 1,
+   "rate_pct": 100.0,
+   "cp95": "2.5-100.0"
+  },
+  {
+   "thr": 2.5,
+   "n": 0,
+   "k": 0,
+   "rate_pct": null,
+   "cp95": "—"
+  },
+  {
+   "thr": 3.0,
+   "n": 0,
+   "k": 0,
+   "rate_pct": null,
+   "cp95": "—"
+  }
+ ],
+ "low_signal": {
+  "min|Z| < 0.5": {
+   "n": 55,
+   "k": 35,
+   "rate_pct": 63.63636363636363
+  },
+  "max|Z| < 0.5": {
+   "n": 17,
+   "k": 12,
+   "rate_pct": 70.58823529411765
+  }
+ },
+ "identity": {
+  "rho": 0.3896391049857908,
+  "predicted_pct": 62.74002518138945,
+  "observed_pct": 68.75,
+  "excess_pp": 6.0099748186105515,
+  "predicted_pct_at_rho_0p39": 62.75249966744045,
+  "excess_pp_reported_chain": 6.047500332559544
+ },
+ "arms_full": {
+  "panel": {
+   "label": "Panel-only (GTEx WB vs eQTLGen)",
+   "n": 159,
+   "genes": 53,
+   "k": 113,
+   "rate_pct": 71.0691823899371,
+   "rho": 0.4903581555071124
+  },
+  "tissue": {
+   "label": "Tissue-only (GTEx WB vs NT)",
+   "n": 138,
+   "genes": 46,
+   "k": 91,
+   "rate_pct": 65.94202898550725,
+   "rho": 0.41378625392991103
+  },
+  "dual": {
+   "label": "Dual (GTEx MT vs eQTLGen)",
+   "n": 198,
+   "genes": 66,
+   "k": 133,
+   "rate_pct": 67.17171717171718,
+   "rho": 0.44207328620852504
+  }
+ },
+ "arms_common45": {
+  "panel": {
+   "label": "Panel-only (common)",
+   "n": 135,
+   "genes": 45,
+   "k": 95,
+   "rate_pct": 70.37037037037037,
+   "rho": 0.46301693253706266
+  },
+  "tissue": {
+   "label": "Tissue-only (common)",
+   "n": 135,
+   "genes": 45,
+   "k": 88,
+   "rate_pct": 65.18518518518519,
+   "rho": 0.40974007287129494
+  },
+  "dual": {
+   "label": "Dual (common)",
+   "n": 135,
+   "genes": 45,
+   "k": 91,
+   "rate_pct": 67.4074074074074,
+   "rho": 0.4433017347143579
+  }
+ },
+ "delta_rho_testbed": {
+  "dual_minus_panel": {
+   "observed": -0.019715197822704755,
+   "boot_lo": -0.12709918912435111,
+   "boot_hi": 0.08984800465089289,
+   "boot_mean": -0.017831939174725413
+  },
+  "dual_minus_tissue": {
+   "observed": 0.03356166184306297,
+   "boot_lo": -0.2138310395572262,
+   "boot_hi": 0.27951924251456584,
+   "boot_mean": 0.03378561298197899
+  }
+ },
+ "dual198": {
+  "n": 198,
+  "genes": 66,
+  "acat_gtex_sig": 4,
+  "eqtlgen_sig": 5,
+  "acat_exactly_one": 9,
+  "acat_both": 0,
+  "stouffer_gtex_sig": 7,
+  "stouffer_exactly_one": 12,
+  "by_phenotype": {
+   "DR": 3,
+   "DN": 2,
+   "DPN": 4
+  },
+  "single_source_pairs": [
+   {
+    "gene": "PDIA3",
+    "pheno": "DR",
+    "source": "GTEx"
+   },
+   {
+    "gene": "RPS18",
+    "pheno": "DR",
+    "source": "eQTLGen"
+   },
+   {
+    "gene": "TUBB",
+    "pheno": "DR",
+    "source": "eQTLGen"
+   },
+   {
+    "gene": "TUBB",
+    "pheno": "DN",
+    "source": "eQTLGen"
+   },
+   {
+    "gene": "XRCC5",
+    "pheno": "DN",
+    "source": "GTEx"
+   },
+   {
+    "gene": "APPL1",
+    "pheno": "DPN",
+    "source": "GTEx"
+   },
+   {
+    "gene": "RPS18",
+    "pheno": "DPN",
+    "source": "eQTLGen"
+   },
+   {
+    "gene": "TUBB",
+    "pheno": "DPN",
+    "source": "eQTLGen"
+   },
+   {
+    "gene": "XRCC5",
+    "pheno": "DPN",
+    "source": "GTEx"
+   }
+  ]
+ },
+ "tercile_reversal": {
+  "低": {
+   "n": 66,
+   "reversal_pct": 27.27272727272727
+  },
+  "中": {
+   "n": 66,
+   "reversal_pct": 39.39393939393939
+  },
+  "高": {
+   "n": 66,
+   "reversal_pct": 31.818181818181817
+  }
+ },
+ "bh_recheck": {
+  "gtex_layers_ok": "9/9",
+  "gtex_max_abs_dq": 4.999999999999449e-05,
+  "eqtlgen_layers_ok": "9/9",
+  "eqtlgen_max_abs_dq": 0.0018000000000000238,
+  "tolerance": 0.0025
+ },
+ "table1A": {
+  "layer1_housekeeping": "0/87",
+  "layer2_genomewide": "0/87",
+  "layer3_HRT": "1/90"
+ },
+ "table1B": {
+  "Candidate": {
+   "gtex": "2/84 (2.4%)",
+   "eqtlgen": "5/81 (6.2%)"
+  },
+  "Non-candidate": {
+   "gtex": "1/81 (1.2%)",
+   "eqtlgen": "0/75 (0.0%)"
+  },
+  "T2DM control": {
+   "gtex": "1/57 (1.8%)",
+   "eqtlgen": "0/51 (0.0%)"
+  }
+ },
+ "housekeeping_eqtlgen": {
+  "k": 2,
+  "n": 81,
+  "rate_pct": 2.4691358024691357
+ },
+ "pooled_meta": {
+  "gtex_diff": 2.380952380952381,
+  "gtex_se": 1.663424121442314,
+  "eqtlgen_diff": 3.7037037037037033,
+  "eqtlgen_se": 3.181732100066722,
+  "pooled_diff": 2.664886664980293,
+  "pooled_se": 1.4741219902801606,
+  "ci95": [
+   -0.2243924359688214,
+   5.554165765929408
+  ],
+  "ci90": [
+   0.23995599096942888,
+   5.089817338991157
+  ]
+ },
+ "fig4": {
+  "testbed": {
+   "n": 138,
+   "genes": 46,
+   "rho": 0.41378625392991103
+  },
+  "housekeeping": {
+   "n": 72,
+   "genes": 24,
+   "rho": 0.6362467039681009
+  }
+ },
+ "primary_bootstrap": {
+  "B": 10000,
+  "seed": 20260915,
+  "rho_ci": [
+   0.11210448887754317,
+   0.6257694972313254
+  ],
+  "rate_ci_pct": [
+   58.333333333333336,
+   79.16666666666666
+  ]
+ },
+ "top10_overlap": {
+  "gtex_top10": [
+   [
+    "ANXA1",
+    "DPN"
+   ],
+   [
+    "CAMK1D",
+    "DN"
+   ],
+   [
+    "CAMK1D",
+    "DR"
+   ],
+   [
+    "FTO",
+    "DN"
+   ],
+   [
+    "HSP90B1",
+    "DN"
+   ],
+   [
+    "RNH1",
+    "DR"
+   ],
+   [
+    "RPS8",
+    "DR"
+   ],
+   [
+    "XRCC5",
+    "DN"
+   ],
+   [
+    "XRCC5",
+    "DPN"
+   ],
+   [
+    "YWHAQ",
+    "DR"
+   ]
+  ],
+  "eqtlgen_top10": [
+   [
+    "ANXA1",
+    "DPN"
+   ],
+   [
+    "C1QBP",
+    "DN"
+   ],
+   [
+    "GNA13",
+    "DR"
+   ],
+   [
+    "NCL",
+    "DN"
+   ],
+   [
+    "PNN",
+    "DPN"
+   ],
+   [
+    "RPS18",
+    "DPN"
+   ],
+   [
+    "RPS18",
+    "DR"
+   ],
+   [
+    "TUBB",
+    "DN"
+   ],
+   [
+    "TUBB",
+    "DPN"
+   ],
+   [
+    "TUBB",
+    "DR"
+   ]
+  ],
+  "shared": [
+   [
+    "ANXA1",
+    "DPN"
+   ]
+  ]
+ },
+ "s5a": {
+  "pooled_z": 1.5150000000000001,
+  "Q": 1.2640500000000001,
+  "I2_pct": 20.88920533206757,
+  "tau_DL": 0.36335244598048333,
+  "SE_DL": 0.7523380224340652,
+  "PI_DL": [
+   -0.12255331516259349,
+   3.152553315162594
+  ],
+  "tau_table": 0.513857957027037,
+  "SE_table": 0.795,
+  "PI_table": [
+   -0.3403602669023609,
+   3.3703602669023613
+  ]
+ },
+ "s5b": {
+  "k": 5,
+  "n": 8,
+  "rate_pct": 62.5,
+  "binom_p": 0.7265625
+ }
+}

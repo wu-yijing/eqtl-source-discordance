@@ -1,0 +1,17 @@
+观测: n=96 k=66 rho=0.389639
+目标: rho CI = 0.12-0.62 ; rate CI = 58.3-79.2%
+
+  pcg     order=csv    choice    rho=[+0.112,+0.626]  fisher=[+0.112,+0.626]  rate=[58.3,79.2]  <== rate 命中
+  pcg     order=csv    integers  rho=[+0.112,+0.626]  fisher=[+0.112,+0.626]  rate=[58.3,79.2]  <== rate 命中
+  pcg     order=sorted choice    rho=[+0.112,+0.626]  fisher=[+0.112,+0.626]  rate=[58.3,79.2]  <== rate 命中
+  pcg     order=sorted integers  rho=[+0.112,+0.626]  fisher=[+0.112,+0.626]  rate=[58.3,79.2]  <== rate 命中
+  rs      order=csv    choice    rho=[+0.116,+0.622]  fisher=[+0.116,+0.622]  rate=[58.3,79.2]  <== rho 命中  <== fisher-z 命中  <== rate 命中
+  rs      order=csv    integers  rho=[+0.116,+0.622]  fisher=[+0.116,+0.622]  rate=[58.3,79.2]  <== rho 命中  <== fisher-z 命中  <== rate 命中
+  rs      order=sorted choice    rho=[+0.116,+0.622]  fisher=[+0.116,+0.622]  rate=[58.3,79.2]  <== rho 命中  <== fisher-z 命中  <== rate 命中
+  rs      order=sorted integers  rho=[+0.116,+0.622]  fisher=[+0.116,+0.622]  rate=[58.3,79.2]  <== rho 命中  <== fisher-z 命中  <== rate 命中
+  pyrand  order=csv    choice    rho=[+0.113,+0.624]  fisher=[+0.113,+0.624]  rate=[58.3,79.2]  <== rate 命中
+  pyrand  order=csv    integers  rho=[+0.113,+0.624]  fisher=[+0.113,+0.624]  rate=[58.3,79.2]  <== rate 命中
+  pyrand  order=sorted choice    rho=[+0.113,+0.624]  fisher=[+0.113,+0.624]  rate=[58.3,79.2]  <== rate 命中
+  pyrand  order=sorted integers  rho=[+0.113,+0.624]  fisher=[+0.113,+0.624]  rate=[58.3,79.2]  <== rate 命中
+
+命中组合: ['pcg     order=csv    choice  ', 'pcg     order=csv    integers', 'pcg     order=sorted choice  ', 'pcg     order=sorted integers', 'rs      order=csv    choice  ', 'rs      order=csv    integers', 'rs      order=sorted choice  ', 'rs      order=sorted integers', 'pyrand  order=csv    choice  ', 'pyrand  order=csv    integers', 'pyrand  order=sorted choice  ', 'pyrand  order=sorted integers']

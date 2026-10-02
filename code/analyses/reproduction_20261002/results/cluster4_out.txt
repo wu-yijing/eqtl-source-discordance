@@ -1,0 +1,18 @@
+ρ = 0.389639   naive Fisher SE(ρ) = 0.0880
+
+====================================================================================================
+A. 回归型 CR1（cluster-robust）SE
+====================================================================================================
+  CR1 ×K/(K−1)                   SE(ρ) = 0.0050  (SE(slope)=0.00498)  one-sided 0.0000  two-sided 0.0000
+  CR1 ×K/(K−1)·(N−1)/(N−2)       SE(ρ) = 0.0050  (SE(slope)=0.00501)  one-sided 0.0000  two-sided 0.0000
+  CR1 ×1                         SE(ρ) = 0.0049  (SE(slope)=0.00491)  one-sided 0.0000  two-sided 0.0000
+  报告 SE = 0.125，one-sided 0.002 / two-sided 0.004（df 31）
+
+====================================================================================================
+B. 对照：基因簇自助法 ρ 的 SD（B=10000）
+====================================================================================================
+Traceback (most recent call last):
+  File "E:\workbuddy\GE投稿资料\_重算_20261002\repo_crosscheck\verify_cluster4.py", line 38, in <module>
+    ii=np.concatenate([idx[j] for j in pick])
+                       ~~~^^^
+TypeError: list indices must be integers or slices, not numpy.str_

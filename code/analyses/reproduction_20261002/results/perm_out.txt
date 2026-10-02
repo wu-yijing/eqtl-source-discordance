@@ -1,0 +1,9 @@
+  per_trait_y   MT   null 2.5–97.5 = -0.199 to +0.199  SD=0.102  P=0.0001
+  per_trait_y   PCG  null 2.5–97.5 = -0.199 to +0.202  SD=0.102  P=<0.001
+  per_trait_x   MT   null 2.5–97.5 = -0.197 to +0.202  SD=0.103  P=<0.001
+  per_trait_x   PCG  null 2.5–97.5 = -0.196 to +0.201  SD=0.102  P=0.0004
+  block_y       MT   null 2.5–97.5 = -0.218 to +0.232  SD=0.114  P=0.0004
+  block_y       PCG  null 2.5–97.5 = -0.222 to +0.225  SD=0.115  P=0.0002
+  free          MT   null 2.5–97.5 = -0.202 to +0.201  SD=0.102  P=<0.001
+  free          PCG  null 2.5–97.5 = -0.200 to +0.202  SD=0.102  P=0.0001
+  报告: null 2.5–97.5 = −0.22 to 0.23 ; P < 0.001

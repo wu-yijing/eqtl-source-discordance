@@ -1,0 +1,10 @@
+gtex 层中无分组的基因: [] 共 0
+
+  P_ACAT_O     域=Trait       完全一致  0 / 不一致  3   max|Δq|=3.801e-01  DN(m=74)
+  P_ACAT_O     域=GroupTrait  完全一致  9 / 不一致  0   max|Δq|=0.000e+00  
+  P_ACAT_O     域=Group       完全一致  0 / 不一致  3   max|Δq|=4.077e-01  44 Non-Candidate(m=81)
+  P_ACAT_O     域=All         完全一致  0 / 不一致  1   max|Δq|=3.801e-01  all(m=222)
+  P_Stouffer   域=Trait       完全一致  0 / 不一致  3   max|Δq|=4.253e-01  DN(m=74)
+  P_Stouffer   域=GroupTrait  完全一致  9 / 不一致  0   max|Δq|=0.000e+00  
+  P_Stouffer   域=Group       完全一致  0 / 不一致  3   max|Δq|=2.881e-01  44 Non-Candidate(m=81)
+  P_Stouffer   域=All         完全一致  0 / 不一致  1   max|Δq|=4.043e-01  all(m=222)

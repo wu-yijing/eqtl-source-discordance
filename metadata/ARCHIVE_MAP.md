@@ -20,7 +20,7 @@
 | 🔴 **GAP** | **Nothing in this repository produces it.** The generating script was not archived | Must be fixed or declared before release |
 | ➖ **NOT A DATA ARTEFACT** | A text or table rendered directly in the Supporting Information | Nothing |
 
-**A map that over-claims is worse than a map that admits gaps.** Of 46 items checked: **16 ✅, 13 🟡, 9 🔴, 8 ➖**.
+**A map that over-claims is worse than a map that admits gaps.** Of 46 items checked, as of 2026-10-02: **20 ✅, 12 🟡, 5 🔴, 9 ➖**. The counts are now a machine count of the status column. The line previously read 16 ✅ / 13 🟡 / 9 🔴 / 8 ➖, which did not match the table beneath it — the table then held 12 ✅ and 12 🔴.
 
 ---
 
@@ -31,7 +31,7 @@
 | Table 1 — definitions and provenance of the three control layers | Supporting Information **Note S3** (text only) | ➖ | Note S3 is the provenance carrier |
 | Table 1 — enrichment values for the three control layers | inputs: `data/derived/hk_genes.txt` (gene roster), `data/derived/gtex_Z.csv`, `data/derived/eqtlgen_Z.csv` | 🔴 | **GAP-2**, and blocked by **GAP-1**: the housekeeping arm of this table rests on the Z layer that the Supporting Information replaced on 2026-09-17. See §4 |
 | Table 2(A) — primary comparison | `data/derived/primary_arm_96pairs.csv` (**96 rows**) | ✅ | ANXA1/DR = 0.4283, 0.9302 = first data row of SI Table S13; 66/96 = 68.8%, ρ = 0.3898 |
-| Table 2(B) — two-axis partition (dual 198 / panel-only 159 / tissue-only 138 pairs) | derived by joining `data/derived/gtex_Z.csv` × `data/derived/eqtlgen_Z.csv` | 🟡 | **No arm table is shipped.** The join reproduces the published arm figures but must be written from scratch → **GAP-3** |
+| Table 2(B) — two-axis partition (dual 198 / panel-only 159 / tissue-only 138 pairs) | derived by joining `data/derived/gtex_Z.csv` × `data/derived/eqtlgen_Z.csv` | ✅ | **GAP-3 closed 2026-10-02.** The join is now shipped as `code/analyses/reproduction_20261002/scripts/recompute.py`; it reproduces all four arms on their own full-pair inputs — primary 96 / ρ 0.3896 / 68.75%; panel-only 159 / ρ 0.490 / 71.1%; tissue-only 138 / ρ 0.414 / 65.9%; dual 198 / ρ 0.442 / 67.2% |
 | Figs. 1–4 | **not in this repository** | 🟡 | `figures/` contains only its README. The repository ships the *scripts* for some panels, never the figure files. See [`../code/figures/FIGURE_NUMBER_MAP.md`](../code/figures/FIGURE_NUMBER_MAP.md) |
 | Fig. 1 module 6 — checklist pointer | points to SI Table S12 → Table S14 | ✅ | Consistent with the current SI |
 
@@ -43,7 +43,7 @@
 | Note S2 — RNA pull-down / LC–MS/MS parameters | ➖ text only; spectra at iProX PXD083775 | ➖ | |
 | Note S3 — table notes for main-text Table 1 | ➖ text only | ➖ | |
 | Note S4 — data sources: identifiers, versions, retrieval dates | `data/README.md` | 🟡 | Manifest skeleton present; **SHA-256 values and retrieval dates are still `<hash>` placeholders** |
-| Note S5 — simulation validation: full design and results | `code/simulations/split_half_null/` covers the split-half null only | 🔴 | **GAP-4**: the generators for SI Tables S27 and S29 are absent |
+| Note S5 — simulation validation: full design and results | **recovered 2026-10-02**: `code/analyses/reproduction_20261002/scripts/r3/simulation_validation.py` (verbatim copy of the archived generator) | ✅ | **GAP-5 closed.** Re-run: all 84 values identical to the archived `simulation_results.json` at machine precision — S27 +0.01/+1.04/+2.33/+3.15/+5.46 pp; S28 94.0/95.5/7.5/6.0 and 96.25/94.75; S29 5.75/0.4955 and 7.25/0.3464. Parameter sets (seed 20260930, G = 32, P = 3, n_pair = 96, ρ_sd = 0.15, n₁ = 3,000, n_rep = 400, B = 500) confirmed. *(This row previously cited "GAP-4"; the register reserves GAP-4 for Figs. S1 and S2 — corrected here.*) |
 | Fig. S1 — diagnostic scheme (flowchart) | — | 🔴 | No generating script in the repository |
 | Fig. S2 — eQTL SNP-count violin | — | 🔴 | No generating script. Complicated by the fact that the *previous* S2 (|Z| density) was deleted at revision and later figures were renumbered |
 | Fig. S3 — endpoint calibration and spike-in control | `code/figures/10_redraw_FigS6_20260921.py` + `code/figures/m15_positive_control.json` | ✅ | Script reads `PC1a_BH_boundary` / `PC1b_null_calibration` / `PC2a` / `PC2b` from the bundled JSON, which is the S20 content. ⚠️ the script's internal assertion label still says "SI Table S19" — stale label, same data |
@@ -62,27 +62,27 @@
 | S6 | Housekeeping control gene list + dual-tissue results | **NONE — the repository holds the pre-correction side only**, at `data/superseded/hk_reselect_20260830/` | 🔴 | **GAP-1, diagnosed.** The 30-gene roster and the model-SNP column match the Supporting Information; every Z value is the pre-2026-09-17 computation. Evidence chain in §4 |
 | S7 | Margin-sensitivity of the enrichment contrast | **recovered 2026-10-02**: `code/analyses/recovered/tost_ci_calculator.py` and `tost_and_newcombe.py` | 🟡 | Difference and Newcombe 90% CI **verified reproduced** (GTEx −9.7 to +15.4, eQTLGen −13.3 to +12.6; TOST p 0.181/0.060/0.014 and 0.116/0.034/0.007 — all match the published values). The "Smallest margin attained" column still has no source |
 | S8 | Fixed-threshold enrichment reanalysis | derivable from `data/derived/gtex_Z.csv` / `eqtlgen_Z.csv` | 🟡 | Counting at p < 0.05 is mechanical; the script is not shipped |
-| S9 | Architecture-unselected random controls | outputs partly present at `data/superseded/hk_reselect_20260830/d3_*` and `d3b_*`, **but they are from the same pre-correction computation** | 🔴 | **GAP-7.** Reclassified: the surviving data cannot stand in for the published table |
+| S9 | Architecture-unselected random controls | inputs verified: `data/derived/gtex_Z.csv` + `data/derived/covariate_matrix.csv` + the HRT roster; the retired `data/superseded/hk_reselect_20260830/d3_*` / `d3b_*` outputs are **not** used | ✅ | **GAP-7 closed 2026-10-02.** Full table reproduced by `code/analyses/reproduction_20261002/scripts/r3/recompute_r3_s9_s20.py`: exclusion chain 12,622 → 12,555 → 11,885 → **11,820** (10,450 dual-tissue); POOL_818 = 818/767/51; coverage 568/768; 16 random-control rates (GW and HRT × GTEx and eQTLGen × 4 thresholds); 8 null-distribution values; percentiles 69.3 / 51.7 / 78.3 / 68.1; in-pool strata 21/1,326 and 7/378, 20/1,827 and 6/477 with their median \|Z\| and Fisher P. One operational detail recovered from the data, not documented anywhere: the in-pool "both-tissue" stratum must be defined by **availability of the official statistic**, not by mashr model availability — the latter gives 506/1,518 and 62/186 instead |
 | S10 | Cross-population direction check for DN | — | 🔴 | **GAP-8.** Also carries the peer-review item M3: the table note must state the **full** population composition of the source resource (European **and** East Asian components), not only the component used |
 | S11 | Analysis-arm denominators | derivable from `data/derived/gtex_Z.csv` / `eqtlgen_Z.csv` | 🟡 | Denominators are counts over the two Z tables |
 | S12 | Draft TWAS reporting checklist | ➖ | ➖ | Document artefact |
 | **S13** | Per-pair primary-arm data | `data/derived/primary_arm_96pairs.csv` | ✅ | 96 rows, 5 cols, identical header; reproduces 68.8% and ρ = 0.39 |
 | S14 | Checklist completed for this study | ➖ | ➖ | Pre-specification anchors recorded in [`PRE_REGISTRATION.md`](PRE_REGISTRATION.md) |
 | **S15** | Housekeeping control — eQTLGen results | `data/derived/eqtlgen_Z.csv`, filter `Group == 'Housekeeping'` (81 rows) | ✅ | ANKRD40/DR = −0.6222, 0.534, 0.6005, 130/137 = SI row 1 **exactly**. The SI carries 90 rows because 9 are placeholders for genes with no eQTLGen model |
-| S16 | Framework-layer alternative test | — | 🔴 | **GAP-9** |
-| S17 | Cluster-aware uncertainty of the primary arm | — | 🔴 | **GAP-10.** The retired `code/deprecated/s1_cluster_robustness/` states in its own README that its code is **not** the script set behind these numbers |
+| S16 | Framework-layer alternative test | `data/derived/` gene-level Z for the elastic-net and MASHR layers | ✅ | **GAP-9 closed 2026-10-02.** All 9 rows reproduced by `code/analyses/reproduction_20261002/scripts/recompute_scz.py`: ρ +0.7970 (+0.781 to +0.812; 82.4%, n = 4,098), +0.8062, +0.8379, +0.7842 (n = 6,310), +0.4990 (+0.469 to +0.528; 69.8%), +0.5250, +0.5820 (n = 3,910), +0.6470, +0.6380 (n = 6,014) |
+| S17 | Cluster-aware uncertainty of the primary arm | `data/derived/primary_arm_96pairs.csv` | ✅ | **GAP-10 closed 2026-10-02.** Rebuilt from the data, not reused from the retired directory. naive t = 4.1019 (df 94, P = 8.712 × 10⁻⁵); delete-one-gene jackknife SE(ρ) = **0.1367** (P 0.0039 / 0.0077 = the published 0.004 / 0.008); sandwich SE(ρ) = 0.1264 against the published 0.125 — the reported triple (SE 0.125, one-sided 0.002, two-sided 0.004, df 31) is **internally consistent for any SE in 0.12326–0.12719**, so the estimator, not the value, was the missing item; gene-label permutation null −0.218 to +0.232 (= the published −0.22 to +0.23) provided the permutation is by **whole gene**; gene-cluster bootstrap ρ CI [0.1161, 0.6220] and rate CI 58.3–79.2%; two-arm rate difference analytic +2.6649 pp / SE 1.4741 / 95% CI −0.22 to +5.55 / 90% CI +0.24 to +5.09 / Q 0.1357, and gene-cluster SE 2.194 → 2.2 with 90% CI −0.77 to +6.45 → −0.7 to +6.4, r −0.045 → −0.05. **Two disclosures are still owed** (RNG = `numpy.random.RandomState`; resampling over a lexicographically sorted gene vector) — see `docs/audit_notes/R2残余差异消除方案_20261002.md` |
 | **S18** | Per-gene eQTLGen results, three gene groups | `data/derived/eqtlgen_Z.csv`, filter `Group != 'Housekeeping'` | ✅ | Yields exactly **207** rows = SI's 207 data rows (81 candidate + 75 non-candidate + 51 T2DM control) |
 | S19 | Per-stratum enrichment rates at p < 0.05 | derivable from `data/derived/gtex_Z.csv` / `eqtlgen_Z.csv` | 🟡 | Mechanical count by arm and phenotype |
-| **S20** | Endpoint calibration and spike-in control | `code/figures/m15_positive_control.json` | ✅ | Keys `PC1a_BH_boundary` (strata 13…87, e.g. n = 27 → \|Z\| = 3.11) and `PC1b_null_calibration` carry the S20 content; the Fig. S3 script asserts against it |
+| **S20** | Endpoint calibration and spike-in control | `code/figures/m15_positive_control.json`; **generator recovered 2026-10-02** at `code/analyses/reproduction_20261002/scripts/r3/m15/m15_pc.py` | ✅ | Keys `PC1a_BH_boundary` (strata 13…87, e.g. n = 27 → \|Z\| = 3.11) and `PC1b_null_calibration` carry the S20 content; the Fig. S3 script asserts against it. The generator had been missing (the map previously recorded the JSON as its own carrier); re-run verbatim it reproduces the archived JSON key-for-key to 1 × 10⁻¹², including `PC2b_group_diff_power` = 8.0 / 14.5 / 13.0 / 17.5 pp |
 | S21 | Direction consistency vs min \|Z\| threshold | derivable from `data/derived/primary_arm_96pairs.csv` | 🟡 | Thresholding at 0.0 reproduces 96 / 66 / 68.8% = SI row 1 |
 | S22 | Sensitivity to exclusion of TUBB | derivable from `data/derived/eqtlgen_Z.csv` | 🟡 | Mechanical re-count after dropping the highest-leverage gene |
 | S23 | Composition of the harmonized eQTLGen arm | derivable from `data/derived/eqtlgen_Z.csv` (`Model_SNPs` column) | 🟡 | SI has 61 data rows — a subset of the 96-gene universe |
 | **S24** | Three genome-wide SCZ arms (n = 8,315) | `data/derived/scz_z_4arm.csv` | ✅ | 15,875 rows; panel-only row = 8,315 / 5,584 / 67.2% / 66.1–68.2 / +0.469 matches SI row 1 |
 | S25 | Arm membership of exceptional entries | hand-curated; derivable from the tables it cites | 🟡 | No generator; content is a curated list (RPS16, HSP90AB1, …) |
 | S26 | Mahalanobis-matched enrichment contrasts | `data/superseded/mahalanobis_matched_pairs.csv` + `data/derived/gtex_Z.csv` + `data/derived/eqtlgen_Z.csv` | 🟡 | The two Fisher values (2/84 vs 1/60 → 1.00; 5/81 vs 0/57 → 0.077) appear as embedded constants in `code/figures/10_redraw_FigS6_*.py`, but the producing script is not shipped |
-| S27 | Calibration of the sign-agreement identity | — | 🔴 | **GAP-5** |
-| S28 | Coverage / type I error of the bootstrap interval | — | 🔴 | **GAP-5** |
-| S29 | Type I error of the two-axis separability test | — | 🔴 | **GAP-5** |
+| S27 | Calibration of the sign-agreement identity | `code/analyses/reproduction_20261002/scripts/r3/simulation_validation.py` | ✅ | **GAP-5 closed.** Re-run reproduces the table exactly: +0.01 pp under bivariate normality, +1.04 / +2.33 / +3.15 / +5.46 pp as tail thickness rises to t(3) |
+| S28 | Coverage / type I error of the bootstrap interval | `code/analyses/reproduction_20261002/scripts/r3/simulation_validation.py` | ✅ | **GAP-5 closed.** Re-run reproduces 94.0 / 95.5 / 7.5 / 6.0 and 96.25 / 94.75 |
+| S29 | Type I error of the two-axis separability test | `code/analyses/reproduction_20261002/scripts/r3/simulation_validation.py` | ✅ | **GAP-5 closed.** Re-run reproduces 5.75 / 0.4955 and 7.25 / 0.3464 |
 | S30 | Integrated evidence assessment | ➖ | ➖ | Text/table rendered directly in the Supporting Information |
 
 ---
@@ -153,16 +153,16 @@ A bounded search of the local disk found the surviving scripts living in **sessi
 |---|---|---|---|
 | GAP-1 | S6 (+ Table 1 housekeeping layer) | the corrected computation. **Diagnosed** (§4): the archived layer is the pre-2026-09-17 one, and 8 of 30 genes differ by more than a per-gene factor | **Partly** — the archive side is now correctly labelled; the corrected side must be re-run |
 | GAP-2 | Table 1 (values) | aggregation across the three control layers | Partly — S6/S9 blockers propagate |
-| GAP-3 | Table 2(B) | arm join (dual / panel-only / tissue-only) | **Yes** — write `code/analyses/arm_partition.py` |
+| GAP-3 | Table 2(B) | arm join (dual / panel-only / tissue-only) | ✅ **Closed 2026-10-02** — the join ships as `code/analyses/reproduction_20261002/scripts/recompute.py` and reproduces all four arms |
 | GAP-4 | Fig. S1, Fig. S2 | figure scripts | Figure files may exist outside the repository |
-| GAP-5 | S27, S28, S29 (+ Note S5) | simulation scripts; only the split-half null is shipped | **Partly** — `code/simulations/split_half_null/` covers one of the three |
+| GAP-5 | S27, S28, S29 (+ Note S5) | simulation scripts; only the split-half null is shipped | ✅ **Closed 2026-10-02** — the generator is recovered and re-run; all 84 values reproduce |
 | GAP-6 | S7 | ~~script missing~~ **partly closed 2026-10-02** — the TOST / Newcombe calculators were recovered and run; the "Smallest margin attained" column remains unsourced | **Yes for the CI half** |
-| GAP-7 | S9 | architecture-unselected control pipeline | Likely — output data is in `data/derived/hk_reselect/` |
+| GAP-7 | S9 | architecture-unselected control pipeline | ✅ **Closed 2026-10-02** — rebuilt onto `data/derived/` by `scripts/r3/recompute_r3_s9_s20.py`; whole table reproduces. The retired `data/superseded/hk_reselect_20260830/` outputs are **not** used |
 | GAP-8 | S10 | DN cross-population check | Unknown; also needs the M3 population-composition correction |
-| GAP-9 | S16 | framework-layer contrast | **Yes** — derivable, or recover from `code/analyses/m6_ne_weighted_sensitivity.py` lineage |
-| GAP-10 | S17 | cluster-aware uncertainty | **Yes** — the values are quoted in `code/deprecated/s1_cluster_robustness/README.md`; the script must be rebuilt, not reused |
+| GAP-9 | S16 | framework-layer contrast | ✅ **Closed 2026-10-02** — all 9 rows reproduced by `scripts/recompute_scz.py` |
+| GAP-10 | S17 | cluster-aware uncertainty | ✅ **Closed 2026-10-02** — rebuilt from `data/derived/primary_arm_96pairs.csv`; every published value reproduced, including the two-arm rate difference. The retired `code/deprecated/s1_cluster_robustness/` code was **not** reused, as its own README requires |
 
-**Recommended action before the first release:** either (a) locate and commit the generators for GAP-3, GAP-5, GAP-6, GAP-9, GAP-10, or (b) add a row to `README.md` stating plainly that those Supporting Information tables are not reproducible from this archive. Do not leave the gap implicit.
+**Recommended action before the first release:** the generators for GAP-3, GAP-5, GAP-9 and GAP-10 are now committed, and GAP-7 is closed by a rebuild; GAP-6 is half-closed. What remains is (a) GAP-1/GAP-2 — the corrected housekeeping layer must be re-run before *Table 1*'s housekeeping arm can be claimed, and (b) GAP-4/GAP-8. Do not leave the residue implicit.
 
 ---
 
