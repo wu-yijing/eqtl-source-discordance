@@ -3,28 +3,47 @@
 ================================================================================
  eQTL 权重来源不一致性研究 —— 正文与补充材料数据合并 + 重算
 ================================================================================
- 输入（唯一数据来源，只读）：
-  Manuscript_GenetEpidemiol_20260930.docx            —— 命令行 --manuscript
-  Supporting_Information_GenetEpidemiol_20260930.docx —— 命令行 --si
-    （两者均未随仓库分发；可用 --input manuscript_docx=… / si_docx=… 代替，
-      或设环境变量 EQTL_MANUSCRIPT_DOCX / EQTL_SI_DOCX。见 ../INPUTS.md）
+输入（唯一数据来源，只读；两份文档随投稿发布，不随本仓库分发）：
+  提交稿正文   —— 用 --ms-docx 指定，或设 REPRO_MS_DOCX
+  Supporting Information —— 用 --si-docx 指定，或设 REPRO_SI_DOCX
+  逐项 MD5 / 字节数见 INPUTS.md B.1
 
 输出：
   merged_pairs.csv         主数据集（Gene x Phenotype 一行，正文口径 + 两源逐对统计）
   recompute_results.json   全部重算量的机器可读结果
   recompute_log.txt        运行日志（含输入 MD5、行数、命中/未命中）
 
-运行：
-  python scripts/recompute.py --manuscript <main.docx> --si <si.docx>
-  python scripts/recompute.py --list-inputs      # 打印输入清单
+运行（在包的任意位置均可，路径由 paths_config.py 解析）：
+  python scripts/recompute.py
+  python scripts/recompute.py --ms-docx /path/Manuscript.docx --si-docx /path/SI.docx
 
-所有路径经 ../paths.py 统一解析；本脚本不依赖任何本机绝对路径。
-
-环境（已实测）：
-  Python 3.13.12 / numpy 2.4.4 / scipy 1.17.1 / pandas 3.0.3
+环境（本包实测）：
+  Python 3.13.12 / numpy 2.4.4 / scipy 1.17.1 / pandas 3.0.3（同 env/requirements.txt）
 ================================================================================
 """
-import argparse, json, hashlib, zipfile, sys, os
+# ---------------------------------------------------------------------------
+# Path resolution (added 2026-10-02). Satisfies code/README.md rule 3:
+# "No absolute paths, no personal directories."
+# ---------------------------------------------------------------------------
+import os as _os
+import sys as _sys
+
+
+def _repro_pkg():
+    d = _os.path.dirname(_os.path.abspath(__file__))
+    for _ in range(6):
+        if _os.path.exists(_os.path.join(d, 'paths_config.py')):
+            return d
+        d = _os.path.dirname(d)
+    raise RuntimeError('paths_config.py not found above %s' % __file__)
+
+
+_sys.path.insert(0, _repro_pkg())
+import paths_config as PC        # noqa: E402
+PC.apply_cli_overrides()
+# ---------------------------------------------------------------------------
+
+import json, hashlib, zipfile, sys, os
 from xml.etree import ElementTree as ET
 import numpy as np
 import pandas as pd
@@ -38,24 +57,12 @@ ALPHA                 = 0.05       # BH q 阈值
 EMDASH                = {'—', '–', '-', '', 'nan', 'NA', 'N/A'}
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.dirname(HERE))          # code/analyses/reproduction_20261002/
-import paths                                        # noqa: E402
-
-_ap = paths.add_common_args(argparse.ArgumentParser(description=__doc__.splitlines()[1]))
-_ap.add_argument('--manuscript', metavar='DOCX',
-                 help='submitted main text; default: $EQTL_MANUSCRIPT_DOCX')
-_ap.add_argument('--si', metavar='DOCX',
-                 help='submitted Supporting Information; default: $EQTL_SI_DOCX')
-_ap.add_argument('--out-dir', metavar='DIR',
-                 help='where the three outputs go; default: this directory')
-_args = _ap.parse_args()
-if _args.list_inputs:
-    print(paths.list_inputs()); raise SystemExit(0)
-paths.apply_args(_args)
-
-MS = _args.manuscript or str(paths.external('manuscript_docx'))
-SI = _args.si or str(paths.external('si_docx'))
-OUTD = _args.out_dir or HERE
+OUTD = PC.RESULTS              # 产物统一落在包的 results/（2026-10-02 起）
+os.makedirs(OUTD, exist_ok=True)
+# The submitted documents are not redistributed here. Point at your own copy with
+# --ms-docx / --si-docx, or set REPRO_MS_DOCX / REPRO_SI_DOCX.
+MS  = PC.doc('manuscript')
+SI  = PC.doc('si')
 
 LOG = []
 def log(*a):

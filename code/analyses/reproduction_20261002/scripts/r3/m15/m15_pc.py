@@ -1,14 +1,28 @@
 # -*- coding: utf-8 -*-
-"""M15 阳性对照（全向量化版） —— SI Table S20 的生成脚本，原样恢复。
+"""M15 阳性对照（全向量化版）"""
+# ---------------------------------------------------------------------------
+# Path resolution (added 2026-10-02). Satisfies code/README.md rule 3:
+# "No absolute paths, no personal directories."
+# ---------------------------------------------------------------------------
+import os as _os
+import sys as _sys
 
-输入是 `Additional file 1_审稿意见修订_20260917.docx`（上代投稿的 Additional file），
-**未随本仓库分发**，须用 --additional-file1 或 $EQTL_ADDITIONAL_FILE1 提供。
-因此 Table S20 对第三方不可复现——脚本在、输入不在。见 ../../README.md。
 
-    python m15_pc.py --additional-file1 <af1.docx> [--out-dir <dir>]
-    python m15_pc.py --list-inputs
-"""
-import argparse, os, sys, json
+def _repro_pkg():
+    d = _os.path.dirname(_os.path.abspath(__file__))
+    for _ in range(6):
+        if _os.path.exists(_os.path.join(d, 'paths_config.py')):
+            return d
+        d = _os.path.dirname(d)
+    raise RuntimeError('paths_config.py not found above %s' % __file__)
+
+
+_sys.path.insert(0, _repro_pkg())
+import paths_config as PC        # noqa: E402
+PC.apply_cli_overrides()
+# ---------------------------------------------------------------------------
+
+import os, json
 import numpy as np
 from collections import Counter
 from scipy import stats
@@ -16,23 +30,11 @@ from docx import Document
 from docx.table import Table
 from docx.oxml.ns import qn
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(HERE))))  # package root
-import paths                                                                  # noqa: E402
-
-_ap = paths.add_common_args(argparse.ArgumentParser(description=__doc__.splitlines()[0]))
-_ap.add_argument('--additional-file1', metavar='DOCX',
-                 help='Additional file 1_审稿意见修订_20260917.docx; '
-                      'default: $EQTL_ADDITIONAL_FILE1')
-_ap.add_argument('--out-dir', metavar='DIR',
-                 help='where m15_positive_control.json goes; default: this directory')
-_args = _ap.parse_args()
-if _args.list_inputs:
-    print(paths.list_inputs()); raise SystemExit(0)
-paths.apply_args(_args)
-
-AF = _args.additional_file1 or str(paths.external('additional_file1_docx'))
-OUT_DIR = _args.out_dir or HERE
+# That SI revision is not redistributed here: point at your own copy with
+# --af1-docx, or set REPRO_AF1_DOCX.
+AF = PC.doc('af1')
+OUT_DIR = PC.RESULTS           # 产物统一落在包的 results/（2026-10-02 起）
+os.makedirs(OUT_DIR, exist_ok=True)
 RNG = np.random.default_rng(20260917)
 O = {}
 SQ2 = np.sqrt(2)

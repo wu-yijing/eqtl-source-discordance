@@ -1,4 +1,27 @@
 # -*- coding: utf-8 -*-
+# ---------------------------------------------------------------------------
+# Path resolution (added 2026-10-02). Satisfies code/README.md rule 3:
+# "No absolute paths, no personal directories."
+# ---------------------------------------------------------------------------
+
+import os as _os
+import sys as _sys
+
+
+def _repro_pkg():
+    d = _os.path.dirname(_os.path.abspath(__file__))
+    for _ in range(6):
+        if _os.path.exists(_os.path.join(d, 'paths_config.py')):
+            return d
+        d = _os.path.dirname(d)
+    raise RuntimeError('paths_config.py not found above %s' % __file__)
+
+
+_sys.path.insert(0, _repro_pkg())
+import paths_config as PC        # noqa: E402
+PC.apply_cli_overrides()
+# ---------------------------------------------------------------------------
+
 import re, zipfile
 from xml.etree import ElementTree as ET
 W='{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
@@ -19,15 +42,8 @@ def load(path):
             rows=[[ ' '.join(pt(p) for p in tc.findall(W+'p')).strip() for tc in tr.findall(W+'tc')] for tr in c.findall(W+'tr')]
             out.append((len(rows), len(rows[0]) if rows else 0, (last[-1] if last else ''), rows))
     return out
-import sys as _sys, os as _os
-_p = _os.path.dirname(_os.path.abspath(__file__))
-while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
-    _p = _os.path.dirname(_p)
-_sys.path.insert(0, _p)
-import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
-_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
-B=load(str(_paths.external('bmc_additional_file1_docx')))
-G=load(str(_paths.external('si_docx')))
+B=load(PC.doc('pred_af1'))
+G=load(PC.doc('si'))
 def tabno(t):
     m=re.match(r'Table\s*S(\d+[a-z]?)', t.strip()); return m.group(1) if m else '?'
 def sig(r):  # 内容指纹：行数 + 列数 + 首行拼接的哈希

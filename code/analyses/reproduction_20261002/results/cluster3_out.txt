@@ -24,8 +24,6 @@ B. ICC 的 ANOVA 佐证（作用于主臂方向一致率）
 ====================================================================================================
 C. 基因标签置换检验（B=10000, seed 20260915）
 ====================================================================================================
-Traceback (most recent call last):
-  File "E:\workbuddy\GE投稿资料\_重算_20261002\repo_crosscheck\verify_cluster3.py", line 63, in <module>
-    pos={g:np.where(np.array(gene[i] for i in ii)==g)[0] for g in gs_t}
-           ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-ValueError: Calling nonzero on 0d arrays is not allowed. Use np.atleast_1d(scalar).nonzero() instead. If the context of this error is of the form `arr[nonzero(cond)]`, just use `arr[cond]`.
+  RandomState(MT19937)   null 2.5–97.5 pct = -0.199 to +0.199   P = 0.0001
+  default_rng(PCG64)     null 2.5–97.5 pct = -0.199 to +0.202   P = <0.001
+  报告: null 2.5–97.5 percentiles −0.22 to 0.23; P < 0.001

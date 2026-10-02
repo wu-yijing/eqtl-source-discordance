@@ -7,8 +7,9 @@ They are deliberately kept separate from `analysis_reports/`, which is a **local
 directory** and is listed in `.gitignore` (internal working notes — not published).
 
 > ⚠️ **Path note (2026-10-02).** The dated notes below are kept as written. Where one names
-> `data/processed_officialZ/` — the predecessor repository's layout — today's archive calls that
-> layer **`data/derived/`**; the two are byte-identical, 6 files of 6. Mapping:
+> `data/processed_officialZ/` — the predecessor repository's layout for the layer this archive now
+> calls **`data/derived/`** — the two are byte-identical, 6 files of 6 (verified 2026-10-02 against
+> a clone of the predecessor repository). Mapping and redirect:
 > [`../../data/processed_officialZ/README.md`](../../data/processed_officialZ/README.md).
 
 | Note | Date | What it records |

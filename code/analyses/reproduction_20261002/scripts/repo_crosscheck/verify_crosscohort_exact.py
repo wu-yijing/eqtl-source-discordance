@@ -1,18 +1,11 @@
 # -*- coding: utf-8 -*-
 """Table S5a（RNH1 跨队列合并）逐位核验 —— 用官方 MetaXcan v0.8.1 的精确 Z。
-输入 Z 来源: data/derived/ukb_dr/RNH1_official_metaxcan_Z.csv
+输入 Z 来源: eqtl-source-discordance-audit/data/processed/ukb_dr_official/RNH1_official_metaxcan_Z.csv
    FinnGen R13 DR        / eQTLGen weights        : Z = +2.3091, N_e = 49,304
    UKB GCST90043640      / eQTLGen weights        : Z = +0.7225, N_e =  1,231
    UKB GCST90043640      / GTEx MASHR Nerve_Tibial: Z = +0.5451, N_e =  1,231
 算法: 等权单位方差 k=2 合并 + DerSimonian–Laird(1986) τ² = (Q − df)/C, C = Σw − Σw²/Σw
 """
-import sys as _sys, os as _os
-_p = _os.path.dirname(_os.path.abspath(__file__))
-while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
-    _p = _os.path.dirname(_p)
-_sys.path.insert(0, _p)
-import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
-_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
 import math
 def pnorm2(z): return math.erfc(abs(z)/math.sqrt(2))
 

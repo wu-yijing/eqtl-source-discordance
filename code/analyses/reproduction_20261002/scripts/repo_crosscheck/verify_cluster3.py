@@ -1,17 +1,32 @@
 # -*- coding: utf-8 -*-
 """sandwich SE 变体搜索 + 基因标签置换检验；并给出 ICC 的 ANOVA 佐证。"""
+# ---------------------------------------------------------------------------
+# Path resolution (added 2026-10-02). Satisfies code/README.md rule 3:
+# "No absolute paths, no personal directories."
+# ---------------------------------------------------------------------------
+import os as _os
+import sys as _sys
+
+
+def _repro_pkg():
+    d = _os.path.dirname(_os.path.abspath(__file__))
+    for _ in range(6):
+        if _os.path.exists(_os.path.join(d, 'paths_config.py')):
+            return d
+        d = _os.path.dirname(d)
+    raise RuntimeError('paths_config.py not found above %s' % __file__)
+
+
+_sys.path.insert(0, _repro_pkg())
+import paths_config as PC        # noqa: E402
+PC.apply_cli_overrides()
+# ---------------------------------------------------------------------------
+
 import csv, math
 import numpy as np
 from scipy.stats import rankdata, t as tdist, f as fdist
 
-import sys as _sys, os as _os
-_p = _os.path.dirname(_os.path.abspath(__file__))
-while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
-    _p = _os.path.dirname(_p)
-_sys.path.insert(0, _p)
-import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
-_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
-P=str(_paths.derived('primary_arm_96pairs'))
+P = PC.get('primary_arm')
 rows=list(csv.DictReader(open(P,encoding='utf-8-sig')))
 x=np.array([float(r['Z_GTEx']) for r in rows]); y=np.array([float(r['Z_eQTLGen']) for r in rows])
 gene=[r['Gene'] for r in rows]; trait=np.array([r['Trait'] for r in rows])
@@ -66,14 +81,14 @@ for tag,fac in [('RandomState(MT19937)',lambda: np.random.RandomState(20260915))
     for b in range(B):
         yp=y.copy()
         for t in traits:
-            ii=ty[t]; gs_t=list(dict.fromkeys(gene[i] for i in ii))
-            # 2026-10-02 修：`gene` 是 list，原写法 `np.array(gene[i] for i in ii)` 会得到 0-d
-            # object 数组，np.where 直接抛 ValueError。转成 ndarray 再按位索引。
-            gi=np.asarray(gene)[ii]
-            pos={g:np.where(gi==g)[0] for g in gs_t}
+            ii=ty[t]
+            sub=np.asarray(gene)[ii]                      # 该表型下的基因名（与 ii 对齐）
+            gs_t=list(dict.fromkeys(sub))
+            pos={g: np.flatnonzero(sub == g) for g in gs_t}
             order=rng.permutation(len(gs_t))
-            for j,g in enumerate(gs_t):
-                src=gs_t[order[j]]; yp[ii[pos[g]]]=y[ii[pos[src]]]
+            for j, g in enumerate(gs_t):
+                src = gs_t[order[j]]
+                yp[ii[pos[g]]] = y[ii[pos[src]]]
         null[b]=rho_of(x,yp)
     lo,hi=np.percentile(null,2.5),np.percentile(null,97.5)
     Pperm=(np.abs(null)>=abs(r_obs)).mean()

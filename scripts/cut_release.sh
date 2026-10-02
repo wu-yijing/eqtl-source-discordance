@@ -143,19 +143,19 @@ fi
 
 echo
 echo "== 4b. reproduction-package wiring =="
-# The bootstrap that lets each script find paths.py is duplicated per script. A wrong
+# The bootstrap that lets each script find paths_config.py is duplicated per script. A wrong
 # number of os.path.dirname(...) levels compiles fine and dies at run time with
-# "No module named 'paths'" — which is what shipped in the first portable revision of
-# the package. This executes every script's preamble and fails if `paths` is not
+# "No module named 'paths_config'" — which is what shipped in the first portable revision of
+# the package. This executes every script's preamble and fails if `paths_config` is not
 # importable. It stubs third-party modules that this interpreter lacks, so it works
 # under a bare Python.
 WIRE="code/analyses/reproduction_20261002/check_wiring.py"
 if [ -f "$WIRE" ]; then
   if "$PY" "$WIRE" > /dev/null 2>&1; then
     N=$("$PY" "$WIRE" 2>/dev/null | awk '/^wired:/ {print $2}')
-    ok "every reproduction-package script imports paths (${N:-?} wired)"
+    ok "every reproduction-package script imports paths_config (${N:-?} wired)"
   else
-    bad "at least one reproduction-package script cannot import paths — run: $PY $WIRE"
+    bad "at least one reproduction-package script cannot import paths_config — run: $PY $WIRE"
   fi
 else
   warn "$WIRE missing"

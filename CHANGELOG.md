@@ -23,116 +23,164 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
-### 2026-10-02 (third pass) — the last three audit items, and four defects the re-runs exposed
+### 2026-10-02 (third pass) — guard rails, a self-contained check, and one convention still owed
 
-The audit's remediation list had fifteen items. Nine landed in the second-pass commit; this one
-closes the remaining three and fixes what actually running the diagnostic scripts turned up.
+The second pass made the package runnable and shipped the data layer. This pass adds the checks
+that keep it that way, and records the two things a reader is still owed.
 
 #### Added
-- **`code/analyses/reproduction_min/`** — a single ~180-line script that needs nothing but
-  `data/derived/` and numpy and reproduces the headline result, the per-phenotype split, the
-  tissue-only arm and the three SCZ arms. **15 assertions, 0 mismatches.** This is the only
-  100%-self-contained reproduction in the archive; before it, a reader with a bare clone could not
-  verify a single reported number. Wired into `cut_release.sh`.
+- **`code/analyses/reproduction_min/`** — a single ~180-line script needing only `data/derived/`
+  and numpy: no argument, no `.docx`, no network. It reproduces the headline 66/96 = 68.75 % and
+  ρ = 0.38964, the per-phenotype split, the tissue-only arm (138 · 91 · 65.9 % · +0.4138) and the
+  three SCZ arms (5,584 · 5,551 · 5,506 at +0.4690 · +0.4199 · +0.4465), with **15 assertions and
+  0 mismatches**. It is the only 100 %-self-contained reproduction in the archive: before it, a
+  reader with a bare clone could not verify a single reported number.
 - **`code/analyses/reproduction_20261002/check_wiring.py`** — executes every script's import
-  preamble and fails if `paths` is not importable. Stubs third-party modules it lacks, so it runs
-  under a bare Python; called by `scripts/cut_release.sh`. Its own first version was vacuous — the
-  checker's directory was on `sys.path`, so everything "passed" — and was corrected and
-  re-verified by deliberately re-introducing the bug.
-- **`data/processed_officialZ/README.md`** — a redirect for the 15 remaining references to the
-  predecessor repository's name for `data/derived/`, all inside historical documents that are
-  correct as written.
+  preamble and fails if `paths_config` is not importable. Each script carries its own
+  bootstrap, and a bootstrap with the wrong depth compiles cleanly and dies at run time; 24
+  scripts shipped that way in the first portable revision. The check stubs third-party modules
+  it lacks, so it runs under a bare Python, and it strips this file's own directory from
+  `sys.path` so it cannot pass vacuously. Called by `scripts/cut_release.sh`, which now also
+  fails the release if `reproduction_min` stops reproducing under an interpreter that has numpy.
 - **Table-note text for SI Table S24** in `docs/audit_notes/R2残余差异消除方案_20261002.md` §五
-  item 7: `multiZ` carries **77 exact zeros** in the complete-case universe; scoring a zero as
-  positive moves the dual arm 5,506 → 5,544 (+0.46 pp). The convention was never stated.
-
-#### Fixed
-- **24 scripts shipped with a too-short path bootstrap.** Making the package portable, each script
-  was wired with a fixed number of `os.path.dirname(...)` levels — right for `scripts/`, one level
-  short for `scripts/<subdir>/`. All 24 compiled and all 24 died at run time with
-  `ModuleNotFoundError: No module named 'paths'`. Replaced by a depth-independent walk up to
-  `paths.py`, and guarded from here on.
-- **36 live references to `data/processed_officialZ/`** across 7 files rewritten to `data/derived/`.
-  The predecessor repository was cloned to confirm the mapping: **6 of 6 files byte-identical to
-  `data/derived/`**.
-- The diagnostic scripts had never actually been run in this archive. Doing so exposed three more
-  latent defects of the author's: `verify_cluster3.py` passed a 0-d array to `np.where`;
-  `verify_cluster4.py` indexed a positional list by gene name; `diag_s9_s20b.py` resolved its
-  sibling script through the current working directory. All 18 diagnostic scripts now exit 0.
-- `paths.bootstrap_args()` added, so `--input NAME=PATH` / `--repo-root` work in the 24 scripts
-  that have no argument parser of their own. Without it they honoured environment variables only.
-- Legacy data-layer filenames inside the scripts (`gtex_official_Z.csv` and five others) remapped
-  to the names that exist in `data/derived/`.
+  item 7, with the measurement behind it: `multiZ` carries **77 exact zeros** among the 8,315
+  complete-case genes; scoring a zero as positive moves the dual arm from 5,506 to **5,544**
+  (+38 pairs, **+0.46 pp**), and the other two arms by +1 and +5.
 
 #### Changed
-- `metadata/ARCHIVE_MAP.md` §8 records the follow-up in full: what was still open, how each item
-  closed, the four defects, and the re-run BMC↔GE result.
-- `data/README.md`, `README.md`, the reproduction package README and `INPUTS.md` updated for all of
-  the above. `INPUTS.md` §3 states the `processed_officialZ/` → `derived/` equivalence as a direct
-  measurement rather than an inference from the audit.
+- **The whole tree is normalised to LF.** `.gitattributes` already declared `eol=lf` for source,
+  Markdown and JSON; `*.csv`, `*.tsv` and `*.txt` are now listed too. Without this a Windows
+  working copy differs byte-wise from a Linux one, and `metadata/provenance.json`, which records a
+  SHA-256 per file, would verify on one platform and fail on the other. The committed blobs change
+  once; nothing else does.
+- `scripts/collect_provenance.py` hashes **every tracked file** (previously three hand-picked
+  directories, 36 files against a tree of 281) and records the non-redistributed reproduction
+  inputs separately, with their SHA-256. `scripts/cut_release.sh` asserts
+  `len(files) + len(excluded) == git ls-files`.
+- `metadata/ARCHIVE_MAP.md` §8 records the re-audit that produced all of the above, including the
+  one row where the mark and the reality can differ: read the **Input locality** column, not the
+  mark, when you want to know whether *you* can check a row.
+
+#### Verification
+- **S16 reproduces from a clone**: all nine framework-layer rows re-run and match.
+- **Table S9 reproduces from a clone without the mashr databases** — verified with
+  `REPRO_MASHR_DB_DIR` unset. The pool membership ships as `data/derived/s9_pools/*.txt`, and the
+  official GTEx × FinnGen layer ships flattened, so the exclusion chain 12,622 → 11,820, POOL_818
+  = 818/767/51, coverage 568/768, the 16 random-control rates, the 8 null-distribution values and
+  the 4 percentiles all reproduce. Re-*deriving* the pools still needs the mashr models; that is
+  `00_build_added_derived.py`, not the reproduction, and it is stated on the row.
+- **The BMC↔GE cross-check was re-run rather than asserted**: 83 statistics cross-checked, 63
+  present in both documents, 20 in the predecessor only, **0 unique to the GE submission**. The
+  predecessor *Additional file 1* carries 27 tables against the GE *Supporting Information*'s 31 —
+  the `S`*n* → `S`*n+1* renumbering.
+- The predecessor repository was cloned to check the `processed_officialZ/` → `derived/` mapping:
+  **6 of 6 files byte-identical**. `code/analyses/reproduction_20261002/INPUTS.md` §A.1 records it
+  as a measurement rather than an inference.
+- All 18 diagnostic scripts exit 0.
 
 #### Numbers
-- **No reported number changes.** The BMC↔GE cross-check, which had been asserted rather than
-  measured, was re-run: **83 statistics checked, 63 present in both documents, 20 in the
-  predecessor only, 0 unique to the GE submission** — the GE revision introduces no number the
-  predecessor lacks. `reproduction_min` reproduces the headline values exactly; the predecessor
-  *Additional file 1* carries 27 tables against the GE *Supporting Information*'s 31, which is the
-  `S`*n* → `S`*n+1* renumbering.
+- **No reported number changes.** This pass adds checks, documentation and a self-contained
+  reproduction script; it normalises line endings, which changes file bytes but no value.
 
-### 2026-10-02 (second pass) — the reproduction package is made portable, and three statuses are corrected
+### 2026-10-02 (second pass) — make the reproduction package runnable, and its inputs explicit
 
-An independent audit of `91afa33` — clone from the remote, enumerate the 281 tracked files, extract
-each script's input dependencies, then re-run the package using **only files present in the
-repository** — found that the package could not be run by anyone but its author, and that three of
-the five gaps it declared closed were not verifiable by a third party.
+A review of the first-pass package found that it could not actually be run by anyone
+else: its 35 scripts carried 26 distinct absolute paths from the author's machine, none
+of them pointing at this repository, and the files they read were not committed. This
+entry is the repair.
 
 #### Fixed
-- **27 of the package's 35 scripts carried absolute host paths, and not one pointed into this
-  repository.** The tree referenced `data/processed_officialZ/` 56 times, against a directory that
-  does not exist here; the most-cited path led to a *second local clone of a different repository*
-  (`eqtl-source-discordance-audit`). Every input now resolves through
-  `code/analyses/reproduction_20261002/paths.py`, which defaults to this tree and accepts
-  `--repo-root` / `--input NAME=PATH` / environment overrides.
-- `recompute.py` gained `--manuscript` / `--si`; `recompute_scz.py` gained `--scz-z-dir`. The README
-  had claimed these scripts "take a path argument"; they did not, and now they do.
-- `results/recompute_r3_s9_s20_log.txt` — written by the script, never copied into the package — is
-  restored from a re-run.
-- Three construction-time `_patch*.py` scripts deleted. They rewrote their own siblings in place by
-  string substitution (one asserting on a fixed line number) and would have overwritten the
-  committed sources had a reader followed the README's run order.
-- `scripts/r3/_disease_blacklist.txt` now ships, instead of existing only as an inline fallback.
+- **No absolute paths remain.** Every script in `code/analyses/reproduction_20261002/`
+  now resolves its inputs through `code/analyses/reproduction_20261002/paths_config.py`,
+  which walks up to the repository root (sentinel `.zenodo.json`), honours `TWAS_REPO`
+  and `TWAS_DATA_Z` — the same variables `code/figures/paths_config.py` uses — and
+  accepts `--repo-root` / `--ms-docx` / `--si-docx` / `--af1-docx` / `--mashr-db-dir` /
+  `--gtex-official-dir`. `code/README.md` rule 3 requires this and the first pass broke it.
+- **Scripts no longer claim to accept a path argument without accepting one.**
+  `recompute.py` and `recompute_scz.py` previously hard-coded the two documents while the
+  package README said they "take a path argument".
+- `scripts/recompute_scz.py` reads the gzipped Z layers through
+  `paths_config.open_text()`, and records the MD5 of the **decompressed** bytes for those
+  inputs so an input's recorded hash no longer depends on the compressor.
+- `metadata/provenance_source.json` pointed `superseded_by` at
+  `data/processed_officialZ/`, a directory that does not exist in this repository. Now
+  `data/derived/`.
+- The Supporting Information is read directly from the `.docx` by
+  `paths_config.si_tables()`. The `tNN.tsv` files the diagnostic scripts used to read had
+  never been committed.
+- Three diagnostic scripts could not run at all, independently of the path problem, and
+  are fixed here: `repo_crosscheck/verify_cluster3.py` built a 0-d array from a generator
+  inside `np.where`; `repo_crosscheck/verify_cluster4.py` indexed a position-list with gene
+  names; `r3/diag_s9_s20b.py` exec'd a preamble whose `__file__` pointed at the working
+  directory rather than at the sibling script. Every script in the package now exits 0.
 
 #### Added
-- `code/analyses/reproduction_20261002/paths.py` — the single place every input is resolved — and
-  `INPUTS.md`, which lists each input, whether it ships, and the MD5 recorded in `results/`.
-- `scripts/collect_provenance.py` now hashes **every file tracked by git**, not three hand-picked
-  directories, and declares its one exclusion (the manifest itself, which cannot hash itself).
-- `scripts/cut_release.sh` gained a coverage gate: the release fails unless
-  `len(provenance.json.files) + len(provenance.json.excluded) == git ls-files`.
+- `code/analyses/reproduction_20261002/paths_config.py` — the single path entry point
+  (repository-root discovery, an input registry with per-file MD5s, `si_tables()`
+  extraction, and an actionable message instead of a traceback when a document is absent).
+- `code/analyses/reproduction_20261002/INPUTS.md` — every input: logical name, path, MD5,
+  byte count, which script reads it, whether it ships here, and where to get it if not.
+- `code/analyses/reproduction_20261002/00_build_added_derived.py` — rebuilds each derived
+  table added below from the upstream source that produced it.
+- **3.7 MB of derived data under `data/derived/`**, so that the two largest gaps are
+  closable from a clone:
+  - `derived/genomewide/` — the five genome-wide weight-source Z layers, gzipped
+    (2.8 MB). These define every analysis universe and the framework-layer contrast
+    (S16); before this addition the framework layer was not reproducible from this
+    archive at all.
+  - `derived/gtex_official_finngen/gtex_official_zscores_wide.csv.gz` — the official
+    MetaXcan GTEx × FinnGen layer flattened to one row per gene (0.7 MB), which feeds the
+    Table S9 ACAT-O chain without its 12.3 MB of originals. Z-scores are stored as the
+    original strings, not reformatted, so the median-|Z| statistics keep their digits.
+  - `derived/s9_pools/`, `derived/hrt/`, `derived/hrt_random_control/`,
+    `derived/groups.json`, `derived/covariate_matrix.csv` — 12 small files (0.2 MB)
+    carrying the Table S9 pools, strata and random controls.
+- `data/processed_officialZ/README.md` — a pointer, so the ~40 remaining references to the
+  retired path (mostly under `code/deprecated/`) read as *retired* rather than *dangling*.
+- `results/README.md` — separates the files a script writes from the transcripts of the
+  diagnostic scripts, and says which is which.
+- `results/recompute_r3_s9_s20_log.txt` — the run log the S9/S20 script declares but which
+  the first pass did not commit.
 
-#### Changed — three statuses corrected downwards
-- `metadata/ARCHIVE_MAP.md`: **S9 (GAP-7), S16 (GAP-9) and S17 (GAP-10) move ✅ → 🟡.** Each had been
-  reproduced, but the inputs the reproduction rests on are not in this repository, so a third party
-  cannot re-run them. Distribution is now **17 ✅, 15 🟡, 5 🔴, 9 ➖** (was 20 / 12 / 5 / 9). §8 of
-  that file records the re-audit.
-- S20's row keeps its ✅ but now states that its generator's input is not distributed: the mark rests
-  on the bundled JSON, which *is* shipped, not on the script being re-runnable.
-- The 🟡 definition in the status key gained its second sense — "reproduced, but the inputs are not
-  distributed" — because the old wording covered only "the producing step is not shipped".
-- Top-level `README.md`: the claim *"Every input file is pinned by checksum in
-  `metadata/provenance.json`"* was false for every one of the package's external inputs. Replaced
-  with an accurate statement of what is hashed and where the rest is listed.
-- `data/README.md`: `covariate_matrix.csv` is now a **declared exemption** to the "never quote
-  `superseded/`" rule — it supplies the 104-gene panel roster and nothing else.
-- `metadata/provenance_source.json`: `superseded_by` corrected from `data/processed_officialZ/` to
-  `data/derived/`.
+#### Removed
+- `scripts/r3/_patch_r3.py`, `scripts/r3/m15/_patch.py`, `scripts/r3/m15/_patch_r3.py` —
+  one-off local patchers that rewrote sibling source files in place by string replacement
+  and carried machine paths. Build artefacts, not deliverables.
+
+#### Changed
+- `metadata/ARCHIVE_MAP.md` — the six reproduced rows now state **where each input lives
+  and whether it ships**, so ✅ is a claim a reader can check. A new section records the
+  added data layer.
+- `data/README.md` — the new derived tables are listed with their row counts, and the
+  directory table now explains `derived/genomewide/` and the retired `processed_officialZ/`
+  name.
+- `code/analyses/reproduction_20261002/README.md` — the three inaccurate claims removed,
+  the run instructions rewritten around `paths_config.py`, and a "what reproduces from a
+  clone alone" table added.
+
+#### Verification
+- A clean copy of the tree at a different path, with no `.git` and no author directories,
+  was run end to end with only the repository contents plus the two journal documents.
+  `recompute.py`, `recompute_scz.py`, `recompute_r3_s9_s20.py`, `simulation_validation.py`
+  and `m15_pc.py` all completed, and their machine-readable outputs match the committed
+  ones key for key. The Table S9 numbers reproduce **without** either the mashr databases
+  or the six original GTEx × FinnGen tables.
 
 #### Numbers
-- **No reported number changes.** The re-runs reproduce the archived outputs: `recompute.py` is
-  byte-identical in content to the archived `results/` copy; `simulation_validation.py` matches at
-  machine precision; `recompute_scz.py` and `recompute_r3_s9_s20.py` reproduce the published SCZ,
-  S9 and S20 values from the author's own inputs. Nothing here edits a value — it corrects what the
-  archive *claims* about its own completeness, and makes the claim checkable.
+- **No reported number changes.** This entry changes where inputs live and how they are
+  named; it adds derived tables that were previously absent; and it removes three build
+  artefacts. Every value the manuscript and its Supporting Information report is
+  unchanged, and the re-run outputs are byte-for-byte equal to the committed results apart
+  from input-file hashes.
+- One incidental finding, recorded because it explains a count rather than a value:
+  `data/derived/s9_pools/disease_blacklist.txt` is stored **without case normalisation**,
+  faithfully to the published pipeline. The gene sets it is subtracted from are upper-cased,
+  so the single token that is not already all-caps — `C5orf67` — excludes nothing. That is
+  why POOL_A holds **11,820** genes and not 11,819, and `both_A` 10,450 and not 10,449.
+  The published numbers are correct as printed; the exclusion step simply does not act on
+  that one gene. Recorded in `code/analyses/reproduction_20261002/INPUTS.md` section F and
+  in `data/README.md`.
+
 
 ### 2026-10-02 — third-party reproduction of both submitted documents
 

@@ -7,7 +7,7 @@ They are retained for provenance only.
 
 - They read `data/processed/` — the **pre-correction** intermediate layer (produced before the
   S-PrediXcan σᵢ expression-variance factor and the PLINK 2-bit decoding defect were fixed).
-  The authoritative layer is `data/derived/`.
+  The authoritative layer is `data/processed_officialZ/`.
 - They write their figures to `figs/`, which is a **runtime** directory (created by `run_all.sh`
   and then copied to `output/`), not part of the archived figure set.
 - Their numbers therefore disagree with the published figures — for example the eQTLGen-arm
@@ -20,7 +20,7 @@ They are retained for provenance only.
 |---|---|
 | The paper's figures (Fig1–Fig8, FigS1–FigS6) | `figures/` |
 | Regenerating them | `figure_scripts_officialZ_20260917/` (start with `python paths_config.py`) |
-| Z-scores, denominators, cross-cohort values | `data/derived/` (hashes in `metadata/provenance.json`) |
+| Z-scores, denominators, cross-cohort values | `data/processed_officialZ/` (with `_PROVENANCE.json`) |
 | Genome-wide SCZ arm | `_DEPRECATED_scz_self_implemented/` + `_DEPRECATED_scz_self_implemented/results/` (superseded snapshot) |
 
 `run_all.sh` still invokes `scripts/python/04_generate_all_figures.py`; that container path

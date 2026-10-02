@@ -10,6 +10,14 @@
 *.json text eol=lf
 *.md   text eol=lf
 
+# Data and run logs (added 2026-10-02). Listed explicitly, like the types above,
+# because `metadata/provenance.json` records a SHA-256 per file: if the checked-out
+# bytes differ between platforms the manifest would appear to fail for no reason.
+# With `eol=lf` the working copy and the stored blob are byte-identical everywhere.
+*.csv  text eol=lf
+*.tsv  text eol=lf
+*.txt  text eol=lf
+
 *.bat  text eol=crlf
 *.ps1  text eol=crlf
 

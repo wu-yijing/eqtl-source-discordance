@@ -2,20 +2,35 @@
 """主臂簇稳健性（仓库 README §Cluster-Robustness / AF1 Table S16）逐项核验。
 确定性量：naive t、sandwich SE、jackknife SE、ICC、DEFF —— 无随机性，应逐位复现。
 随机量：基因簇自助法 ρ/一致率区间、基因标签置换 P —— 受 (RNG, seed, B) 影响，需说明。
-输入: data/derived/primary_arm_96pairs.csv
+输入: data/derived/primary_arm_96pairs.csv（随本仓库分发）
 """
+# ---------------------------------------------------------------------------
+# Path resolution (added 2026-10-02). Satisfies code/README.md rule 3:
+# "No absolute paths, no personal directories."
+# ---------------------------------------------------------------------------
+import os as _os
+import sys as _sys
+
+
+def _repro_pkg():
+    d = _os.path.dirname(_os.path.abspath(__file__))
+    for _ in range(6):
+        if _os.path.exists(_os.path.join(d, 'paths_config.py')):
+            return d
+        d = _os.path.dirname(d)
+    raise RuntimeError('paths_config.py not found above %s' % __file__)
+
+
+_sys.path.insert(0, _repro_pkg())
+import paths_config as PC        # noqa: E402
+PC.apply_cli_overrides()
+# ---------------------------------------------------------------------------
+
 import csv, math, random
 import numpy as np
 from scipy.stats import rankdata, norm
 
-import sys as _sys, os as _os
-_p = _os.path.dirname(_os.path.abspath(__file__))
-while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
-    _p = _os.path.dirname(_p)
-_sys.path.insert(0, _p)
-import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
-_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
-P=str(_paths.derived('primary_arm_96pairs'))
+P = PC.get('primary_arm')
 rows=list(csv.DictReader(open(P,encoding='utf-8-sig')))
 zg=np.array([float(r['Z_GTEx']) for r in rows]); ze=np.array([float(r['Z_eQTLGen']) for r in rows])
 gene=np.array([r['Gene'] for r in rows]); trait=np.array([r['Trait'] for r in rows])

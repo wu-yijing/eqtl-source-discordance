@@ -1,18 +1,33 @@
 # -*- coding: utf-8 -*-
-"""用仓库官方 Z 层（全精度）复算 BH q，检验 Table S3 / S18 的取整假设。
-输入: data/derived/{gtex,eqtlgen}_Z.csv
+"""用仓库 data/derived 的官方 Z 层（全精度）复算 BH q，检验 Table S3 / S18 的取整假设。
+输入: data/derived/{gtex,eqtlgen}_Z.csv（随本仓库分发）
 """
+# ---------------------------------------------------------------------------
+# Path resolution (added 2026-10-02). Satisfies code/README.md rule 3:
+# "No absolute paths, no personal directories."
+# ---------------------------------------------------------------------------
+import os as _os
+import sys as _sys
+
+
+def _repro_pkg():
+    d = _os.path.dirname(_os.path.abspath(__file__))
+    for _ in range(6):
+        if _os.path.exists(_os.path.join(d, 'paths_config.py')):
+            return d
+        d = _os.path.dirname(d)
+    raise RuntimeError('paths_config.py not found above %s' % __file__)
+
+
+_sys.path.insert(0, _repro_pkg())
+import paths_config as PC        # noqa: E402
+PC.apply_cli_overrides()
+# ---------------------------------------------------------------------------
+
 import csv, math, numpy as np
 from scipy import stats
 
-import sys as _sys, os as _os
-_p = _os.path.dirname(_os.path.abspath(__file__))
-while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
-    _p = _os.path.dirname(_p)
-_sys.path.insert(0, _p)
-import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
-_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
-D=str(_paths.derived('gtex_Z').parent)
+D = PC.DERIVED
 def load(fn):
     return list(csv.DictReader(open(D+'\\'+fn, encoding='utf-8-sig')))
 
@@ -29,7 +44,7 @@ def bh_q(p):
     return q
 
 print('='*100)
-print('A. GTEx 官方层（gtex_Z.csv）：用 Z 精确重建 P，再复算 BH q')
+print('A. GTEx 官方层（gtex_official_Z.csv）：用 Z 精确重建 P，再复算 BH q')
 print('='*100)
 G=load('gtex_Z.csv')
 print(f'  行数 {len(G)}  列 {list(G[0].keys())}')
@@ -56,7 +71,7 @@ q=bh_q(pp); print(f'  单一全域 (m={len(pp)}): max|Δq| = {np.nanmax(np.abs(q
 
 print()
 print('='*100)
-print('B. eQTLGen 官方层（eqtlgen_Z.csv）：用 Z 精确重建 P，再复算 BH q')
+print('B. eQTLGen 官方层（eqtlgen_official_Z.csv）：用 Z 精确重建 P，再复算 BH q')
 print('='*100)
 E=load('eqtlgen_Z.csv')
 print(f'  行数 {len(E)}  列 {list(E[0].keys())}')

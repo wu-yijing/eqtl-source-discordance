@@ -4,15 +4,7 @@
    "md5": "0f6088e1d53fd061f4ced40940dbf6c1",
    "bytes": 6628
   },
-  "mashr_Whole_Blood.db": {
-   "md5": "1613d73c3fcc53a27dc1422118680b97",
-   "bytes": 4612096
-  },
-  "mashr_Nerve_Tibial.db": {
-   "md5": "9983e7b1557230162331839acf5ed228",
-   "bytes": 5910528
-  },
-  "Human_Mouse_Common.csv": {
+  "Human_Mouse_Common_raw.csv": {
    "md5": "bf1d7bcdc6b4def62dd0eafcdd1085e4",
    "bytes": 16486
   },
@@ -28,26 +20,28 @@
   "both_818": 767,
   "flow": [
    [
-    "WB model genes",
-    12622
-   ],
-   [
-    "minus 104-panel",
-    12555
-   ],
-   [
-    "minus panel families",
-    11885
-   ],
-   [
-    "minus disease blacklist = POOL_A",
+    "POOL_A（随包名单）",
     11820
    ],
    [
     "of which have BOTH-tissue models",
     10450
+   ],
+   [
+    "POOL_818（随包名单）",
+    818
+   ],
+   [
+    "of which have BOTH-tissue models",
+    767
+   ],
+   [
+    "POOL_818 WB-only",
+    51
    ]
-  ]
+  ],
+  "route": "shipped-pools",
+  "membership_source": "data/derived/s9_pools/*.txt"
  },
  "coverage": {
   "sample600": 600,

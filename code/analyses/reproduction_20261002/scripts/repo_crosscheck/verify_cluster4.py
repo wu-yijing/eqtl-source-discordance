@@ -1,23 +1,37 @@
 # -*- coding: utf-8 -*-
 """sandwich 的回归型 CR1 变体 + 基因标签置换检验（修正版）。"""
+# ---------------------------------------------------------------------------
+# Path resolution (added 2026-10-02). Satisfies code/README.md rule 3:
+# "No absolute paths, no personal directories."
+# ---------------------------------------------------------------------------
+import os as _os
+import sys as _sys
+
+
+def _repro_pkg():
+    d = _os.path.dirname(_os.path.abspath(__file__))
+    for _ in range(6):
+        if _os.path.exists(_os.path.join(d, 'paths_config.py')):
+            return d
+        d = _os.path.dirname(d)
+    raise RuntimeError('paths_config.py not found above %s' % __file__)
+
+
+_sys.path.insert(0, _repro_pkg())
+import paths_config as PC        # noqa: E402
+PC.apply_cli_overrides()
+# ---------------------------------------------------------------------------
+
 import csv, math
 import numpy as np
 from scipy.stats import rankdata, t as tdist
 
-import sys as _sys, os as _os
-_p = _os.path.dirname(_os.path.abspath(__file__))
-while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
-    _p = _os.path.dirname(_p)
-_sys.path.insert(0, _p)
-import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
-_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
-P=str(_paths.derived('primary_arm_96pairs'))
+P = PC.get('primary_arm')
 rows=list(csv.DictReader(open(P,encoding='utf-8-sig')))
 x=np.array([float(r['Z_GTEx']) for r in rows]); y=np.array([float(r['Z_eQTLGen']) for r in rows])
 gene=np.array([r['Gene'] for r in rows]); trait=np.array([r['Trait'] for r in rows])
 gs=list(dict.fromkeys(gene)); K=len(gs); N=len(rows)
 idx=[np.where(gene==g)[0] for g in gs]
-gpos={g:k for k,g in enumerate(gs)}     # 2026-10-02 修：idx 是按位置的列表，按基因名索引需先映射
 def prep(a):  return rankdata(a)-(len(a)+1)/2.0
 xa=prep(x); xb=prep(y)
 Sxx=xa@xa; Syy=xb@xb
@@ -41,9 +55,10 @@ print()
 print('='*100); print('B. 对照：基因簇自助法 ρ 的 SD（B=10000）'); print('='*100)
 for tag,fac in [('MT19937',lambda: np.random.RandomState(20260915)),('PCG64',lambda: np.random.default_rng(20260915))]:
     rng=fac(); B=10000; R=np.empty(B)
+    idxmap={g: np.flatnonzero(gene == g) for g in gs}       # 按基因名索引，不是按位置
     for b in range(B):
         pick=[gs[j] for j in rng.choice(K,size=K,replace=True)]
-        ii=np.concatenate([idx[gpos[j]] for j in pick])
+        ii=np.concatenate([idxmap[g] for g in pick])
         a=prep(x[ii]); c=prep(y[ii])
         R[b]=float(a@c/math.sqrt((a@a)*(c@c)))
     print(f'  {tag:8s} bootstrap SD(ρ) = {R.std(ddof=1):.4f}   (SE 候选)')

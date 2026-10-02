@@ -1,8 +1,31 @@
 # -*- coding: utf-8 -*-
-"""R6 模拟（增强版）：提高重复数 + 追加自由度扫描"""
+"""R6 模拟（增强版）：提高重复数 + 追加自由度扫描
+
+纯合成实验：不读任何外部输入，只依赖已记录在文件头的种子（SEED = 20260930、
+G = 32、P = 3、n_pair = 96、rho_sd = 0.15、n1 = 3000、nrep = 400、B = 500）。
+因此这是本包中唯一在无任何数据层的情况下也能完整复现的一项。
+产物落在包的 results/_sim_results.json（2026-10-02 起）。
+"""
 import sys, io, json
+import os
+
+
+def _repro_pkg():
+    d = os.path.dirname(os.path.abspath(__file__))
+    for _ in range(6):
+        if os.path.exists(os.path.join(d, 'paths_config.py')):
+            return d
+        d = os.path.dirname(d)
+    raise RuntimeError('paths_config.py not found above %s' % __file__)
+
+
+sys.path.insert(0, _repro_pkg())
+import paths_config as PC        # noqa: E402
 import numpy as np
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
+_OUT = PC.RESULTS
+os.makedirs(_OUT, exist_ok=True)
 
 SEED = 20260930
 G, P, NPAIR = 32, 3, 96
@@ -122,5 +145,5 @@ for gsize in [32, 64]:
 json.dump(dict(seed=SEED, G=G, P=P, npair=NPAIR, rho_sd=RHO_SD,
                n1=N1, nrep2=NREP2, B2=B2, nrep3=NREP3, B3=B3,
                sim1=sim1, sim2=sim2, sim3=sim3),
-          open('_sim_results.json', 'w'), indent=1, ensure_ascii=False)
-print("\n结果已写入 _sim_results.json")
+          open(os.path.join(_OUT, '_sim_results.json'), 'w'), indent=1, ensure_ascii=False)
+print("\n结果已写入 " + os.path.join(_OUT, '_sim_results.json'))

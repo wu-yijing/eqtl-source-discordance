@@ -1,23 +1,35 @@
 # -*- coding: utf-8 -*-
 """把 m15_pc.py 的重跑输出与两份归档 JSON 逐键比对。"""
+# ---------------------------------------------------------------------------
+# Path resolution (added 2026-10-02). Satisfies code/README.md rule 3:
+# "No absolute paths, no personal directories."
+# ---------------------------------------------------------------------------
+import os as _os
+import sys as _sys
+
+
+def _repro_pkg():
+    d = _os.path.dirname(_os.path.abspath(__file__))
+    for _ in range(6):
+        if _os.path.exists(_os.path.join(d, 'paths_config.py')):
+            return d
+        d = _os.path.dirname(d)
+    raise RuntimeError('paths_config.py not found above %s' % __file__)
+
+
+_sys.path.insert(0, _repro_pkg())
+import paths_config as PC        # noqa: E402
+PC.apply_cli_overrides()
+# ---------------------------------------------------------------------------
+
 import json, os
-import sys as _sys, os as _os
-_p = _os.path.dirname(_os.path.abspath(__file__))
-while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
-    _p = _os.path.dirname(_p)
-_sys.path.insert(0, _p)
-import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
-_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-new = json.load(open(os.path.join(HERE, 'm15_positive_control.json'), encoding='utf-8'))
+# 生成脚本把产物写到包的 results/（2026-10-02 起），不再写在自己旁边。
+new = json.load(open(os.path.join(PC.RESULTS, 'm15_positive_control.json'), encoding='utf-8'))
 cands = {
-    '本仓库 code/figures/m15_positive_control.json': str(_paths.fig('m15_json')),
-    # 归档副本是可选的：分别用 EQTL_M15_ARCHIVE_1 / _2 指向即可，缺则跳过
-    '归档副本 1 (EQTL_M15_ARCHIVE_1)':
-        os.environ.get('EQTL_M15_ARCHIVE_1', os.path.join(HERE, 'm15_archive_1.json')),
-    '归档副本 2 (EQTL_M15_ARCHIVE_2)':
-        os.environ.get('EQTL_M15_ARCHIVE_2', os.path.join(HERE, 'm15_archive_2.json')),
+    'repo code/figures/m15_positive_control.json (tracked)':
+        os.path.join(PC.REPO, 'code', 'figures', 'm15_positive_control.json'),
 }
 
 def walk(a, b, path=''):

@@ -1,5 +1,27 @@
 # -*- coding: utf-8 -*-
 """诊断 2：S9 池内分层定义 + S20 单基因 80% 功效最小 λ"""
+# ---------------------------------------------------------------------------
+# Path resolution (added 2026-10-02). Satisfies code/README.md rule 3:
+# "No absolute paths, no personal directories."
+# ---------------------------------------------------------------------------
+import os as _os
+import sys as _sys
+
+
+def _repro_pkg():
+    d = _os.path.dirname(_os.path.abspath(__file__))
+    for _ in range(6):
+        if _os.path.exists(_os.path.join(d, 'paths_config.py')):
+            return d
+        d = _os.path.dirname(d)
+    raise RuntimeError('paths_config.py not found above %s' % __file__)
+
+
+_sys.path.insert(0, _repro_pkg())
+import paths_config as PC        # noqa: E402
+PC.apply_cli_overrides()
+# ---------------------------------------------------------------------------
+
 import os, sys, io, csv, math, re, random, sqlite3, zipfile
 import numpy as np
 from scipy import stats
@@ -7,12 +29,12 @@ from xml.etree import ElementTree as ET
 sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
 
 # ---------------- 复用主脚本前段（池 / 官方 ACAT-O / 覆盖率） ----------------
-_here = os.path.dirname(os.path.abspath(__file__))
-src = open(os.path.join(_here, 'recompute_r3_s9_s20.py'), encoding='utf-8').read()
+# __file__ 必须指向真正的兄弟脚本：被 exec 的前段里含路径前言，它按 __file__ 上溯找
+# paths_config.py。写成 CWD 相对路径会在别的目录下运行时报「找不到 paths_config.py」。
+MAIN = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'recompute_r3_s9_s20.py')
+src = open(MAIN, encoding='utf-8').read()
 head = src.split('# ============================================================ 3. 零分布')[0]
-# 2026-10-02 修：__file__ 原为 os.path.abspath('recompute_r3_s9_s20.py')，即 cwd 相对路径——
-# 只在 cwd 恰为 scripts/r3/ 时成立，换目录运行就会让被 exec 的头部找不到 paths.py。
-G = {'__file__': os.path.join(_here, 'recompute_r3_s9_s20.py'), '__name__': 'head'}
+G = {'__file__': MAIN, '__name__': 'head'}
 exec(compile(head, 'head', 'exec'), G)
 COV600, gz, TRAITS, pacat_of = G['COV600'], G['gz'], G['TRAITS'], G['pacat_of']
 both_A, both_818, COV818 = G['both_A'], G['both_818'], G['COV818']
@@ -78,20 +100,9 @@ print('  SI: 600 -> 21/1326=1.6% / 7/378=1.9% ; 818 -> 20/1827=1.1% / 6/477=1.3%
 # ================= S20 单基因 80% 功效最小 λ =================
 print()
 print('=' * 74); print('S20 单基因 spike-in 最小 λ（经验零池 = 同来源真实 Z）'); print('=' * 74)
-import sys as _sys, os as _os
-_p = _os.path.dirname(_os.path.abspath(__file__))
-while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
-    _p = _os.path.dirname(_p)
-_sys.path.insert(0, _p)
-import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
-_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
-SI = str(_paths.external('si_docx'))
-Wn = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
-tb = [c for c in list(ET.fromstring(zipfile.ZipFile(SI).read('word/document.xml')).find(Wn + 'body'))
-      if c.tag == Wn + 'tbl']
+_SI = PC.si_tables(PC.doc('si'))
 def rows(i):
-    return [[' '.join(x.text or '' for x in tc.iter(Wn + 't')).strip() for tc in tr.findall(Wn + 'tc')]
-            for tr in tb[i].findall(Wn + 'tr')]
+    return _SI[i]['rows']
 def num(v):
     try: return float(v)
     except (TypeError, ValueError): return np.nan

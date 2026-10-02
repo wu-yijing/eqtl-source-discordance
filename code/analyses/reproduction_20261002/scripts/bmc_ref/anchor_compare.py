@@ -1,6 +1,28 @@
 # -*- coding: utf-8 -*-
 """以「特征值」为锚，比对 BMC 投稿前定稿 与 GE 投稿稿。
 只输出「一方缺失或出现次数不同」的锚点，并展开两侧上下文。"""
+# ---------------------------------------------------------------------------
+# Path resolution (added 2026-10-02). Satisfies code/README.md rule 3:
+# "No absolute paths, no personal directories."
+# ---------------------------------------------------------------------------
+import os as _os
+import sys as _sys
+
+
+def _repro_pkg():
+    d = _os.path.dirname(_os.path.abspath(__file__))
+    for _ in range(6):
+        if _os.path.exists(_os.path.join(d, 'paths_config.py')):
+            return d
+        d = _os.path.dirname(d)
+    raise RuntimeError('paths_config.py not found above %s' % __file__)
+
+
+_sys.path.insert(0, _repro_pkg())
+import paths_config as PC        # noqa: E402
+PC.apply_cli_overrides()
+# ---------------------------------------------------------------------------
+
 import re, zipfile
 from xml.etree import ElementTree as ET
 W='{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
@@ -18,15 +40,8 @@ def full(path):
             parts.append(' | '.join(' '.join(pt(p) for p in tc.findall(W+'p')).strip() for tc in tr.findall(W+'tc')))
     return ' \u241F '.join(x for x in parts if x.strip())
 
-import sys as _sys, os as _os
-_p = _os.path.dirname(_os.path.abspath(__file__))
-while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
-    _p = _os.path.dirname(_p)
-_sys.path.insert(0, _p)
-import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
-_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
-BMC=full(str(_paths.external('bmc_manuscript_docx')))
-GE =full(str(_paths.external('manuscript_docx')))
+BMC=full(PC.doc('pred_manuscript'))
+GE =full(PC.doc('manuscript'))
 print(f'BMC 字符 {len(BMC):,}  |  GE 字符 {len(GE):,}')
 
 ANCHORS=[

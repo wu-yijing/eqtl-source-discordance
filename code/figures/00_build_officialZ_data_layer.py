@@ -104,10 +104,10 @@ DEP = """# ⚠️ 本目录（data/processed/）已作废 —— 请勿用于出
 | 主稿 Table 4 的 RNH1 / CKAP4 行 | 同源 | ✅ 已更正（2026-09-17） |
 | Additional file 1 Table S4 的 √N_e 行 | 旧 Z 对导出 | ✅ 已更正（2026-09-17） |
 
-**请改用**：`data/derived/`（由官方 MetaXcan v0.8.1 结果导出，与稿件 SI 中的
+**请改用**：`data/processed_officialZ/`（由官方 MetaXcan v0.8.1 结果导出，与稿件 SI 中的
 Table S2 / S12 / S14 / S17 / Table S4 逐值一致）。
 
-**建议**：出图脚本一律从 `data/derived/` 读数；本目录保留仅作历史对照，
+**建议**：出图脚本一律从 `data/processed_officialZ/` 读数；本目录保留仅作历史对照，
 并在下次归档（Zenodo/GitHub）时于 README 中标注为 superseded。
 """
 # 2026-10-02: the pre-correction layer already carries its deprecation notice at

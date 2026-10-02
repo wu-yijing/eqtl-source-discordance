@@ -5,16 +5,12 @@
 | Directory | Tracked in git? | Contents |
 |---|---|---|
 | `derived/` | **Yes** | Small processed tables that a reported number depends on. These *are* the artefact — a reader must be able to obtain them without re-running the pipeline. |
+| `derived/genomewide/` | **Yes** | The five genome-wide weight-source Z layers (gzipped, 2.8 MB total). They define the analysis universes and the framework-layer contrast, which no panel-restricted table can. Added 2026-10-02. |
 | `superseded/` | **Yes**, clearly marked | The earlier in-house implementation's output, retained **only** as an equivalence cross-check. Must never be quoted. |
 | `external/` | **No** (git-ignored) | Third-party raw inputs. Not redistributed; obtain from the sources below. |
+| `processed_officialZ/` | **No** | Name retired on 2026-10-02; it is now `derived/`. See [`processed_officialZ/README.md`](processed_officialZ/README.md) — that file exists only so stale references in `code/deprecated/` do not read as dangling links. |
 
 Large binaries belong in a repository, not in git: use Zenodo, figshare, or iProX (for the proteomics data) and record the accession here.
-
-**Older name for the same layer.** The predecessor repository called `derived/` **`processed_officialZ/`**.
-Both names still appear in this repository's historical documents, so the old name resolves to a
-redirect: [`processed_officialZ/README.md`](processed_officialZ/README.md). The two are
-byte-identical — 6 files of 6, same MD5 — and `code/analyses/reproduction_20261002/paths.py`
-rewrites the old name automatically.
 
 ---
 
@@ -76,26 +72,33 @@ These are asserted in [`../metadata/ARCHIVE_MAP.md`](../metadata/ARCHIVE_MAP.md)
 | `derived/crosscohort.csv` | 4 | Supporting Information Table S5a |
 | `derived/hk_genes.txt` | 49 | The current 30-gene housekeeping roster plus its selection pool |
 | `derived/ukb_dr/` | 4 files | Official MetaXcan v0.8.1 cross-cohort DR arm; supplies the UK Biobank columns of Table S5b |
+| `derived/genomewide/eqz_full.csv.gz` | 10,357 | the eQTLGen model pool; the universe counts of Table S11 / Results |
+| `derived/genomewide/gtex_official_{Whole_Blood,Nerve_Tibial}.csv.gz` | 15,655 genes / tissue | GTEx v8 MASHR arm of the framework-layer contrast (Table S16) |
+| `derived/genomewide/en_official_en_{Whole_Blood,Nerve_Tibial}.csv.gz` | 15,655 genes / tissue | GTEx v8 elastic-net arm of the same contrast |
+| `derived/gtex_official_finngen/gtex_official_zscores_wide.csv.gz` | 15,655 genes × 6 columns | the official MetaXcan GTEx × FinnGen layer, flattened; feeds the Table S9 ACAT-O chain |
+| `derived/s9_pools/{POOL_A,both_A,POOL_818,both_818}.txt` | 11,820 / 10,450 / 818 / 767 | the Table S9 pools; see the quirk note below |
+| `derived/s9_pools/disease_blacklist.txt` | 144 | Table S9 exclusion step |
+| `derived/hrt/Human_Mouse_Common.csv` | — | HRT Atlas v1.0 human–mouse common set; POOL_818 source |
+| `derived/hrt_random_control/` | 3 files | official MetaXcan output for the random-control genes; Table S9 rates |
+| `derived/groups.json` | 4 keys | POOL_818 / arm group definitions |
+| `derived/covariate_matrix.csv` | 104 | the 104-gene panel; defines the exclusion chain |
+
+The block from `genomewide/` down was **added on 2026-10-02**, and is built by
+[`../code/analyses/reproduction_20261002/00_build_added_derived.py`](../code/analyses/reproduction_20261002/00_build_added_derived.py)
+from the sources named in that script's header. Before then the framework layer and the
+genome-wide universes could not be reproduced from this archive at all, and no script
+could even be run from a clone.
+
+> **Quirk, carried over deliberately.** `s9_pools/disease_blacklist.txt` is written
+> verbatim, without case normalisation, and the gene sets it is subtracted from are
+> upper-cased. One token (`C5orf67`) is therefore inert, which is why `POOL_A` holds
+> 11,820 genes rather than 11,819. The reproduction preserves the published behaviour.
 
 **Not in `derived/` any more:** the housekeeping Z layer that used to live at `derived/hk_reselect/`.
 It was computed on 2026-08-30, before the σᵢ correction of 2026-09-17, and has been moved to
 [`superseded/hk_reselect_20260830/`](superseded/hk_reselect_20260830/PRECORRECTION_NOTICE.md).
 **Consequence: the housekeeping layer of main-text Table 1 is not reproducible from this archive** —
 recorded as GAP-1 in [`../metadata/ARCHIVE_MAP.md`](../metadata/ARCHIVE_MAP.md).
-
-### One declared exemption: `covariate_matrix.csv`
-
-`covariate_matrix.csv` exists **only** in `superseded/`, and the rule above says values in that
-layer must never be quoted. It is read anyway — in exactly one place, for exactly one thing:
-
-- `code/analyses/reproduction_20261002/scripts/r3/recompute_r3_s9_s20.py` reads it to recover the
-  **104-gene panel roster**, a fixed input list. No Z, no P and no q from this file enters any
-  reported number.
-
-The exemption is declared here rather than solved by copying the file into `derived/`, because
-copying it would place a pre-correction file inside the layer whose entire purpose is that
-everything in it is post-correction. [`../code/analyses/reproduction_20261002/INPUTS.md`](../code/analyses/reproduction_20261002/INPUTS.md)
-records the same exemption and gives the file's MD5.
 
 ---
 

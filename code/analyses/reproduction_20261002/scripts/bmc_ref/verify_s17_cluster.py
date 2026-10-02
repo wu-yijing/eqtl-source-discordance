@@ -2,18 +2,36 @@
 """尝试闭合 GE SI Table S17 的 gene-cluster 行：
    pooled SE 2.2 pp / 90% CI −0.7~+6.4 / r = −0.05 / cov −0.63 pp²
 数据: GE SI 表 S3(t02, GTEx 候选/非候选/T2DM)、S6(t06, 管家 GTEx ACAT-O P)、
-      S18(t18, eQTLGen 三组)、S15(t15, 管家 eQTLGen BH q)
+      S18(t18, eQTLGen 三组)、S15(t15, 管家 eQTLGen BH q)；全部直接取自 SI .docx
 """
-import csv, math, numpy as np
-import sys as _sys, os as _os
-_p = _os.path.dirname(_os.path.abspath(__file__))
-while _p != _os.path.dirname(_p) and not _os.path.isfile(_os.path.join(_p, 'paths.py')):
-    _p = _os.path.dirname(_p)
-_sys.path.insert(0, _p)
-import paths as _paths          # noqa: E402  集中路径解析：向上找到 paths.py
-_paths.bootstrap_args()   # 消费 --repo-root / --input（本脚本无自有 parser）
-SI=str(_paths.external('si_tables_dir'))
-def rows(fn): return [l.rstrip('\n').split('\t') for l in open(SI+'\\'+fn, encoding='utf-8')]
+# ---------------------------------------------------------------------------
+# Path resolution (added 2026-10-02). Satisfies code/README.md rule 3:
+# "No absolute paths, no personal directories."
+# ---------------------------------------------------------------------------
+import os as _os
+import sys as _sys
+
+
+def _repro_pkg():
+    d = _os.path.dirname(_os.path.abspath(__file__))
+    for _ in range(6):
+        if _os.path.exists(_os.path.join(d, 'paths_config.py')):
+            return d
+        d = _os.path.dirname(d)
+    raise RuntimeError('paths_config.py not found above %s' % __file__)
+
+
+_sys.path.insert(0, _repro_pkg())
+import paths_config as PC        # noqa: E402
+PC.apply_cli_overrides()
+# ---------------------------------------------------------------------------
+
+import csv, math, re, numpy as np
+_SI = PC.si_tables(PC.doc('si'))
+def rows(fn):
+    """fn is like 't06.tsv'; Table object i is Table S(i+1), so resolve by object."""
+    i = int(re.match(r't(\d+)\.tsv', fn).group(1))
+    return _SI[i]['rows']
 def num(x):
     s=str(x).strip().replace('+','')
     try: return float(s)

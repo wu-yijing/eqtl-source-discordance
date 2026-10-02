@@ -3,67 +3,64 @@
 ================================================================================
  SCZ 全基因组层 + 权重拟合框架层 —— 重算（补齐此前"不可复现"的 8 类量）
 ================================================================================
- 输入（只读）：
-  A. data/derived/scz_z_4arm.csv                 ← **随本仓库分发**，无需提供
+输入（只读，全部随本仓库分发）：
+  A. data/derived/scz_z_4arm.csv
        四臂 SCZ 逐基因 Z：gene, eqZ, wbZ, ntZ, multiZ
-     —— 下列六项**未随仓库分发**，用命令行或环境变量提供（见 ../INPUTS.md）——
-  B. <SCZ_Z_DIR>\\eqz_full.csv                       eQTLGen 全血逐基因 Z
-  C. <SCZ_Z_DIR>\\gtex\\official_Whole_Blood.csv      GTEx v8 MASHR 全血 zscore
-  D. <SCZ_Z_DIR>\\gtex\\official_Nerve_Tibial.csv     GTEx v8 MASHR 胫神经 zscore
-  E. <SCZ_Z_DIR>\\en\\official_en_Whole_Blood.csv     GTEx v8 elastic-net 全血 zscore
-  F. <SCZ_Z_DIR>\\en\\official_en_Nerve_Tibial.csv    GTEx v8 elastic-net 胫神经 zscore
-
-运行：
-  python scripts/recompute_scz.py --scz-z-dir <dir>      # 约 2 min 40 s
-  python scripts/recompute_scz.py --list-inputs           # 打印输入清单
-
-  A 原来硬编码为另一本机克隆的 data/derived/…，与 data/derived/
-  逐格等价（43,586 个数值相同，仅换行符差异）；现直接读仓库内文件。
+  B. data/derived/genomewide/eqz_full.csv.gz                  eQTLGen 全血逐基因 Z
+  C. data/derived/genomewide/gtex_official_Whole_Blood.csv.gz  GTEx v8 MASHR 全血 zscore
+  D. data/derived/genomewide/gtex_official_Nerve_Tibial.csv.gz GTEx v8 MASHR 胫神经 zscore
+  E. data/derived/genomewide/en_official_en_Whole_Blood.csv.gz GTEx v8 elastic-net 全血 zscore
+  F. data/derived/genomewide/en_official_en_Nerve_Tibial.csv.gz GTEx v8 elastic-net 胫神经 zscore
 
 被复算的报告值：
   · Table S24（三臂 SCZ，n = 8,315）
   · Table S17 的经验零分布（available-case 9,048；min|Z| < 0.5）
   · Fig. 4 的 PGC3 SCZ 点（n = 8,890）
   · Results / Discussion 的 Δρ(SCZ) = +0.0265 与 −0.0226 及其 CI / P
-  · Table S16 的 9 行框架层对比   ← 依赖 E/F（elastic-net 侧），见 ARCHIVE_MAP S16
+  · Table S16 的 9 行框架层对比
 
 固定参数（全部取自论文表注/图注）：
   seed = 20260726, B = 10000   （Table S17 注 / scz_axis_difference_official.json）
   seed = 20260914, B = 10000   （Table S16 注）
 ================================================================================
 """
-import argparse, os, csv, json, math, hashlib, sys
+# ---------------------------------------------------------------------------
+# Path resolution (added 2026-10-02). Satisfies code/README.md rule 3:
+# "No absolute paths, no personal directories."
+# ---------------------------------------------------------------------------
+import os as _os
+import sys as _sys
+
+
+def _repro_pkg():
+    d = _os.path.dirname(_os.path.abspath(__file__))
+    for _ in range(6):
+        if _os.path.exists(_os.path.join(d, 'paths_config.py')):
+            return d
+        d = _os.path.dirname(d)
+    raise RuntimeError('paths_config.py not found above %s' % __file__)
+
+
+_sys.path.insert(0, _repro_pkg())
+import paths_config as PC        # noqa: E402
+PC.apply_cli_overrides()
+# ---------------------------------------------------------------------------
+
+import os, csv, json, math, hashlib, sys
 import numpy as np
 from scipy.stats import spearmanr, binomtest, rankdata
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.dirname(HERE))          # code/analyses/reproduction_20261002/
-import paths                                        # noqa: E402
+OUTD = PC.RESULTS              # 产物统一落在包的 results/（2026-10-02 起）
+os.makedirs(OUTD, exist_ok=True)
 
-_ap = paths.add_common_args(argparse.ArgumentParser(description=__doc__.splitlines()[1]))
-_ap.add_argument('--scz-z-dir', metavar='DIR',
-                 help='directory holding the six full-universe gene-level Z files '
-                      '(eqz_full.csv, gtex/, en/); default: $EQTL_T1_FULL_DIR')
-_ap.add_argument('--out-dir', metavar='DIR',
-                 help='where the two outputs go; default: this directory')
-_args = _ap.parse_args()
-if _args.list_inputs:
-    print(paths.list_inputs()); raise SystemExit(0)
-if _args.scz_z_dir:
-    _args.input.append('t1_full_dir=' + _args.scz_z_dir)
-paths.apply_args(_args)
-
-OUTD = _args.out_dir or HERE
-
-# A. 四臂 SCZ Z —— 随仓库分发（原来读的是另一本机克隆的 processed_officialZ/）
-F_A = str(paths.derived('scz_z_4arm'))
-# B–F. 全宇宙逐基因 Z —— 未随仓库分发
-T1   = paths.external('t1_full_dir')
-F_B = str(T1 / 'eqz_full.csv')
-F_C = str(T1 / 'gtex' / 'official_Whole_Blood.csv')
-F_D = str(T1 / 'gtex' / 'official_Nerve_Tibial.csv')
-F_E = str(T1 / 'en' / 'official_en_Whole_Blood.csv')
-F_F = str(T1 / 'en' / 'official_en_Nerve_Tibial.csv')
+# All six gene-level Z layers ship with this repository (data/derived/ and
+# data/derived/genomewide/); see INPUTS.md section A.
+F_A = PC.get('scz_z_4arm')
+F_B = PC.get('gw_eqz')
+F_C = PC.get('gw_gtex_wb')
+F_D = PC.get('gw_gtex_nt')
+F_E = PC.get('gw_en_wb')
+F_F = PC.get('gw_en_nt')
 
 SEED_AXIS, B_AXIS = 20260726, 10000     # Δρ 与经验零分布自助法
 SEED_FW,   B_FW   = 20260914, 10000     # 框架层自助法
@@ -78,7 +75,7 @@ def md5(p):
 def load(p, col):
     """读 CSV -> {ensembl(去版本号): float}，保持文件行序（自助法索引依赖该顺序）。"""
     d = {}
-    for r in csv.DictReader(open(p, encoding='utf-8-sig')):
+    for r in csv.DictReader(PC.open_text(p)):
         try: d[r['gene'].split('.')[0]] = float(r[col])
         except Exception: pass
     return d
@@ -86,7 +83,7 @@ def load(p, col):
 def load4(p):
     """读四臂官方 CSV -> 四个 dict（保持行序）。"""
     cols = {k: {} for k in ('eqZ', 'wbZ', 'ntZ', 'multiZ')}
-    for r in csv.DictReader(open(p, encoding='utf-8-sig')):
+    for r in csv.DictReader(PC.open_text(p)):
         for k in cols:
             v = (r[k] or '').strip()
             if v not in ('', 'NA', 'NaN'): cols[k][r['gene'].split('.')[0]] = float(v)
@@ -116,11 +113,10 @@ log('=' * 78); log('0. 输入文件校验'); log('=' * 78)
 INPUTS = {'scz_z_4arm_official.csv': F_A, 'eqz_full.csv': F_B,
           'official_Whole_Blood.csv': F_C, 'official_Nerve_Tibial.csv': F_D,
           'official_en_Whole_Blood.csv': F_E, 'official_en_Nerve_Tibial.csv': F_F}
-R['inputs'] = {}
-for k, p in INPUTS.items():
-    h, sz = md5(p), os.path.getsize(p)
-    R['inputs'][k] = {'md5': h, 'bytes': sz}
-    log(f'  {k:32s} md5={h} bytes={sz:,}')
+R['inputs'] = PC.describe_inputs(INPUTS)
+for k, rec in R['inputs'].items():
+    extra = ('  content_md5=%s' % rec['content_md5']) if 'content_md5' in rec else ''
+    log(f"  {k:32s} md5={rec['md5']} bytes={rec['bytes']:,}{extra}")
 
 # ============================================================ 1. 宇宙与分母
 log('\n' + '=' * 78); log('1. 分析宇宙与分母（对照稿件声明）'); log('=' * 78)

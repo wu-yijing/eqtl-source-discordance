@@ -11,8 +11,13 @@ A. 回归型 CR1（cluster-robust）SE
 ====================================================================================================
 B. 对照：基因簇自助法 ρ 的 SD（B=10000）
 ====================================================================================================
-Traceback (most recent call last):
-  File "E:\workbuddy\GE投稿资料\_重算_20261002\repo_crosscheck\verify_cluster4.py", line 38, in <module>
-    ii=np.concatenate([idx[j] for j in pick])
-                       ~~~^^^
-TypeError: list indices must be integers or slices, not numpy.str_
+  MT19937  bootstrap SD(ρ) = 0.1299   (SE 候选)
+  PCG64    bootstrap SD(ρ) = 0.1312   (SE 候选)
+  报告 sandwich 0.125 / jackknife 0.137（已由 delete-one-gene jackknife 逐位复现为 0.1367）
+
+====================================================================================================
+C. 基因标签置换检验（B=10000, seed 20260915）
+====================================================================================================
+  RandomState(MT19937)   null 2.5–97.5 pct = -0.199 to +0.199   P = 0.0001
+  default_rng(PCG64)     null 2.5–97.5 pct = -0.199 to +0.202   P = < 0.001
+  报告: null 2.5–97.5 percentiles −0.22 to 0.23; P < 0.001

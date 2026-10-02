@@ -42,7 +42,8 @@ Manual equivalent:
 | No file over 100 MB | `git ls-files -z \| xargs -0 du -h \| sort -rh \| head` | none |
 | No stray runtime output tracked | `git ls-files \| grep -E '^(figs\|results\|outputs\|logs\|tmp)/'` | empty |
 | `metadata/provenance.json` regenerated | `python scripts/collect_provenance.py` | no diff, or committed diff |
-| `provenance.json` covers the tracked tree | `len(files) + len(excluded) == git ls-files` — checked by `scripts/cut_release.sh` §4 | equal |
+| `provenance.json` covers the tracked tree | `len(files) + len(excluded) == git ls-files` — checked by `scripts/cut_release.sh` | equal |
+| Every reproduction script can import its path module | `python code/analyses/reproduction_20261002/check_wiring.py` — also run by `cut_release.sh` | exit 0 |
 | No `⚠️` rows left in `metadata/ARCHIVE_MAP.md` for items claimed as verified | `grep -c '⚠️' metadata/ARCHIVE_MAP.md` | reviewed |
 
 **Freeze rule.** Every script that produces a reported number must already be merged. Nothing that can change a number may be touched after this point.

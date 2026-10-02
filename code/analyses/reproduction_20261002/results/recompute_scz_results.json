@@ -1,28 +1,33 @@
 {
  "inputs": {
   "scz_z_4arm_official.csv": {
-   "md5": "55caa68e5015a43c98f19a0556c40dd2",
-   "bytes": 677967
+   "md5": "b444a5d3652ff39d6a5723e96e2dce38",
+   "bytes": 662091
   },
   "eqz_full.csv": {
-   "md5": "7dd94816629bd19e6bc1eb0a7266be35",
-   "bytes": 376658
+   "md5": "5c69596eb9e508123fb6cdd7948eda00",
+   "bytes": 136150,
+   "content_md5": "7dd94816629bd19e6bc1eb0a7266be35"
   },
   "official_Whole_Blood.csv": {
-   "md5": "71a2ef9278f7e235cee467721f06d62c",
-   "bytes": 1730684
+   "md5": "7775c350817879cdf55feddd9c59c5b0",
+   "bytes": 691052,
+   "content_md5": "71a2ef9278f7e235cee467721f06d62c"
   },
   "official_Nerve_Tibial.csv": {
-   "md5": "ef3ee2e444878f3257e2e03267b6a2d1",
-   "bytes": 2139640
+   "md5": "d16dac23cd360274c557c0b1dcfd6d4c",
+   "bytes": 857050,
+   "content_md5": "ef3ee2e444878f3257e2e03267b6a2d1"
   },
   "official_en_Whole_Blood.csv": {
-   "md5": "8adf895c3cc7c6b89bdfaa5e086f8694",
-   "bytes": 1253372
+   "md5": "a076675dea8c74347179c83e6d31cbb4",
+   "bytes": 490098,
+   "content_md5": "8adf895c3cc7c6b89bdfaa5e086f8694"
   },
   "official_en_Nerve_Tibial.csv": {
-   "md5": "c6f46b04527c8f02606000e401e302e7",
-   "bytes": 1707928
+   "md5": "d320ccb64ddb7a8dd243a78751527937",
+   "bytes": 672935,
+   "content_md5": "c6f46b04527c8f02606000e401e302e7"
   }
  },
  "universes": {

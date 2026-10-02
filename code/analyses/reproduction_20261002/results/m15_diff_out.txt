@@ -1,0 +1,21 @@
+重跑输出的顶层键: ['GTExNT_significant_reversals_any_eqtlgen', 'PC1a_BH_boundary', 'PC1b_null_calibration', 'PC2a_single_gene_power', 'PC2b_group_diff_power', 'PC3_counts', 'PC3_endpoint_fired', 'null_pool', 'sign_reversals_official', 'spot_check']
+
+--- repo code/figures/m15_positive_control.json (tracked): 差异项 17
+    /PC1b_null_calibration/19: 重跑=<缺少>  归档=有
+    /PC1b_null_calibration/29: 重跑=<缺少>  归档=有
+    /PC1b_null_calibration/81: 重跑=<缺少>  归档=有
+    /PC3_counts/GTEx|T2DM control: 重跑=有  归档=<缺少>
+    /PC3_endpoint_fired: 重跑=len=11  归档=len=10
+    /spot_check/CKAP4/DN/official/q_acat: 重跑=0.7115  归档=0.8633
+    /spot_check/CKAP4/DPN/official/q_acat: 重跑=0.5189  归档=0.4208
+    /spot_check/CKAP4/DR/official/q_acat: 重跑=0.7963  归档=0.8499
+    /spot_check/HSP90AB1/DN/official/q_acat: 重跑=0.424  归档=0.6722
+    /spot_check/HSP90AB1/DPN/official/q_acat: 重跑=0.9538  归档=0.9435
+    /spot_check/HSP90AB1/DR/official/q_acat: 重跑=0.8121  归档=0.8943
+    /spot_check/HSP90B1/DN/official/q_acat: 重跑=0.2478  归档=0.4367
+    /spot_check/HSP90B1/DPN/official/q_acat: 重跑=0.9538  归档=0.8786
+    /spot_check/HSP90B1/DR/official/q_acat: 重跑=0.9631  归档=0.9951
+    /spot_check/XRCC6/DN/official/q_acat: 重跑=0.9106  归档=0.9243
+    /spot_check/XRCC6/DPN/official/q_acat: 重跑=0.9538  归档=0.9505
+    /spot_check/XRCC6/DR/official/q_acat: 重跑=0.7963  归档=0.8499
+

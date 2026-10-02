@@ -2,22 +2,24 @@
 0. 输入校验
 ==============================================================================
   covariate_matrix.csv           md5=0f6088e1d53fd061f4ced40940dbf6c1 bytes=6,628
-  mashr_Whole_Blood.db           md5=1613d73c3fcc53a27dc1422118680b97 bytes=4,612,096
-  mashr_Nerve_Tibial.db          md5=9983e7b1557230162331839acf5ed228 bytes=5,910,528
-  Human_Mouse_Common.csv     md5=bf1d7bcdc6b4def62dd0eafcdd1085e4 bytes=16,486
+  Human_Mouse_Common_raw.csv     md5=bf1d7bcdc6b4def62dd0eafcdd1085e4 bytes=16,486
   groups.json                    md5=37583d2f4f553ab71d6b166a4d0a2b7a bytes=3,956
 
 ==============================================================================
 1. 池构建（对照 SI Table S9 第 1 行与表注）
 ==============================================================================
-  POOL_A 流程:  WB model genes 12,622  →  minus 104-panel 12,555  →  minus panel families 11,885  →  minus disease blacklist = POOL_A 11,820  →  of which have BOTH-tissue models 10,450
-  （SI: 11,820，其中 10,450 带 Nerve_Tibial 模型；排除链共移除 802）
+  来源: 随仓库分发的池名单 data/derived/s9_pools/*.txt
+  未设 REPRO_MASHR_DB_DIR —— 池「成员名单」随仓库交付，排除链 12,622 → 12,555
+  → 11,885 → 11,820 由这些名单承载；重建名单本身需要 mashr 模型库
+  （第三方，不随仓库分发；见 INPUTS.md B.2）。设 REPRO_MASHR_DB_DIR 可双路线交叉核对。
 
+  POOL_A = 11,820（SI: 11,820），其中双组织 10,450（SI: 10,450）
   POOL_818 = 818（SI: 818），其中双组织 767（SI: 767），仅 WB 51（SI: 51）
 
 ==============================================================================
 2. 官方 GTEx v8 逐基因 ACAT-O（按训练样本量加权）
 ==============================================================================
+  来源: data/derived/gtex_official_finngen/gtex_official_zscores_wide.csv.gz
   覆盖基因（至少一个组织有 Z）= 15,655
   600 样本中官方覆盖 = 568（SI 表注: 568）；818 池中覆盖 = 768（SI: 768）
 

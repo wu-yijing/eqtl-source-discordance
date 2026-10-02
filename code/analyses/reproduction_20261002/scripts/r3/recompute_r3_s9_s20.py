@@ -3,27 +3,6 @@
 ================================================================================
  R3-1 / R3-2 原流水线重跑：Table S9（随机对照零分布）与 Table S20（端点标定与功效）
 ================================================================================
- 输入分两类（全部经 ../../paths.py 解析，本脚本无本机绝对路径）：
-   随仓库分发：
-     data/superseded/covariate_matrix.csv                       （104 基因面板名单）
-     data/superseded/hk_reselect_20260830/data/Human_Mouse_Common.csv
-     data/superseded/hk_reselect_20260830/data/d3{,b}_summary.json
-   未随仓库分发（用命令行/环境变量提供；见 ../../INPUTS.md）：
-     mashr_Whole_Blood.db / mashr_Nerve_Tibial.db   --input mashr_dir=<dir>
-     metaxcan_run/official/                          --input metaxcan_run_dir=<dir>
-     groups.json                                     --input groups_json=<file>
-     t1_s8rand/official_rand_{DR,DN,DPN}.csv         --input t1_s8rand_dir=<dir>
-     Supporting_Information_GenetEpidemiol_20260930.docx  --si <file>
-
-   运行：
-     python scripts/r3/recompute_r3_s9_s20.py \
-         --input mashr_dir=... --input metaxcan_run_dir=... \
-         --input groups_json=... --input t1_s8rand_dir=... --si <si.docx>
-     python scripts/r3/recompute_r3_s9_s20.py --list-inputs
-
-   ⚠️ 因为 mashr .db / groups.json / t1_s8rand / metaxcan_run 不在本仓库内，
-   Table S9 对第三方不可复现；ARCHIVE_MAP.md 该行标 🟡。见 ../../README.md。
-
 Table S9 配方（取自归档的 `_null_lib.py` / `null_final.py` / `t1_s8rand.py`）：
   · POOL_A = mashr_Whole_Blood.db 中 n.snps≥1 的基因
              − 104-panel − 与 panel 共享 ≥3 字符前缀的家族 − T2DM/并发症/代谢黑名单
@@ -39,25 +18,34 @@ Table S20 配方：
   · 组间功效 = 在观测分母与率下对 2×2 结果空间做精确枚举（Fisher 双侧）
 ================================================================================
 """
-import argparse, os, sys, csv, json, math, re, random, sqlite3, hashlib, itertools
+# ---------------------------------------------------------------------------
+# Path resolution (added 2026-10-02). Satisfies code/README.md rule 3:
+# "No absolute paths, no personal directories."
+# ---------------------------------------------------------------------------
+import os as _os
+import sys as _sys
+
+
+def _repro_pkg():
+    d = _os.path.dirname(_os.path.abspath(__file__))
+    for _ in range(6):
+        if _os.path.exists(_os.path.join(d, 'paths_config.py')):
+            return d
+        d = _os.path.dirname(d)
+    raise RuntimeError('paths_config.py not found above %s' % __file__)
+
+
+_sys.path.insert(0, _repro_pkg())
+import paths_config as PC        # noqa: E402
+PC.apply_cli_overrides()
+# ---------------------------------------------------------------------------
+
+import os, sys, csv, json, math, re, random, sqlite3, hashlib, itertools
 import numpy as np
 from scipy import stats
 
-HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.dirname(os.path.dirname(HERE)))   # code/analyses/reproduction_20261002/
-import paths                                                  # noqa: E402
-
-_ap = paths.add_common_args(argparse.ArgumentParser(description=__doc__.splitlines()[1]))
-_ap.add_argument('--si', metavar='DOCX',
-                 help='submitted Supporting Information; default: $EQTL_SI_DOCX')
-_ap.add_argument('--out-dir', metavar='DIR',
-                 help='where the two outputs go; default: this directory')
-_args = _ap.parse_args()
-if _args.list_inputs:
-    print(paths.list_inputs()); raise SystemExit(0)
-paths.apply_args(_args)
-
-OUTD = _args.out_dir or HERE
+OUTD = PC.RESULTS              # 产物统一落在包的 results/（2026-10-02 起）
+os.makedirs(OUTD, exist_ok=True)
 LOG = []
 def log(*a):
     s = ' '.join(str(x) for x in a); LOG.append(s); print(s)
@@ -65,16 +53,18 @@ def md5(p):
     return hashlib.md5(open(p, 'rb').read()).hexdigest()
 
 # ------------------------------------------------------------------ 路径
-# 随仓库分发的三项（原脚本分别从另一本机克隆的 processed/ 与 hk_reselect/ 读）
-COVAR     = str(paths.get('covariate_matrix'))         # data/superseded/covariate_matrix.csv
-HRT_RAW   = str(paths.get('human_mouse_common'))       # 与归档 Human_Mouse_Common_raw.csv 逐字节相同
-HK_DATA   = paths.get('hk_reselect_dir')               # data/superseded/hk_reselect_20260830/data/
-# 未随仓库分发的四项
-MODEL_DIR = str(paths.external('mashr_dir'))
-GTEXDIR   = str(paths.external('metaxcan_run_dir'))
-GRPJ      = str(paths.external('groups_json'))
-RANDDIR   = str(paths.external('t1_s8rand_dir'))
-SI_DOCX   = _args.si or str(paths.external('si_docx'))
+# POOL_A / POOL_818 membership ships with the repository (data/derived/s9_pools/).
+# Set REPRO_MASHR_DB_DIR to also rebuild the pools from the mashr models
+# (third-party, not redistributed) and cross-check the two routes.
+MODEL_DIR = os.environ.get('REPRO_MASHR_DB_DIR')
+# The official MetaXcan GTEx layer ships here flattened to one row per gene.
+# Set REPRO_GTEX_OFFICIAL_DIR to read the six original tables instead; the two
+# routes have been verified equivalent.
+GTEXDIR   = os.environ.get('REPRO_GTEX_OFFICIAL_DIR')
+HRT_RAW   = PC.get('hrt_source')
+GRPJ      = PC.get('groups_json')
+RANDDIR   = os.path.dirname(PC.get('rand_dr'))
+POOLS_DIR = os.path.dirname(PC.get('pool_a'))
 TRAITS    = ['DR', 'DN', 'DPN']
 TISSUES   = ['Nerve_Tibial', 'Whole_Blood']
 SEED      = 20260911
@@ -83,10 +73,11 @@ NT_W, WB_W = 532.0, 670.0
 B = 10000
 
 EXTRA_FAMILY = re.compile(r'^(MRPS|MRPL|MT-|MTRNR|MTND|MTATP|MTCO|MTCYB)')
-# 黑名单现在随脚本分发（scripts/r3/_disease_blacklist.txt）；文件缺失时回退到下面的内联副本
-_BL = os.path.join(HERE, '_disease_blacklist.txt')
-DISEASE = set(open(_BL, encoding='utf-8').read().split()
-              if os.path.exists(_BL) else """
+# 黑名单随仓库分发于 data/derived/s9_pools/disease_blacklist.txt；下方内联清单为兜底。
+# 两者都不做大小写归一化——被减去的基因名是大写的，而清单里有一个 token 写作 C5orf67，
+# 因此它实际上没有被排除。这是原流水线的行为，POOL_A = 11,820（而非 11,819）即源于此。
+DISEASE = set(open(PC.get('disease_blacklist'), encoding='utf-8').read().split()
+              if os.path.exists(PC.get('disease_blacklist')) else """
 ADCY5 ADRA2A ANK1 AP3S2 ARAP1 BCAR1 BCL11A CAMK1D CCND2 CDKAL1 CDKN2A CDKN2B CENTD2 CMIP DGKB DUSP8
 FTO GCC1 GCK GCKR GIPR GLIS3 GLP1R GPSM1 GRB14 HHEX HMGA1 HMGA2 HNF1A HNF1B HNF4A IDE IGF1 IGF2BP2 INS
 INSR IRS1 IRS2 JAZF1 KCNJ11 KCNQ1 KLF14 LEPR MAEA MC4R MNX1 MTNR1B NOTCH2 PAM PDX1 PEPD PIK3R1 PPARG
@@ -98,13 +89,14 @@ ICAM1 SELE TNF IL6 CRP AGER RAGE CTGF CCN2 MMP2 MMP9 TIMP1 HIF1A PLGF PGF LEP GC
 SREBF2 FASN ACACA CPT1A PPARA LIPC CETP""".split())
 
 log('=' * 78); log('0. 输入校验'); log('=' * 78)
-INP = {'covariate_matrix.csv': COVAR,
-       'mashr_Whole_Blood.db': os.path.join(MODEL_DIR, 'mashr_Whole_Blood.db'),
-       'mashr_Nerve_Tibial.db': os.path.join(MODEL_DIR, 'mashr_Nerve_Tibial.db'),
-       'Human_Mouse_Common.csv': HRT_RAW, 'groups.json': GRPJ}
-for k, p in INP.items():
-    log(f'  {k:30s} md5={md5(p)} bytes={os.path.getsize(p):,}')
-R = {'inputs': {k: {'md5': md5(p), 'bytes': os.path.getsize(p)} for k, p in INP.items()}}
+INP = {'covariate_matrix.csv': PC.get('covariate_matrix'),
+       'Human_Mouse_Common_raw.csv': HRT_RAW, 'groups.json': GRPJ}
+if MODEL_DIR:
+    INP['mashr_Whole_Blood.db'] = os.path.join(MODEL_DIR, 'mashr_Whole_Blood.db')
+    INP['mashr_Nerve_Tibial.db'] = os.path.join(MODEL_DIR, 'mashr_Nerve_Tibial.db')
+R = {'inputs': PC.describe_inputs(INP)}
+for k, rec in R['inputs'].items():
+    log(f"  {k:30s} md5={rec['md5']} bytes={rec['bytes']:,}")
 
 # ============================================================ 1. 池重建
 log('\n' + '=' * 78); log('1. 池构建（对照 SI Table S9 第 1 行与表注）'); log('=' * 78)
@@ -116,60 +108,115 @@ panel = {r['Gene'].upper() for r in csv.DictReader(
     open(INP['covariate_matrix.csv'], encoding='utf-8'))}
 fams = {lead(g) for g in panel if len(lead(g)) >= 3}
 meta = {}
-for t in TISSUES:
-    conn = sqlite3.connect(os.path.join(MODEL_DIR, 'mashr_%s.db' % t))
-    meta[t] = {gn.upper(): n for _, gn, n in
-               conn.execute('SELECT gene, genename, "n.snps.in.model" FROM extra') if gn}
-    conn.close()
+if MODEL_DIR:
+    for t in TISSUES:
+        conn = sqlite3.connect(os.path.join(MODEL_DIR, 'mashr_%s.db' % t))
+        meta[t] = {gn.upper(): n for _, gn, n in
+                   conn.execute('SELECT gene, genename, "n.snps.in.model" FROM extra') if gn}
+        conn.close()
 
-wb = {g: n for g, n in meta['Whole_Blood'].items() if n and n >= 1}
-flow = [('WB model genes', len(wb))]
-cur = {g for g in wb if g not in panel};                      flow.append(('minus 104-panel', len(cur)))
-cur = {g for g in cur if not (any(g.startswith(p) for p in fams) or EXTRA_FAMILY.match(g))}
-flow.append(('minus panel families', len(cur)))
-cur = {g for g in cur if g not in DISEASE};                   flow.append(('minus disease blacklist = POOL_A', len(cur)))
-POOL_A = cur
-both_A = {g for g in cur if meta['Nerve_Tibial'].get(g, 0) and meta['Nerve_Tibial'][g] >= 1}
-flow.append(('of which have BOTH-tissue models', len(both_A)))
-log('  POOL_A 流程:  ' + '  →  '.join(f'{k} {v:,}' for k, v in flow))
-log(f'  （SI: 11,820，其中 10,450 带 Nerve_Tibial 模型；排除链共移除 802）')
+flow = []
+if MODEL_DIR:
+    # ---- 路线 1：从 mashr 模型库重建（需要第三方层，见 INPUTS.md B.2）
+    log('  来源: mashr 模型库（REPRO_MASHR_DB_DIR），从零重建池名单')
+    wb = {g: n for g, n in meta['Whole_Blood'].items() if n and n >= 1}
+    flow = [('WB model genes', len(wb))]
+    cur = {g for g in wb if g not in panel};                      flow.append(('minus 104-panel', len(cur)))
+    cur = {g for g in cur if not (any(g.startswith(p) for p in fams) or EXTRA_FAMILY.match(g))}
+    flow.append(('minus panel families', len(cur)))
+    cur = {g for g in cur if g not in DISEASE};                   flow.append(('minus disease blacklist = POOL_A', len(cur)))
+    POOL_A = cur
+    both_A = {g for g in cur if meta['Nerve_Tibial'].get(g, 0) and meta['Nerve_Tibial'][g] >= 1}
+    flow.append(('of which have BOTH-tissue models', len(both_A)))
+    log('  POOL_A 流程:  ' + '  →  '.join(f'{k} {v:,}' for k, v in flow))
+    log('  （SI: 11,820，其中 10,450 带 Nerve_Tibial 模型；排除链共移除 802）')
 
-hrt = set()
-for line in open(HRT_RAW, encoding='utf-8', errors='replace'):
-    line = line.strip()
-    if not line or line.lower().startswith('mouse'):
-        continue
-    p = line.split(';')
-    if len(p) >= 2 and p[1].strip():
-        hrt.add(p[1].strip().upper())
-c2 = hrt - panel
-c2 = {g for g in c2 if not (any(g.startswith(p) for p in fams) or EXTRA_FAMILY.match(g))}
-c2 = {g for g in c2 if g not in DISEASE}
-POOL_818 = {g for g in c2 if meta['Whole_Blood'].get(g, 0) and meta['Whole_Blood'][g] >= 1}
-both_818 = {g for g in POOL_818 if meta['Nerve_Tibial'].get(g, 0) and meta['Nerve_Tibial'][g] >= 1}
-log(f'\n  POOL_818 = {len(POOL_818):,}（SI: 818），其中双组织 {len(both_818):,}（SI: 767），'
-    f'仅 WB {len(POOL_818 - both_818)}（SI: 51）')
+    hrt = set()
+    for line in open(HRT_RAW, encoding='utf-8', errors='replace'):
+        line = line.strip()
+        if not line or line.lower().startswith('mouse'):
+            continue
+        p = line.split(';')
+        if len(p) >= 2 and p[1].strip():
+            hrt.add(p[1].strip().upper())
+    c2 = hrt - panel
+    c2 = {g for g in c2 if not (any(g.startswith(p) for p in fams) or EXTRA_FAMILY.match(g))}
+    c2 = {g for g in c2 if g not in DISEASE}
+    POOL_818 = {g for g in c2 if meta['Whole_Blood'].get(g, 0) and meta['Whole_Blood'][g] >= 1}
+    both_818 = {g for g in POOL_818 if meta['Nerve_Tibial'].get(g, 0) and meta['Nerve_Tibial'][g] >= 1}
+    log(f'\n  POOL_818 = {len(POOL_818):,}（SI: 818），其中双组织 {len(both_818):,}（SI: 767），'
+        f'仅 WB {len(POOL_818 - both_818)}（SI: 51）')
+
+    for name, gs in (('POOL_A', POOL_A), ('both_A', both_A),
+                     ('POOL_818', POOL_818), ('both_818', both_818)):
+        f = os.path.join(POOLS_DIR, name + '.txt')
+        ship = set(open(f, encoding='utf-8').read().split()) if os.path.exists(f) else None
+        if ship is None:
+            log(f'  与随包 {name}.txt 交叉核对: 文件不存在，跳过')
+        else:
+            log(f'  与随包 {name}.txt 交叉核对: '
+                f'{"一致 ✓" if ship == gs else "不一致 ✗"}（随包 {len(ship):,} vs 重建 {len(gs):,}）')
+else:
+    # ---- 路线 2：直接读随仓库分发的池名单（无需 mashr 层）
+    log('  来源: 随仓库分发的池名单 data/derived/s9_pools/*.txt')
+    log('  未设 REPRO_MASHR_DB_DIR —— 池「成员名单」随仓库交付，排除链 12,622 → 12,555')
+    log('  → 11,885 → 11,820 由这些名单承载；重建名单本身需要 mashr 模型库')
+    log('  （第三方，不随仓库分发；见 INPUTS.md B.2）。设 REPRO_MASHR_DB_DIR 可双路线交叉核对。')
+    def pool(name):
+        return set(open(os.path.join(POOLS_DIR, name + '.txt'), encoding='utf-8').read().split())
+    POOL_A, both_A = pool('POOL_A'), pool('both_A')
+    POOL_818, both_818 = pool('POOL_818'), pool('both_818')
+    # 排除链不重算，但按随包名单给出与 SI 可对照的计数，便于阅读日志
+    flow = [('POOL_A（随包名单）', len(POOL_A)),
+            ('of which have BOTH-tissue models', len(both_A)),
+            ('POOL_818（随包名单）', len(POOL_818)),
+            ('of which have BOTH-tissue models', len(both_818)),
+            ('POOL_818 WB-only', len(POOL_818 - both_818))]
+    log(f'\n  POOL_A = {len(POOL_A):,}（SI: 11,820），其中双组织 {len(both_A):,}（SI: 10,450）')
+    log(f'  POOL_818 = {len(POOL_818):,}（SI: 818），其中双组织 {len(both_818):,}（SI: 767），'
+        f'仅 WB {len(POOL_818 - both_818)}（SI: 51）')
 R['pools'] = {'POOL_A': len(POOL_A), 'both_A': len(both_A), 'POOL_818': len(POOL_818),
-              'both_818': len(both_818), 'flow': flow}
+              'both_818': len(both_818), 'flow': flow,
+              # 'mashr-rebuild' = the exclusion chain was re-derived from the model databases;
+              # 'shipped-pools' = the membership came from data/derived/s9_pools/ and only its
+              # counts are recorded, because re-deriving it needs the mashr layer (INPUTS.md B.2).
+              'route': 'mashr-rebuild' if MODEL_DIR else 'shipped-pools',
+              'membership_source': ('mashr model databases (REPRO_MASHR_DB_DIR)' if MODEL_DIR
+                                    else 'data/derived/s9_pools/*.txt')}
 
 # ============================================================ 2. 官方 GTEx ACAT-O
 log('\n' + '=' * 78); log('2. 官方 GTEx v8 逐基因 ACAT-O（按训练样本量加权）'); log('=' * 78)
-gz = {}
-for tis in TISSUES:
-    for tr in TRAITS:
-        fp = os.path.join(GTEXDIR, 'official_%s_%s.csv' % (tis, tr))
-        for r in csv.DictReader(open(fp, encoding='utf-8')):
-            sym = r['gene_name']
-            if not sym:
-                continue
-            try:
-                z = float(r['zscore'])
-            except (TypeError, ValueError):
-                continue
-            c_ = gz.setdefault(sym, {}).setdefault(tis, {}).get(tr)
-            if c_ is not None and abs(z) <= abs(c_):
-                continue
-            gz[sym].setdefault(tis, {})[tr] = z
+gz = {}   # gz[gene][tissue][trait] = z；同 (gene,tissue,trait) 取 |z| 更大者
+if GTEXDIR:
+    # ---- 路线 1：官方 MetaXcan 六表（原始层，不随仓库分发）
+    src = 'official_{tissue}_{trait}.csv 六表（REPRO_GTEX_OFFICIAL_DIR）'
+    for tis in TISSUES:
+        for tr in TRAITS:
+            fp = os.path.join(GTEXDIR, 'official_%s_%s.csv' % (tis, tr))
+            for r in csv.DictReader(open(fp, encoding='utf-8')):
+                sym = r['gene_name']
+                if not sym:
+                    continue
+                try:
+                    z = float(r['zscore'])
+                except (TypeError, ValueError):
+                    continue
+                c_ = gz.setdefault(sym, {}).setdefault(tis, {}).get(tr)
+                if c_ is not None and abs(z) <= abs(c_):
+                    continue
+                gz[sym].setdefault(tis, {})[tr] = z
+else:
+    # ---- 路线 2：随仓库分发的压平宽表（与路线 1 已核验等价）
+    src = 'data/derived/gtex_official_finngen/gtex_official_zscores_wide.csv.gz'
+    for r in PC.dict_rows(PC.get('gtex_official_wide')):
+        sym = r['gene']
+        for tis in TISSUES:
+            for tr in TRAITS:
+                v = (r.get('%s_%s' % (tis, tr)) or '').strip()
+                if v == '':
+                    continue
+                gz.setdefault(sym, {}).setdefault(tis, {})[tr] = float(v)
+log(f'  来源: {src}')
 log(f'  覆盖基因（至少一个组织有 Z）= {len(gz):,}')
 
 def acat_p(zs):
@@ -244,13 +291,10 @@ R['null_818'] = {k: v for k, v in o818.items() if not k.endswith('_arr')}
 log('\n' + '=' * 78); log('4. 随机对照 30 基因的点估计（GTEx 侧 / eQTLGen 侧）'); log('=' * 78)
 grp = json.load(open(GRPJ, encoding='utf-8'))
 LAY2, LAY3 = grp['lay2'], grp['lay3']
-def _hk_json(name):
-    return json.load(open(os.path.join(HK_DATA, name), encoding='utf-8'))
-
 log(f'  基因清单: GW lay2 = {len(LAY2)}（与归档 d3_summary 对照清单一致: '
-    f'{LAY2 == sorted(_hk_json("d3_summary.json")["control"])}）；'
+    f'{LAY2 == sorted(json.load(open(os.path.join(PC.SUPERSEDED, "hk_reselect_20260830", "data", "d3_summary.json"), encoding="utf-8"))["control"])}）；'
     f'HRT lay3 = {len(LAY3)}（同 d3b: '
-    f'{LAY3 == sorted(_hk_json("d3b_summary.json")["control"])}）')
+    f'{LAY3 == sorted(json.load(open(os.path.join(PC.SUPERSEDED, "hk_reselect_20260830", "data", "d3b_summary.json"), encoding="utf-8"))["control"])}）')
 
 def gtex_rates(genes):
     P = build([g for g in genes if any(pacat_of(g, t) is not None for t in TRAITS)])
@@ -304,18 +348,10 @@ for lab, genes, gtex_rep, eq_rep in [
 log('\n' + '=' * 78); log('5. 各层 BH 率在零分布中的百分位'); log('=' * 78)
 # Layer 1 管家 / 候选 / 非候选 / T2DM（GTEx 侧，来自 SI Table S3 / S6）
 def table_rates():
-    import zipfile
-    from xml.etree import ElementTree as ET
-    Wn = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
-    SI = SI_DOCX                      # 由 --si / $EQTL_SI_DOCX 提供（未随仓库分发）
-    tb = [c for c in list(ET.fromstring(zipfile.ZipFile(SI).read('word/document.xml')).find(Wn + 'body'))
-          if c.tag == Wn + 'tbl']
+    _t = PC.si_tables(PC.doc('si'))
+
     def rows(i):
-        out = []
-        for tr in tb[i].findall(Wn + 'tr'):
-            out.append([' '.join(x.text or '' for x in tc.iter(Wn + 't')).strip()
-                        for tc in tr.findall(Wn + 'tc')])
-        return out
+        return _t[i]['rows']
     return rows
 rows = table_rates()
 s2 = rows(1); gmap = {r[0]: r[1] for r in s2[1:] if r[0]}
