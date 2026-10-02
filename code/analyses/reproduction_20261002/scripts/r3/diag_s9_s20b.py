@@ -76,7 +76,10 @@ print('  SI: 600 -> 21/1326=1.6% / 7/378=1.9% ; 818 -> 20/1827=1.1% / 6/477=1.3%
 # ================= S20 单基因 80% 功效最小 λ =================
 print()
 print('=' * 74); print('S20 单基因 spike-in 最小 λ（经验零池 = 同来源真实 Z）'); print('=' * 74)
-SI = r'E:\workbuddy\GE投稿资料\_修订_20260930\Supporting_Information_GenetEpidemiol_20260930.docx'
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+SI = str(_paths.external('si_docx'))
 Wn = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
 tb = [c for c in list(ET.fromstring(zipfile.ZipFile(SI).read('word/document.xml')).find(Wn + 'body'))
       if c.tag == Wn + 'tbl']

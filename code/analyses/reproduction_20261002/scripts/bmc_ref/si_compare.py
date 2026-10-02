@@ -22,8 +22,11 @@ def load(path):
                 rows.append([' '.join(pt(p) for p in tc.findall(W+'p')).strip() for tc in tr.findall(W+'tc')])
             titles.append((len(rows), len(rows[0]) if rows else 0, lastps[-1] if lastps else ''))
     return titles
-B=load(r'E:/workbuddy/BMC Genomics投稿资料\投稿前定稿\Additional_file_1.docx')
-G=load(r'E:/workbuddy/GE投稿资料/_修订_20260930/Supporting_Information_GenetEpidemiol_20260930.docx')
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+B=load(str(_paths.external('bmc_additional_file1_docx')))
+G=load(str(_paths.external('si_docx')))
 print(f'BMC AF1 表数 {len(B)}  |  GE SI 表数 {len(G)}')
 print()
 print('=== BMC AF1 表目录（行×列 | 表题前 100 字）===')

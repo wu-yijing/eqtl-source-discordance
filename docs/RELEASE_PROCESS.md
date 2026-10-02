@@ -42,6 +42,7 @@ Manual equivalent:
 | No file over 100 MB | `git ls-files -z \| xargs -0 du -h \| sort -rh \| head` | none |
 | No stray runtime output tracked | `git ls-files \| grep -E '^(figs\|results\|outputs\|logs\|tmp)/'` | empty |
 | `metadata/provenance.json` regenerated | `python scripts/collect_provenance.py` | no diff, or committed diff |
+| `provenance.json` covers the tracked tree | `len(files) + len(excluded) == git ls-files` — checked by `scripts/cut_release.sh` §4 | equal |
 | No `⚠️` rows left in `metadata/ARCHIVE_MAP.md` for items claimed as verified | `grep -c '⚠️' metadata/ARCHIVE_MAP.md` | reviewed |
 
 **Freeze rule.** Every script that produces a reported number must already be merged. Nothing that can change a number may be touched after this point.
@@ -71,6 +72,9 @@ Record the justification in `CHANGELOG.md` **and state explicitly whether any nu
 #     CITATION.cff  -> version: X.Y.Z  (and date-released)
 
 # 3.2 Regenerate provenance
+#     Note: collect_provenance.py walks `git ls-files`, so stage new files FIRST,
+#     or they will not be hashed. `git add -A` before this step is fine.
+git add -A
 python scripts/collect_provenance.py
 git diff --stat metadata/provenance.json
 

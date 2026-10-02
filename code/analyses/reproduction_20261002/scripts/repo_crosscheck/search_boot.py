@@ -1,13 +1,16 @@
 # -*- coding: utf-8 -*-
 """系统搜索主臂基因簇自助法的实现组合，目标是复现报告区间
    ρ 95% CI = 0.12–0.62 ; 一致率 95% CI = 58.3–79.2%   (seed 20260915, B=10000)
-输入: eqtl-source-discordance-audit/data/processed_officialZ/primary_arm_96pairs_official.csv
+输入: data/derived/primary_arm_96pairs.csv
 """
 import csv, math, random, itertools
 import numpy as np
 from scipy.stats import rankdata, spearmanr
 
-P=r'E:/workbuddy/eqtl-source-discordance-audit/data/processed_officialZ/primary_arm_96pairs_official.csv'
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+P=str(_paths.derived('primary_arm_96pairs'))
 rows=list(csv.DictReader(open(P,encoding='utf-8-sig')))
 zg=np.array([float(r['Z_GTEx']) for r in rows]); ze=np.array([float(r['Z_eQTLGen']) for r in rows])
 gene=np.array([r['Gene'] for r in rows])

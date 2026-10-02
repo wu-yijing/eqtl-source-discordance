@@ -2,13 +2,16 @@
 """主臂簇稳健性（仓库 README §Cluster-Robustness / AF1 Table S16）逐项核验。
 确定性量：naive t、sandwich SE、jackknife SE、ICC、DEFF —— 无随机性，应逐位复现。
 随机量：基因簇自助法 ρ/一致率区间、基因标签置换 P —— 受 (RNG, seed, B) 影响，需说明。
-输入: data/processed_officialZ/primary_arm_96pairs_official.csv
+输入: data/derived/primary_arm_96pairs.csv
 """
 import csv, math, random
 import numpy as np
 from scipy.stats import rankdata, norm
 
-P=r'E:/workbuddy/eqtl-source-discordance-audit/data/processed_officialZ/primary_arm_96pairs_official.csv'
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+P=str(_paths.derived('primary_arm_96pairs'))
 rows=list(csv.DictReader(open(P,encoding='utf-8-sig')))
 zg=np.array([float(r['Z_GTEx']) for r in rows]); ze=np.array([float(r['Z_eQTLGen']) for r in rows])
 gene=np.array([r['Gene'] for r in rows]); trait=np.array([r['Trait'] for r in rows])

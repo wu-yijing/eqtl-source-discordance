@@ -1,11 +1,14 @@
 # -*- coding: utf-8 -*-
 """用仓库官方 Z 层（全精度）复算 BH q，检验 Table S3 / S18 的取整假设。
-输入: eqtl-source-discordance-audit/data/processed_officialZ/{gtex,eqtlgen}_official_Z.csv
+输入: data/derived/{gtex,eqtlgen}_Z.csv
 """
 import csv, math, numpy as np
 from scipy import stats
 
-D=r'E:/workbuddy/eqtl-source-discordance-audit/data/processed_officialZ'
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+D=str(_paths.derived('gtex_Z').parent)
 def load(fn):
     return list(csv.DictReader(open(D+'\\'+fn, encoding='utf-8-sig')))
 

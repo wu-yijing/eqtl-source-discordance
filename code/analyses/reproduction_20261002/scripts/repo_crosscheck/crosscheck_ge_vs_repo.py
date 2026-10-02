@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 """GE 稿件 SI 表 与 审计仓库官方 Z 层 的逐行对应性核验（确认同一次数据生成）。
-GE SI: E://workbuddy//2026-10-02-15-57-36//recompute//si_tables//tNN.tsv（由 docx 抽取）
-仓库  : eqtl-source-discordance-audit/data/processed_officialZ/*.csv
+GE SI: <si_tables_dir>/tNN.tsv（由 docx 抽取；--input si_tables_dir=…，未随仓库分发）
+仓库  : data/derived/*.csv（原脚本读的是另一本机克隆的 processed_officialZ/，逐格等价）
 """
 import csv, os
 import numpy as np
-SI=r'E:/workbuddy/2026-10-02-15-57-36/recompute/si_tables'
-D=r'E:/workbuddy/eqtl-source-discordance-audit/data/processed_officialZ'
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+SI=str(_paths.external('si_tables_dir'))
+D=str(_paths.derived('gtex_Z').parent)
 
 def tsv(fn):
     out=[]

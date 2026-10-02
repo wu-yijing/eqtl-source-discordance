@@ -4,10 +4,16 @@ import json, os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 new = json.load(open(os.path.join(HERE, 'm15_positive_control.json'), encoding='utf-8'))
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.dirname(_os.path.abspath(__file__)))))
+import paths as _paths          # noqa: E402  集中路径解析，见 ../../../paths.py
 cands = {
-    '本地归档 2026-09-17-20-59-12/_review': r'E:\workbuddy\2026-09-17-20-59-12\_review\m15_positive_control.json',
-    '仓库 code/figures (eqtl-source-discordance)': r'E:\workbuddy\eqtl-source-discordance\code\figures\m15_positive_control.json',
-    '仓库 figure_scripts_officialZ_20260917 (audit)': r'E:\workbuddy\eqtl-source-discordance-audit\figure_scripts_officialZ_20260917\m15_positive_control.json',
+    '本仓库 code/figures/m15_positive_control.json': str(_paths.fig('m15_json')),
+    # 归档副本是可选的：分别用 EQTL_M15_ARCHIVE_1 / _2 指向即可，缺则跳过
+    '归档副本 1 (EQTL_M15_ARCHIVE_1)':
+        os.environ.get('EQTL_M15_ARCHIVE_1', os.path.join(HERE, 'm15_archive_1.json')),
+    '归档副本 2 (EQTL_M15_ARCHIVE_2)':
+        os.environ.get('EQTL_M15_ARCHIVE_2', os.path.join(HERE, 'm15_archive_2.json')),
 }
 
 def walk(a, b, path=''):

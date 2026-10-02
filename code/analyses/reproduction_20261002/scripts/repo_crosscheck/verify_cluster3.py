@@ -4,7 +4,10 @@ import csv, math
 import numpy as np
 from scipy.stats import rankdata, t as tdist, f as fdist
 
-P=r'E:/workbuddy/eqtl-source-discordance-audit/data/processed_officialZ/primary_arm_96pairs_official.csv'
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+P=str(_paths.derived('primary_arm_96pairs'))
 rows=list(csv.DictReader(open(P,encoding='utf-8-sig')))
 x=np.array([float(r['Z_GTEx']) for r in rows]); y=np.array([float(r['Z_eQTLGen']) for r in rows])
 gene=[r['Gene'] for r in rows]; trait=np.array([r['Trait'] for r in rows])

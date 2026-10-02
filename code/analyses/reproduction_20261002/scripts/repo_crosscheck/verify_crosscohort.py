@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 """核验 Table S5a（RNH1 跨队列合并）与 DerSimonian-Laird 的标签一致性。
-数据来源: eqtl-source-discordance-audit/data/processed_officialZ/crosscohort_TableS4_official.csv
+数据来源: data/derived/crosscohort.csv
 算法来源: 同仓 scripts/python/m6_ne_weighted_sensitivity.py (dl_random_effects, 第 65-75 行)
 """
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
 import math
 
 def pnorm2(z): return math.erfc(abs(z)/math.sqrt(2))

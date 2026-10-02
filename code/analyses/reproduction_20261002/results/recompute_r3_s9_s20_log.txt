@@ -4,7 +4,7 @@
   covariate_matrix.csv           md5=0f6088e1d53fd061f4ced40940dbf6c1 bytes=6,628
   mashr_Whole_Blood.db           md5=1613d73c3fcc53a27dc1422118680b97 bytes=4,612,096
   mashr_Nerve_Tibial.db          md5=9983e7b1557230162331839acf5ed228 bytes=5,910,528
-  Human_Mouse_Common.csv     md5=bf1d7bcdc6b4def62dd0eafcdd1085e4 bytes=16,486
+  Human_Mouse_Common.csv         md5=bf1d7bcdc6b4def62dd0eafcdd1085e4 bytes=16,486
   groups.json                    md5=37583d2f4f553ab71d6b166a4d0a2b7a bytes=3,956
 
 ==============================================================================
@@ -129,5 +129,3 @@
     eQTLGen T2DM control (17)      |Z|c=2.974  闭式 λ=3.781  网格 → 3.80   (SI 3.75)  差一个网格步
     eQTLGen housekeeping (27)      |Z|c=3.113  闭式 λ=3.920  网格 → 3.95   (SI 3.9)  差一个网格步
     eQTLGen pooled (81)            |Z|c=3.424  闭式 λ=4.230  网格 → 4.25   (SI 4.2)  差一个网格步
-
-[完成] recompute_r3_s9_s20_results.json / _log.txt 已写出

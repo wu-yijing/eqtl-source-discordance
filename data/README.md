@@ -77,6 +77,20 @@ It was computed on 2026-08-30, before the σᵢ correction of 2026-09-17, and ha
 **Consequence: the housekeeping layer of main-text Table 1 is not reproducible from this archive** —
 recorded as GAP-1 in [`../metadata/ARCHIVE_MAP.md`](../metadata/ARCHIVE_MAP.md).
 
+### One declared exemption: `covariate_matrix.csv`
+
+`covariate_matrix.csv` exists **only** in `superseded/`, and the rule above says values in that
+layer must never be quoted. It is read anyway — in exactly one place, for exactly one thing:
+
+- `code/analyses/reproduction_20261002/scripts/r3/recompute_r3_s9_s20.py` reads it to recover the
+  **104-gene panel roster**, a fixed input list. No Z, no P and no q from this file enters any
+  reported number.
+
+The exemption is declared here rather than solved by copying the file into `derived/`, because
+copying it would place a pre-correction file inside the layer whose entire purpose is that
+everything in it is post-correction. [`../code/analyses/reproduction_20261002/INPUTS.md`](../code/analyses/reproduction_20261002/INPUTS.md)
+records the same exemption and gives the file's MD5.
+
 ---
 
 ## Superseded layer

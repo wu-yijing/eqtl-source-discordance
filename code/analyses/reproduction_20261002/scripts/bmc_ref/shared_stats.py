@@ -16,8 +16,11 @@ def full(path):
         for tr in tbl.findall(W+'tr'):
             parts.append(' | '.join(' '.join(pt(p) for p in tc.findall(W+'p')).strip() for tc in tr.findall(W+'tc')))
     return ' \u241F '.join(x for x in parts if x.strip())
-BMC=full(r'E:/workbuddy/BMC Genomics投稿资料\投稿前定稿\Manuscript.docx')
-GE =full(r'E:/workbuddy/GE投稿资料/_修订_20260930/Manuscript_GenetEpidemiol_20260930.docx')
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+BMC=full(str(_paths.external('bmc_manuscript_docx')))
+GE =full(str(_paths.external('manuscript_docx')))
 def has(t,*pats): return any(re.search(p,t) for p in pats)
 
 ITEMS=[

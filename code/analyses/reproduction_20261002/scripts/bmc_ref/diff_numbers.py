@@ -18,8 +18,11 @@ def text_of(path):
             tabs.append(' | '.join(' '.join(pt(p) for p in tc.findall(W+'p')).strip() for tc in tr.findall(W+'tc')))
     return paras, tabs
 
-BMC=r'E:/workbuddy/BMC Genomics投稿资料\投稿前定稿\Manuscript.docx'
-GE =r'E:/workbuddy/GE投稿资料/_修订_20260930/Manuscript_GenetEpidemiol_20260930.docx'
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+BMC=str(_paths.external('bmc_manuscript_docx'))
+GE =str(_paths.external('manuscript_docx'))
 
 TOK=re.compile(r'(?<![\w.])(?:[+\-−]?\d+(?:\.\d+)?)(?:\s?(?:%|percentage points|points))?')
 def tokens(lines):

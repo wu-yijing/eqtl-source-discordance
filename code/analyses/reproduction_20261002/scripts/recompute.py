@@ -3,9 +3,11 @@
 ================================================================================
  eQTL 权重来源不一致性研究 —— 正文与补充材料数据合并 + 重算
 ================================================================================
-输入（唯一数据来源，只读）：
-  E:\\workbuddy\\GE投稿资料\\_修订_20260930\\Manuscript_GenetEpidemiol_20260930.docx
-  E:\\workbuddy\\GE投稿资料\\_修订_20260930\\Supporting_Information_GenetEpidemiol_20260930.docx
+ 输入（唯一数据来源，只读）：
+  Manuscript_GenetEpidemiol_20260930.docx            —— 命令行 --manuscript
+  Supporting_Information_GenetEpidemiol_20260930.docx —— 命令行 --si
+    （两者均未随仓库分发；可用 --input manuscript_docx=… / si_docx=… 代替，
+      或设环境变量 EQTL_MANUSCRIPT_DOCX / EQTL_SI_DOCX。见 ../INPUTS.md）
 
 输出：
   merged_pairs.csv         主数据集（Gene x Phenotype 一行，正文口径 + 两源逐对统计）
@@ -13,13 +15,16 @@
   recompute_log.txt        运行日志（含输入 MD5、行数、命中/未命中）
 
 运行：
-  <venv>/Scripts/python.exe recompute.py
+  python scripts/recompute.py --manuscript <main.docx> --si <si.docx>
+  python scripts/recompute.py --list-inputs      # 打印输入清单
+
+所有路径经 ../paths.py 统一解析；本脚本不依赖任何本机绝对路径。
 
 环境（已实测）：
   Python 3.13.12 / numpy 2.4.4 / scipy 1.17.1 / pandas 3.0.3
 ================================================================================
 """
-import json, hashlib, zipfile, sys, os
+import argparse, json, hashlib, zipfile, sys, os
 from xml.etree import ElementTree as ET
 import numpy as np
 import pandas as pd
@@ -33,8 +38,24 @@ ALPHA                 = 0.05       # BH q 阈值
 EMDASH                = {'—', '–', '-', '', 'nan', 'NA', 'N/A'}
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-MS  = r'E:\workbuddy\GE投稿资料\_修订_20260930\Manuscript_GenetEpidemiol_20260930.docx'
-SI  = r'E:\workbuddy\GE投稿资料\_修订_20260930\Supporting_Information_GenetEpidemiol_20260930.docx'
+sys.path.insert(0, os.path.dirname(HERE))          # code/analyses/reproduction_20261002/
+import paths                                        # noqa: E402
+
+_ap = paths.add_common_args(argparse.ArgumentParser(description=__doc__.splitlines()[1]))
+_ap.add_argument('--manuscript', metavar='DOCX',
+                 help='submitted main text; default: $EQTL_MANUSCRIPT_DOCX')
+_ap.add_argument('--si', metavar='DOCX',
+                 help='submitted Supporting Information; default: $EQTL_SI_DOCX')
+_ap.add_argument('--out-dir', metavar='DIR',
+                 help='where the three outputs go; default: this directory')
+_args = _ap.parse_args()
+if _args.list_inputs:
+    print(paths.list_inputs()); raise SystemExit(0)
+paths.apply_args(_args)
+
+MS = _args.manuscript or str(paths.external('manuscript_docx'))
+SI = _args.si or str(paths.external('si_docx'))
+OUTD = _args.out_dir or HERE
 
 LOG = []
 def log(*a):
@@ -218,7 +239,7 @@ log(f'  GTEx(S3) 命中 = {int(M["Z_multi_tissue"].notna().sum())} 行, '
     f'主臂(S13) 命中 = {int(M["Same_S13"].notna().sum())} 行, '
     f'两源交集 = {int((M["Z_multi_tissue"].notna() & M["Z_eQTLGen"].notna()).sum())} 行')
 M['Group'] = M['Group'].fillna(M['Gene group'])
-M.to_csv(os.path.join(HERE, 'merged_pairs.csv'), index=False, encoding='utf-8-sig')
+M.to_csv(os.path.join(OUTD, 'merged_pairs.csv'), index=False, encoding='utf-8-sig')
 
 # ============================================================ 3. 目标量重算
 R = {}   # 结果容器
@@ -636,7 +657,7 @@ log(f'\n  Table S5b 八基因方向一致: {c}/{len(S5b)} = {100*c/len(S5b):.1f}
 R['s5b'] = dict(k=int(c), n=int(len(S5b)), rate_pct=float(100*c/len(S5b)),
                 binom_p=float(stats.binomtest(int(c), len(S5b), .5).pvalue))
 
-json.dump(R, open(os.path.join(HERE, 'recompute_results.json'), 'w', encoding='utf-8'),
+json.dump(R, open(os.path.join(OUTD, 'recompute_results.json'), 'w', encoding='utf-8'),
           ensure_ascii=False, indent=1, default=str)
-open(os.path.join(HERE, 'recompute_log.txt'), 'w', encoding='utf-8').write('\n'.join(LOG))
+open(os.path.join(OUTD, 'recompute_log.txt'), 'w', encoding='utf-8').write('\n'.join(LOG))
 log('\n[完成] merged_pairs.csv / recompute_results.json / recompute_log.txt 已写出')

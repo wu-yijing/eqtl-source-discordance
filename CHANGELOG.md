@@ -23,6 +23,61 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-02 (second pass) — the reproduction package is made portable, and three statuses are corrected
+
+An independent audit of `91afa33` — clone from the remote, enumerate the 281 tracked files, extract
+each script's input dependencies, then re-run the package using **only files present in the
+repository** — found that the package could not be run by anyone but its author, and that three of
+the five gaps it declared closed were not verifiable by a third party.
+
+#### Fixed
+- **27 of the package's 35 scripts carried absolute host paths, and not one pointed into this
+  repository.** The tree referenced `data/processed_officialZ/` 56 times, against a directory that
+  does not exist here; the most-cited path led to a *second local clone of a different repository*
+  (`eqtl-source-discordance-audit`). Every input now resolves through
+  `code/analyses/reproduction_20261002/paths.py`, which defaults to this tree and accepts
+  `--repo-root` / `--input NAME=PATH` / environment overrides.
+- `recompute.py` gained `--manuscript` / `--si`; `recompute_scz.py` gained `--scz-z-dir`. The README
+  had claimed these scripts "take a path argument"; they did not, and now they do.
+- `results/recompute_r3_s9_s20_log.txt` — written by the script, never copied into the package — is
+  restored from a re-run.
+- Three construction-time `_patch*.py` scripts deleted. They rewrote their own siblings in place by
+  string substitution (one asserting on a fixed line number) and would have overwritten the
+  committed sources had a reader followed the README's run order.
+- `scripts/r3/_disease_blacklist.txt` now ships, instead of existing only as an inline fallback.
+
+#### Added
+- `code/analyses/reproduction_20261002/paths.py` — the single place every input is resolved — and
+  `INPUTS.md`, which lists each input, whether it ships, and the MD5 recorded in `results/`.
+- `scripts/collect_provenance.py` now hashes **every file tracked by git**, not three hand-picked
+  directories, and declares its one exclusion (the manifest itself, which cannot hash itself).
+- `scripts/cut_release.sh` gained a coverage gate: the release fails unless
+  `len(provenance.json.files) + len(provenance.json.excluded) == git ls-files`.
+
+#### Changed — three statuses corrected downwards
+- `metadata/ARCHIVE_MAP.md`: **S9 (GAP-7), S16 (GAP-9) and S17 (GAP-10) move ✅ → 🟡.** Each had been
+  reproduced, but the inputs the reproduction rests on are not in this repository, so a third party
+  cannot re-run them. Distribution is now **17 ✅, 15 🟡, 5 🔴, 9 ➖** (was 20 / 12 / 5 / 9). §8 of
+  that file records the re-audit.
+- S20's row keeps its ✅ but now states that its generator's input is not distributed: the mark rests
+  on the bundled JSON, which *is* shipped, not on the script being re-runnable.
+- The 🟡 definition in the status key gained its second sense — "reproduced, but the inputs are not
+  distributed" — because the old wording covered only "the producing step is not shipped".
+- Top-level `README.md`: the claim *"Every input file is pinned by checksum in
+  `metadata/provenance.json`"* was false for every one of the package's external inputs. Replaced
+  with an accurate statement of what is hashed and where the rest is listed.
+- `data/README.md`: `covariate_matrix.csv` is now a **declared exemption** to the "never quote
+  `superseded/`" rule — it supplies the 104-gene panel roster and nothing else.
+- `metadata/provenance_source.json`: `superseded_by` corrected from `data/processed_officialZ/` to
+  `data/derived/`.
+
+#### Numbers
+- **No reported number changes.** The re-runs reproduce the archived outputs: `recompute.py` is
+  byte-identical in content to the archived `results/` copy; `simulation_validation.py` matches at
+  machine precision; `recompute_scz.py` and `recompute_r3_s9_s20.py` reproduce the published SCZ,
+  S9 and S20 values from the author's own inputs. Nothing here edits a value — it corrects what the
+  archive *claims* about its own completeness, and makes the claim checkable.
+
 ### 2026-10-02 — third-party reproduction of both submitted documents
 
 #### Added

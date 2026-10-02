@@ -5,7 +5,10 @@
       S18(t18, eQTLGen 三组)、S15(t15, 管家 eQTLGen BH q)
 """
 import csv, math, numpy as np
-SI=r'E:/workbuddy/2026-10-02-15-57-36/recompute/si_tables'
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+SI=str(_paths.external('si_tables_dir'))
 def rows(fn): return [l.rstrip('\n').split('\t') for l in open(SI+'\\'+fn, encoding='utf-8')]
 def num(x):
     s=str(x).strip().replace('+','')

@@ -3,41 +3,67 @@
 ================================================================================
  SCZ 全基因组层 + 权重拟合框架层 —— 重算（补齐此前"不可复现"的 8 类量）
 ================================================================================
-输入（只读，全部来自归档分析工作区）：
-  A. <REPO>\\data\\processed_officialZ\\scz_z_4arm_official.csv
+ 输入（只读）：
+  A. data/derived/scz_z_4arm.csv                 ← **随本仓库分发**，无需提供
        四臂 SCZ 逐基因 Z：gene, eqZ, wbZ, ntZ, multiZ
-  B. <T1>\\eqz_full.csv                       eQTLGen 全血逐基因 Z
-  C. <T1>\\gtex\\official_Whole_Blood.csv      GTEx v8 MASHR 全血 zscore
-  D. <T1>\\gtex\\official_Nerve_Tibial.csv     GTEx v8 MASHR 胫神经 zscore
-  E. <T1>\\en\\official_en_Whole_Blood.csv     GTEx v8 elastic-net 全血 zscore
-  F. <T1>\\en\\official_en_Nerve_Tibial.csv    GTEx v8 elastic-net 胫神经 zscore
+     —— 下列六项**未随仓库分发**，用命令行或环境变量提供（见 ../INPUTS.md）——
+  B. <SCZ_Z_DIR>\\eqz_full.csv                       eQTLGen 全血逐基因 Z
+  C. <SCZ_Z_DIR>\\gtex\\official_Whole_Blood.csv      GTEx v8 MASHR 全血 zscore
+  D. <SCZ_Z_DIR>\\gtex\\official_Nerve_Tibial.csv     GTEx v8 MASHR 胫神经 zscore
+  E. <SCZ_Z_DIR>\\en\\official_en_Whole_Blood.csv     GTEx v8 elastic-net 全血 zscore
+  F. <SCZ_Z_DIR>\\en\\official_en_Nerve_Tibial.csv    GTEx v8 elastic-net 胫神经 zscore
+
+运行：
+  python scripts/recompute_scz.py --scz-z-dir <dir>      # 约 2 min 40 s
+  python scripts/recompute_scz.py --list-inputs           # 打印输入清单
+
+  A 原来硬编码为另一本机克隆的 data/derived/…，与 data/derived/
+  逐格等价（43,586 个数值相同，仅换行符差异）；现直接读仓库内文件。
 
 被复算的报告值：
   · Table S24（三臂 SCZ，n = 8,315）
   · Table S17 的经验零分布（available-case 9,048；min|Z| < 0.5）
   · Fig. 4 的 PGC3 SCZ 点（n = 8,890）
   · Results / Discussion 的 Δρ(SCZ) = +0.0265 与 −0.0226 及其 CI / P
-  · Table S16 的 9 行框架层对比
+  · Table S16 的 9 行框架层对比   ← 依赖 E/F（elastic-net 侧），见 ARCHIVE_MAP S16
 
 固定参数（全部取自论文表注/图注）：
   seed = 20260726, B = 10000   （Table S17 注 / scz_axis_difference_official.json）
   seed = 20260914, B = 10000   （Table S16 注）
 ================================================================================
 """
-import os, csv, json, math, hashlib, sys
+import argparse, os, csv, json, math, hashlib, sys
 import numpy as np
 from scipy.stats import spearmanr, binomtest, rankdata
 
-REPO = r'E:\workbuddy\eqtl-source-discordance-audit'
-T1   = r'E:\workbuddy\2026-09-16-21-51-32\t1_full'
-OUTD = os.path.dirname(os.path.abspath(__file__))
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.dirname(HERE))          # code/analyses/reproduction_20261002/
+import paths                                        # noqa: E402
 
-F_A = os.path.join(REPO, 'data', 'processed_officialZ', 'scz_z_4arm_official.csv')
-F_B = os.path.join(T1, 'eqz_full.csv')
-F_C = os.path.join(T1, 'gtex', 'official_Whole_Blood.csv')
-F_D = os.path.join(T1, 'gtex', 'official_Nerve_Tibial.csv')
-F_E = os.path.join(T1, 'en', 'official_en_Whole_Blood.csv')
-F_F = os.path.join(T1, 'en', 'official_en_Nerve_Tibial.csv')
+_ap = paths.add_common_args(argparse.ArgumentParser(description=__doc__.splitlines()[1]))
+_ap.add_argument('--scz-z-dir', metavar='DIR',
+                 help='directory holding the six full-universe gene-level Z files '
+                      '(eqz_full.csv, gtex/, en/); default: $EQTL_T1_FULL_DIR')
+_ap.add_argument('--out-dir', metavar='DIR',
+                 help='where the two outputs go; default: this directory')
+_args = _ap.parse_args()
+if _args.list_inputs:
+    print(paths.list_inputs()); raise SystemExit(0)
+if _args.scz_z_dir:
+    _args.input.append('t1_full_dir=' + _args.scz_z_dir)
+paths.apply_args(_args)
+
+OUTD = _args.out_dir or HERE
+
+# A. 四臂 SCZ Z —— 随仓库分发（原来读的是另一本机克隆的 processed_officialZ/）
+F_A = str(paths.derived('scz_z_4arm'))
+# B–F. 全宇宙逐基因 Z —— 未随仓库分发
+T1   = paths.external('t1_full_dir')
+F_B = str(T1 / 'eqz_full.csv')
+F_C = str(T1 / 'gtex' / 'official_Whole_Blood.csv')
+F_D = str(T1 / 'gtex' / 'official_Nerve_Tibial.csv')
+F_E = str(T1 / 'en' / 'official_en_Whole_Blood.csv')
+F_F = str(T1 / 'en' / 'official_en_Nerve_Tibial.csv')
 
 SEED_AXIS, B_AXIS = 20260726, 10000     # Δρ 与经验零分布自助法
 SEED_FW,   B_FW   = 20260914, 10000     # 框架层自助法

@@ -3,6 +3,27 @@
 ================================================================================
  R3-1 / R3-2 原流水线重跑：Table S9（随机对照零分布）与 Table S20（端点标定与功效）
 ================================================================================
+ 输入分两类（全部经 ../../paths.py 解析，本脚本无本机绝对路径）：
+   随仓库分发：
+     data/superseded/covariate_matrix.csv                       （104 基因面板名单）
+     data/superseded/hk_reselect_20260830/data/Human_Mouse_Common.csv
+     data/superseded/hk_reselect_20260830/data/d3{,b}_summary.json
+   未随仓库分发（用命令行/环境变量提供；见 ../../INPUTS.md）：
+     mashr_Whole_Blood.db / mashr_Nerve_Tibial.db   --input mashr_dir=<dir>
+     metaxcan_run/official/                          --input metaxcan_run_dir=<dir>
+     groups.json                                     --input groups_json=<file>
+     t1_s8rand/official_rand_{DR,DN,DPN}.csv         --input t1_s8rand_dir=<dir>
+     Supporting_Information_GenetEpidemiol_20260930.docx  --si <file>
+
+   运行：
+     python scripts/r3/recompute_r3_s9_s20.py \
+         --input mashr_dir=... --input metaxcan_run_dir=... \
+         --input groups_json=... --input t1_s8rand_dir=... --si <si.docx>
+     python scripts/r3/recompute_r3_s9_s20.py --list-inputs
+
+   ⚠️ 因为 mashr .db / groups.json / t1_s8rand / metaxcan_run 不在本仓库内，
+   Table S9 对第三方不可复现；ARCHIVE_MAP.md 该行标 🟡。见 ../../README.md。
+
 Table S9 配方（取自归档的 `_null_lib.py` / `null_final.py` / `t1_s8rand.py`）：
   · POOL_A = mashr_Whole_Blood.db 中 n.snps≥1 的基因
              − 104-panel − 与 panel 共享 ≥3 字符前缀的家族 − T2DM/并发症/代谢黑名单
@@ -18,11 +39,25 @@ Table S20 配方：
   · 组间功效 = 在观测分母与率下对 2×2 结果空间做精确枚举（Fisher 双侧）
 ================================================================================
 """
-import os, sys, csv, json, math, re, random, sqlite3, hashlib, itertools
+import argparse, os, sys, csv, json, math, re, random, sqlite3, hashlib, itertools
 import numpy as np
 from scipy import stats
 
-OUTD = os.path.dirname(os.path.abspath(__file__))
+HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.dirname(os.path.dirname(HERE)))   # code/analyses/reproduction_20261002/
+import paths                                                  # noqa: E402
+
+_ap = paths.add_common_args(argparse.ArgumentParser(description=__doc__.splitlines()[1]))
+_ap.add_argument('--si', metavar='DOCX',
+                 help='submitted Supporting Information; default: $EQTL_SI_DOCX')
+_ap.add_argument('--out-dir', metavar='DIR',
+                 help='where the two outputs go; default: this directory')
+_args = _ap.parse_args()
+if _args.list_inputs:
+    print(paths.list_inputs()); raise SystemExit(0)
+paths.apply_args(_args)
+
+OUTD = _args.out_dir or HERE
 LOG = []
 def log(*a):
     s = ' '.join(str(x) for x in a); LOG.append(s); print(s)
@@ -30,12 +65,16 @@ def md5(p):
     return hashlib.md5(open(p, 'rb').read()).hexdigest()
 
 # ------------------------------------------------------------------ 路径
-REPO      = r'E:\workbuddy\eqtl-source-discordance-audit'
-MODEL_DIR = r'E:\workbuddy\BMC Genomics投稿资料\DR，DN，DM芬兰原始数据\mashr_eqtl\eqtl\mashr'
-GTEXDIR   = r'E:\workbuddy\2026-09-15-21-55-56\metaxcan_run\official'
-HRT_RAW   = r'E:\workbuddy\2026-09-11-19-30-45\recompute\Human_Mouse_Common_raw.csv'
-GRPJ      = r'E:\workbuddy\2026-09-16-20-45-42\rewrite\groups.json'
-RANDDIR   = r'E:\workbuddy\2026-09-16-21-51-32\t1_s8rand'
+# 随仓库分发的三项（原脚本分别从另一本机克隆的 processed/ 与 hk_reselect/ 读）
+COVAR     = str(paths.get('covariate_matrix'))         # data/superseded/covariate_matrix.csv
+HRT_RAW   = str(paths.get('human_mouse_common'))       # 与归档 Human_Mouse_Common_raw.csv 逐字节相同
+HK_DATA   = paths.get('hk_reselect_dir')               # data/superseded/hk_reselect_20260830/data/
+# 未随仓库分发的四项
+MODEL_DIR = str(paths.external('mashr_dir'))
+GTEXDIR   = str(paths.external('metaxcan_run_dir'))
+GRPJ      = str(paths.external('groups_json'))
+RANDDIR   = str(paths.external('t1_s8rand_dir'))
+SI_DOCX   = _args.si or str(paths.external('si_docx'))
 TRAITS    = ['DR', 'DN', 'DPN']
 TISSUES   = ['Nerve_Tibial', 'Whole_Blood']
 SEED      = 20260911
@@ -44,8 +83,10 @@ NT_W, WB_W = 532.0, 670.0
 B = 10000
 
 EXTRA_FAMILY = re.compile(r'^(MRPS|MRPL|MT-|MTRNR|MTND|MTATP|MTCO|MTCYB)')
-DISEASE = set(open(os.path.join(OUTD, '_disease_blacklist.txt'), encoding='utf-8').read().split()
-              if os.path.exists(os.path.join(OUTD, '_disease_blacklist.txt')) else """
+# 黑名单现在随脚本分发（scripts/r3/_disease_blacklist.txt）；文件缺失时回退到下面的内联副本
+_BL = os.path.join(HERE, '_disease_blacklist.txt')
+DISEASE = set(open(_BL, encoding='utf-8').read().split()
+              if os.path.exists(_BL) else """
 ADCY5 ADRA2A ANK1 AP3S2 ARAP1 BCAR1 BCL11A CAMK1D CCND2 CDKAL1 CDKN2A CDKN2B CENTD2 CMIP DGKB DUSP8
 FTO GCC1 GCK GCKR GIPR GLIS3 GLP1R GPSM1 GRB14 HHEX HMGA1 HMGA2 HNF1A HNF1B HNF4A IDE IGF1 IGF2BP2 INS
 INSR IRS1 IRS2 JAZF1 KCNJ11 KCNQ1 KLF14 LEPR MAEA MC4R MNX1 MTNR1B NOTCH2 PAM PDX1 PEPD PIK3R1 PPARG
@@ -57,10 +98,10 @@ ICAM1 SELE TNF IL6 CRP AGER RAGE CTGF CCN2 MMP2 MMP9 TIMP1 HIF1A PLGF PGF LEP GC
 SREBF2 FASN ACACA CPT1A PPARA LIPC CETP""".split())
 
 log('=' * 78); log('0. 输入校验'); log('=' * 78)
-INP = {'covariate_matrix.csv': os.path.join(REPO, 'data', 'processed', 'covariate_matrix.csv'),
+INP = {'covariate_matrix.csv': COVAR,
        'mashr_Whole_Blood.db': os.path.join(MODEL_DIR, 'mashr_Whole_Blood.db'),
        'mashr_Nerve_Tibial.db': os.path.join(MODEL_DIR, 'mashr_Nerve_Tibial.db'),
-       'Human_Mouse_Common_raw.csv': HRT_RAW, 'groups.json': GRPJ}
+       'Human_Mouse_Common.csv': HRT_RAW, 'groups.json': GRPJ}
 for k, p in INP.items():
     log(f'  {k:30s} md5={md5(p)} bytes={os.path.getsize(p):,}')
 R = {'inputs': {k: {'md5': md5(p), 'bytes': os.path.getsize(p)} for k, p in INP.items()}}
@@ -203,10 +244,13 @@ R['null_818'] = {k: v for k, v in o818.items() if not k.endswith('_arr')}
 log('\n' + '=' * 78); log('4. 随机对照 30 基因的点估计（GTEx 侧 / eQTLGen 侧）'); log('=' * 78)
 grp = json.load(open(GRPJ, encoding='utf-8'))
 LAY2, LAY3 = grp['lay2'], grp['lay3']
+def _hk_json(name):
+    return json.load(open(os.path.join(HK_DATA, name), encoding='utf-8'))
+
 log(f'  基因清单: GW lay2 = {len(LAY2)}（与归档 d3_summary 对照清单一致: '
-    f'{LAY2 == sorted(json.load(open(os.path.join(REPO,"data","hk_reselect_20260830","data","d3_summary.json"),encoding="utf-8"))["control"])}）；'
+    f'{LAY2 == sorted(_hk_json("d3_summary.json")["control"])}）；'
     f'HRT lay3 = {len(LAY3)}（同 d3b: '
-    f'{LAY3 == sorted(json.load(open(os.path.join(REPO,"data","hk_reselect_20260830","data","d3b_summary.json"),encoding="utf-8"))["control"])}）')
+    f'{LAY3 == sorted(_hk_json("d3b_summary.json")["control"])}）')
 
 def gtex_rates(genes):
     P = build([g for g in genes if any(pacat_of(g, t) is not None for t in TRAITS)])
@@ -263,7 +307,7 @@ def table_rates():
     import zipfile
     from xml.etree import ElementTree as ET
     Wn = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
-    SI = r'E:\workbuddy\GE投稿资料\_修订_20260930\Supporting_Information_GenetEpidemiol_20260930.docx'
+    SI = SI_DOCX                      # 由 --si / $EQTL_SI_DOCX 提供（未随仓库分发）
     tb = [c for c in list(ET.fromstring(zipfile.ZipFile(SI).read('word/document.xml')).find(Wn + 'body'))
           if c.tag == Wn + 'tbl']
     def rows(i):

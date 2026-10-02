@@ -19,8 +19,11 @@ def load(path):
             rows=[[ ' '.join(pt(p) for p in tc.findall(W+'p')).strip() for tc in tr.findall(W+'tc')] for tr in c.findall(W+'tr')]
             out.append((len(rows), len(rows[0]) if rows else 0, (last[-1] if last else ''), rows))
     return out
-B=load(r'E:/workbuddy/BMC Genomics投稿资料\投稿前定稿\Additional_file_1.docx')
-G=load(r'E:/workbuddy/GE投稿资料/_修订_20260930/Supporting_Information_GenetEpidemiol_20260930.docx')
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+B=load(str(_paths.external('bmc_additional_file1_docx')))
+G=load(str(_paths.external('si_docx')))
 def tabno(t):
     m=re.match(r'Table\s*S(\d+[a-z]?)', t.strip()); return m.group(1) if m else '?'
 def sig(r):  # 内容指纹：行数 + 列数 + 首行拼接的哈希

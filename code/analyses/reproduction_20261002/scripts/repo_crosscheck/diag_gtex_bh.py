@@ -1,7 +1,10 @@
 # -*- coding: utf-8 -*-
 import csv, numpy as np
 from scipy import stats
-D=r'E:/workbuddy/eqtl-source-discordance-audit/data/processed_officialZ'
+import sys as _sys, os as _os
+_sys.path.insert(0, _os.path.dirname(_os.path.dirname(_os.path.abspath(__file__))))
+import paths as _paths          # noqa: E402  集中路径解析，见 ../paths.py
+D=str(_paths.derived('gtex_Z').parent)
 G=list(csv.DictReader(open(D+r'\gtex_official_Z.csv',encoding='utf-8-sig')))
 def num(x):
     s=str(x).strip().replace('+','')

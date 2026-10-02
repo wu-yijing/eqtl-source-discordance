@@ -85,6 +85,30 @@ STRAY=$(git ls-files 2>/dev/null | grep -E '^(figs|results|outputs|logs|tmp)/' |
 if [ -f metadata/provenance.json ]; then
   $PY -m json.tool metadata/provenance.json > /dev/null 2>&1 && ok "metadata/provenance.json is valid JSON" || bad "metadata/provenance.json is not valid JSON"
   grep -q '<hash' metadata/provenance.json && warn "metadata/provenance.json still contains placeholders" || ok "provenance.json has no placeholders"
+
+  # --- coverage gate ---------------------------------------------------------
+  # The manifest must account for every tracked file: len(files)+len(excluded)
+  # == `git ls-files`. Without this the 2026-10-02 upload shipped a 59-file
+  # reproduction package that provenance.json registered zero times, while the
+  # README claimed every input was pinned by checksum. A count comparison is
+  # crude but it is exactly the check that was missing.
+  GATE=$("${PY}" - <<'PYEOF' 2>/dev/null
+import json, subprocess
+d = json.load(open('metadata/provenance.json', encoding='utf-8'))
+raw = subprocess.run(['git', 'ls-files', '-z'], stdout=subprocess.PIPE, check=True).stdout
+tracked = len([x for x in raw.split(b'\0') if x])
+print(len(d.get('files', [])) + len(d.get('excluded', [])), tracked)
+PYEOF
+)
+  MAN=$(printf '%s' "$GATE" | awk '{print $1}')
+  TRACK=$(printf '%s' "$GATE" | awk '{print $2}')
+  if [ -z "${MAN:-}" ] || [ -z "${TRACK:-}" ]; then
+    bad "could not read the provenance coverage counts — is git available?"
+  elif [ "$MAN" -eq "$TRACK" ]; then
+    ok "provenance.json covers the tracked tree ($MAN entries = git ls-files)"
+  else
+    bad "provenance.json covers $MAN of $TRACK tracked files — run scripts/collect_provenance.py"
+  fi
 else
   warn "metadata/provenance.json missing"
 fi
