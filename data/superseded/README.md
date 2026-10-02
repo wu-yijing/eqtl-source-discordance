@@ -43,6 +43,7 @@ this file. **Treating the whole directory as unusable is as wrong as treating al
 |---|---|
 | `gigadb_metadata_form.csv` | For the **GigaDB** submission route, which was abandoned. No longer referenced anywhere. |
 | `ukb_dr_official/` | **Moved out.** It was the authoritative official-MetaXcan UK Biobank cross-cohort arm and never belonged in this layer. Now at `../derived/ukb_dr/`. |
+| `hk_reselect_20260830/` | **Moved in 2026-10-02.** The housekeeping Z layer, computed 2026-08-30 — before the 2026-09-17 σᵢ correction. Its values match the Supporting Information's Table S6 as it stood up to 2026-09-16 22:24, and are superseded by the values published from 2026-09-17 19:15 onward. Full evidence and the still-unresolved 8-gene anomaly: [`hk_reselect_20260830/PRECORRECTION_NOTICE.md`](hk_reselect_20260830/PRECORRECTION_NOTICE.md). |
 | `_DEPRECATED_勿用_修正前数据_20260917.md`, `_WARNING_陈旧文件说明.md` | The original deprecation notices, retained as written. |
 
 ---

@@ -20,7 +20,7 @@
 | 🔴 **GAP** | **Nothing in this repository produces it.** The generating script was not archived | Must be fixed or declared before release |
 | ➖ **NOT A DATA ARTEFACT** | A text or table rendered directly in the Supporting Information | Nothing |
 
-**A map that over-claims is worse than a map that admits gaps.** Of 46 items checked: **16 ✅, 13 🟡, 9 🔴, 8 ➖**.
+**A map that over-claims is worse than a map that admits gaps.** Of 46 items checked: **16 ✅, 12 🟡, 10 🔴, 8 ➖**.
 
 ---
 
@@ -29,7 +29,7 @@
 | Manuscript item | Authoritative file(s) | Status | Evidence |
 |---|---|---|---|
 | Table 1 — definitions and provenance of the three control layers | Supporting Information **Note S3** (text only) | ➖ | Note S3 is the provenance carrier |
-| Table 1 — enrichment values for the three control layers | inputs: `data/derived/hk_reselect/data/hk_genes_v2.txt` (gene list), `data/derived/gtex_Z.csv`, `data/derived/eqtlgen_Z.csv` | 🟡 | Gene list matches S6 exactly (30 genes). Aggregation not shipped → **GAP-2**; the housekeeping Z values disagree with the Supporting Information → **GAP-1** |
+| Table 1 — enrichment values for the three control layers | inputs: `data/derived/hk_genes.txt` (gene roster), `data/derived/gtex_Z.csv`, `data/derived/eqtlgen_Z.csv` | 🔴 | **GAP-2**, and blocked by **GAP-1**: the housekeeping arm of this table rests on the Z layer that the Supporting Information replaced on 2026-09-17. See §4 |
 | Table 2(A) — primary comparison | `data/derived/primary_arm_96pairs.csv` (**96 rows**) | ✅ | ANXA1/DR = 0.4283, 0.9302 = first data row of SI Table S13; 66/96 = 68.8%, ρ = 0.3898 |
 | Table 2(B) — two-axis partition (dual 198 / panel-only 159 / tissue-only 138 pairs) | derived by joining `data/derived/gtex_Z.csv` × `data/derived/eqtlgen_Z.csv` | 🟡 | **No arm table is shipped.** The join reproduces the published arm figures but must be written from scratch → **GAP-3** |
 | Figs. 1–4 | **not in this repository** | 🟡 | `figures/` contains only its README. The repository ships the *scripts* for some panels, never the figure files. See [`../code/figures/FIGURE_NUMBER_MAP.md`](../code/figures/FIGURE_NUMBER_MAP.md) |
@@ -59,10 +59,10 @@
 | **S4** | Mahalanobis matched pairs (30 pairs) | `data/superseded/mahalanobis_matched_pairs.csv` | ✅ | 60 rows, 8 cols; covariates only, unaffected by the pre-correction defects (see `data/superseded/README.md`) |
 | **S5a** | RNH1 cross-population replication | `data/derived/crosscohort.csv` | ✅ | 4 rows, 11 cols; +2.31 / +0.72 / +0.55 / +1.51 (0.79); 0.056 / 1.26; 20.6; 0.51 / −0.33 to +3.36 — all match SI row 1 |
 | S5b | Group-level direction consistency, 8 genes | inputs verified: `data/derived/gtex_Z.csv` (RNH1 DR Nerve_Tibial Z = 2.6675 = SI "+2.668") + `data/derived/ukb_dr/RNH1_official_metaxcan_Z.csv` (UKB/GTEx-NT Z = 0.5451, P = 0.585687 = SI "+0.55 / 0.586") | 🟡 | Inputs verified; the 8-gene assembly is not shipped |
-| S6 | Housekeeping control gene list + dual-tissue results | ⚠️ **NONE FOUND** | 🔴 | **GAP-1.** Gene list matches, values do not — see the discrepancy note below |
+| S6 | Housekeeping control gene list + dual-tissue results | **NONE — the repository holds the pre-correction side only**, at `data/superseded/hk_reselect_20260830/` | 🔴 | **GAP-1, diagnosed.** The 30-gene roster and the model-SNP column match the Supporting Information; every Z value is the pre-2026-09-17 computation. Evidence chain in §4 |
 | S7 | Margin-sensitivity of the enrichment contrast | — | 🔴 | **GAP-6** |
 | S8 | Fixed-threshold enrichment reanalysis | derivable from `data/derived/gtex_Z.csv` / `eqtlgen_Z.csv` | 🟡 | Counting at p < 0.05 is mechanical; the script is not shipped |
-| S9 | Architecture-unselected random controls | — | 🔴 | **GAP-7** |
+| S9 | Architecture-unselected random controls | outputs partly present at `data/superseded/hk_reselect_20260830/d3_*` and `d3b_*`, **but they are from the same pre-correction computation** | 🔴 | **GAP-7.** Reclassified: the surviving data cannot stand in for the published table |
 | S10 | Cross-population direction check for DN | — | 🔴 | **GAP-8.** Also carries the peer-review item M3: the table note must state the **full** population composition of the source resource (European **and** East Asian components), not only the component used |
 | S11 | Analysis-arm denominators | derivable from `data/derived/gtex_Z.csv` / `eqtlgen_Z.csv` | 🟡 | Denominators are counts over the two Z tables |
 | S12 | Draft TWAS reporting checklist | ➖ | ➖ | Document artefact |
@@ -87,7 +87,7 @@
 
 ---
 
-## 4. The one discrepancy that is not a gap but an error to resolve — **GAP-1 / Table S6**
+## 4. GAP-1 diagnosed — this repository holds the *pre-correction* housekeeping layer
 
 SI Table S6, first data row:
 
@@ -107,7 +107,35 @@ ANKRD40 | 1.0 | 0.00331... | 0.25557... | -0.9542 | 1.1237 | -0.9925 | -0.0555 |
 
 **Consequence.** The housekeeping-control layer is one of the three disease-agnostic control layers, and it reaches the main text through Table 1. Either the Supporting Information's S6 was recomputed at the GE revision by a script that was never archived, or one of the two carriers is stale.
 
-**This must be resolved before submission**: the manuscript's calibration claim rests on numbers that the archive cannot currently reproduce. Record the resolution here.
+### Resolution — established 2026-10-02
+
+**The repository is the stale carrier, not the Supporting Information.** The housekeeping Z layer
+was computed on **2026-08-30**; the σᵢ / PLINK correction landed on **2026-09-17**. The published
+table changed inside exactly that window:
+
+| Table S6 as archived | ANKRD40 row |
+|---|---|
+| up to 2026-09-16 22:24 | `1/2 \| 0.256 \| 1 \| 0.00331 \| -0.9925 \| -0.9542 \| 1.1237 \| -0.8469 \| -0.0555 \| 2.9348` |
+| from 2026-09-17 19:15 | `1/2 \| 0.598 \| 0.718 \| 0.376 \| -0.5863 \| -0.5637 \| 0.6638 \| -0.4786 \| -0.2590 \| 1.0657` |
+
+Established by reading the Table S6 block out of **93 archived copies** of the supplementary file and
+ordering them by modification time. Three further lines of evidence:
+
+1. **Direction** — every changed value shrinks \|Z\| and moves the ACAT-O P toward 0.5, the signature of removing a \|Z\|-inflating defect.
+2. **Shape** — 22 of 30 genes show a constant per-gene ratio across all three phenotypes (ATG101 ×2.435 in both tissues, DCTN2 ×3.244, FIBP ×2.667), i.e. a per-gene multiplicative correction.
+3. **Scope** — the model-SNP column is unchanged for all 30 genes: the same models, a different Z computation.
+
+**Action taken:** the layer was moved from `data/derived/hk_reselect/` to
+[`data/superseded/hk_reselect_20260830/`](../data/superseded/hk_reselect_20260830/PRECORRECTION_NOTICE.md).
+
+### Still open after this diagnosis — do not close it by assumption
+
+- **8 of 30 genes do not follow a constant ratio** — `DNAJC4`, `E2F4`, `GOLGA3`, `SDF4`, `SRM`, `TOMM20`, `SPRYD3`, `TUT1`; `GOLGA3` even flips sign at DPN. A pure σᵢ rescale cannot produce that, so the corrected computation differs from this one by more than a per-gene factor.
+- **The corrected computation is not archived.** Its values exist only inside the `.docx`; a full-disk numeric search for `−0.5863`, `−0.5637` and `−0.4387` returns no source file, and the generating script has not been located.
+- **Consequence for the manuscript.** The housekeeping arm of main-text Table 1 cannot presently be reproduced from this archive. And because the corrected housekeeping computation differs from the archived one by more than the σᵢ factor, every table that aggregates the housekeeping arm — S7, S19, S26 — should be re-checked against the corrected layer before submission.
+
+**To close GAP-1:** re-run the housekeeping S-PrediXcan step against official MetaXcan v0.8.1,
+reproduce all 30 genes of the published Table S6, resolve the 8-gene anomaly, and commit the script.
 
 ---
 
@@ -117,7 +145,7 @@ The generating scripts are **not** in this repository. A bounded search of the l
 
 | # | Item(s) | What is missing | Recoverable? |
 |---|---|---|---|
-| GAP-1 | S6 (+ Table 1 housekeeping layer) | producing computation **and** reconciliation of the value discrepancy | **Unknown — investigate first** (§4) |
+| GAP-1 | S6 (+ Table 1 housekeeping layer) | the corrected computation. **Diagnosed** (§4): the archived layer is the pre-2026-09-17 one, and 8 of 30 genes differ by more than a per-gene factor | **Partly** — the archive side is now correctly labelled; the corrected side must be re-run |
 | GAP-2 | Table 1 (values) | aggregation across the three control layers | Partly — S6/S9 blockers propagate |
 | GAP-3 | Table 2(B) | arm join (dual / panel-only / tissue-only) | **Yes** — write `code/analyses/arm_partition.py` |
 | GAP-4 | Fig. S1, Fig. S2 | figure scripts | Figure files may exist outside the repository |

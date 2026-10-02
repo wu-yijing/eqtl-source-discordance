@@ -55,11 +55,20 @@ These are asserted in [`../metadata/ARCHIVE_MAP.md`](../metadata/ARCHIVE_MAP.md)
 
 | File | Data rows | Supports |
 |---|---|---|
-| `derived/gene_groups_official.csv` | 104 | Supporting Information Table S2 |
-| `derived/gtex_official_Z.csv` | 222 (74 genes × 3 phenotypes) | Supporting Information Table S3 |
-| `derived/primary_arm_96pairs_official.csv` | 96 | Supporting Information Table S13 |
-| `derived/eqtlgen_official_Z.csv` | 288 (96 genes × 3 phenotypes) | Supporting Information Table S18 |
-| `derived/scz_z_4arm_official.csv` | 15,875 | Supporting Information Table S24 |
+| `derived/gene_groups.csv` | 104 | Supporting Information Table S2 |
+| `derived/gtex_Z.csv` | 222 (74 genes × 3 phenotypes) | Supporting Information Table S3 |
+| `derived/primary_arm_96pairs.csv` | 96 | Supporting Information Table S13 |
+| `derived/eqtlgen_Z.csv` | 288 (96 genes × 3 phenotypes) | Supporting Information Table S18 (filter `Group != 'Housekeeping'` → 207 rows) and Table S15 (filter `Group == 'Housekeeping'` → 81 rows) |
+| `derived/scz_z_4arm.csv` | 15,875 | Supporting Information Table S24 |
+| `derived/crosscohort.csv` | 4 | Supporting Information Table S5a |
+| `derived/hk_genes.txt` | 49 | The current 30-gene housekeeping roster plus its selection pool |
+| `derived/ukb_dr/` | 4 files | Official MetaXcan v0.8.1 cross-cohort DR arm; supplies the UK Biobank columns of Table S5b |
+
+**Not in `derived/` any more:** the housekeeping Z layer that used to live at `derived/hk_reselect/`.
+It was computed on 2026-08-30, before the σᵢ correction of 2026-09-17, and has been moved to
+[`superseded/hk_reselect_20260830/`](superseded/hk_reselect_20260830/PRECORRECTION_NOTICE.md).
+**Consequence: the housekeeping layer of main-text Table 1 is not reproducible from this archive** —
+recorded as GAP-1 in [`../metadata/ARCHIVE_MAP.md`](../metadata/ARCHIVE_MAP.md).
 
 ---
 
