@@ -250,8 +250,20 @@ fi
 
 echo
 echo "== 5. labelling placeholders =="
-PH=$(git ls-files -z 2>/dev/null | xargs -0 grep -l '<CONCEPT>\|<VER>\|PLACEHOLDER' 2>/dev/null | head -10)
-[ -z "$PH" ] && ok "no <CONCEPT>/<VER> placeholders left" || { warn "placeholders still present in:"; echo "$PH" | sed 's/^/         /'; }
+# The tools that MANIPULATE the tokens necessarily contain them, and docs/audit_notes/ quotes
+# them because that is what was true on the date each note was written (this repository does
+# not rewrite historical records). Excluding those leaves the real carriers, so the warning
+# names only files a reader could be misled by, instead of eight paths where six are expected.
+PH=$(git ls-files -z 2>/dev/null \
+     | xargs -0 grep -l '<CONCEPT>\|<VER>\|PLACEHOLDER' 2>/dev/null \
+     | grep -vE '^(scripts/set_doi\.py|scripts/cut_release\.sh|metadata/zenodo_release\.json|docs/audit_notes/)' \
+     | head -10)
+if [ -z "$PH" ]; then
+  ok "no unresolved placeholders in any DOI carrier"
+else
+  warn "placeholders still present in:"
+  echo "$PH" | sed 's/^/         /'
+fi
 
 echo
 echo "== 6. DOI registry =="
