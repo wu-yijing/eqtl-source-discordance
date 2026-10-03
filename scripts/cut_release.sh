@@ -254,15 +254,25 @@ echo "== 5. labelling placeholders =="
 # them because that is what was true on the date each note was written (this repository does
 # not rewrite historical records). Excluding those leaves the real carriers, so the warning
 # names only files a reader could be misled by, instead of eight paths where six are expected.
-PH=$(git ls-files -z 2>/dev/null \
-     | xargs -0 grep -l '<CONCEPT>\|<VER>\|PLACEHOLDER' 2>/dev/null \
-     | grep -vE '^(scripts/set_doi\.py|scripts/cut_release\.sh|metadata/zenodo_release\.json|docs/audit_notes/)' \
-     | head -10)
-if [ -z "$PH" ]; then
-  ok "no unresolved placeholders in any DOI carrier"
+PH_TRACKED=$(git ls-files 2>/dev/null | wc -l)
+if [ "${PH_TRACKED}" -eq 0 ]; then
+  # Without this guard the sweep below returned nothing and the section printed
+  # "no unresolved placeholders in any DOI carrier" — a pass produced by a failure
+  # to look. Observed on 2026-10-03 when this script was run from a source
+  # directory with no `.git`: four carriers hold <CONCEPT>/<VER> and the sweep
+  # reported clean anyway. A check that cannot fail is not a check.
+  warn "could not list tracked files — is git available? placeholder sweep SKIPPED (not passed)"
 else
-  warn "placeholders still present in:"
-  echo "$PH" | sed 's/^/         /'
+  PH=$(git ls-files -z 2>/dev/null \
+       | xargs -0 grep -l '<CONCEPT>\|<VER>\|PLACEHOLDER' 2>/dev/null \
+       | grep -vE '^(scripts/set_doi\.py|scripts/cut_release\.sh|metadata/zenodo_release\.json|docs/audit_notes/)' \
+       | head -10)
+  if [ -z "$PH" ]; then
+    ok "no unresolved placeholders in any DOI carrier (${PH_TRACKED} tracked files swept)"
+  else
+    warn "placeholders still present in:"
+    echo "$PH" | sed 's/^/         /'
+  fi
 fi
 
 echo

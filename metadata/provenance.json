@@ -2167,8 +2167,8 @@
   },
   {
    "path": "scripts/cut_release.sh",
-   "bytes": 15464,
-   "sha256": "25d710d65ae907d8ea88dedd6a187da3e2a6d85b016b108379c00d0bc5a627e7"
+   "bytes": 16096,
+   "sha256": "a5afe28ce6ab58c7f1bf427274eae3be108e97da5e865b15bdcbc6dc768b8c5f"
   },
   {
    "path": "scripts/set_doi.py",
