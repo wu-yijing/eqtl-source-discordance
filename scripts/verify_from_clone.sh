@@ -78,20 +78,23 @@ else
 fi
 
 if [ -f .gitattributes ] && grep -q 'eol=lf' .gitattributes; then
-  CRLF=$("$PY" - <<'EOF' 2>/dev/null
-import os
-bad = 0
-for dp, dn, fn in os.walk('.'):
-    dn[:] = [d for d in dn if d != '.git']
-    for f in fn:
-        if os.path.splitext(f)[1].lower() in ('.py','.md','.json','.sh','.csv','.tsv','.txt','.yml','.yaml'):
-            if b'\r\n' in open(os.path.join(dp, f), 'rb').read():
-                bad += 1
-print(bad)
-EOF
-)
-  [ "${CRLF:-1}" = "0" ] && ok "no CRLF in any text file the clone checked out" \
-                          || bad "$CRLF text file(s) checked out with CRLF despite eol=lf"
+  # This used to walk the tree for a fixed set of text extensions and fail on any CRLF.
+  # That is too blunt once part of the tree is *deliberately* verbatim: `data/upstream/`
+  # ships the official MetaXcan CSV outputs, which are CRLF, and `.gitattributes` marks
+  # them `-text` so the recorded hashes stay valid. Ask git instead of guessing —
+  # `git ls-files --eol` reports the index eol, the working-tree eol, and the attribute
+  # that decided it, so "git intends LF but the checkout is not LF" becomes a precise
+  # test rather than an extension list. A `-text` file being CRLF is the point of it.
+  EOL_BAD=$(git ls-files --eol | awk '$2 ~ /^w\/(crlf|mixed)$/ && $3 != "attr/-text"' | wc -l | tr -d ' ')
+  EOL_VERBATIM=$(git ls-files --eol | awk '$3 == "attr/-text"' | wc -l | tr -d ' ')
+  if [ "${EOL_BAD:-1}" = "0" ]; then
+    ok "every file git intends as LF is checked out as LF (${EOL_VERBATIM} stored verbatim by design)"
+    git ls-files --eol | awk '$2 ~ /^w\/(crlf|mixed)$/' | head -3 | sed 's/^/         verbatim: /'
+  else
+    bad "$EOL_BAD file(s) checked out with CRLF although .gitattributes asks for LF:"
+    git ls-files --eol | awk '$2 ~ /^w\/(crlf|mixed)$/ && $3 != "attr/-text"' | head -10 | sed 's/^/         /'
+    echo "         (a recorded SHA-256/MD5 for these would not survive a clone)" | sed 's/^/  /'
+  fi
 fi
 
 echo

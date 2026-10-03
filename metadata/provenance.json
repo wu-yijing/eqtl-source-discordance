@@ -2322,8 +2322,8 @@
   },
   {
    "path": "scripts/verify_from_clone.sh",
-   "bytes": 14162,
-   "sha256": "b3e097c22959555458eb0f69241af2b563823d689e4a729c26165090ad09be33"
+   "bytes": 14970,
+   "sha256": "89c4be31ccc6a5efa08f96cae23d198a3236fb1011a04abe927940860b20b98b"
   },
   {
    "path": "scripts/verify_provenance.py",
