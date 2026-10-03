@@ -25,6 +25,25 @@ compressor.
 `m15_positive_control.json` here is produced by the recovered generator and matches
 `../../figures/m15_positive_control.json` key for key (to 1 × 10⁻¹²).
 
+### One column of `recompute_r3_s9_s20_results.json` comes from a different route
+
+Section 7d of `recompute_r3_s9_s20_log.txt` (`S20_min_lambda`) does **not** use the
+route that produced the published Table S20 values, and the log now says so per row:
+
+* the published values come from `scripts/r3/m15/m15_pc.py` — a **Monte-Carlo** search
+  on the grid `np.arange(1.5, 6.001, 0.05)` with `B = 4000` draws under
+  `np.random.default_rng(20260917)`, taking the first grid point reaching ≥ 80 % power;
+* the `r3` column is the **deterministic closed-form** minimum λ, snapped up onto the
+  same grid.
+
+When the closed form lands just above a grid point (e.g. λ* = 3.781 > 3.75) the two
+routes differ by exactly one grid step (`3.80` vs the published `3.75`). Three of the
+nine rows do this — the eQTLGen T2DM-control, eQTLGen housekeeping and eQTLGen pooled
+rows. Each affected row is now labelled `closed form lands one grid step higher
+(expected)` rather than left to read as a discrepancy, and the JSON carries the same
+statement in `S20_min_lambda_note` and per-row under `verdict`. The published values
+are unchanged; nothing about them is in question.
+
 ## 2. Transcripts of diagnostic scripts
 
 The scripts under `../scripts/repo_crosscheck/`, `../scripts/bmc_ref/` and

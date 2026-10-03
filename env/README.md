@@ -8,6 +8,7 @@ Environment pinning. The goal is that a reader in five years reproduces the anal
 |---|---|
 | `Dockerfile` | Containerised environment. The recommended path — it is the only one that pins the OS layer too. |
 | `environment.yml` | Conda environment for the Python side, with explicit version pins. |
+| `environment-upstream.yml` | **Second** Python environment for `code/run_upstream.sh` only: Python 3.12 + numpy 1.x, which the official MetaXcan v0.8.1 needs and which cannot coexist with `environment.yml`'s Python 3.13 + numpy 2. Not needed to reproduce any reported value. |
 | `renv.lock` | R dependencies. Restore with `Rscript -e 'renv::restore()'`. |
 | `requirements.txt` | Pip-level pins, for readers who cannot use conda. |
 
@@ -18,6 +19,7 @@ Environment pinning. The goal is that a reader in five years reproduces the anal
 3. **Rebuild from scratch before a release.** A container that only builds on the author's machine does not reproduce anything.
 4. **Record the toolchain versions** (`python`, `R`, `matplotlib`, `scipy`, `PLINK`, `MetaXcan`) in `metadata/provenance.json` under `generated_by`.
 5. **No network access at analysis time.** All inputs are fetched and checksummed in a separate, explicit step.
+6. **If a step needs a different interpreter, pin that interpreter in its own file.** The upstream S-PrediXcan chain needs Python 3.12 + numpy 1.x and cannot share `environment.yml` (Python 3.13 + numpy 2). Stating the requirement in a script header is not a pin: `environment-upstream.yml` is. Add a file rather than loosening an existing pin.
 
 ## Smoke test
 

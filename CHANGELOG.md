@@ -23,6 +23,81 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-03 (thirteenth pass) — the upstream chain re-run end to end, and the two defects that found
+
+**Numbers: no reported number changes.** Neither submitted document was edited. No file in
+`data/derived/` changed. What changed is that the raw-input → Z-layer chain was **actually re-run**
+on a machine holding all 15 hashed external inputs, which is the first time that has been done by
+anyone other than the run that produced the archive — and it found two things.
+
+**1. `build_covariance.py` wrote the GTEx covariances in the wrong row order — a real defect, now fixed.**
+The two archived covariance sets come from **two different producer scripts with different row
+conventions**, and `build_covariance.py` applied one of them to both. Added `--order`:
+
+| `--order` | genes | SNPs within a gene | arm |
+|---|---|---|---|
+| `model` | ascending gene id | model-DB row order | eQTLGen |
+| `bim` | model-DB insertion order | **LD panel `.bim` order** | GTEx |
+
+`run_upstream.sh` steps 2 and 5 now pass the right one. Without it the GTEx covariances were the
+same gene set with the same values in a different order — `identical 30 | differing 0` becomes
+`differing 2`, and a *content* comparison cannot tell the difference. That is why it survived: the
+downstream effect was floating-point only (max |Δ| = 3.6 × 10⁻¹⁵ over a GTEx arm's 162k cells).
+The file hash, however, was wrong, and so were the `cov_*.txt.gz` rows in `data/external/README.md`.
+
+**2. `run_upstream.sh` could report success while writing nothing.** S-PrediXcan **refuses to
+overwrite** an existing `--output_file` — it logs "already exists, move it or delete it if you want
+it done again", exits 0, and leaves the stale file. Steps 3 and 7 now `rm -f` their target first.
+Encountered directly during this pass: six GTEx runs reported `ok` and produced no change.
+
+**Added**
+- `code/upstream/verify_middleware.py` — hashes all **30** middleware artefacts against the copy the
+  reported numbers came from and exits non-zero on any disagreement. Wired in as
+  `run_upstream.sh` step 8, so a rebuild that disagrees now fails instead of being described in
+  prose. `--require-all` also fails on artefacts not yet produced.
+- `env/environment-upstream.yml` — the **second** Python environment, pinned: 3.12.13 / numpy 1.26.4
+  / scipy 1.13.1 / pandas 2.2.3. The upstream chain needs it and cannot share `environment.yml`
+  (3.13 + numpy 2, no installable numpy 1.x). Until now the requirement lived in a script comment.
+- `env/README.md` rule 6: if a step needs a different interpreter, pin that interpreter in its own
+  file rather than loosening an existing pin.
+
+**Verified**
+- `identical 30 | differing 0` across the whole middleware set: 3 model databases, 7 covariances,
+  3 harmonised GWAS, 3 allele-aligned GWAS, 6 GTEx S-PrediXcan arms, 9 eQTLGen S-PrediXcan band arms.
+- The previously un-re-run step is now re-run: the **eQTLGen S-PrediXcan bands A/B/C × DR/DN/DPN**,
+  all nine byte-identical, including `cov_A.txt.gz` (18,390,068 rows) and the 94-gene band output.
+
+**Also corrected in this pass**
+- `.zenodo.json` said "Four of the eight manuscript figures have no producing script in this archive".
+  That stopped being true when `ge_main/` shipped and Fig. S2 was recovered; only **Fig. S4** (a gel
+  photograph) has none. This text goes into the DOI record, so it mattered.
+- `figures/README.md` and `code/README.md` each still carried a sentence contradicting the rest of the
+  same file about which manuscript figures are reproducible. Both rewritten with the current status.
+- `env/Dockerfile` pinned by digest: `continuumio/miniconda3@sha256:eca594d6…` (= `26.7.1-1`). Docker
+  Hub is unreachable from this environment, so the digest was resolved through a reachable mirror and
+  then verified independently of that request — the index was re-fetched *by digest* and hashed
+  locally, the amd64 child manifest and its config likewise, and neighbouring tags return *different*
+  digests. `scripts/cut_release.sh` §7 now checks the image reference with any trailing comment
+  stripped, so the readable tag in the comment no longer trips the check.
+- `paths_config.py` now identifies **which revision** of a submission document you hold, by MD5, from
+  a recorded `revisions` list — including the two added here (`rev3`, `rev4`). It previously carried a
+  single `md5` used only to build a hint string, so *any* file printed `[ok]`. An unrecognised
+  document now prints `[UNRECOGNISED]` with its actual MD5 and every recorded revision, and
+  `--strict-docs` makes it a non-zero exit. `INPUTS.md` §B.1's promise — "a run either matches or says
+  so" — was not enforced by code before this; now it is, and both behaviours are tested.
+- `run_all.sh` no longer fails when the Supporting Information `.docx` is absent. It reported
+  `2 failure(s)` while `README.md` promised the step was "skipped, not failed". The two SI-dependent
+  scripts are now detected up front, skipped by name, and the run ends
+  `pipeline completed with no failures` with a `note: these steps were SKIPPED` line.
+- `metadata/provenance.json`'s `analysis_env` said "Python 3.13.0" while `environment.yml` pinned
+  3.13.12. It is now **read from the pin files** (`scripts/collect_provenance.py::_env_versions`), so
+  the manifest cannot disagree with the environment it describes.
+- S20: section 7d of `recompute_r3_s9_s20_log.txt` labelled three rows `差一个网格步`. They are not a
+  discrepancy — the published values come from a Monte-Carlo search on a grid, the `r3` column from a
+  deterministic closed form snapped to the same grid, and the two differ by one step exactly where the
+  closed form lands just above a grid point. Each row is now named accordingly and the JSON carries an
+  explicit `S20_min_lambda_note`.
+
 ### 2026-10-03 (twelfth pass) — DOI slot, predecessor migration, and the archive-map contradictions an external audit found
 
 **Numbers: no reported number changes.** Neither submitted document was edited. One value moved from

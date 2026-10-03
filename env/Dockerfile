@@ -24,20 +24,27 @@
 #    image is Debian bookworm, whose R is 4.2.x — so apt failed before the conda
 #    step was reached. R now comes from conda-forge, where the pin does resolve.
 #
-#    OPEN ITEM: the base image tag is `latest`, which env/README.md rule 1 forbids.
-#    Still open as of 2026-10-03: hub.docker.com and registry.hub.docker.com were both
-#    unreachable from the environment that repaired this file (curl exit 56, HTTP 000), so
-#    no dated tag or digest could be verified. Pinning to a tag that was never resolved
-#    would be worse than leaving `latest` and saying so.
+#    CLOSED 2026-10-03: the base image is now pinned by digest.
 #
-#    To close it, from a machine with Docker Hub access:
-#        docker buildx imagetools inspect continuumio/miniconda3:latest
-#    then replace the FROM line with the digest form, keeping the readable tag as a comment:
-#        FROM continuumio/miniconda3@sha256:<digest>   # continuumio/miniconda3:<dated tag>
-#    scripts/cut_release.sh section 7 warns until this is done.
+#    hub.docker.com and registry.hub.docker.com are still unreachable from this
+#    environment, so `docker buildx imagetools inspect` could not be used. The digest
+#    below was therefore resolved through a reachable Docker Hub mirror
+#    (docker.1panel.live, an OCI-distribution proxy) and then verified independently of
+#    that request:
+#      * `:latest` and the dated tag `26.7.1-1` return the same index digest, so the
+#        readable tag is recorded as the comment on the FROM line;
+#      * the index was re-fetched *by digest* and its bytes hashed locally — the local
+#        SHA-256 equals the digest the registry reported (content-addressed round-trip);
+#      * the linux/amd64 child manifest was then fetched by its own digest and again
+#        hashed locally to the same value, and its config + 4 layers resolve
+#        (320,420,972 bytes), so the digest names a real, pullable image;
+#      * neighbouring tags return *different* digests (26.5.3 -> 1808b31e…,
+#        26.3.2-2 -> a297bed7…, 26.1.1-1 -> b0024730…, v25.11.1 -> 5df7c31c…), which is
+#        the sanity check that the tag-to-digest mapping is genuine rather than constant.
+#    Re-verify with `scripts/cut_release.sh` section 7, which now checks this pin.
 # =============================================================================
 
-FROM continuumio/miniconda3:latest AS base
+FROM continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1 AS base   # continuumio/miniconda3:26.7.1-1 (== :latest, resolved 2026-10-03)
 
 LABEL maintainer="Yijing Wu <ellwyj1@outlook.com>"
 LABEL description="eQTL-source discordance in TWAS — reproducibility environment (eqtl-source-discordance)"

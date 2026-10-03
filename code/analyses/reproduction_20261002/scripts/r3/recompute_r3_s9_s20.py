@@ -477,20 +477,40 @@ for lab, (n1, p1, n2, p2), rep in [
 log('\n  (7d) 单基因 80% 功效的最小 λ：闭式解')
 log('       关键恒等式：BH 出现 ≥1 个发现 ⟺ p_(1) ≤ q/m ⟺ max|Z| ≥ Φ⁻¹(1 − q/(2m))')
 log('       故 power(λ) = 1 − (2Φ(c)−1)^(m−1) · Φ(c−λ)，c = Φ⁻¹(1 − 0.05/(2m))；网格 0.05 自 1.5 起')
+log('       本列与已发表值的两条路径不同，差异属预期而非缺陷：')
+log('         · 已发表值由归档生成器 r3/m15/m15_pc.py 产出——在**同一网格** np.arange(1.5, 6.001, 0.05)')
+log('           上做 B=4000 次蒙特卡洛（RNG = np.random.default_rng(20260917)），取首个实测功效 ≥80% 的格点；')
+log('         · 本列是**确定性闭式下界**（λ* 使闭式功效恰为 80%），再向上取到同一网格。')
+log('       当 λ* 落在某格点上方一点点（例如 3.781 > 3.75）时，闭式列就比已发表值高一格——')
+log('       属"闭式解更保守 + 蒙特卡洛在格点处已达标"，不是两套数不一致。下表把两种情形分别标名。')
 def minlam_closed(n, q=0.05):
     c = float(stats.norm.isf(q / n / 2)); tail = 2 * stats.norm.cdf(c) - 1
     lam = c - float(stats.norm.ppf(0.20 / tail ** (n - 1)))
     return c, lam, 1.5 + 0.05 * int(np.ceil((lam - 1.5) / 0.05 - 1e-9))
 R['S20_min_lambda'] = {}
+R['S20_min_lambda_note'] = ('lam_grid is the deterministic closed form snapped up onto the '
+                            'same 0.05 grid the published Monte-Carlo generator used; a value '
+                            'one grid step above the published one is expected when the closed '
+                            'form lands just above that grid point, not a discrepancy.')
 for nm, n, rep in [('GTEx candidate (28)', 28, 3.95), ('GTEx T2DM control (19)', 19, 3.85),
                    ('GTEx housekeeping (29)', 29, 3.95), ('GTEx housekeeping pooled (87)', 87, 4.25),
                    ('GTEx candidate pooled (84)', 84, 4.25), ('eQTLGen candidate (27)', 27, 3.95),
                    ('eQTLGen T2DM control (17)', 17, 3.75), ('eQTLGen housekeeping (27)', 27, 3.90),
                    ('eQTLGen pooled (81)', 81, 4.20)]:
     c, lam, g = minlam_closed(n)
-    R['S20_min_lambda'][nm] = dict(n=n, zcrit=round(c, 3), lam_closed=round(lam, 3), lam_grid=g, SI=rep)
-    flag = 'OK' if abs(g - rep) < 1e-9 else ('差一个网格步' if abs(g - rep) <= 0.0501 else '不符')
-    log(f'    {nm:30s} |Z|c={c:.3f}  闭式 λ={lam:.3f}  网格 → {g:.2f}   (SI {rep})  {flag}')
+    R['S20_min_lambda'][nm] = dict(n=n, zcrit=round(c, 3), lam_closed=round(lam, 3), lam_grid=g, SI=rep,
+                                   verdict=('closed form and published agree on the grid point'
+                                            if abs(g - rep) < 1e-9 else
+                                            'closed form lands one grid step higher (expected)'
+                                            if g - rep > 0 and g - rep <= 0.0501 else
+                                            'unexplained difference'))
+    if abs(g - rep) < 1e-9:
+        flag = 'OK（与已发表同格点）'
+    elif 0 < g - rep <= 0.0501 and lam > rep:
+        flag = '闭式高于已发表一格（λ*=%.3f 落于 %.2f 之上，属预期）' % (lam, rep)
+    else:
+        flag = '不符（需查）'
+    log(f'    {nm:30s} |Z|c={c:.3f}  闭式 λ*={lam:.3f}  网格 → {g:.2f}   (SI {rep})  {flag}')
 
 json.dump(R, open(os.path.join(OUTD, 'recompute_r3_s9_s20_results.json'), 'w',
                        encoding='utf-8', newline='\n'),

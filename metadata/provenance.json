@@ -6,7 +6,7 @@
   "python": "3.13.14",
   "platform": "Windows-10-10.0.19045-SP0",
   "metaxcan": "MetaXcan v0.8.1 (official binary)",
-  "analysis_env": "Python 3.13.0 / R 4.5.2 with MatchIt, pinned as env/environment.yml and env/renv.lock"
+  "analysis_env": "Python 3.13.12 / R 4.5.2 with MatchIt, pinned as env/environment.yml and env/renv.lock"
  },
  "external_inputs": [
   {
@@ -297,18 +297,18 @@
   },
   {
    "path": ".gitignore",
-   "bytes": 2556,
-   "sha256": "d212b7826403a41cb6124b159be0a8e865b999dd2c7fc434ea073d629684f6d6"
+   "bytes": 2956,
+   "sha256": "fb60d5efbb61c30a463508c0e21aa7374306d11dec60a4796732d347445a5422"
   },
   {
    "path": ".zenodo.json",
-   "bytes": 3946,
-   "sha256": "9e8576b97289f45b431533473acdf7eeab0e500705a61c441dd17dc5a45df495"
+   "bytes": 4468,
+   "sha256": "7741c4b2ef6f7a3fd01ba177df45be1d31ef0aabb60ab29fb89391f68fafa5ce"
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 57237,
-   "sha256": "b1ccf7e0c53a40063cf6153f0baba1937f272ed634e24ede6a1e2a26a94894c3"
+   "bytes": 63066,
+   "sha256": "98398c9607cc2f7ffd4d0b5a94a1ab977d03584b3bb76c359e608fe3cb2bf9c7"
   },
   {
    "path": "CITATION.cff",
@@ -327,13 +327,13 @@
   },
   {
    "path": "README.md",
-   "bytes": 9877,
-   "sha256": "8735bf6456bf361824d2c5d2451aa42affa84e73ff386760d207534178708cd5"
+   "bytes": 10198,
+   "sha256": "fd47e228b406db4f8c84248c76b82381e1af266c7889407c9ad2f3aa72d9c216"
   },
   {
    "path": "code/README.md",
-   "bytes": 8193,
-   "sha256": "9628b14bb1bd26bb31afdb0d1b76077d5fb627e96a0234159e62dcfad6fb89dc"
+   "bytes": 8843,
+   "sha256": "74f09a325e54064bd4433643d2ab127f7a516b3935c153278208604e2e39ed27"
   },
   {
    "path": "code/analyses/m6_ne_weighted_sensitivity.py",
@@ -372,8 +372,8 @@
   },
   {
    "path": "code/analyses/reproduction_20261002/INPUTS.md",
-   "bytes": 17439,
-   "sha256": "2ce43e5fb218689f0f609656a58f6500f4b047d47da7394fa7e7f2a8532645d4"
+   "bytes": 19422,
+   "sha256": "852fa9da686be21ba138980d0b4e490fb22e2e9409e1388fa1c7a699414cbd75"
   },
   {
    "path": "code/analyses/reproduction_20261002/README.md",
@@ -387,13 +387,13 @@
   },
   {
    "path": "code/analyses/reproduction_20261002/paths_config.py",
-   "bytes": 23881,
-   "sha256": "ff51d81bc01e6d59d102541a8ba4592928f1ffb1bc2cebba1e9a5a995a79d619"
+   "bytes": 29249,
+   "sha256": "eca6f611572033334b31ec5ebd8f2c3d1087b0018b4520573b3f0b533e2db7e8"
   },
   {
    "path": "code/analyses/reproduction_20261002/results/README.md",
-   "bytes": 3426,
-   "sha256": "332f81219ab19a0e4d8d6a841e4d0e292ca45856cb3b88afaf85c343f1894486"
+   "bytes": 4591,
+   "sha256": "8bca5a965f4120af738f5a9fc986d6b5f8aecb11d04180022425a361f2f34929"
   },
   {
    "path": "code/analyses/reproduction_20261002/results/_diff_out.txt",
@@ -627,8 +627,8 @@
   },
   {
    "path": "code/analyses/reproduction_20261002/scripts/r3/recompute_r3_s9_s20.py",
-   "bytes": 27185,
-   "sha256": "a7035310fe2296b23e7f32c8b8e65c14f0dd98b1e3bf17db56ea6e3973c54768"
+   "bytes": 28885,
+   "sha256": "09430b698b2e68bea7f2ec750425f51aa94dce73e34b6448f1cdebd1fbd5cd4a"
   },
   {
    "path": "code/analyses/reproduction_20261002/scripts/r3/simulation_validation.py",
@@ -1312,8 +1312,8 @@
   },
   {
    "path": "code/run_all.sh",
-   "bytes": 8087,
-   "sha256": "c0ff14b896d9e38aa65d39a5e400d4a0dd88685541b895bd18ce5546705dddc9"
+   "bytes": 9339,
+   "sha256": "41542621f48b8cca6f21023f3988eff2292c4df765954e13ae87380f0e04ec71"
   },
   {
    "path": "code/run_spredixcan.sh",
@@ -1327,8 +1327,8 @@
   },
   {
    "path": "code/run_upstream.sh",
-   "bytes": 14062,
-   "sha256": "8aff9430bfc6f237869011290d45cac2fcdf2b181663aca815b57198f34a3ea1"
+   "bytes": 16299,
+   "sha256": "e3ffaf278253cdc2ade51bd984802883a0b8b40fffa8c22bacd67a6b0779c251"
   },
   {
    "path": "code/simulations/split_half_null/README.md",
@@ -1357,8 +1357,8 @@
   },
   {
    "path": "code/upstream/README.md",
-   "bytes": 2806,
-   "sha256": "6b8ca211194e08b96b3efa0c4c089d2625c313605b18a87552dfb8e131fbbe8e"
+   "bytes": 6084,
+   "sha256": "95aa628919bd7e0fe4907cf0c4e3c955ff32627a50af2846242933fdfbb450c1"
   },
   {
    "path": "code/upstream/align_gwas_to_model.py",
@@ -1367,8 +1367,8 @@
   },
   {
    "path": "code/upstream/build_covariance.py",
-   "bytes": 7717,
-   "sha256": "e7d72e99936e483571d38594ca3da564efbf61e7ef715b34e190ed05753950fb"
+   "bytes": 11330,
+   "sha256": "471182b4316cdf8cf2bf4b994ce4f5291955f5d842ec0e6b0c00e01fd799218c"
   },
   {
    "path": "code/upstream/build_eqtlgen_db.py",
@@ -1384,6 +1384,11 @@
    "path": "code/upstream/split_model_by_size.py",
    "bytes": 3620,
    "sha256": "7064385634ffc48637a79205facb76ce9f789f1e1295dfafd5572220523ae0d9"
+  },
+  {
+   "path": "code/upstream/verify_middleware.py",
+   "bytes": 7648,
+   "sha256": "cb20cf94e6d4b3687d1e99e38f5260c166b2d32863d3eb9e9dcf0a0171bf4041"
   },
   {
    "path": "data/README.md",
@@ -1557,8 +1562,8 @@
   },
   {
    "path": "data/external/README.md",
-   "bytes": 12969,
-   "sha256": "8772c25557ff47350debd53daf8413c7623fefe302549fa04770765da882ac48"
+   "bytes": 16395,
+   "sha256": "de1aee6a1f8eaea543ffdc2460294edc928a92d59732bfd808f4a8303545177d"
   },
   {
    "path": "data/external/SHA256SUMS",
@@ -2017,13 +2022,18 @@
   },
   {
    "path": "env/Dockerfile",
-   "bytes": 5386,
-   "sha256": "8d175d603a200864d45ebf74b07cee9aa83796414eb7b631d96fc36420f63ff7"
+   "bytes": 6056,
+   "sha256": "c26778b560df2a8267b8ba651294dae4d4e3b163000e4c92ea66770435fbe6b3"
   },
   {
    "path": "env/README.md",
-   "bytes": 1725,
-   "sha256": "ddbc5cc3b4d87627bd3206b5f4ef00bfbc7cb1a24e34bbe3cef44686e20db8ac"
+   "bytes": 2349,
+   "sha256": "15d5b61e2ad3c699b7ac1a4334e6b55d3a4ae5003c203f89f4324fc4db502257"
+  },
+  {
+   "path": "env/environment-upstream.yml",
+   "bytes": 2123,
+   "sha256": "0f3340a3b8118a5ba402ba3951e2adad7bcef4c848b6b770051e2c5675e5b988"
   },
   {
    "path": "env/environment.yml",
@@ -2152,13 +2162,13 @@
   },
   {
    "path": "scripts/collect_provenance.py",
-   "bytes": 21475,
-   "sha256": "5228dbe619bdae5b4ec1e69dc441950d55d8620d2d809eabc6a47396e9d7ac9f"
+   "bytes": 22810,
+   "sha256": "0984ec9903e44bae0468209778c9fe43c3b776d3596ff21cd2225d6fec9adc7e"
   },
   {
    "path": "scripts/cut_release.sh",
-   "bytes": 15209,
-   "sha256": "922179052522c2ffe512f6c5e7416e36864a8d9463d2e199a3a99b66c0f19173"
+   "bytes": 15464,
+   "sha256": "25d710d65ae907d8ea88dedd6a187da3e2a6d85b016b108379c00d0bc5a627e7"
   },
   {
    "path": "scripts/set_doi.py",
@@ -2181,12 +2191,12 @@
    "sha256": "25410afb8d1a34599f3cc87015f2fbd4bd59d211376f20bae1813bb196c6734d"
   }
  ],
- "file_count": 379,
+ "file_count": 381,
  "excluded": [
   {
    "path": "metadata/provenance.json",
    "reason": "the manifest cannot hash itself; its own content is regenerated by this script"
   }
  ],
- "tracked_file_count": 380
+ "tracked_file_count": 382
 }

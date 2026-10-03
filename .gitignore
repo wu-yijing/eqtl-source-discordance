@@ -66,6 +66,12 @@ data/raw/
 # Outputs of the two published-raster patch scripts. They write these next to the rasters
 # they read; the checked-in references are FigS1_published.png / FigS3_published.png.
 code/figures/ge_si/published/*_reapplied.png
+# Transient per-run backups some figure scripts create on their first run.
+# `figures/README.md` states the policy — "the `_backup_before_*` directories
+# some scripts create on their first run are transient and are not committed" —
+# but nothing enforced it, so they showed up as untracked files after any
+# `code/run_all.sh`. Stated and enforced are different things.
+figures/_backup_before_*/
 # Large archives and alignment/genotype formats belong in Zenodo / figshare /
 # iProX, not in git history.
 # NOTE: bare `*.gz` is deliberately NOT ignored — the predecessor repository

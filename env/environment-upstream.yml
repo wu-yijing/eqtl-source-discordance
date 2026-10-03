@@ -1,0 +1,46 @@
+# ---------------------------------------------------------------------------
+# env/environment-upstream.yml — the SECOND Python environment
+#
+# Why a second one. `code/run_upstream.sh` drives the unmodified official
+# MetaXcan v0.8.1 binary, which predates numpy 2 and will not import under it
+# (`run_upstream.sh` asserts `numpy.__version__[0] == "1"` and stops otherwise).
+# `env/environment.yml` pins Python 3.13.12 with numpy 2.4.4 — correct for the
+# downstream reproduction, and uninstallable for the upstream one, because
+# numpy 1.x has no cp313 build on any channel.
+#
+# Until 2026-10-03 that requirement lived only in the `run_upstream.sh` header
+# comment and in an in-script guard: the archive said which interpreter the
+# upstream chain needed and then shipped no pin for it, so a reader had to
+# reconstruct the versions from prose. This file is that pin.
+#
+# It is NOT used by `code/run_all.sh`. A reader who wants the reported values
+# needs `data/derived/` and `env/environment.yml`; this environment is only for
+# the other question — "was the Z layer itself produced from the inputs the
+# archive names?" — answered by `code/run_upstream.sh`.
+#
+# Versions below are those the archived upstream run used
+# (see `code/upstream/README.md` and `data/external/README.md` §Evidence).
+# ---------------------------------------------------------------------------
+name: twas-eqtl-upstream
+channels:
+  - conda-forge
+dependencies:
+  - python=3.12.13
+  - pip
+  - pip:
+    # MetaXcan 0.8.1 requires numpy 1.x. Do NOT bump these to 2.x.
+    - numpy==1.26.4
+    - scipy==1.13.1
+    - pandas==2.2.3
+    - python-dateutil==2.9.0.post0
+    - pytz==2026.3.post1
+    - six==1.17.0
+    - tzdata==2026.4
+# MetaXcan itself is not a pip package: install it from the pinned source tarball,
+# which is itself a hashed external input (`MetaXcan-v0.8.1.tar.gz` in
+# `data/external/SHA256SUMS`):
+#
+#     tar xzf data/external/MetaXcan-v0.8.1.tar.gz -C /opt
+#     METAXCAN_SW=/opt/MetaXcan-0.8.1/software python3.12 code/run_upstream.sh
+#
+# The container path builds the same pin from the same tarball; see env/Dockerfile.

@@ -90,15 +90,42 @@ fi
 if [ "${MODE}" = "--verify-only" ]; then
   skip "figure generation (--verify-only)"
 else
+  # Two of the figure scripts read the Supporting Information .docx, which is not
+  # redistributed. README.md promises that without it the figure step is *skipped,
+  # not failed*; before 2026-10-03 that was not true — 04_redraw_Fig8.py and
+  # 08_redraw_Fig6_labels_20260920.py exited non-zero and the run reported
+  # "2 failure(s)". The two are now detected up front and skipped with the reason.
+  SI_AVAILABLE=0
+  if [ -n "${AF1_DOCX:-}" ] && [ -f "${AF1_DOCX}" ]; then
+    SI_AVAILABLE=1
+    ok "Supporting Information supplied via AF1_DOCX: ${AF1_DOCX}"
+  elif [ -f "${REPO}/manuscript/Supporting_Information.docx" ]; then
+    SI_AVAILABLE=1
+    ok "Supporting Information found at ${REPO}/manuscript/Supporting_Information.docx"
+  else
+    ok "no Supporting Information .docx (figure steps that need it will be skipped)"
+  fi
+
   mkdir -p "${FIG_OUT}"
+  SKIPPED_SI=""
   for s in 01_redraw_Fig5_Fig7.py 02_redraw_Fig3.py 04_redraw_Fig8.py \
            06_redraw_Fig4.py 08_redraw_Fig6_labels_20260920.py 10_redraw_FigS6_20260921.py ; do
+    case "$s" in
+      04_redraw_Fig8.py|08_redraw_Fig6_labels_20260920.py)
+        if [ "${SI_AVAILABLE}" -eq 0 ]; then
+          skip "$s (needs the Supporting Information .docx — set AF1_DOCX=/path/to/it)"
+          SKIPPED_SI="${SKIPPED_SI} ${s}"
+          continue
+        fi
+        ;;
+    esac
     if [ -f "${FIGDIR}/${s}" ]; then
       ( cd "${FIGDIR}" && "${PYTHON}" "${s}" ) && ok "$s" || bad "$s failed"
     else
-      bad "$s missing"
+      bad "${s} missing"
     fi
   done
+  [ -n "${SKIPPED_SI}" ] && echo "  note: these steps were SKIPPED, not failed:${SKIPPED_SI}"
   # 03_redraw_Fig6.py is deliberately NOT run: it is a hard-deprecation guard
   # that exits 1 by design (its only output, Fig. 6, is produced by 08).
   skip "03_redraw_Fig6.py (hard-deprecated by design; Fig. 6 comes from 08)"

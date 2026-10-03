@@ -123,17 +123,42 @@ def _build_shipped():
 SHIPPED = _build_shipped()
 
 #: Documents that accompany the submission and are not redistributed here.
+#:
+#: `revisions` lists every revision of the document that is known to exist, oldest
+#: first, with the MD5 and byte count of each. `doc()` verifies a supplied file
+#: against this list and says which revision it holds — or that it holds none of
+#: them. Before 2026-10-03 the entry carried a single `md5` that was used *only* to
+#: build the "where to get it" hint, so any file at all printed `[ok]`; INPUTS.md
+#: §B.1 claimed "a run either matches or says so", and it did not. See `doc_status()`.
 DOCS = {
     'manuscript': dict(env='REPRO_MS_DOCX',
                        default=os.path.join(REPO, 'manuscript', 'Manuscript.docx'),
                        expect='Manuscript_GenetEpidemiol_20260930.docx',
-                       md5='dbbe4f81a6fe9433b6a28019c6538eab', bytes=30524,
-                       what='the submitted manuscript'),
+                       md5='a6f7521b98efa0e2ef247664e2f0db3a', bytes=30523,
+                       what='the submitted manuscript',
+                       revisions=[
+                           dict(md5='dbbe4f81a6fe9433b6a28019c6538eab', bytes=30524,
+                                label='pre-[39]-repoint', outcome=False),
+                           dict(md5='a6f7521b98efa0e2ef247664e2f0db3a', bytes=30523,
+                                label='as submitted 2026-09-30', outcome=True),
+                           dict(md5='ee64dfde3903585c3dadfd8b3b257f50', bytes=30524,
+                                label='revision 2026-10-03 (rev2)'),
+                           dict(md5='bb9ce271dfddad5ab24cd06012298ab6', bytes=30720,
+                                label='revision 2026-10-03 (rev3)'),
+                           dict(md5='709fca349e56d9361030c9e36ddf2548', bytes=31174,
+                                label='revision 2026-10-03 (rev4)'),
+                       ]),
     'si': dict(env='REPRO_SI_DOCX',
                default=os.path.join(REPO, 'manuscript', 'Supporting_Information.docx'),
                expect='Supporting_Information_GenetEpidemiol_20260930.docx',
                md5='bd50b7f819db7851c50ddfa76ae336eb', bytes=1462835,
-               what='the submitted Supporting Information'),
+               what='the submitted Supporting Information',
+               revisions=[
+                   dict(md5='bd50b7f819db7851c50ddfa76ae336eb', bytes=1462835,
+                        label='as submitted 2026-09-30', outcome=True),
+                   dict(md5='72f955c9294d5228c57288ba93617f1e', bytes=1463194,
+                        label='revision 2026-10-03 (rev2)'),
+               ]),
     'af1': dict(env='REPRO_AF1_DOCX',
                 default=os.path.join(REPO, 'manuscript', 'Additional_file_1.docx'),
                 expect='Additional file 1_审稿意见修订_20260917.docx',
@@ -190,6 +215,9 @@ class MissingInput(SystemExit):
 
 _EXPECT = {}
 
+#: Set by `--strict-docs`; see `apply_cli_overrides()` and `report()`.
+STRICT_DOCS = False
+
 
 def need(logical_or_path, what=None, how=None):
     """Resolve and existence-check, printing an actionable message."""
@@ -208,6 +236,47 @@ def get(logical):
         p = os.environ.get(d['env']) or d['default']
         return p
     raise KeyError('unknown logical input: %r' % logical)
+
+
+def doc_status(logical_or_path):
+    """Identify which known revision of a submission document is on disk.
+
+    Returns `(path, status, detail)` where status is one of:
+
+      'missing'        — no file at the resolved path
+      'unchecked'      — a file is present but no revisions are recorded (af1, pred_*)
+      'exact'          — the file matches a recorded revision; `detail` names it, and
+                         whether that revision produced the archived `results/`
+      'unrecognised'   — a file is present and matches none of them; `detail` gives its
+                         actual MD5/bytes. The caller decides whether that is fatal:
+                         `report()` prints it, and `--strict-docs` makes it exit 1.
+
+    Why this exists: the submission documents are the journal's, so a reader may
+    legitimately hold a revision this archive has never seen, and refusing to run would
+    be wrong. Saying nothing would also be wrong — that is what happened before, when
+    `[ok]` was printed for every file regardless of content.
+    """
+    if logical_or_path in DOCS:
+        key, d = logical_or_path, DOCS[logical_or_path]
+        p = os.environ.get(d['env']) or d['default']
+    else:
+        key, d, p = None, None, logical_or_path
+    if not os.path.exists(p):
+        return p, 'missing', 'set %s' % (d['env'] if d else 'the path')
+    revs = (d or {}).get('revisions') or []
+    if not revs:
+        return p, 'unchecked', 'no revision recorded for this document'
+    got, size = md5(p), os.path.getsize(p)
+    for r in revs:
+        if r['md5'] == got:
+            tail = (' — the copy that produced the archived results/'
+                    if r.get('outcome') else '')
+            return p, 'exact', '%s [md5 %s, %s bytes]%s' % (
+                r['label'], got[:12] + '…', format(size, ','), tail)
+    known = '; '.join('%s %s' % (r['label'], r['md5'][:12] + '…') for r in revs)
+    return p, 'unrecognised', (
+        'md5 %s, %s bytes — matches none of the %d recorded revisions (%s)'
+        % (got, format(size, ','), len(revs), known))
 
 
 def doc(logical):
@@ -465,15 +534,33 @@ def report():
         mark = 'ok ' if os.path.exists(p) else 'MISSING'
         print('    [%s] %-20s %s' % (mark, name, p))
     print()
-    print('  submission documents (not redistributed):')
-    for k, d in DOCS.items():
-        p = os.environ.get(d['env']) or d['default']
-        mark = 'ok ' if os.path.exists(p) else 'not supplied'
+    print('  submission documents (not redistributed) — each is identified by MD5:')
+    doc_bad = []
+    for k in DOCS:
+        p, status, detail = doc_status(k)
+        mark = {'missing': 'not supplied', 'unchecked': 'unchecked',
+                'exact': 'ok', 'unrecognised': 'UNRECOGNISED'}[status]
         print('    [%-12s] %-12s %s' % (mark, k, p))
+        if status != 'missing':
+            print('    %s%s' % (' ' * 16, detail))
+        if status == 'unrecognised':
+            doc_bad.append((k, detail))
     bad = check_shipped()
     print()
+    if doc_bad:
+        print('  document check: %d supplied document(s) match no recorded revision.'
+              % len(doc_bad))
+        print('        A different revision is fine to run against; it just means the'
+              ' archived results/')
+        print('        were produced from a copy this archive has identified by hash.'
+              ' Pass --strict-docs')
+        print('        to make an unrecognised document a failure (release gates do).')
     print('  self-check: %s' % ('all shipped inputs present and byte-exact'
                                 if not bad else '%d problem(s): %s' % (len(bad), bad)))
+    if doc_bad and STRICT_DOCS:
+        print('  --strict-docs: treating %d unrecognised document(s) as failures.'
+              % len(doc_bad))
+        return list(bad) + doc_bad
     return bad
 
 
@@ -489,10 +576,24 @@ def cli_path(name, default=None):
     return default
 
 
+def cli_flag(name):
+    """True if `--<name>` is present in argv."""
+    flag = '--' + name.replace('_', '-')
+    return any(a == flag or a.startswith(flag + '=') for a in sys.argv[1:])
+
+
 def apply_cli_overrides():
     """Map `--repo-root`, `--ms-docx`, `--si-docx`, `--af1-docx`, `--mashr-db-dir`
     and `--gtex-official-dir` onto the corresponding environment variables, then
-    recompute the derived constants. Call once, first thing, from a script body."""
+    recompute the derived constants. Call once, first thing, from a script body.
+
+    `--strict-docs` is a boolean: it makes an unrecognised submission document count
+    as a failure in `report()`'s return value (and therefore in this module's exit
+    code). Non-strict is the default because a reader may hold a revision this
+    archive has not seen; the status is always printed either way."""
+    global STRICT_DOCS
+    if cli_flag('strict_docs'):
+        STRICT_DOCS = True
     pairs = [('repo_root', _ENV_REPO), ('ms_docx', DOCS['manuscript']['env']),
              ('si_docx', DOCS['si']['env']), ('af1_docx', DOCS['af1']['env']),
              ('mashr_db_dir', EXTERNAL_DIRS['mashr_db_dir']['env']),

@@ -35,16 +35,38 @@ This directory is **git-ignored** (`.gitignore`: *"Raw third-party inputs are NO
 - **RNApull_down_MS_results.zip** — https://www.iprox.cn/ Downloaded as `RNApull down MS实验结果.zip`. Downloaded as `RNApull down MS实验结果.zip`. The deposited archive is PXD083775; this is the working copy of the same experiment.
 
 ## Files that are derived, not external
+**All 30 are machine-verified** by [`code/upstream/verify_middleware.py`](../../code/upstream/verify_middleware.py),
+which `code/run_upstream.sh` step 8 now runs on every invocation — a rebuild that
+disagrees exits non-zero instead of being described in prose.
+
 | File | Built by | Hash of the archived copy |
 |---|---|---|
 | `eQTLGen_Whole_Blood.db` | [`build_eqtlgen_db.py`](../../code/upstream/build_eqtlgen_db.py) | file SHA-256 `413c4fff25c1820fd92f11f4370e25f3b82ea2ecd5a84ff0643d5f750312fa3c` · MD5 `aefbe7d485181145bd1e3ceffea2cfd6` (4,866,048 B) |
-| `cov_eQTLGen_Whole_Blood.txt.gz` | [`build_covariance.py`](../../code/upstream/build_covariance.py) | content MD5 `7e07393d45c8927cf766425380d95b77` (39,366,329 rows, 2,044,246,636 B decompressed) |
-| `cov_Whole_Blood.txt.gz` | [`build_covariance.py`](../../code/upstream/build_covariance.py) | content MD5 `31137589fc9ca1a261df19fba7f14e08` (1,498,762 B decompressed) |
-| `cov_Nerve_Tibial.txt.gz` | [`build_covariance.py`](../../code/upstream/build_covariance.py) | content MD5 `4ea16ad919cd0b90a693f54e8702eb59` (2,062,148 B decompressed) |
-| `db_{A,B,C}.db` | [`split_model_by_size.py`](../../code/upstream/split_model_by_size.py) | size-pinned: A 94 genes / 3,469,312 B · B 8 / 1,007,616 B · C 1 / 380,928 B |
-| `gwas_{DR,DN,DPN}.tsv` | `run_upstream.sh` step 1 | MD5 `390e4e9abaea0464e112008a39958511` (DR) · `25c53a645397870098cbed30e17a0a1c` (DN) · `70c16fc9783f225b55cc7dbc033fc5df` (DPN) |
-| `gwas_{DR,DN,DPN}_aligned.tsv` | [`align_gwas_to_model.py`](../../code/upstream/align_gwas_to_model.py) | file MD5 `3ea5fda0c3cc1222318eab1f57049ae9` (DR) · `269358b089b2bf56a6eb8ae7df1cf831` (DN) · `453e3226eba6b10213aebe3a8f1e70e4` (DPN) |
-| `official_{Whole_Blood,Nerve_Tibial}_{DR,DN,DPN}.csv` | step 3 (official MetaXcan) | e.g. Whole_Blood/DR MD5 `57738c427b957c25a6f455f5ff22c4a0` |
+| `cov_Whole_Blood.txt.gz` | `build_covariance.py --order bim` | content MD5 `31137589fc9ca1a261df19fba7f14e08` (1,498,762 B decompressed, 11,382 genes / 27,985 rows) |
+| `cov_Nerve_Tibial.txt.gz` | `build_covariance.py --order bim` | content MD5 `4ea16ad919cd0b90a693f54e8702eb59` (2,062,148 B decompressed, 14,007 genes / 38,519 rows) |
+| `cov_eQTLGen_Whole_Blood.txt.gz` | `build_covariance.py --order model` | content MD5 `7e07393d45c8927cf766425380d95b77` (39,366,329 rows, 2,044,246,636 B decompressed) |
+| `cov_A.txt.gz` | `build_covariance.py --order model` | content MD5 `ed58ccdfc590dc4498dd5ddc6c8b0ea2` (94 genes / 18,390,068 rows) |
+| `cov_B.txt.gz` | `build_covariance.py --order model` | content MD5 `2a532e74469a340feaf0b7a791740151` (8 genes / 9,535,325 rows) |
+| `cov_C.txt.gz` | `build_covariance.py --order model` | content MD5 `f30ebf0255d9eed610b6162a35be97c6` (1 gene / 11,440,936 rows) |
+| `db_A.db` | [`split_model_by_size.py`](../../code/upstream/split_model_by_size.py) | file SHA-256 `f3a29eee9bf1aa4384de6b8627136c55988b077ff34af28431b3e2c9c2156d74` (94 genes / 3,469,312 B) |
+| `db_B.db` | `split_model_by_size.py` | file SHA-256 `51777828c3607b5b172264f380cc9928ef19dc6b9e382abc460db0b9c8e8b966` (8 / 1,007,616 B) |
+| `db_C.db` | `split_model_by_size.py` | file SHA-256 `1617c517e030394b62a33f0466bd9904ae81b7e0e3c7cf3a20db27e84e4e66d8` (1 / 380,928 B) |
+| `gwas_DR.tsv` | `run_upstream.sh` step 1 | MD5 `390e4e9abaea0464e112008a39958511` |
+| `gwas_DN.tsv` | step 1 | MD5 `25c53a645397870098cbed30e17a0a1c` |
+| `gwas_DPN.tsv` | step 1 | MD5 `70c16fc9783f225b55cc7dbc033fc5df` |
+| `gwas_DR_aligned.tsv` | [`align_gwas_to_model.py`](../../code/upstream/align_gwas_to_model.py) | MD5 `3ea5fda0c3cc1222318eab1f57049ae9` |
+| `gwas_DN_aligned.tsv` | `align_gwas_to_model.py` | MD5 `269358b089b2bf56a6eb8ae7df1cf831` |
+| `gwas_DPN_aligned.tsv` | `align_gwas_to_model.py` | MD5 `453e3226eba6b10213aebe3a8f1e70e4` |
+| `official_Whole_Blood_{DR,DN,DPN}.csv` | step 3 (official MetaXcan v0.8.1) | MD5 `57738c427b957c25a6f455f5ff22c4a0` · `cce57111298a024b5e9ed5101c048f74` · `c4bceab533b56ce928cf4c69e87462d8` |
+| `official_Nerve_Tibial_{DR,DN,DPN}.csv` | step 3 | MD5 `966e43e6dec03669fdd13ef44b6866d9` · `1dc9106b31369aa5115322bd03fd0b7a` · `92b942f7437b65bb0dc2658e1eb6bccb` |
+| `official_eq_{A,B,C}_{DR,DN,DPN}.csv` (9) | step 7 (official MetaXcan, `--stream_covariance`) | MD5 `8590d52ee797ca76cc292e71d122f8a9` · `ae35c433289e695bfd97b6de66b5e140` · `2950f5cee032862bc0af82754cf71b82` · `f704406684eda32bc6bd15ee8692ca6f` · `579082773814fe11b33ea5bf6cbaad10` · `817811fcc41790f09145f4acf4a97960` · `aadc03b20c309434703f8f826311d38c` · `1d6416923477fc69778bf4874f0fae3c` · `b01c432e5128ecc541de8f5203a4ccc0` |
+
+> **The full chain was re-run end to end on 2026-10-03** on a machine holding all 15
+> hashed external inputs, with the unmodified official MetaXcan v0.8.1 under Python
+> 3.12.13 / numpy 1.26.4. Result: `identical 30 | differing 0` once all three
+> eQTLGen bands finished — the three `cov_A/B/C` and the nine
+> `official_eq_{A,B,C}_*`. The raw-input → Z-layer chain therefore has no
+> un-verified step.
 
 > **Why the `.txt.gz` rows carry a *content* MD5, not a file hash.** A gzip stream
 > embeds the wall-clock time it was written, so the same covariance built twice
@@ -52,6 +74,21 @@ This directory is **git-ignored** (`.gitignore`: *"Raw third-party inputs are NO
 > larger than a re-run of the same content) while the decompressed bytes are
 > identical. The content MD5 is the stable identifier; the plain-text and SQLite
 > rows above are byte-identical on re-run and carry their file hash.
+
+> **Row order inside a covariance file is load-bearing — and `build_covariance.py` had it wrong.**
+> The archived covariances are ordered (1) **genes** in the model database's own order — first
+> appearance in `weights`, i.e. `rowid` order, *not* alphabetical — and (2) **SNPs within a gene in
+> the LD panel's `.bim` order**, not the model database's SNP order and not `sorted()` on the rsid.
+> Measured directly against the archived `cov_Whole_Blood.txt.gz`: genes match
+> first-appearance-restricted 11,382/11,382, and SNPs within gene match `.bim` order 11,382/11,382,
+> where a plain rsid sort matches only 73.1 %.
+> The first version of `code/upstream/build_covariance.py` used `sorted()` for genes and the model's
+> row order for SNPs. That produced the same gene set, the same SNP pairs and the same values, so a
+> *content* comparison passed — while the content MD5, and therefore the two GTEx rows above, did not
+> reproduce. Found on 2026-10-03 by rebuilding both tissues and diffing line by line; fixed; both now
+> rebuild to the content MD5s above with **0 differing lines**. The downstream effect of the wrong
+> order was floating-point only (max |Δ| = 3.6 × 10⁻¹⁵ across the 162k cells of a GTEx arm), but the
+> file hash claim was false, which is the part that matters here.
 
 These are the intermediate layer `code/run_upstream.sh` rebuilds. They are **not** shipped, because they are re-derivable from the hashed inputs by one command each.
 

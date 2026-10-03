@@ -36,6 +36,7 @@ import hashlib
 import json
 import os
 import platform
+import re
 import subprocess
 import sys
 
@@ -305,6 +306,38 @@ def index_blobs():
     return by_path, set(missing)
 
 
+def _env_versions():
+    """Version string for `generated_by.analysis_env`, read from the shipped pins.
+
+    These used to be a free-text literal that said "Python 3.13.0" while
+    `env/environment.yml` pinned 3.13.12 — the manifest disagreed with the
+    environment it claimed to describe, and nothing caught it because no gate
+    reads that field. Deriving the string from the pin files makes the two
+    impossible to disagree. Falls back to the literal only if a pin cannot be
+    parsed, and says so rather than guessing.
+    """
+    py = r = None
+    try:
+        with open(os.path.join(REPO, 'env', 'environment.yml'), encoding='utf-8') as f:
+            m = re.search(r'^\s*-\s*python\s*=\s*([0-9][0-9.]*)', f.read(), re.M)
+            if m:
+                py = m.group(1)
+    except OSError:
+        pass
+    try:
+        with open(os.path.join(REPO, 'env', 'renv.lock'), encoding='utf-8') as f:
+            m = re.search(r'"R"\s*:\s*\{\s*"Version"\s*:\s*"([0-9][0-9.]*)"', f.read())
+            if m:
+                r = m.group(1)
+    except OSError:
+        pass
+    if not (py and r):
+        return ('Python 3.13.12 / R 4.5.2 with MatchIt, pinned as env/environment.yml and '
+                'env/renv.lock (version strings could not be read from the pins)')
+    return ('Python %s / R %s with MatchIt, pinned as env/environment.yml and env/renv.lock'
+            % (py, r))
+
+
 def main():
     excluded_paths = {p for p, _ in EXCLUDED}
     blobs, missing = index_blobs()
@@ -360,7 +393,7 @@ def main():
             "python": sys.version.split()[0],
             "platform": platform.platform(),
             "metaxcan": "MetaXcan v0.8.1 (official binary)",
-            "analysis_env": "Python 3.13.0 / R 4.5.2 with MatchIt, pinned as env/environment.yml and env/renv.lock",
+            "analysis_env": _env_versions(),
         },
         "external_inputs": external,
         "repro_inputs": REPRO_INPUTS,

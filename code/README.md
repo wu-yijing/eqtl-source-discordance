@@ -59,7 +59,14 @@ is an **orphan** and must either be wired to a script or withdrawn.
 | `figures/10_redraw_FigS6_20260921.py` | `figures/m15_positive_control.json` | **Fig. S3** — endpoint calibration; build output `FigS6` |
 | `figures/11_figure_precheck.py` | `figures/` | release gate on figure format (page size, fonts, DPI) |
 
-Manuscript figures **Fig. 1, S1, S2 and S4 have no producing script here** — see `figures/README.md`.
+Manuscript figures **Fig. 1, 2, 3 and 4** regenerate from `data/derived/` alone via
+`code/figures/ge_main/reproduce.sh` (see `code/figures/ge_main/README.md`); their PNGs are
+byte-identical to the submitted figures. Of the Supporting Information figures, **Fig. S2** has a
+recovered producing script (`figures/recovered/gen_figs4.py`), **Fig. S1** is reproducible at
+*artefact* level only (`figures/ge_si/published/`, zero pixel difference on re-run), and **Fig. S4**
+is a gel photograph with no producing script by nature. Full status table: `figures/README.md`.
+*(Until 2026-10-03 this line read that Fig. 1, S1, S2 and S4 "have no producing script here"; that
+stopped being true when the Fig. 1 generator shipped in `ge_main/` and S2 was recovered.)*
 
 ### Other analyses
 

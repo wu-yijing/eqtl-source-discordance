@@ -96,14 +96,19 @@ the file that produced the numbers in `results/`, so a run either matches or say
 
 ### B.1 The submitted documents (3 files)
 
-Two revisions of each of the first two documents exist. **The rows marked "produced `results/`" are the copies the archived run was made against**; the rows marked "revision 2026-10-03" are what is on disk now, and are what the next submission will carry. `paths_config.py` accepts either — it reports a mismatch against the recorded value with the revision named, rather than a bare failure.
+Every revision of the two submission documents that is known to exist is listed below. **The row marked "produced `results/`" is the copy the archived run was made against**; the revision rows are the later text-only edits, and the newest of them is what the next submission will carry.
+
+`paths_config.py` resolves each document to a **`revisions` list** and *identifies which one you hold*, by MD5, naming the revision and saying whether it is the copy that produced `results/`. A supplied file that matches none of them prints `[UNRECOGNISED]` with its actual MD5 and byte count, plus every recorded revision. That is a `[UNRECOGNISED]` **notice, not a failure**, by default — a reader may legitimately hold a revision this archive has never seen — and `--strict-docs` turns it into a non-zero exit for release gates. *(Before 2026-10-03 the entry carried a single `md5` that was used only to build the "where to get it" hint, so any file at all printed `[ok]`; this paragraph's claim was not enforced by code. Fixed, and tested both ways.)*
 
 | Document | Revision | File | MD5 | SHA-256 | Bytes |
 |---|---|---|---|---|---|
+| `manuscript` | pre-`[39]`-repoint | (earlier, not on disk) | `dbbe4f81a6fe9433b6a28019c6538eab` | — | 30,524 |
 | `manuscript` | **produced `results/`** (submitted 2026-09-30) | `Manuscript_GenetEpidemiol_20260930.docx` | `a6f7521b98efa0e2ef247664e2f0db3a` | `ce48e337bb37a9724ec2039413d795da6ae3662c5fc4c85f52b168e83370f9a6` | 30,523 |
-| `manuscript` | **revision 2026-10-03** | `Manuscript_GenetEpidemiol_20260930_rev2.docx` | `ee64dfde3903585c3dadfd8b3b257f50` | `69045bb6bd600850a32cc0e674313cca9407e37f1d1dfed79b6ece118f71c76c` | 30,524 |
+| `manuscript` | revision 2026-10-03 (rev2) | `Manuscript_GenetEpidemiol_20260930_rev2.docx` | `ee64dfde3903585c3dadfd8b3b257f50` | `69045bb6bd600850a32cc0e674313cca9407e37f1d1dfed79b6ece118f71c76c` | 30,524 |
+| `manuscript` | revision 2026-10-03 (rev3) | `Manuscript_GenetEpidemiol_20260930_rev3.docx` | `bb9ce271dfddad5ab24cd06012298ab6` | `42dbfa1fcf8e8089069980c1730e8e75872e3569624b70d29062c7deb82446c3` | 30,720 |
+| `manuscript` | **revision 2026-10-03 (rev4)** — newest, on disk | `Manuscript_GenetEpidemiol_20260930_rev4.docx` | `709fca349e56d9361030c9e36ddf2548` | `793249b8f863890d43fc9ccdb1375fa21c06591a4e98a04987612fda7e890312` | 31,174 |
 | `si` | **produced `results/`** (submitted 2026-09-30) | `Supporting_Information_GenetEpidemiol_20260930.docx` | `bd50b7f819db7851c50ddfa76ae336eb` | `132d5eb080f0021e6ee180c4b7736ada27e35a5d8e457d29815992945d17ac73` | 1,462,835 |
-| `si` | **revision 2026-10-03** | `Supporting_Information_GenetEpidemiol_20260930_rev2.docx` | `72f955c9294d5228c57288ba93617f1e` | `81692586c4164286096f6c48fd289fa7ec32d6be9c2d7fbb4d32c09c02484dd8` | 1,463,194 |
+| `si` | **revision 2026-10-03 (rev2)** — newest, on disk | `Supporting_Information_GenetEpidemiol_20260930_rev2.docx` | `72f955c9294d5228c57288ba93617f1e` | `81692586c4164286096f6c48fd289fa7ec32d6be9c2d7fbb4d32c09c02484dd8` | 1,463,194 |
 | `af1` | — | `Additional file 1_审稿意见修订_20260917.docx` | — | — | — |
 
 `af1` is read by `r3/m15/m15_pc.py` and is **optional since 2026-10-03**: the four tables S20's generator reads (S1, S2, S15, S18) also ship as `data/derived/{gene_groups,gtex_Z,eqtlgen_Z}.csv`, verified row for row identical to the document (104/104, 222/222, 90→81/81, 207/207, zero differing cells). Supply the document and it is used instead.
@@ -117,6 +122,8 @@ Env vars: `REPRO_MS_DOCX`, `REPRO_SI_DOCX`, `REPRO_AF1_DOCX`. Read by `recompute
 > | manuscript | before the [39] repoint | `dbbe4f81a6fe9433b6a28019c6538eab` | 30,524 | — |
 > | manuscript | [39] repointed to the canonical repository, and submitted | `a6f7521b98efa0e2ef247664e2f0db3a` | 30,523 | reference [39] only |
 > | manuscript | 2026-10-03 revision | `ee64dfde3903585c3dadfd8b3b257f50` | 30,524 | Methods: `Python 3.13.0` → `3.13.12`, to agree with `env/environment.yml` |
+> | manuscript | 2026-10-03 revision (rev3) | `bb9ce271dfddad5ab24cd06012298ab6` | 30,720 | reference `[39]` / Data availability rewritten: the cited Zenodo DOI now states that it resolves to the *predecessor* `eqtl-source-discordance-audit` snapshot and does not describe these materials, and that no citable DOI for the current version exists at submission; the canonical GitHub archive is cited with its commit. **This is the revision that closes the citation gap.** |
+> | manuscript | 2026-10-03 revision (rev4) | `709fca349e56d9361030c9e36ddf2548` | 31,174 | further text revision; still no reported value or figure affected |
 > | si | as submitted | `bd50b7f819db7851c50ddfa76ae336eb` | 1,462,835 | — |
 > | si | 2026-10-03 revision | `72f955c9294d5228c57288ba93617f1e` | 1,463,194 | Note S4: per-resource retrieval dates replace the single-date sentence; Note S4 `Python 3.13.0` → `3.13.12`; Table S5a note: states that the row-3 heterogeneity statistics come from the quoted Z-scores, and gives the full-precision value (Q = 76.27) |
 >
@@ -185,6 +192,7 @@ maps them onto the environment variables above.
 | `--af1-docx` | `REPRO_AF1_DOCX` |
 | `--mashr-db-dir` | `REPRO_MASHR_DB_DIR` |
 | `--gtex-official-dir` | `REPRO_GTEX_OFFICIAL_DIR` |
+| `--strict-docs` | *(none — makes an unrecognised submission document a non-zero exit; see `report()`)* |
 
 `TWAS_DATA_Z` overrides the authoritative data layer (default
 `<TWAS_REPO>/data/derived`), matching `code/figures/paths_config.py`.

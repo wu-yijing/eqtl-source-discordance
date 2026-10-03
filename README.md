@@ -53,7 +53,7 @@ bash code/run_all.sh
 AF1_DOCX=/path/to/Supporting_Information.docx bash code/run_all.sh
 ```
 
-`code/run_all.sh` is the **only** supported entry point. It reads `data/derived/`, writes to a runtime output directory, and prints a value-by-value check against the manuscript. **It runs from a fresh clone** — verified by `scripts/verify_from_clone.sh`, which clones into a temp directory and runs every gate there. One input that is not redistributed here is needed for the figure step: the Supporting Information `.docx`, pointed at with `AF1_DOCX`. Without it that step is skipped, not failed; with it, all seven figure scripts run and write into `figures/`.
+`code/run_all.sh` is the **only** supported entry point. It reads `data/derived/`, writes to a runtime output directory, and prints a value-by-value check against the manuscript. **It runs from a fresh clone** — verified by `scripts/verify_from_clone.sh`, which clones into a temp directory and runs every gate there. One input that is not redistributed here is needed by two of the six figure scripts: the Supporting Information `.docx`, pointed at with `AF1_DOCX`. Without it those two steps are **skipped and named, not failed** — the run still ends `pipeline completed with no failures` and prints a `note: these steps were SKIPPED, not failed:` line listing them. With it, all six figure scripts run and write into `figures/`. (Before 2026-10-03 those two scripts exited non-zero and the run ended `2 failure(s)`, which contradicted this paragraph; fixed in `code/run_all.sh`.)
 
 External inputs that are not redistributed here are listed with their identifiers, versions, retrieval dates and checksums in [`data/README.md`](data/README.md).
 

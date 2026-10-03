@@ -30,8 +30,20 @@
 #   Official MetaXcan, unmodified, tag v0.8.1  (SPrediXcan.py)
 #   Python 3.12 with numpy 1.x — MetaXcan 0.8.1 predates numpy 2 and will not run
 #   under it. The environment that produced the reported numbers used
-#   Python 3.12.13 / numpy 1.26.4 / scipy 1.13.1 / pandas 2.2.3.
+#   Python 3.12.13 / numpy 1.26.4 / scipy 1.13.1 / pandas 2.2.3, and it is now
+#   pinned as env/environment-upstream.yml (it cannot share env/environment.yml,
+#   which pins Python 3.13 + numpy 2).
 #   Set METAXCAN_SW and PYTHON below.
+#
+# -----------------------------------------------------------------------------
+# Two row conventions, one per arm
+# -----------------------------------------------------------------------------
+# `build_covariance.py` needs `--order` because the two archived covariance sets
+# were produced by two different producer scripts with different row order, and
+# each only reproduces byte-for-byte under its own:
+#     GTEx arm    -> --order bim     (genes in model order, SNPs in .bim order)
+#     eQTLGen arm -> --order model   (genes ascending, SNPs in model order)
+# Steps 2 and 5 below pass the right one. See code/upstream/README.md.
 #
 # -----------------------------------------------------------------------------
 # Usage
@@ -168,6 +180,7 @@ else
     "${PY}" "${UP}/build_covariance.py" \
         --model-db "${EXT}/mashr_${tis}.db" \
         --plink-zip "${EXT}/g1000_eur.zip" --bfile-stem g1000_eur \
+        --order bim \
         --out "${cov}" && ok "covariance ${tis}" || bad "covariance ${tis}"
   done
 fi
@@ -184,13 +197,19 @@ else
     for ph in "${PHENOS[@]}"; do
       cov="${OUT}/cov/cov_${tis}.txt.gz"
       [ -f "${cov}" ] || { printf '  [skip] %s: no %s\n' "$tis" "$cov"; continue; }
+      out="${OUT}/official_${tis}_${ph}.csv"
+      # SPrediXcan REFUSES to overwrite: given an existing --output_file it logs
+      # "already exists, move it or delete it if you want it done again", exits 0
+      # and writes nothing. Without this rm a re-run would report success while
+      # leaving the previous file in place.
+      rm -f "${out}"
       ( cd "${SW}" && "${PY}" SPrediXcan.py \
           --model_db_path "${EXT}/mashr_${tis}.db" \
           --covariance "${cov}" \
           --gwas_file "${OUT}/gwas/gwas_${ph}.tsv" \
           --snp_column snp --effect_allele_column alt --non_effect_allele_column ref \
           --beta_column beta --se_column se \
-          --output_file "${OUT}/official_${tis}_${ph}.csv" \
+          --output_file "${out}" \
           --additional_output ) && ok "S-PrediXcan ${tis} x ${ph}" || bad "S-PrediXcan ${tis} x ${ph}"
     done
   done
@@ -234,6 +253,7 @@ else
   if [ ! -f "${COV}" ] && [ -f "${DB}" ]; then
     "${PY}" "${UP}/build_covariance.py" --model-db "${DB}" \
         --plink-zip "${EXT}/g1000_eur.zip" --bfile-stem g1000_eur \
+        --order model \
         --out "${COV}" && ok "covariance ${EQ_TAG}" || bad "covariance ${EQ_TAG}"
   fi
 fi
@@ -267,15 +287,34 @@ else
   COV="${OUT}/eqtlgen/cov_${EQ_TAG}.txt.gz"
   [ -f "${DB}" ] && [ -f "${COV}" ] || bad "provide ${DB} and ${COV}"
   for ph in "${PHENOS[@]}"; do
+    out="${OUT}/eqtlgen/official_eq_${EQ_TAG}_${ph}.csv"
+    rm -f "${out}"      # SPrediXcan will not overwrite an existing --output_file; see step 3
     ( cd "${SW}" && "${PY}" SPrediXcan.py \
         --model_db_path "${DB}" --covariance "${COV}" \
         --gwas_file "${OUT}/eqtlgen/gwas_${ph}_aligned.tsv" \
         --snp_column snp --effect_allele_column alt --non_effect_allele_column ref \
         --beta_column beta --se_column se \
-        --output_file "${OUT}/eqtlgen/official_eq_${EQ_TAG}_${ph}.csv" \
+        --output_file "${out}" \
         --additional_output --stream_covariance ) \
       && ok "S-PrediXcan eQTLGen ${EQ_TAG} x ${ph}" || bad "S-PrediXcan eQTLGen ${EQ_TAG} x ${ph}"
   done
+fi
+
+# ---------------------------------------------------------------------------
+step "8. Middleware hash check"
+# ---------------------------------------------------------------------------
+# Hash every artefact this chain produces against the copy the reported numbers
+# came from. Until 2026-10-03 nothing could fail here: the archive recorded these
+# hashes in prose only, which is how a wrong-row-order covariance survived —
+# same genes, same values, different bytes, and a *content* comparison passes.
+# Absent artefacts are reported, not treated as failures: a partial rebuild is a
+# legitimate thing to check. `--require-all` flips that if you want the full set.
+if [ -f "${UP}/verify_middleware.py" ]; then
+  "${PY}" "${UP}/verify_middleware.py" --run-dir "${OUT}" \
+    && ok "middleware matches the archived hashes" \
+    || bad "middleware does NOT match the archived hashes (see the DIFFERS rows above)"
+else
+  skip "code/upstream/verify_middleware.py not present"
 fi
 
 # ---------------------------------------------------------------------------

@@ -286,18 +286,23 @@ fi
 
 echo
 echo "== 7. container base image is pinned =="
-# env/README.md rule 1 requires an exact pin. `FROM ...:latest` is not one. This cannot be
-# resolved offline (Docker Hub is unreachable from some repair environments), so it warns
-# with the exact command rather than failing the release on an environment-only issue.
-FROM_LINE=$(grep -m1 '^FROM' env/Dockerfile 2>/dev/null || true)
-case "$FROM_LINE" in
-  *:latest*|*"${FROM_LINE%%:*}"|"")
-    warn "env/Dockerfile does not pin its base image: ${FROM_LINE:-<no FROM line>}"
-    echo "         Resolve a digest and pin:  docker buildx imagetools inspect <image>:<tag>" | sed 's/^/  /'
-    echo "         then:  FROM <image>@sha256:<digest>   (keep the readable tag in a comment)" | sed 's/^/  /'
+# env/README.md rule 1 requires an exact pin: a tag can be re-pointed, a digest cannot.
+# The check reads the *image reference* — the FROM line with any trailing comment
+# stripped — because the readable tag is deliberately kept as a comment beside the
+# digest, and that comment contains the string ":latest".
+FROM_REF=$(grep -m1 '^FROM' env/Dockerfile 2>/dev/null | sed 's/#.*//' | sed 's/[[:space:]]*$//' || true)
+case "$FROM_REF" in
+  "")
+    warn "env/Dockerfile has no FROM line"
+    ;;
+  *@sha256:*)
+    ok "env/Dockerfile pins a base image by digest: ${FROM_REF}"
     ;;
   *)
-    ok "env/Dockerfile pins a base image: ${FROM_LINE}"
+    warn "env/Dockerfile does not pin its base image by digest: ${FROM_REF:-<no FROM line>}"
+    echo "         Resolve a digest and pin:  docker buildx imagetools inspect <image>:<tag>" | sed 's/^/  /'
+    echo "         then:  FROM <image>@sha256:<digest>   (keep the readable tag in a comment)" | sed 's/^/  /'
+    echo "         A bare tag is not enough: ':latest' moves, and any other tag can be re-pointed." | sed 's/^/  /'
     ;;
 esac
 
