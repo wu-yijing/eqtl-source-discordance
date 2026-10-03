@@ -172,8 +172,8 @@
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 40403,
-   "sha256": "fb57e6def4385ed4e1efb8b6412f49f37360ddaf3e99d0926ec779cb4abb6e6d"
+   "bytes": 41984,
+   "sha256": "7ec413ccad9f32d565f67c63bd1a8e82dda122d692c777ae16971a48330b6fff"
   },
   {
    "path": "CITATION.cff",
@@ -192,8 +192,8 @@
   },
   {
    "path": "code/README.md",
-   "bytes": 7628,
-   "sha256": "632c3a304b7290f139908177eeca9d928cbf1a15add5786af2693518dfe25dfa"
+   "bytes": 7667,
+   "sha256": "3cf7655b86b68764e22868faed7928a71da3bc791c602ba614ecea003aa6e621"
   },
   {
    "path": "code/analyses/m6_ne_weighted_sensitivity.py",
@@ -232,13 +232,13 @@
   },
   {
    "path": "code/analyses/reproduction_20261002/INPUTS.md",
-   "bytes": 14365,
-   "sha256": "cdd3b09547963dd2ab4f125d3b7e05f19e4a368ccb981b454b98fc7026b1fc59"
+   "bytes": 14733,
+   "sha256": "06588a6845c50da4ea02c945f3cf47344a47e552d619da478ab9fa9d52b127ee"
   },
   {
    "path": "code/analyses/reproduction_20261002/README.md",
-   "bytes": 10481,
-   "sha256": "6a407ccf59ab8bab9c379ab78eda24151f3a337ed603b7858c3bf772b0c00b46"
+   "bytes": 10990,
+   "sha256": "d5029d6e52f3d2836438f93bc7571d8121975a87cc5fa74b8a6c64b903738937"
   },
   {
    "path": "code/analyses/reproduction_20261002/check_wiring.py",
@@ -477,8 +477,8 @@
   },
   {
    "path": "code/analyses/reproduction_20261002/scripts/r3/m15/m15_pc.py",
-   "bytes": 10264,
-   "sha256": "db5c49abfc52c1cbd9fc0f3f782a2e941c042ba1ef5fa7fc33104e04d820054b"
+   "bytes": 13439,
+   "sha256": "44baea748cbb6275f13016064fd4bf86ea1d4c429b88e434cc55e6324387ad27"
   },
   {
    "path": "code/analyses/reproduction_20261002/scripts/r3/recompute_r3_s9_s20.py",

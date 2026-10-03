@@ -30,19 +30,76 @@ from docx import Document
 from docx.table import Table
 from docx.oxml.ns import qn
 
-# That SI revision is not redistributed here: point at your own copy with
-# --af1-docx, or set REPRO_AF1_DOCX.
-AF = PC.doc('af1')
+# ---------------------------------------------------------------------------
+# Where the three tables come from — 2026-10-03
+#
+# This script used to *require* `Additional file 1_审稿意见修订_20260917.docx`, a
+# revision this archive does not redistribute. It no longer needs it. Every table
+# it reads also ships in `data/derived/`, and the two routes were compared row for
+# row on 2026-10-03 — 104/104, 222/222 and 207/207 rows, zero differing cells — so
+# the tables are now taken from the archive when the document is not supplied.
+# Supply the document (`--af1-docx`, or `REPRO_AF1_DOCX`) and it is used instead,
+# exactly as before, which keeps the original route auditable.
+#
+#   grid(0)  -> data/derived/gene_groups.csv         (SI Table S1/S2)
+#   grid(1)  -> data/derived/gtex_Z.csv              (SI Table S3)
+#   grid(15) -> data/derived/eqtlgen_Z.csv, Group == 'Housekeeping'   (SI Table S15.
+#               The document prints 90 rows, 9 of them blank; the archive keeps the
+#               81 with a testable statistic, which is the same set the script's
+#               `q is not None` guard would keep, in the same order)
+#   grid(18) -> data/derived/eqtlgen_Z.csv, Group != 'Housekeeping'   (SI Table S18)
+# ---------------------------------------------------------------------------
+import csv as _csv
+
 OUT_DIR = PC.RESULTS           # 产物统一落在包的 results/（2026-10-02 起）
 os.makedirs(OUT_DIR, exist_ok=True)
 RNG = np.random.default_rng(20260917)
 O = {}
 SQ2 = np.sqrt(2)
 
-doc = Document(AF)
-tabs = [b for ch in doc.element.body.iterchildren()
-        for b in ([Table(ch, doc)] if ch.tag == qn('w:tbl') else [])]
-grid = lambda i: [[c.text.strip() for c in r.cells] for r in tabs[i].rows]
+try:
+    AF = PC.doc('af1')
+except SystemExit:          # MissingInput subclasses SystemExit, not Exception
+    AF = None
+
+if AF:
+    print('[input] tables read from the supplied document: %s' % AF)
+    doc = Document(AF)
+    tabs = [b for ch in doc.element.body.iterchildren()
+            for b in ([Table(ch, doc)] if ch.tag == qn('w:tbl') else [])]
+    grid = lambda i: [[c.text.strip() for c in r.cells] for r in tabs[i].rows]
+else:
+    print('[input] AF1 not supplied -- tables read from %s' % PC.DERIVED)
+
+    def _rd(name):
+        with open(os.path.join(PC.DERIVED, name), encoding='utf-8-sig') as fh:
+            return list(_csv.DictReader(fh))
+
+    _G = _rd('gene_groups.csv')
+    _GT = _rd('gtex_Z.csv')
+    _EQALL = _rd('eqtlgen_Z.csv')
+    _EQ = [r for r in _EQALL if (r.get('Group') or '').strip().lower() != 'housekeeping']
+    _HK = [r for r in _EQALL if (r.get('Group') or '').strip().lower() == 'housekeeping']
+    _T = {
+        0: [['Gene', 'Group', 'Source', 'Pull-down Unused score', 'Length (bp)',
+             'GC content (%)', 'Mean eQTL SNP count']] +
+           [[r['Gene'], r['Group'], r['Source'], r['Pull-down Unused score'],
+             r['Length (bp)'], r['GC content (%)'], r['Mean eQTL SNP count']] for r in _G],
+        1: [['Gene', 'Phenotype', 'Z_Nerve_Tibial', 'Z_Whole_Blood', 'Z_multi_tissue',
+             'P_Stouffer', 'FDR_q_Stouffer', 'P_ACAT_O', 'FDR_q_ACAT_O', 'N_tissues']] +
+           [[r['Gene'], r['Trait'], r['Z_Nerve_Tibial'], r['Z_Whole_Blood'],
+             r['Z_multi_tissue'], r['P_Stouffer'], r['FDR_q_Stouffer'], r['P_ACAT_O'],
+             r['FDR_q_ACAT_O'], r['n_Tissues']] for r in _GT],
+        15: [['Gene', 'Trait', 'Z_eQTLGen', 'P', 'BH q', 'Model SNPs (matched/total)']] +
+            [[r['Gene'], r['Trait'], r['Z_eQTLGen'], r['P'], r['BH_q'], r['Model_SNPs']]
+             for r in _HK],
+        18: [['Gene', 'Phenotype', 'Gene group', 'Z_eQTLGen', 'P', 'BH q',
+              'Model SNPs (matched/total)', 'FDR-significant']] +
+            [[r['Gene'], r['Trait'], r['Group'], r['Z_eQTLGen'], r['P'], r['BH_q'],
+              r['Model_SNPs'], r['FDR_significant']] for r in _EQ],
+    }
+    grid = lambda i: _T[i]
+
 drows = lambda i, k=2: [r for r in grid(i)[1:] if len(r) >= k and r[0]]
 f = lambda x: (float(x) if x not in (None, '', 'NA', 'nan') else None)
 

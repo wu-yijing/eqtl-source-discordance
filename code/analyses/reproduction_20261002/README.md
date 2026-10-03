@@ -63,7 +63,7 @@ Everything else needs one of the inputs named in `INPUTS.md` section B.
 | **Note S5, S27, S28, S29** — simulation validation | 🔴 GAP-4/5 | ✅ | `simulation_validation.py` re-run: all 84 values identical to the archived `simulation_results.json` at machine precision | **yes** (pure synthetic) |
 | **S9** — architecture-unselected random controls | 🔴 GAP-7 | ✅ | full table reproduces: exclusion chain 12,622 → 12,555 → 11,885 → 11,820, POOL_818 = 818/767/51, coverage 568/768, 16 random-control rates, 8 null values, 4 percentiles, in-pool strata 21/1,326 · 7/378 · 20/1,827 · 6/477. The pool membership ships as `data/derived/s9_pools/` and a flattened equivalent of the official MetaXcan GTEx layer as `data/derived/gtex_official_finngen/`, so the published numbers reproduce without either bulk layer. The **mashr model databases (10.5 MB)** needed to *re-derive* the pools, and the six original GTEx × FinnGen tables (12.3 MB), are deliberately not redistributed — `INPUTS.md` B.2/B.3 gives both routes | **yes** — and so does re-deriving the pools, since the mashr model side was reduced to the one column the filters read and shipped as `data/derived/mashr_nsnps.csv.gz` (61 kB) |
 | **S17** — cluster-aware uncertainty | 🔴 GAP-10 | ✅ | the primary-arm half reads the shipped `data/derived/primary_arm_96pairs.csv`: naive t = 4.1019 (df 94, P = 8.712 × 10⁻⁵), jackknife SE(ρ) = 0.1367, bootstrap ρ CI [0.1161, 0.6220], rate CI 58.3–79.2 %. The gene-cluster rows additionally need the housekeeping layers carried in SI Tables S6/S15, i.e. the `.docx` | **partly** — the gene-cluster rows need the Supporting Information, as every other `.docx`-dependent step in this repository does |
-| **S20** — endpoint calibration and positive control | ✅ | ✅ | `scripts/r3/m15/m15_pc.py` **is** the generator behind `code/figures/m15_positive_control.json`; re-run verbatim reproduces the archived JSON key-for-key, including `PC2b_group_diff_power` = 8.0 / 14.5 / 13.0 / 17.5 pp | **no** — needs `Additional file 1_审稿意见修订_20260917.docx` (`REPRO_AF1_DOCX`) |
+| **S20** — endpoint calibration and positive control | ✅ | ✅ | `scripts/r3/m15/m15_pc.py` **is** the generator behind `code/figures/m15_positive_control.json`; re-run reproduces the archived JSON key-for-key, including `PC2b_group_diff_power` = 8.0 / 14.5 / 13.0 / 17.5 pp | **yes** — since 2026-10-03 the four tables it reads come from `data/derived/`. It previously required `Additional file 1_审稿意见修订_20260917.docx`; supply that (`REPRO_AF1_DOCX`) and it is used instead, which keeps the original route auditable |
 
 Also reproduced in full, beyond the map's original scope: the BH q of SI Tables S3 and
 S18 (eQTLGen 12/12 strata, GTEx 9/9 strata on both the ACAT-O and Stouffer chains,
@@ -72,10 +72,12 @@ max |Δq| = 0.000), SI Table S5a (all 16 values across both rows), and the SCZ l
 
 Read the two right-hand columns together. **Now** is the archive-map status — whether the
 archive contains enough to reproduce the value. **Runs from a clone?** says what you must
-supply beyond the clone: three of these rows need a document that accompanies the
-submission and is therefore not redistributed here, exactly like `AF1_DOCX` in
-`code/figures/`. `metadata/ARCHIVE_MAP.md` carries the same distinction on each row, and
-each script's log states which route it took.
+supply beyond the clone. As of 2026-10-03 that column reads **yes** for every S20 row and
+for everything else here except the gene-cluster rows of S17 and the two main-text tables,
+which are read straight out of the Supporting Information — a document that accompanies the
+submission and is therefore not redistributed, exactly like `AF1_DOCX` in `code/figures/`.
+`metadata/ARCHIVE_MAP.md` carries the same distinction on each row, and each script's log
+states which route it took.
 
 ## Layout
 
@@ -126,7 +128,10 @@ REPRO_MS_DOCX=/path/Manuscript.docx \
 REPRO_SI_DOCX=/path/Supporting_Information.docx \
   python code/analyses/reproduction_20261002/scripts/recompute.py
 
-# 5. needs Additional file 1 (the review-revision SI)
+# 5. previously needed Additional file 1; as of 2026-10-03 it reads data/derived/
+python code/analyses/reproduction_20261002/scripts/r3/m15/m15_pc.py
+
+# ...or point it at the review-revision SI and it uses that instead
 REPRO_AF1_DOCX=/path/Additional_file_1.docx \
   python code/analyses/reproduction_20261002/scripts/r3/m15/m15_pc.py
 ```

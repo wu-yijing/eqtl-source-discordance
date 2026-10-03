@@ -38,7 +38,7 @@ is an **orphan** and must either be wired to a script or withdrawn.
 | `analyses/reproduction_20261002/scripts/recompute_scz.py` | `data/derived/genomewide/*`, `scz_z_4arm.csv` | Fig. 4 SCZ point; Table S16 framework layer (9 rows); Table S17 empirical null; Δρ(SCZ) |
 | `analyses/reproduction_20261002/scripts/r3/simulation_validation.py` | **nothing** (pure synthetic) | Tables S27–S29, all 84 values |
 | `analyses/reproduction_20261002/scripts/r3/recompute_r3_s9_s20.py` | `data/derived/`, SI `.docx` | Table S9 (pools, exclusion chain, random controls); Table S20 (detection bounds, power) |
-| `analyses/reproduction_20261002/scripts/r3/m15/m15_pc.py` | `Additional file 1_审稿意见修订_20260917.docx` | Table S20 generator (positive control). **Not runnable from this archive** — that document is not redistributed |
+| `analyses/reproduction_20261002/scripts/r3/m15/m15_pc.py` | `data/derived/` (S1/S2/S15/S18); optionally `Additional file 1_审稿意见修订_20260917.docx` | Table S20 generator (positive control). **Runs from a clone** — the document became optional on 2026-10-03 |
 | `analyses/reproduction_20261002/scripts/repo_crosscheck/*` (13) | `data/derived/` (2 of them also the SI) | BH q per stratum; cluster robustness; cross-cohort; RNG/permutation convention identification |
 | `analyses/reproduction_20261002/scripts/bmc_ref/*` (8) | `primary_arm_96pairs.csv`, four documents | BMC ↔ GE cross-check of the two submissions |
 | `analyses/reproduction_20261002/scripts/r2_fix/*` (2) | `primary_arm_96pairs.csv` | the three residual R2 items (estimator enumeration) |

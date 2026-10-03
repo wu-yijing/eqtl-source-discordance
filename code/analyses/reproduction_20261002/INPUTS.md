@@ -100,7 +100,7 @@ the file that produced the numbers in `results/`, so a run either matches or say
 |---|---|---|---|---|---|
 | `manuscript` | `Manuscript_GenetEpidemiol_20260930.docx` | `dbbe4f81a6fe9433b6a28019c6538eab` | 30,524 | `REPRO_MS_DOCX` | `recompute.py`, `bmc_ref/` |
 | `si` | `Supporting_Information_GenetEpidemiol_20260930.docx` | `bd50b7f819db7851c50ddfa76ae336eb` | 1,462,835 | `REPRO_SI_DOCX` | `recompute.py`, `r3/`, `repo_crosscheck/`, `bmc_ref/` |
-| `af1` | `Additional file 1_审稿意见修订_20260917.docx` | — | — | `REPRO_AF1_DOCX` | `r3/m15/m15_pc.py` |
+| `af1` | `Additional file 1_审稿意见修订_20260917.docx` | — | — | `REPRO_AF1_DOCX` | `r3/m15/m15_pc.py` — **optional since 2026-10-03.** The four tables S20's generator reads (S1, S2, S15, S18) also ship as `data/derived/{gene_groups,gtex_Z,eqtlgen_Z}.csv`, verified row for row identical to the document (104/104, 222/222, 90→81/81, 207/207, zero differing cells). Supply the document and it is used instead |
 
 Obtain them from the journal (they accompany the submission). `bmc_ref/` has two
 further, optional documents — the predecessor BMC submission (`REPRO_PRED_MS_DOCX`,
@@ -177,7 +177,7 @@ maps them onto the environment variables above.
 | `scripts/recompute_scz.py` | `scz_z_4arm`, 5 × `genomewide/` | — | — |
 | `scripts/r3/recompute_r3_s9_s20.py` | `covariate_matrix`, `hrt_source`, `rand_*`, `pool_*`, `disease_blacklist`, `gtex_official_wide`, `mashr_nsnps` | SI | mashr DBs (cross-check only), GTEx official ×6 (rebuild only) |
 | `scripts/r3/simulation_validation.py` | **none** | — | — |
-| `scripts/r3/m15/m15_pc.py` | — | af1 | — |
+| `scripts/r3/m15/m15_pc.py` | — | af1 (optional since 2026-10-03; falls back to `data/derived/`) | — |
 | `scripts/repo_crosscheck/*` (13) | `gtex_Z`, `eqtlgen_Z`, `gene_groups`, `primary_arm` | SI (2 of them) | — |
 | `scripts/bmc_ref/*` (8) | `primary_arm` | SI, manuscript, pred_manuscript, pred_af1 | — |
 | `scripts/r2_fix/*` (2) | `primary_arm` | — | — |

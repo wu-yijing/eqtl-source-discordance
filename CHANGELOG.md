@@ -23,6 +23,30 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-03 (eighth pass) — Table S20's generator no longer needs a document we cannot ship
+
+**Numbers: no reported number changes.** `m15_pc.py` writes the same JSON, key for key.
+
+`Additional file 1_审稿意见修订_20260917.docx` — the review-revision Supporting Information —
+was the one input that kept `scripts/r3/m15/m15_pc.py` from running on a clone, and it is a
+submission document that this archive does not redistribute. It turns out not to be needed.
+
+The generator reads exactly four tables: S1 (gene groups), S2 (GTEx baseline Z), S15
+(housekeeping eQTLGen) and S18 (eQTLGen per-gene). All four also ship in `data/derived/` as
+`gene_groups.csv`, `gtex_Z.csv` and `eqtlgen_Z.csv`, and the two routes were compared row for
+row on 2026-10-03: 104/104, 222/222, 81/81 and 207/207 rows, **zero differing cells**. (S15
+prints 90 rows, nine of them blank; the archive keeps the 81 with a testable statistic, which
+is the set the script's own `q is not None` guard would keep, in the same order.)
+
+`m15_pc.py` now tries the document first and falls back to the derived tables. Both routes were
+run and the emitted JSON is identical to the archived `m15_positive_control.json` under either,
+so supplying the document remains an auditable path rather than a requirement. Pass `--af1-docx`
+(or `REPRO_AF1_DOCX`) to use it.
+
+**Consequence: SI Table S20 is reproducible from a clone.** `INPUTS.md` §B.1, its §D
+script-to-input table, `code/README.md` and this package's README were updated; the previous
+text told a reader the row was `no` for "runs from a clone".
+
 ### 2026-10-03 (seventh pass) — `run_all.sh` runs again, and the environment installs
 
 **Numbers: no reported number changes.** `data/derived/` is byte-identical, the three submitted
