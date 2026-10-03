@@ -39,6 +39,19 @@ The three "not in the current manuscript" entries are kept because a revision ma
 because they document the earlier figure set. **Their output must not be presented as part of the
 current submission.**
 
+## The four manuscript main figures — now regenerable
+
+The four figures submitted to *Genetic Epidemiology* are a different set from the build
+outputs above (which belong to the earlier BMC-generation layout). Their producing scripts
+were found in an un-archived working directory and now ship, runnable:
+
+    bash code/figures/ge_main/reproduce.sh
+
+All four regenerate from `data/derived/` alone and are **byte-identical** to the submitted
+PNGs. See `code/figures/ge_main/README.md`. Before 2026-10-03 this section read that the
+main figures "cannot be assembled end-to-end from this archive — Fig. 2, 3 and 4 can,
+Fig. 1 only by hand"; that is no longer the state.
+
 ## Figures whose producing script is not in `code/figures/`
 
 `figures/README.md` used to require that a figure whose producing script is missing be *named*, not
@@ -47,8 +60,8 @@ working directories and now ship, verbatim, in [`../code/figures/recovered/`](..
 
 | Manuscript figure | Content | Producing script | Status |
 |---|---|---|---|
-| **Fig. 1** | Overview of the analytical framework (six modules) | `recovered/rebuild_fig1_2_9.py::figure1()` | 🟡 **Recovered** — verbatim ancestor, not wired to `run_all.sh` |
-| **Fig. S1** | Exploratory diagnostic scheme (flowchart) | `recovered/rebuild_fig1_2_9.py::figure2()` | 🟡 **Recovered structurally.** The published box text was pixel-edited on 2026-10-01 and no surviving copy of the script prints it — see `recovered/README.md` |
+| **Fig. 1** | Overview of the analytical framework (six modules) | **`ge_main/unified_fig1.py`** | ✅ **Regenerated and byte-identical** (PNG SHA-256 `eb77483e…`) |
+| **Fig. S1** | Exploratory diagnostic scheme (flowchart) | **`ge_si/rebuild_fig1_2_9.py::figure2()`** | ✅ **Corrected and regenerated** — the script now prints the published text (66.1–68.2 %; "Report the source-induced caveat"). The published *raster* was pixel-edited on 2026-10-01 and is not byte-reproducible (~2 % pixel difference, uniform); see `ge_si/README.md` |
 | **Fig. S2** | eQTL SNP-count distribution across gene groups (violin) | `recovered/gen_figs4.py` | ✅ **Recovered and matching** — same 61-gene universe (24/24/13) and the three published medians |
 | **Fig. S4** | Silver-stain SDS–PAGE (wet-lab image) | none — and none is possible | ➖ a photograph of a gel, not a plot |
 

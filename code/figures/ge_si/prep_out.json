@@ -1,0 +1,898 @@
+{
+ "smd_pre": {
+  "log10_Length": -0.4432,
+  "GC_pct": 0.0195,
+  "eQTL_SNPs_Mean": NaN
+ },
+ "smd_post": {
+  "log10_Length": -0.1426,
+  "GC_pct": 0.0887,
+  "n_eQTL_SNPs": 0.0805
+ },
+ "fig4": {
+  "n": 102,
+  "rho": 0.264,
+  "p": 0.007386258160981525,
+  "ci": [
+   0.073,
+   0.436
+  ],
+  "r2": 0.07,
+  "dc_n": 61,
+  "per_pheno": {
+   "DR": {
+    "n": 34,
+    "dc_n": 21
+   },
+   "DN": {
+    "n": 34,
+    "dc_n": 20
+   },
+   "DPN": {
+    "n": 34,
+    "dc_n": 20
+   }
+  },
+  "binom_p": 0.059400536903433346,
+  "dc_ci_wilson": [
+   50.1,
+   68.8
+  ],
+  "dc_ci_cp": [
+   49.6,
+   69.4
+  ]
+ },
+ "fig6_all_DR": [
+  {
+   "Gene": "TUBB",
+   "GTEx_Zscore_Nerve_Tibial": 2.764,
+   "eQTLGen_Zscore": 47.8313,
+   "Direction": "Consistent"
+  },
+  {
+   "Gene": "RPS25",
+   "GTEx_Zscore_Nerve_Tibial": 3.7949,
+   "eQTLGen_Zscore": 13.8956,
+   "Direction": "Consistent"
+  },
+  {
+   "Gene": "DDX5",
+   "GTEx_Zscore_Nerve_Tibial": 1.1656,
+   "eQTLGen_Zscore": -8.3346,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "CKAP4",
+   "GTEx_Zscore_Nerve_Tibial": -3.2266,
+   "eQTLGen_Zscore": 6.1839,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "GAPDH",
+   "GTEx_Zscore_Nerve_Tibial": -0.0695,
+   "eQTLGen_Zscore": 8.8216,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "HSP90B1",
+   "GTEx_Zscore_Nerve_Tibial": 1.9964,
+   "eQTLGen_Zscore": -6.8904,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "RPL13A",
+   "GTEx_Zscore_Nerve_Tibial": -0.8005,
+   "eQTLGen_Zscore": 6.0405,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "XRCC5",
+   "GTEx_Zscore_Nerve_Tibial": 1.1497,
+   "eQTLGen_Zscore": -5.6195,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "RPLP0",
+   "GTEx_Zscore_Nerve_Tibial": 1.9268,
+   "eQTLGen_Zscore": 7.9443,
+   "Direction": "Consistent"
+  },
+  {
+   "Gene": "HSP90AB1",
+   "GTEx_Zscore_Nerve_Tibial": 3.8845,
+   "eQTLGen_Zscore": -0.4909,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "RPS14",
+   "GTEx_Zscore_Nerve_Tibial": -1.4853,
+   "eQTLGen_Zscore": 2.8735,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "RPL23A",
+   "GTEx_Zscore_Nerve_Tibial": 4.7399,
+   "eQTLGen_Zscore": 0.4609,
+   "Direction": "Consistent"
+  },
+  {
+   "Gene": "EIF4A1",
+   "GTEx_Zscore_Nerve_Tibial": 4.5645,
+   "eQTLGen_Zscore": 0.3875,
+   "Direction": "Consistent"
+  },
+  {
+   "Gene": "RPS16",
+   "GTEx_Zscore_Nerve_Tibial": -0.0796,
+   "eQTLGen_Zscore": 3.8897,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "H2AFV",
+   "GTEx_Zscore_Nerve_Tibial": 1.4177,
+   "eQTLGen_Zscore": -2.4704,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "XRCC6",
+   "GTEx_Zscore_Nerve_Tibial": 0.4233,
+   "eQTLGen_Zscore": -2.1911,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "RNH1",
+   "GTEx_Zscore_Nerve_Tibial": 13.8246,
+   "eQTLGen_Zscore": 11.6172,
+   "Direction": "Consistent"
+  },
+  {
+   "Gene": "VCP",
+   "GTEx_Zscore_Nerve_Tibial": 1.27,
+   "eQTLGen_Zscore": 3.2246,
+   "Direction": "Consistent"
+  },
+  {
+   "Gene": "RPS3",
+   "GTEx_Zscore_Nerve_Tibial": -0.4169,
+   "eQTLGen_Zscore": 0.8589,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "RPL8",
+   "GTEx_Zscore_Nerve_Tibial": -1.0977,
+   "eQTLGen_Zscore": 0.0409,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "RPS18",
+   "GTEx_Zscore_Nerve_Tibial": 6.8153,
+   "eQTLGen_Zscore": 7.5234,
+   "Direction": "Consistent"
+  },
+  {
+   "Gene": "RPSA",
+   "GTEx_Zscore_Nerve_Tibial": 1.2664,
+   "eQTLGen_Zscore": 0.7364,
+   "Direction": "Consistent"
+  },
+  {
+   "Gene": "ACTB",
+   "GTEx_Zscore_Nerve_Tibial": -1.769,
+   "eQTLGen_Zscore": -2.0029,
+   "Direction": "Consistent"
+  }
+ ],
+ "fig6": [
+  {
+   "Gene": "TUBB",
+   "GTEx_Zscore_Nerve_Tibial": 2.764,
+   "eQTLGen_Zscore": 47.8313,
+   "Direction": "Consistent"
+  },
+  {
+   "Gene": "RPS25",
+   "GTEx_Zscore_Nerve_Tibial": 3.7949,
+   "eQTLGen_Zscore": 13.8956,
+   "Direction": "Consistent"
+  },
+  {
+   "Gene": "DDX5",
+   "GTEx_Zscore_Nerve_Tibial": 1.1656,
+   "eQTLGen_Zscore": -8.3346,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "CKAP4",
+   "GTEx_Zscore_Nerve_Tibial": -3.2266,
+   "eQTLGen_Zscore": 6.1839,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "HSP90B1",
+   "GTEx_Zscore_Nerve_Tibial": 1.9964,
+   "eQTLGen_Zscore": -6.8904,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "HSP90AB1",
+   "GTEx_Zscore_Nerve_Tibial": 3.8845,
+   "eQTLGen_Zscore": -0.4909,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "RPS14",
+   "GTEx_Zscore_Nerve_Tibial": -1.4853,
+   "eQTLGen_Zscore": 2.8735,
+   "Direction": "Inconsistent"
+  },
+  {
+   "Gene": "RPL23A",
+   "GTEx_Zscore_Nerve_Tibial": 4.7399,
+   "eQTLGen_Zscore": 0.4609,
+   "Direction": "Consistent"
+  },
+  {
+   "Gene": "EIF4A1",
+   "GTEx_Zscore_Nerve_Tibial": 4.5645,
+   "eQTLGen_Zscore": 0.3875,
+   "Direction": "Consistent"
+  },
+  {
+   "Gene": "RNH1",
+   "GTEx_Zscore_Nerve_Tibial": 13.8246,
+   "eQTLGen_Zscore": 11.6172,
+   "Direction": "Consistent"
+  },
+  {
+   "Gene": "RPS18",
+   "GTEx_Zscore_Nerve_Tibial": 6.8153,
+   "eQTLGen_Zscore": 7.5234,
+   "Direction": "Consistent"
+  }
+ ],
+ "fig8a": [
+  {
+   "Complication": "DR",
+   "GTEx_Zscore_Nerve_Tibial": 13.8246,
+   "eQTLGen_Zscore": 11.6172
+  },
+  {
+   "Complication": "DPN",
+   "GTEx_Zscore_Nerve_Tibial": 8.5736,
+   "eQTLGen_Zscore": 9.7761
+  },
+  {
+   "Complication": "DN",
+   "GTEx_Zscore_Nerve_Tibial": 7.0023,
+   "eQTLGen_Zscore": 6.838
+  }
+ ],
+ "rnh1_multi": [
+  {
+   "Trait": "DR",
+   "Z_Multi": 18.5277
+  },
+  {
+   "Trait": "DN",
+   "Z_Multi": 9.9056
+  },
+  {
+   "Trait": "DPN",
+   "Z_Multi": 10.4507
+  }
+ ],
+ "fig8b": {
+  "Z_finngen": 11.62,
+  "Z_ukb": 0.95,
+  "deltaZ": 10.67,
+  "p_delta": 4.5288010637262905e-14,
+  "Q": 56.9,
+  "df": 1,
+  "p_Q": 4.528801063726314e-14,
+  "I2": 98.2,
+  "tau": 7.48,
+  "pooledZ": 6.28,
+  "se": 5.34,
+  "p_pooled": 0.2387689586019882,
+  "pi": [
+   -11.72,
+   24.29
+  ]
+ },
+ "enrich": [
+  {
+   "Trait": "DR",
+   "Group": "30_HOTAIR_Candidate",
+   "N_eqtl": 28,
+   "K_eqtl": 20,
+   "P_eqtl": 71.4,
+   "CI_eqtl": [
+    51.3,
+    86.8
+   ],
+   "N_gtex": 27,
+   "K_gtex": 13,
+   "P_gtex": 48.1,
+   "CI_gtex": [
+    28.7,
+    68.1
+   ]
+  },
+  {
+   "Trait": "DR",
+   "Group": "44_NonCandidate_HOTAIR",
+   "N_eqtl": 24,
+   "K_eqtl": 17,
+   "P_eqtl": 70.8,
+   "CI_eqtl": [
+    48.9,
+    87.4
+   ],
+   "N_gtex": 27,
+   "K_gtex": 13,
+   "P_gtex": 48.1,
+   "CI_gtex": [
+    28.7,
+    68.1
+   ]
+  },
+  {
+   "Trait": "DR",
+   "Group": "30_T2DM_Control",
+   "N_eqtl": 16,
+   "K_eqtl": 8,
+   "P_eqtl": 50.0,
+   "CI_eqtl": [
+    24.7,
+    75.3
+   ],
+   "N_gtex": 19,
+   "K_gtex": 12,
+   "P_gtex": 63.2,
+   "CI_gtex": [
+    38.4,
+    83.7
+   ]
+  },
+  {
+   "Trait": "DN",
+   "Group": "30_HOTAIR_Candidate",
+   "N_eqtl": 28,
+   "K_eqtl": 15,
+   "P_eqtl": 53.6,
+   "CI_eqtl": [
+    33.9,
+    72.5
+   ],
+   "N_gtex": 27,
+   "K_gtex": 17,
+   "P_gtex": 63.0,
+   "CI_gtex": [
+    42.4,
+    80.6
+   ]
+  },
+  {
+   "Trait": "DN",
+   "Group": "44_NonCandidate_HOTAIR",
+   "N_eqtl": 24,
+   "K_eqtl": 16,
+   "P_eqtl": 66.7,
+   "CI_eqtl": [
+    44.7,
+    84.4
+   ],
+   "N_gtex": 27,
+   "K_gtex": 13,
+   "P_gtex": 48.1,
+   "CI_gtex": [
+    28.7,
+    68.1
+   ]
+  },
+  {
+   "Trait": "DN",
+   "Group": "30_T2DM_Control",
+   "N_eqtl": 16,
+   "K_eqtl": 8,
+   "P_eqtl": 50.0,
+   "CI_eqtl": [
+    24.7,
+    75.3
+   ],
+   "N_gtex": 19,
+   "K_gtex": 10,
+   "P_gtex": 52.6,
+   "CI_gtex": [
+    28.9,
+    75.6
+   ]
+  },
+  {
+   "Trait": "DPN",
+   "Group": "30_HOTAIR_Candidate",
+   "N_eqtl": 28,
+   "K_eqtl": 20,
+   "P_eqtl": 71.4,
+   "CI_eqtl": [
+    51.3,
+    86.8
+   ],
+   "N_gtex": 27,
+   "K_gtex": 12,
+   "P_gtex": 44.4,
+   "CI_gtex": [
+    25.5,
+    64.7
+   ]
+  },
+  {
+   "Trait": "DPN",
+   "Group": "44_NonCandidate_HOTAIR",
+   "N_eqtl": 24,
+   "K_eqtl": 19,
+   "P_eqtl": 79.2,
+   "CI_eqtl": [
+    57.8,
+    92.9
+   ],
+   "N_gtex": 27,
+   "K_gtex": 15,
+   "P_gtex": 55.6,
+   "CI_gtex": [
+    35.3,
+    74.5
+   ]
+  },
+  {
+   "Trait": "DPN",
+   "Group": "30_T2DM_Control",
+   "N_eqtl": 16,
+   "K_eqtl": 10,
+   "P_eqtl": 62.5,
+   "CI_eqtl": [
+    35.4,
+    84.8
+   ],
+   "N_gtex": 19,
+   "K_gtex": 8,
+   "P_gtex": 42.1,
+   "CI_gtex": [
+    20.3,
+    66.5
+   ]
+  }
+ ],
+ "hk_v2": [
+  {
+   "Trait": "DR",
+   "N": 28,
+   "P": 53.6,
+   "K": 15
+  },
+  {
+   "Trait": "DN",
+   "N": 28,
+   "P": 42.9,
+   "K": 12
+  },
+  {
+   "Trait": "DPN",
+   "N": 28,
+   "P": 67.9,
+   "K": 19
+  }
+ ],
+ "hk_v2_pooled": {
+  "K": 46,
+  "N": 84,
+  "P": 54.8,
+  "CI": [
+   43.5,
+   65.7
+  ]
+ },
+ "fisher_gtex": {
+  "cand_vs_nonc": {
+   "OR": 1.051,
+   "P": 1.0
+  },
+  "cand_vs_t2dm": {
+   "OR": 0.969,
+   "P": 1.0
+  }
+ },
+ "fisher_eqtl": {
+  "cand_vs_nonc": {
+   "OR": 0.729,
+   "P": 0.392
+  },
+  "cand_vs_t2dm": {
+   "OR": 1.605,
+   "P": 0.265
+  }
+ },
+ "fisher_hk": {
+  "OR": 1.124,
+  "P": 0.756
+ },
+ "scz_axis": {
+  "N_complete_case": 2511,
+  "B_bootstrap": 10000,
+  "seed": 20260726,
+  "source_axis": {
+   "definition": "eQTLGen WB vs GTEx multi-tissue Stouffer",
+   "rho": 0.5222,
+   "rho_ci95": [
+    0.4901,
+    0.5531
+   ],
+   "dir_consistency": 0.6826
+  },
+  "tissue_axis": {
+   "definition": "GTEx WB vs GTEx Nerve_Tibial",
+   "rho": 0.5088,
+   "rho_ci95": [
+    0.4713,
+    0.545
+   ],
+   "dir_consistency": 0.7121
+  },
+  "axis_difference": {
+   "delta_rho": 0.0134,
+   "delta_rho_ci95": [
+    -0.0285,
+    0.055
+   ],
+   "delta_rho_p_twosided": 0.5304,
+   "delta_dir_consistency_pp": -2.95,
+   "delta_dir_consistency_ci95_pp": [
+    -5.3,
+    -0.6
+   ],
+   "delta_dir_consistency_p_twosided": 0.0152
+  },
+  "primary_axis": {
+   "definition": "GTEx multi-tissue vs eQTLGen (headline discordance)",
+   "rho": 0.5222,
+   "rho_ci95": [
+    0.4893,
+    0.5532
+   ],
+   "dir_consistency": 0.6826
+  }
+ },
+ "scz_robust": {
+  "pooled": {
+   "source_rho": 0.522,
+   "source_n": 2511,
+   "source_same": 0.683,
+   "source_ci95": [
+    0.489,
+    0.553
+   ],
+   "tissue_rho": 0.509,
+   "tissue_n": 2511,
+   "tissue_same": 0.712,
+   "tissue_ci95": [
+    0.472,
+    0.545
+   ]
+  },
+  "stratified": {
+   "2": {
+    "n": 1685,
+    "source_rho": 0.521,
+    "source_same": 0.69,
+    "tissue_rho": 0.514,
+    "tissue_same": 0.714
+   },
+   "3-4": {
+    "n": 774,
+    "source_rho": 0.528,
+    "source_same": 0.674,
+    "tissue_rho": 0.483,
+    "tissue_same": 0.709
+   },
+   ">=5": {
+    "n": 52,
+    "source_rho": 0.479,
+    "source_same": 0.577,
+    "tissue_rho": 0.691,
+    "tissue_same": 0.692
+   }
+  },
+  "gtex_snp_summary": {
+   "wb_median": 2,
+   "wb_max": 9,
+   "wb_ge5": 190,
+   "nt_median": 2,
+   "nt_max": 10,
+   "nt_ge5": 345,
+   "eqtlgen_median": 786,
+   "eqtlgen_ge5": 10354
+  }
+ },
+ "scz_calib": {
+  "N_primary_pairs": 2511,
+  "genome_wide_direction_consistency_pct": 68.26,
+  "genome_wide_bootstrap_ci95_pct": [
+   66.43,
+   70.05
+  ],
+  "cutpoint_position_in_bootstrap": {
+   "P_bootstrap_le_60pct": 0.0,
+   "P_bootstrap_le_75pct": 100.0
+  },
+  "n104_subset_distribution_pct": {
+   "2.5": 59.6,
+   "5": 60.6,
+   "25": 65.4,
+   "50": 68.3,
+   "75": 71.2,
+   "95": 76.0,
+   "97.5": 76.9
+  },
+  "n104_fraction_below_60": 0.0384,
+  "n104_fraction_above_75": 0.0545,
+  "genome_wide_bootstrap_percentiles_pct": {
+   "2.5": 66.4,
+   "5": 66.7,
+   "25": 67.6,
+   "50": 68.3,
+   "75": 68.9,
+   "95": 69.8,
+   "97.5": 70.1
+  },
+  "interpretation": "At genome-wide N the primary-axis direction consistency is ~68.3% with a tight bootstrap CI, whereas a 104-gene study spans roughly 60-77% (central 95%), confirming the 60/75 bands are exploratory and must be read as sampling-variable at small n."
+ },
+ "m7": {
+  "top_k_overlap_overall": [
+   {
+    "k": 5,
+    "n_total": 102,
+    "overlap": 0,
+    "jaccard": 0.0,
+    "overlap_pct": 0.0,
+    "gt_gain": 5,
+    "eqtlgen_gain": 5
+   },
+   {
+    "k": 10,
+    "n_total": 102,
+    "overlap": 1,
+    "jaccard": 0.053,
+    "overlap_pct": 10.0,
+    "gt_gain": 9,
+    "eqtlgen_gain": 9
+   },
+   {
+    "k": 20,
+    "n_total": 102,
+    "overlap": 4,
+    "jaccard": 0.111,
+    "overlap_pct": 20.0,
+    "gt_gain": 16,
+    "eqtlgen_gain": 16
+   },
+   {
+    "k": 30,
+    "n_total": 102,
+    "overlap": 10,
+    "jaccard": 0.2,
+    "overlap_pct": 33.3,
+    "gt_gain": 20,
+    "eqtlgen_gain": 20
+   }
+  ],
+  "top_k_overlap_by_phenotype": {
+   "DR": [
+    {
+     "k": 5,
+     "n_total": 34,
+     "overlap": 1,
+     "jaccard": 0.111,
+     "overlap_pct": 20.0,
+     "gt_gain": 4,
+     "eqtlgen_gain": 4
+    },
+    {
+     "k": 10,
+     "n_total": 34,
+     "overlap": 3,
+     "jaccard": 0.176,
+     "overlap_pct": 30.0,
+     "gt_gain": 7,
+     "eqtlgen_gain": 7
+    },
+    {
+     "k": 20,
+     "n_total": 34,
+     "overlap": 11,
+     "jaccard": 0.379,
+     "overlap_pct": 55.0,
+     "gt_gain": 9,
+     "eqtlgen_gain": 9
+    },
+    {
+     "k": 30,
+     "n_total": 34,
+     "overlap": 27,
+     "jaccard": 0.818,
+     "overlap_pct": 90.0,
+     "gt_gain": 3,
+     "eqtlgen_gain": 3
+    }
+   ],
+   "DN": [
+    {
+     "k": 5,
+     "n_total": 34,
+     "overlap": 0,
+     "jaccard": 0.0,
+     "overlap_pct": 0.0,
+     "gt_gain": 5,
+     "eqtlgen_gain": 5
+    },
+    {
+     "k": 10,
+     "n_total": 34,
+     "overlap": 5,
+     "jaccard": 0.333,
+     "overlap_pct": 50.0,
+     "gt_gain": 5,
+     "eqtlgen_gain": 5
+    },
+    {
+     "k": 20,
+     "n_total": 34,
+     "overlap": 13,
+     "jaccard": 0.481,
+     "overlap_pct": 65.0,
+     "gt_gain": 7,
+     "eqtlgen_gain": 7
+    },
+    {
+     "k": 30,
+     "n_total": 34,
+     "overlap": 28,
+     "jaccard": 0.875,
+     "overlap_pct": 93.3,
+     "gt_gain": 2,
+     "eqtlgen_gain": 2
+    }
+   ],
+   "DPN": [
+    {
+     "k": 5,
+     "n_total": 34,
+     "overlap": 1,
+     "jaccard": 0.111,
+     "overlap_pct": 20.0,
+     "gt_gain": 4,
+     "eqtlgen_gain": 4
+    },
+    {
+     "k": 10,
+     "n_total": 34,
+     "overlap": 2,
+     "jaccard": 0.111,
+     "overlap_pct": 20.0,
+     "gt_gain": 8,
+     "eqtlgen_gain": 8
+    },
+    {
+     "k": 20,
+     "n_total": 34,
+     "overlap": 12,
+     "jaccard": 0.429,
+     "overlap_pct": 60.0,
+     "gt_gain": 8,
+     "eqtlgen_gain": 8
+    },
+    {
+     "k": 30,
+     "n_total": 34,
+     "overlap": 27,
+     "jaccard": 0.818,
+     "overlap_pct": 90.0,
+     "gt_gain": 3,
+     "eqtlgen_gain": 3
+    }
+   ]
+  },
+  "fisher_z_ci": [
+   {
+    "arm": "Primary (GTEx v8 multi vs eQTLGen)",
+    "n": 102,
+    "spearman_rho": 0.29,
+    "fisher_z_95ci_lo": 0.101,
+    "fisher_z_95ci_hi": 0.459,
+    "source": "HOTAIR testbed"
+   },
+   {
+    "arm": "Panel-only (GTEx WB vs eQTLGen WB)",
+    "n": 162,
+    "spearman_rho": 0.31,
+    "fisher_z_95ci_lo": 0.164,
+    "fisher_z_95ci_hi": 0.443,
+    "source": "HOTAIR testbed"
+   },
+   {
+    "arm": "Tissue-only (GTEx WB vs NT)",
+    "n": 150,
+    "spearman_rho": 0.45,
+    "fisher_z_95ci_lo": 0.312,
+    "fisher_z_95ci_hi": 0.569,
+    "source": "HOTAIR testbed"
+   },
+   {
+    "arm": "Dual mismatch (GTEx multi vs eQTLGen)",
+    "n": 201,
+    "spearman_rho": 0.26,
+    "fisher_z_95ci_lo": 0.126,
+    "fisher_z_95ci_hi": 0.385,
+    "source": "HOTAIR testbed"
+   },
+   {
+    "arm": "SCZ Source axis (eQTLGen vs GTEx multi)",
+    "n": 2511,
+    "spearman_rho": 0.522,
+    "fisher_z_95ci_lo": 0.493,
+    "fisher_z_95ci_hi": 0.55,
+    "source": "SCZ replication"
+   },
+   {
+    "arm": "SCZ Tissue axis (GTEx WB vs NT)",
+    "n": 2511,
+    "spearman_rho": 0.509,
+    "fisher_z_95ci_lo": 0.479,
+    "fisher_z_95ci_hi": 0.537,
+    "source": "SCZ replication"
+   }
+  ],
+  "direction_consistency_by_z_strata": [
+   {
+    "threshold": 1.0,
+    "both_n": 41,
+    "both_dir_pct": 70.7,
+    "gtex_strong_n": 49,
+    "gtex_strong_dir_pct": 67.3,
+    "eqtlgen_strong_n": 84,
+    "eqtlgen_strong_dir_pct": 60.7
+   },
+   {
+    "threshold": 1.96,
+    "both_n": 20,
+    "both_dir_pct": 80.0,
+    "gtex_strong_n": 24,
+    "gtex_strong_dir_pct": 70.8,
+    "eqtlgen_strong_n": 75,
+    "eqtlgen_strong_dir_pct": 62.7
+   },
+   {
+    "threshold": 2.58,
+    "both_n": 10,
+    "both_dir_pct": 90.0,
+    "gtex_strong_n": 17,
+    "gtex_strong_dir_pct": 70.6,
+    "eqtlgen_strong_n": 69,
+    "eqtlgen_strong_dir_pct": 60.9
+   },
+   {
+    "threshold": 3.0,
+    "both_n": 7,
+    "both_dir_pct": 100.0,
+    "gtex_strong_n": 13,
+    "gtex_strong_dir_pct": 76.9,
+    "eqtlgen_strong_n": 66,
+    "eqtlgen_strong_dir_pct": 60.6
+   }
+  ],
+  "note": "Computed 2026-08-09 from data/processed/eqtlgen_vs_gtex_comparison.csv (primary, n=102) and scz_replication/results/*.json"
+ },
+ "s1_n": 104,
+ "s2_genes": 73,
+ "s4_n": 30
+}

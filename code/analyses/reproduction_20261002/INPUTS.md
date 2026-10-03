@@ -96,26 +96,33 @@ the file that produced the numbers in `results/`, so a run either matches or say
 
 ### B.1 The submitted documents (3 files)
 
-| Logical name | File | MD5 | Bytes | Env var | Read by |
-|---|---|---|---|---|---|
-| `manuscript` | `Manuscript_GenetEpidemiol_20260930.docx` | `a6f7521b98efa0e2ef247664e2f0db3a` | 30,523 | `REPRO_MS_DOCX` | `recompute.py`, `bmc_ref/` |
-| `si` | `Supporting_Information_GenetEpidemiol_20260930.docx` | `bd50b7f819db7851c50ddfa76ae336eb` | 1,462,835 | `REPRO_SI_DOCX` | `recompute.py`, `r3/`, `repo_crosscheck/`, `bmc_ref/` |
-| `af1` | `Additional file 1_审稿意见修订_20260917.docx` | — | — | `REPRO_AF1_DOCX` | `r3/m15/m15_pc.py` — **optional since 2026-10-03.** The four tables S20's generator reads (S1, S2, S15, S18) also ship as `data/derived/{gene_groups,gtex_Z,eqtlgen_Z}.csv`, verified row for row identical to the document (104/104, 222/222, 90→81/81, 207/207, zero differing cells). Supply the document and it is used instead |
+Two revisions of each of the first two documents exist. **The rows marked "produced `results/`" are the copies the archived run was made against**; the rows marked "revision 2026-10-03" are what is on disk now, and are what the next submission will carry. `paths_config.py` accepts either — it reports a mismatch against the recorded value with the revision named, rather than a bare failure.
 
-> **The manuscript hash changed on 2026-10-03, and only because of reference [39].**
-> The revision that produced the archived `results/` carried MD5
-> `dbbe4f81a6fe9433b6a28019c6538eab` (30,524 bytes). The revision now on disk is
-> `a6f7521b98efa0e2ef247664e2f0db3a` (30,523 bytes) — one byte shorter, because reference [39]'s
-> repository URL was repointed from the predecessor `…-audit` to this canonical repository.
-> **No number in the manuscript or in the Supporting Information moved**, and the Supporting
-> Information still matches its recorded hash exactly, so the archived results stand as published.
-> The earlier value is recorded here rather than deleted, because a reader running against the
-> pre-repoint file should get an explanation rather than a bare mismatch:
+| Document | Revision | File | MD5 | SHA-256 | Bytes |
+|---|---|---|---|---|---|
+| `manuscript` | **produced `results/`** (submitted 2026-09-30) | `Manuscript_GenetEpidemiol_20260930.docx` | `a6f7521b98efa0e2ef247664e2f0db3a` | `ce48e337bb37a9724ec2039413d795da6ae3662c5fc4c85f52b168e83370f9a6` | 30,523 |
+| `manuscript` | **revision 2026-10-03** | `Manuscript_GenetEpidemiol_20260930_rev2.docx` | `ee64dfde3903585c3dadfd8b3b257f50` | `69045bb6bd600850a32cc0e674313cca9407e37f1d1dfed79b6ece118f71c76c` | 30,524 |
+| `si` | **produced `results/`** (submitted 2026-09-30) | `Supporting_Information_GenetEpidemiol_20260930.docx` | `bd50b7f819db7851c50ddfa76ae336eb` | `132d5eb080f0021e6ee180c4b7736ada27e35a5d8e457d29815992945d17ac73` | 1,462,835 |
+| `si` | **revision 2026-10-03** | `Supporting_Information_GenetEpidemiol_20260930_rev2.docx` | `72f955c9294d5228c57288ba93617f1e` | `81692586c4164286096f6c48fd289fa7ec32d6be9c2d7fbb4d32c09c02484dd8` | 1,463,194 |
+| `af1` | — | `Additional file 1_审稿意见修订_20260917.docx` | — | — | — |
+
+`af1` is read by `r3/m15/m15_pc.py` and is **optional since 2026-10-03**: the four tables S20's generator reads (S1, S2, S15, S18) also ship as `data/derived/{gene_groups,gtex_Z,eqtlgen_Z}.csv`, verified row for row identical to the document (104/104, 222/222, 90→81/81, 207/207, zero differing cells). Supply the document and it is used instead.
+
+Env vars: `REPRO_MS_DOCX`, `REPRO_SI_DOCX`, `REPRO_AF1_DOCX`. Read by `recompute.py`, `r3/`, `repo_crosscheck/`, `bmc_ref/`.
+
+> **Revision history — no reported number moves in any of these steps.**
 >
-> | Revision of the manuscript | MD5 | Bytes | Difference |
-> |---|---|---|---|
-> | Before the [39] repoint (produced `results/`) | `dbbe4f81a6fe9433b6a28019c6538eab` | 30,524 | — |
-> | Current (submitted) | `a6f7521b98efa0e2ef247664e2f0db3a` | 30,523 | reference [39] only |
+> | Document | Revision | MD5 | Bytes | What changed |
+> |---|---|---|---|---|
+> | manuscript | before the [39] repoint | `dbbe4f81a6fe9433b6a28019c6538eab` | 30,524 | — |
+> | manuscript | [39] repointed to the canonical repository, and submitted | `a6f7521b98efa0e2ef247664e2f0db3a` | 30,523 | reference [39] only |
+> | manuscript | 2026-10-03 revision | `ee64dfde3903585c3dadfd8b3b257f50` | 30,524 | Methods: `Python 3.13.0` → `3.13.12`, to agree with `env/environment.yml` |
+> | si | as submitted | `bd50b7f819db7851c50ddfa76ae336eb` | 1,462,835 | — |
+> | si | 2026-10-03 revision | `72f955c9294d5228c57288ba93617f1e` | 1,463,194 | Note S4: per-resource retrieval dates replace the single-date sentence; Note S4 `Python 3.13.0` → `3.13.12`; Table S5a note: states that the row-3 heterogeneity statistics come from the quoted Z-scores, and gives the full-precision value (Q = 76.27) |
+>
+> Every one of these revisions is a text edit outside the analysis: **no reported value, table cell or figure changes**, which is why the archived `results/` stand. Both revisions were produced by rewriting only `word/document.xml` — every other part of each `.docx` is byte-identical to its predecessor, verified by per-part MD5.
+>
+> The earlier values are recorded here rather than deleted, because a reader running against an earlier file should get an explanation rather than a bare mismatch. When the 2026-10-03 revision is submitted, `results/` will still have been produced against the 2026-09-30 copies, and that is the pair this table exists to state.
 
 Obtain them from the journal (they accompany the submission). `bmc_ref/` has two
 further, optional documents — the predecessor BMC submission (`REPRO_PRED_MS_DOCX`,

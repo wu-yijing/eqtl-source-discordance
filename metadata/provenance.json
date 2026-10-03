@@ -213,10 +213,19 @@
    "logical": "manuscript",
    "file": "Manuscript_GenetEpidemiol_20260930.docx",
    "env_var": "REPRO_MS_DOCX",
-   "bytes": 30524,
-   "md5": "dbbe4f81a6fe9433b6a28019c6538eab",
-   "sha256": "a8c15af5e3dba4ebe3f286e435721f96e9cc192f2c1019cc35b63254352bfa1e",
-   "route": "accompanies the submission; obtain from the journal"
+   "bytes": 30523,
+   "md5": "a6f7521b98efa0e2ef247664e2f0db3a",
+   "sha256": "ce48e337bb37a9724ec2039413d795da6ae3662c5fc4c85f52b168e83370f9a6",
+   "route": "accompanies the submission; obtain from the journal",
+   "produces_results": true,
+   "later_revision": {
+    "label": "2026-10-03",
+    "file": "Manuscript_GenetEpidemiol_20260930_rev2.docx",
+    "bytes": 30524,
+    "md5": "ee64dfde3903585c3dadfd8b3b257f50",
+    "sha256": "69045bb6bd600850a32cc0e674313cca9407e37f1d1dfed79b6ece118f71c76c",
+    "change": "Methods: Python 3.13.0 -> 3.13.12, to agree with env/environment.yml"
+   }
   },
   {
    "logical": "si",
@@ -225,7 +234,16 @@
    "bytes": 1462835,
    "md5": "bd50b7f819db7851c50ddfa76ae336eb",
    "sha256": "132d5eb080f0021e6ee180c4b7736ada27e35a5d8e457d29815992945d17ac73",
-   "route": "accompanies the submission; obtain from the journal"
+   "route": "accompanies the submission; obtain from the journal",
+   "produces_results": true,
+   "later_revision": {
+    "label": "2026-10-03",
+    "file": "Supporting_Information_GenetEpidemiol_20260930_rev2.docx",
+    "bytes": 1463194,
+    "md5": "72f955c9294d5228c57288ba93617f1e",
+    "sha256": "81692586c4164286096f6c48fd289fa7ec32d6be9c2d7fbb4d32c09c02484dd8",
+    "change": "Note S4: per-resource retrieval dates; Note S4 Python 3.13.0 -> 3.13.12; Table S5a note: row-3 Q convention stated, full-precision value 76.27 given"
+   }
   },
   {
    "logical": "af1",
@@ -319,8 +337,8 @@
   },
   {
    "path": "code/analyses/m6_ne_weighted_sensitivity.py",
-   "bytes": 9331,
-   "sha256": "49f021175531f435469b8e8263017df295bbb18430947fcdb67084b64c21b13c"
+   "bytes": 10786,
+   "sha256": "c5065e74d2edd0a8a804e0876798cd31d44278d1da8dba8a4c5b0be518ff5e50"
   },
   {
    "path": "code/analyses/m7_effect_size_supplement.py",
@@ -354,8 +372,8 @@
   },
   {
    "path": "code/analyses/reproduction_20261002/INPUTS.md",
-   "bytes": 15799,
-   "sha256": "fe15453b78fac50b2ccf454691f502899268c4b591f79b3b0793445da773668f"
+   "bytes": 17439,
+   "sha256": "2ce43e5fb218689f0f609656a58f6500f4b047d47da7394fa7e7f2a8532645d4"
   },
   {
    "path": "code/analyses/reproduction_20261002/README.md",
@@ -1168,6 +1186,61 @@
    "sha256": "083490e42fea224b89351b2f359af20a3c9c94450cb400eb6e5d90700aa18cb4"
   },
   {
+   "path": "code/figures/ge_main/README.md",
+   "bytes": 2575,
+   "sha256": "e44f9abe8a0a7dc2893b4b82b0818e37e9f0ca53e0f6a652b1156a9c6175aa28"
+  },
+  {
+   "path": "code/figures/ge_main/figstyle_ge.py",
+   "bytes": 4674,
+   "sha256": "cf3b5d3f08b729e110ae285da677d6bf51f6f3dfcf82ae1c3aa5f4345bb85ebf"
+  },
+  {
+   "path": "code/figures/ge_main/reproduce.sh",
+   "bytes": 5327,
+   "sha256": "f72078111fa6a911a6f5080b1ea5edc5f6cf873cd88a8c9204a23a07711d1c0b"
+  },
+  {
+   "path": "code/figures/ge_main/unified_fig1.py",
+   "bytes": 3936,
+   "sha256": "49d8404228c099b1a1ecdeeeec63a90cb70d47acb6d5818efae588f05e9571d9"
+  },
+  {
+   "path": "code/figures/ge_main/unified_fig2.py",
+   "bytes": 5072,
+   "sha256": "293a6447fc270e719c77dc675b8329e5a02ec0770bfa868f391772ff7b9322c5"
+  },
+  {
+   "path": "code/figures/ge_main/unified_fig3.py",
+   "bytes": 6653,
+   "sha256": "fd90747047a7899283b8335e4449e6ff91a13a3565b692d093794a80c7c8ffe0"
+  },
+  {
+   "path": "code/figures/ge_main/unified_fig4.py",
+   "bytes": 5509,
+   "sha256": "5c40fe0c1b3ad0b524d1a4e6c8541ee5c69d4cac60319c5ea793a4f009aab68f"
+  },
+  {
+   "path": "code/figures/ge_si/README.md",
+   "bytes": 2686,
+   "sha256": "1ef10cb558412e1d8e50620c0c8f295e8c5911a7f6ccadd56f52aab27e997d09"
+  },
+  {
+   "path": "code/figures/ge_si/figstyle.py",
+   "bytes": 2960,
+   "sha256": "71492aa9224442b1ddd7a54c0c3cfef1acb874b21428f929f37164d2acb4ad98"
+  },
+  {
+   "path": "code/figures/ge_si/prep_out.json",
+   "bytes": 16117,
+   "sha256": "d42671ce2f179ecdeb783b3a4638208f7fa51baa95148f81f5b89eba0bcfa7e4"
+  },
+  {
+   "path": "code/figures/ge_si/rebuild_fig1_2_9.py",
+   "bytes": 8805,
+   "sha256": "2873de295d8ada10438e8cc713d28dba5e3f491e18953e424555eb22f6ccfc11"
+  },
+  {
    "path": "code/figures/m15_positive_control.json",
    "bytes": 16152,
    "sha256": "6c99c11b78464f164018902d25cc658350d032a4c02e0c86943426a7a8b698e0"
@@ -1704,8 +1777,8 @@
   },
   {
    "path": "data/superseded/m6_ne_weighted_sensitivity_results.txt",
-   "bytes": 2236,
-   "sha256": "5b232a2b8e1391e3cf58a7a04d4ecbf2c9160abcf9669805dd4ba168985a4512"
+   "bytes": 2810,
+   "sha256": "d5d381a8a2c28eb3848b7a9ced844f1283e0238ec31c92c8a27e5a3426642f7f"
   },
   {
    "path": "data/superseded/m7_effect_size_supplement.json",
@@ -1959,13 +2032,13 @@
   },
   {
    "path": "figures/README.md",
-   "bytes": 5994,
-   "sha256": "0fc3ddda50cb8d23b05493562b79a37dc5e7a32d3159a23148d64176d85b50ec"
+   "bytes": 6760,
+   "sha256": "79e0e68c4b3a9d9ee9ee4f8ceef5817ddfa1ea98c205e17d0d7114d04bc9388e"
   },
   {
    "path": "metadata/ARCHIVE_MAP.md",
-   "bytes": 53184,
-   "sha256": "dc6436676a00fe6f68a6a74a2de6786279c57573a063780a1807820c5cb91dcb"
+   "bytes": 54255,
+   "sha256": "6d82708e7cc4f523f410606a10ad1db95f9306829ae1ba2edfa060bae22aa59c"
   },
   {
    "path": "metadata/PRE_REGISTRATION.md",
@@ -1999,8 +2072,8 @@
   },
   {
    "path": "scripts/collect_provenance.py",
-   "bytes": 20529,
-   "sha256": "27cc1c0b3063dbb391db810fe79abee62d8eb2a1ca6c175f8bd709d66860bd79"
+   "bytes": 21475,
+   "sha256": "5228dbe619bdae5b4ec1e69dc441950d55d8620d2d809eabc6a47396e9d7ac9f"
   },
   {
    "path": "scripts/cut_release.sh",
@@ -2028,12 +2101,12 @@
    "sha256": "25410afb8d1a34599f3cc87015f2fbd4bd59d211376f20bae1813bb196c6734d"
   }
  ],
- "file_count": 352,
+ "file_count": 363,
  "excluded": [
   {
    "path": "metadata/provenance.json",
    "reason": "the manifest cannot hash itself; its own content is regenerated by this script"
   }
  ],
- "tracked_file_count": 353
+ "tracked_file_count": 364
 }

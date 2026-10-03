@@ -74,7 +74,9 @@ def direct_nsqrt_weighting(zs, nes):
       * this function takes the sqrt(N_e)-weighted *arithmetic mean* of the Z-scores
         and evaluates Cochran's Q on the Z scale with the same weights -- that is the
         "sqrt(N_e) weights applied directly on the Z scale" row, pooled Z = +2.09,
-        Q = 76.6, I^2 = 98.7 %.
+        Q = 76.6, I^2 = 98.7 %. Q is 76.6 when the Z-scores are taken as the SI table
+        quotes them (2.31, 0.72) and 76.27 from the full-precision archived Z; see the
+        M6(c) output block, which prints both.
 
     Both rows are legitimately reported; they answer different questions. Reporting
     only one of them, or conflating them, is the error this docstring exists to stop.
@@ -129,27 +131,42 @@ def main():
     lines += report("M6(b)  k=2 primary set, sqrt(N_e)-weighted re-merge",
                     z_all[:2], ne_all[:2])
     # M6(c): the SAME weights applied a different way -- a weighted MEAN on the Z scale,
-    # with Cochran's Q also on the Z scale. This is SI Table S5a's fourth data row
+    # with Cochran's Q also on the Z scale. This is SI Table S5a's third data row
     # ("sqrt(N_e) weights applied directly on the Z scale"), and it is not the same
     # quantity as M6(b): the normalised Stouffer combination is M6(b) at +2.39, while
-    # the direct weighting is +2.09 with Q = 76.3 (published 76.6 -- see the residual
-    # note below). Both rows are printed because the SI prints both.
+    # the direct weighting is +2.09 with Q = 76.6 (from the quoted 2-dp Z) or 76.27
+    # (from the full-precision archived Z). Both are reported below -- see the note.
     z2 = z_all[:2]
     ne2 = ne_all[:2]
     df2 = len(z2) - 1
     z_direct, Q_direct = direct_nsqrt_weighting(z2, ne2)
     I2_direct = max(0.0, (Q_direct - df2) / Q_direct) * 100 if Q_direct > 0 else 0.0
+    # The published row was recomputed from the Z-scores AS THE TABLE QUOTES THEM (2 dp):
+    # SI Table S5a's note says so in those words. Reporting only the full-precision value
+    # made this look like an unexplained residual for a day; it is an input-precision
+    # difference, and both values are now printed with their provenance.
+    z2_q = [round(z, 2) for z in z2]
+    z_direct_q, Q_direct_q = direct_nsqrt_weighting(z2_q, ne2)
+    I2_direct_q = max(0.0, (Q_direct_q - df2) / Q_direct_q) * 100 if Q_direct_q > 0 else 0.0
     m6c = [
         "=" * 78,
         "M6(c)  k=2 primary set, sqrt(N_e) weights applied DIRECTLY on the Z scale",
         "  studies: " + "; ".join("Z=%+.4f, N_e=%d" % (z, n) for z, n in zip(z2, ne2)),
-        "  sqrt(N_e)-weighted mean Z = %+.4f  (published +2.09)" % z_direct,
-        "  [heterogeneity, Z scale] Cochran Q = %.2f (df=%d), I^2 = %.2f%%  (published 76.6; 98.7%%)"
-        % (Q_direct, df2, I2_direct),
-        "  RESIDUAL vs SI Table S5a row 4: Q differs by %+.2f (%.2f%%); the pooled Z and I^2 agree"
-        % (Q_direct - 76.6, 100.0 * (Q_direct - 76.6) / 76.6),
-        "  at the printed precision. The published Q is not reproducible to its third significant",
-        "  figure from the two cohort Z/N_e pairs this archive ships -- recorded, not hidden.",
+        "  [published convention] from the Z-scores as SI Table S5a quotes them (2 dp):",
+        "    Z = %+.2f, %+.2f  ->  sqrt(N_e)-weighted mean Z = %+.4f  (published +2.09)"
+        % (z2_q[0], z2_q[1], z_direct_q),
+        "    [heterogeneity, Z scale] Cochran Q = %.4f -> %.1f  (published 76.6);  I^2 = %.2f%% -> %.1f  (published 98.7)"
+        % (Q_direct_q, Q_direct_q, I2_direct_q, I2_direct_q),
+        "  [full precision] from the archived official Z-scores:",
+        "    Z = %+.4f, %+.4f  ->  sqrt(N_e)-weighted mean Z = %+.4f  (published +2.09)"
+        % (z2[0], z2[1], z_direct),
+        "    [heterogeneity, Z scale] Cochran Q = %.4f -> %.2f;  I^2 = %.2f%%" % (Q_direct, Q_direct, I2_direct),
+        "  EXPLAINED, not a residual: the two Q values differ by %+.4f because the 2-dp Z-scores" % (Q_direct - Q_direct_q),
+        "  differ from the 4-dp ones (0.001-0.003) while the weights span a 6-fold range",
+        "  (sqrt(N_e) 222.05 vs 35.09). The SI's table note says these rows were recomputed from",
+        "  the quoted Z-scores, so 76.6 is the value consistent with the table as printed, and",
+        "  76.27 the value consistent with data/derived/. Both are printed, so a reader can",
+        "  reproduce either without guessing which convention the table used.",
     ]
     print("\n".join(m6c))
     lines += m6c
