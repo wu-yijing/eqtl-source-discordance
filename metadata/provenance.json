@@ -172,8 +172,8 @@
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 48710,
-   "sha256": "56737ab8d95287adadbfbd38c899f3ead41525f504d96fad78168e099735ce3d"
+   "bytes": 50661,
+   "sha256": "f8aebc444e59298ab49e8ce299e1229dd507d14cc43ee8fe76d2eb85e7a4579c"
   },
   {
    "path": "CITATION.cff",
@@ -1112,8 +1112,8 @@
   },
   {
    "path": "data/README.md",
-   "bytes": 10318,
-   "sha256": "c1639e24309b31678755563dc524b8fe56a4be4e9f50d39e698d2f6ce83c8f36"
+   "bytes": 11690,
+   "sha256": "ddd8d2bd3ce302df1b3bfca4296c2c062957288ce567ee6e922fb15fe2db6507"
   },
   {
    "path": "data/derived/covariate_matrix.csv",
@@ -1787,8 +1787,8 @@
   },
   {
    "path": "metadata/ARCHIVE_MAP.md",
-   "bytes": 46787,
-   "sha256": "f3ef6ab3dba2d20b5ce54dd54f327908b63f3f6eb6eb59aa8dc576546627d4ff"
+   "bytes": 47348,
+   "sha256": "4b9f8b926c538bfd66ee98c0081bc9f9bc1475a111e1245bad9565ec1356ecc8"
   },
   {
    "path": "metadata/PRE_REGISTRATION.md",

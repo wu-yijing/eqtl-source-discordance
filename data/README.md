@@ -42,6 +42,10 @@ Every input that a reported number depends on must appear in this table, with it
 For every GWAS resource, record the **complete** population composition of the source, not only the component used in this analysis, and state separately which subset was used.
 
 > GCST90018832, for example, is a cross-population diabetic-nephropathy resource that includes East Asian participants alongside European participants. A table note that lists only the European component is incomplete, and a Limitations statement that says "all GWAS analyzed here comprise participants of European ancestry" contradicts the Methods. Both defects existed in an earlier revision of this manuscript. This manifest exists to make that class of error impossible to introduce silently.
+>
+> **Verified against the source on 2026-10-03.** The GWAS Catalog REST record for `GCST90018832` returns `cohort = "BBJ|UKB|FinnGen"` and `initialSampleSize = "1,032 European ancestry cases, 451,248 European ancestry controls, 220 East Asian ancestry cases, 132,764 East Asian ancestry controls"` — the East Asian component is real (132,984 participants recruited in Japan), and the corrected Table S10 note reproduces all four counts exactly. The subset actually analysed is verifiable too: every one of the 1,979 variants retrieved from OpenGWAS carries `n = 452,280` (= 1,032 + 451,248, the European component), not the pooled 585,264, so "only the European component is analyzed here" is a checked statement rather than a hedge.
+>
+> **On the abbreviation `HK`.** In this project `HK` means **housekeeping**, never Hong Kong. The submitted manuscript contains no instance of "Hong Kong"; its only two `HK` occurrences are the reference author *Im HK*. The Supporting Information uses `HK` four times, all as the housekeeping arm's label in between-group power comparisons (`HK 87 … vs cand 84 …`), and the repository names the layer the same way (`hk_genes.txt`, `run_hk_control.py`, `hk_official_Z.csv`). The single "Hong Kong" string anywhere in this repository sits in `code/deprecated/`, in an abandoned draft claim that never used the abbreviation anyway.
 
 ---
 

@@ -23,6 +23,30 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-03 (eleventh pass) — M3 verified already implemented, and `HK` pinned to housekeeping
+
+**Numbers: no reported number changes.** Neither submitted document was edited. This pass corrects a
+statement the ninth and tenth passes got wrong, and records two verifications.
+
+* **The ninth pass said peer-review item M3 was "a text edit still owed". It is not owed — it is
+  already done.** Checked against the current revision on 2026-10-03: the Table S10 note prints the
+  resource's *full* composition (1,032 European + 220 East Asian cases, 451,248 European + 132,764
+  East Asian controls); the Limitations sentence distinguishes "the GWAS used for the partition" from
+  the descriptive DN check; and the phrase "largest available European DN resource" no longer appears.
+  The note's four counts match the GWAS Catalog record for `GCST90018832` digit for digit
+  (`cohort = "BBJ|UKB|FinnGen"`), so the East Asian component is a fact, not a misreading.
+* **The subset actually analysed is verifiable, too.** All 1,979 variants retrieved from OpenGWAS
+  carry `n = 452,280` — the European component (1,032 + 451,248), not the pooled 585,264 — so the
+  note's "only the European component is analyzed here" is a checked claim.
+* **`HK` means housekeeping here, never Hong Kong.** The submitted manuscript has no "Hong Kong" at
+  all; its two `HK` occurrences are the reference author *Im HK*. The SI uses `HK` four times, each as
+  the housekeeping arm's label against the candidate arm (`HK 87 … vs cand 84 …`). The repository is
+  consistent (`hk_genes.txt` header: "HRT Atlas v1.0 human-mouse common HK set"). The one "Hong Kong"
+  string in this tree lives in `code/deprecated/`, in an abandoned draft that spelled it out and never
+  abbreviated it.
+
+`data/README.md` now carries both verifications next to the ancestry-recording rule that M3 exercised.
+
 ### 2026-10-03 (tenth pass) — the SI's ACAT-O combination rule, found and gated
 
 **Numbers: no reported number changes.** Nothing in either submitted document moved. What changes is
@@ -93,7 +117,8 @@ had never been catalogued closed most of it.
   ebi-a-GCST90018832 (Sakaue et al. 2021) under eQTLGen weights still exists, and reproduces **all five
   genes** at the printed precision (RNH1 −0.83/0.41, CKAP4 −0.86/0.39, HSP90AB1 −0.90/0.37, RPS14
   +1.27/0.21, EEF2 −0.46/0.65). Ships as `data/derived/dn_cross_population.csv`. (Peer-review item M3 —
-  name the resource's full European *and* East Asian composition — is a text edit, still owed.)
+  name the resource's full European *and* East Asian composition — was **verified already implemented**
+  in the current revision on 2026-10-03; see the eleventh pass.)
 * **GAP-4 (the Fig. S1 / Fig. S2 / Fig. 1 generators) — partly recovered.** `gen_figs4.py` reproduces
   the Fig. S2 violin exactly (61-gene universe, 24/24/13, medians 374/632/669). `rebuild_fig1_2_9.py`
   holds `figure1()` (the framework = main Fig. 1) and `figure2()` (the flowchart = Fig. S1), but its
