@@ -65,7 +65,7 @@ Manuscript figures **Fig. 1, S1, S2 and S4 have no producing script here** — s
 
 | Script | Reads | Reproduces |
 |---|---|---|
-| `analyses/run_hk_control.py` | GTEx model databases, `data/derived/hk_genes.txt` | the housekeeping S-PrediXcan layer (SI Table S6). **Its corrected output is not in this archive** — see GAP-1 in `metadata/ARCHIVE_MAP.md` |
+| `analyses/run_hk_control.py` | GTEx mashr model databases (not redistributed), `data/derived/hk_genes.txt` | the housekeeping S-PrediXcan layer (SI Table S6). **Its corrected output now ships** as `data/derived/hk_official_Z.csv`, extracted from the official MetaXcan v0.8.1 recompute of 2026-09-16; all 159 numeric Z cells reproduce (max diff 5.0 x 10^-5). See GAP-1 in `metadata/ARCHIVE_MAP.md` — only the ACAT-O combination rule stays open |
 | `analyses/run_mahalanobis_matching.R` | `data/derived/covariate_matrix.csv` | Table S4 — the 30-gene Mahalanobis matching |
 | `analyses/m6_ne_weighted_sensitivity.py` | `data/derived/` | M6(b)/M6(d) — N_e-weighted re-merge of the RNH1 cross-cohort meta-analysis |
 | `analyses/m7_effect_size_supplement.py` | `data/derived/` | M7 — Top-k overlap (GTEx vs eQTLGen by \|Z\|) |

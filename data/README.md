@@ -71,6 +71,8 @@ These are asserted in [`../metadata/ARCHIVE_MAP.md`](../metadata/ARCHIVE_MAP.md)
 | `derived/scz_z_4arm.csv` | 15,875 | Supporting Information Table S24 |
 | `derived/crosscohort.csv` | 4 | Supporting Information Table S5a |
 | `derived/hk_genes.txt` | 49 | The current 30-gene housekeeping roster plus its selection pool |
+| `derived/dn_cross_population.csv` | 5 | **Added 2026-10-03.** SI Table S10 — the five testbed genes' S-PrediXcan Z and P for DN under eQTLGen weights against ebi-a-GCST90018832 (Sakaue et al. 2021). Extracted from the official MetaXcan run of 2026-09-18; every value matches the published table at its printed precision |
+| `derived/hk_official_Z.csv` | 30 | **Added 2026-10-03.** The *corrected* housekeeping S-PrediXcan layer of SI Table S6 — 30 genes × 2 tissues (Nerve_Tibial, Whole_Blood) × 3 phenotypes (DR, DN, DPN), plus the model-SNP counts. Extracted from the official MetaXcan v0.8.1 recompute of 2026-09-16; every numeric Z cell matches the published table to the printed 4 decimals (max diff 5.0 × 10⁻⁵) and the model-SNP column is 30/30. The **ACAT-O combined-P** column of the SI is *not* carried: its combination rule reproduces only 68/87 cells and is not settled — read it from the Supporting Information |
 | `derived/ukb_dr/` | 4 files | Official MetaXcan v0.8.1 cross-cohort DR arm; supplies the UK Biobank columns of Table S5b |
 | `derived/genomewide/eqz_full.csv.gz` | 10,357 | the eQTLGen model pool; the universe counts of Table S11 / Results |
 | `derived/genomewide/gtex_official_{Whole_Blood,Nerve_Tibial}.csv.gz` | 15,655 genes / tissue | GTEx v8 MASHR arm of the framework-layer contrast (Table S16) |
@@ -95,11 +97,14 @@ could even be run from a clone.
 > upper-cased. One token (`C5orf67`) is therefore inert, which is why `POOL_A` holds
 > 11,820 genes rather than 11,819. The reproduction preserves the published behaviour.
 
-**Not in `derived/` any more:** the housekeeping Z layer that used to live at `derived/hk_reselect/`.
-It was computed on 2026-08-30, before the σᵢ correction of 2026-09-17, and has been moved to
-[`superseded/hk_reselect_20260830/`](superseded/hk_reselect_20260830/PRECORRECTION_NOTICE.md).
-**Consequence: the housekeeping layer of main-text Table 1 is not reproducible from this archive** —
-recorded as GAP-1 in [`../metadata/ARCHIVE_MAP.md`](../metadata/ARCHIVE_MAP.md).
+**Superseded, and now replaced:** the housekeeping Z layer that used to live at `derived/hk_reselect/`
+was computed on 2026-08-30, before the σᵢ correction, and has been moved to
+[`superseded/hk_reselect_20260830/`](superseded/hk_reselect_20260830/PRECORRECTION_NOTICE.md). The
+corrected layer is no longer missing: on 2026-10-03 it was found on disk as the official MetaXcan
+v0.8.1 recompute of 2026-09-16 and now ships as `derived/hk_official_Z.csv`. **The housekeeping layer
+of main-text Table 1 (0.0 %, 0/87) is therefore reproducible from this archive** — GAP-1/GAP-2 closed,
+with one sub-item (the SI's ACAT-O combined-P rule) still open. See
+[`../metadata/ARCHIVE_MAP.md`](../metadata/ARCHIVE_MAP.md) §4.
 
 ---
 

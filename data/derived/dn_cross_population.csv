@@ -1,0 +1,6 @@
+Gene,Resource,Z_DN,P_DN,Direction_vs_FinnGen_eQTLGen
+RNH1,ebi-a-GCST90018832 (Sakaue 2021),-0.8317,0.4056,Discordant
+CKAP4,ebi-a-GCST90018832 (Sakaue 2021),-0.8563,0.3918,Consistent (-)
+HSP90AB1,ebi-a-GCST90018832 (Sakaue 2021),-0.8976,0.3694,Discordant
+RPS14,ebi-a-GCST90018832 (Sakaue 2021),1.2655,0.2057,Consistent (+)
+EEF2,ebi-a-GCST90018832 (Sakaue 2021),-0.4605,0.6451,Consistent (-)

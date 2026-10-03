@@ -23,6 +23,53 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-03 (ninth pass) — GAP-1, GAP-2, GAP-6 and GAP-8 close; nothing was ever lost, it was found
+
+**Numbers: no reported number changes.** Not one value in `data/derived/` moved, and neither submitted
+document was touched. What changed is that four gaps the archive had recorded as open are now closed —
+and closed by *finding* the computations, not by re-deriving them.
+
+The previous pass left a specific open list. Working through it against two official MetaXcan runs that
+had never been catalogued closed most of it.
+
+* **GAP-1 (SI Table S6, the housekeeping layer) — closed for the Z and model-SNP columns.** The
+  archive believed the corrected layer "is not archived anywhere on disk". It is. An official MetaXcan
+  v0.8.1 recompute from **2026-09-16 06:54-06:55** — the exact window in which the published Table S6
+  block changed — still exists at `E://workbuddy//2026-09-15-21-55-56//metaxcan_run//official//`. Checked
+  cell by cell: **all 159 numeric Z cells reproduce, max |SI − official| = 5.0 x 10⁻⁵** (agreement to
+  the fourth decimal the SI prints), and the **model-SNP column is 30/30**. That also explains the
+  8-gene "constant ratio" anomaly: the published table is an independent recompute, not a σᵢ rescale of
+  the superseded layer, so no per-gene factor could ever have matched. The layer now ships as
+  **`data/derived/hk_official_Z.csv`**. *One sub-item stays open and is recorded as such:* the SI's
+  **ACAT-O combined-P** column reproduces for only 68 of 87 cells (the rest differ by ≤ 0.023), so its
+  combination rule is still not established.
+* **GAP-2 (Table 1 housekeeping arm) — closed.** The arm is **0.0 % (0/87)**, and re-deriving the FDR
+  calls from the shipped layer returns **0/87** (most significant test: GOLGA3/DR, P = 0.0126, BH
+  q = 1.00). The arm reproduces whether or not the ACAT-O rule is settled.
+* **GAP-6 (SI Table S7, "Smallest margin attained") — closed.** The column is not unsourced; the
+  table's own note defines it as `max(|lower|, |upper|)` of the operative 90 % interval. It is a
+  deterministic function of the interval the recovered calculators already reproduce: GTEx 7.3, eQTLGen
+  10.4, pooled gene-cluster 6.4 — all three match.
+* **GAP-8 (SI Table S10, DN cross-population) — closed.** The official MetaXcan run of
+  ebi-a-GCST90018832 (Sakaue et al. 2021) under eQTLGen weights still exists, and reproduces **all five
+  genes** at the printed precision (RNH1 −0.83/0.41, CKAP4 −0.86/0.39, HSP90AB1 −0.90/0.37, RPS14
+  +1.27/0.21, EEF2 −0.46/0.65). Ships as `data/derived/dn_cross_population.csv`. (Peer-review item M3 —
+  name the resource's full European *and* East Asian composition — is a text edit, still owed.)
+* **GAP-4 (the Fig. S1 / Fig. S2 / Fig. 1 generators) — partly recovered.** `gen_figs4.py` reproduces
+  the Fig. S2 violin exactly (61-gene universe, 24/24/13, medians 374/632/669). `rebuild_fig1_2_9.py`
+  holds `figure1()` (the framework = main Fig. 1) and `figure2()` (the flowchart = Fig. S1), but its
+  `> 75 %` box reads `66.4-70.1 %` where the published SI prints `66.1-68.2 %` — and a contemporaneous
+  record shows the published box was **pixel-edited on 2026-10-01** after a full-disk search for an SI
+  figure script found nothing. So Fig. S1 is recovered **structurally**, not verbatim. Both scripts ship
+  verbatim in `code/figures/recovered/`, deliberately not wired into `run_all.sh`.
+
+Also recorded: reference **[39] in the submitted manuscript has been repointed** from the predecessor
+`eqtl-source-discordance-audit` to this canonical repository (the Zenodo DOI line was deliberately left
+unaltered, pending a Zenodo release of this record).
+
+**No script was written and no value recomputed** for any of the four closures — in each case the
+computation already existed on disk and had simply never been catalogued. That is the finding.
+
 ### 2026-10-03 (eighth pass) — Table S20's generator no longer needs a document we cannot ship
 
 **Numbers: no reported number changes.** `m15_pc.py` writes the same JSON, key for key.

@@ -53,7 +53,9 @@ Information `.docx`; a full-disk numeric search for the published values (`−0.
   `hk_v2_summary.json`, `hrt_verify.*` and the `d3*` files here **must not be quoted** in a
   manuscript, a response letter or a figure.
 - **The housekeeping layer of main-text Table 1 therefore cannot be reproduced from this
-  repository.** That is a live gap, recorded as GAP-1 in `metadata/ARCHIVE_MAP.md`.
+  repository.** That gap is now closed: the corrected layer ships as `data/derived/hk_official_Z.csv`
+  (GAP-1 closed 2026-10-03; only the SI's ACAT-O combination rule stays open). See
+  `metadata/ARCHIVE_MAP.md` §4.
 - The 8-gene anomaly needs the author's attention independently of the archival question: if the
   corrected housekeeping computation differs for reasons beyond the σᵢ fix, then every table that
   aggregates the housekeeping arm (S7, S19, S26) may need re-checking.

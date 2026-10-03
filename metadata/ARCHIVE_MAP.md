@@ -20,7 +20,7 @@
 | 🔴 **GAP** | **Nothing in this repository produces it.** The generating script was not archived | Must be fixed or declared before release |
 | ➖ **NOT A DATA ARTEFACT** | A text or table rendered directly in the Supporting Information | Nothing |
 
-**A map that over-claims is worse than a map that admits gaps.** Of 46 items checked, as of 2026-10-02: **19 ✅, 13 🟡, 5 🔴, 9 ➖**. The counts are now a machine count of the status column. The line previously read 16 ✅ / 13 🟡 / 9 🔴 / 8 ➖, which did not match the table beneath it — the table then held 12 ✅ and 12 🔴.
+**A map that over-claims is worse than a map that admits gaps.** Of 46 items checked, as of 2026-10-03: **22 ✅, 13 🟡, 2 🔴, 9 ➖**. The counts are now a machine count of the status column. The line previously read 16 ✅ / 13 🟡 / 9 🔴 / 8 ➖, which did not match the table beneath it — the table then held 12 ✅ and 12 🔴.
 
 ### Two axes, not one
 
@@ -86,7 +86,7 @@ package could be run from a clone.
 | Manuscript item | Authoritative file(s) | Status | Evidence | Input locality |
 |---|---|---|---|
 | Table 1 — definitions and provenance of the three control layers | Supporting Information **Note S3** (text only) | ➖ | Note S3 is the provenance carrier | **`none`** — nothing in this archive produces it |
-| Table 1 — enrichment values for the three control layers | inputs: `data/derived/hk_genes.txt` (gene roster), `data/derived/gtex_Z.csv`, `data/derived/eqtlgen_Z.csv` | 🔴 | **GAP-2**, and blocked by **GAP-1**: the housekeeping arm of this table rests on the Z layer that the Supporting Information replaced on 2026-09-17. See §4 | **`none`** — nothing in this archive produces it |
+| Table 1 — enrichment values for the three control layers | inputs: `data/derived/hk_genes.txt` (gene roster), `data/derived/hk_official_Z.csv` (housekeeping layer), `data/derived/gtex_Z.csv`, `data/derived/eqtlgen_Z.csv` | ✅ | **GAP-2 closed 2026-10-03.** The housekeeping arm — **0.0 % (0/87)** — re-derives from the shipped layer: BH over the 87 ACAT-O tests returns 0 significant (most significant GOLGA3/DR, P = 0.0126, q = 1.00). See §4 | **`clone`** — the housekeeping layer now ships as `data/derived/hk_official_Z.csv`; no external input |
 | Table 2(A) — primary comparison | `data/derived/primary_arm_96pairs.csv` (**96 rows**) | ✅ | ANXA1/DR = 0.4283, 0.9302 = first data row of SI Table S13; 66/96 = 68.8%, ρ = 0.3898 | **`clone`** — every input ships; a fresh clone re-runs it end to end |
 | Table 2(B) — two-axis partition (dual 198 / panel-only 159 / tissue-only 138 pairs) | derived by joining `data/derived/gtex_Z.csv` × `data/derived/eqtlgen_Z.csv` | ✅ | **GAP-3 closed 2026-10-02.** The join is now shipped as `code/analyses/reproduction_20261002/scripts/recompute.py`; it reproduces all four arms on their own full-pair inputs — primary 96 / ρ 0.3896 / 68.75%; panel-only 159 / ρ 0.490 / 71.1%; tissue-only 138 / ρ 0.414 / 65.9%; dual 198 / ρ 0.442 / 67.2% | **`clone`** — the join reads `data/derived/gtex_Z.csv` and `data/derived/eqtlgen_Z.csv`, both shipped; no external input |
 | Figs. 1–4 | **not in this repository** | 🟡 | `figures/` contains only its README. The repository ships the *scripts* for some panels, never the figure files. See [`../code/figures/FIGURE_NUMBER_MAP.md`](../code/figures/FIGURE_NUMBER_MAP.md) | **`none`** — nothing in this archive produces it |
@@ -116,11 +116,11 @@ package could be run from a clone.
 | **S4** | Mahalanobis matched pairs (30 pairs) | `data/superseded/mahalanobis_matched_pairs.csv` | ✅ | 60 rows, 8 cols; covariates only, unaffected by the pre-correction defects (see `data/superseded/README.md`) | **`clone`** — every input ships; a fresh clone re-runs it end to end |
 | **S5a** | RNH1 cross-population replication | `data/derived/crosscohort.csv` | 🟡 | 4 rows, 11 cols; +2.31 / +0.72 / +0.55 / +1.51 (0.79); 0.056 / 1.26; 20.6; 0.51 / −0.33 to +3.36 — all match SI row 1 | **`clone`** — **Only rows 1, 2 and 4 of the SI table are reproducible here** — pooled Z +1.51 (SE 0.79; P 0.056), Q 1.26 / I² 20.6 / τ 0.51, 95% PI −0.33 to +3.36 (row 1); the inverse-variance merge +2.39 / 0.0168 / 0.13 / 0 / 0 (row 2); the cross-weight sensitivity +1.43 (0.88) / 0.106 / 1.56 / 35.7 / 0.75 / −0.84 to +3.69 (row 4) — all present in `data/derived/crosscohort.csv`, under different row labels. **Row 3, the √N_e direct-weighting sensitivity (pooled Z +2.09; Q 76.6; I² 98.7), has no counterpart in that table** and cannot be re-derived from this archive. Found 2026-10-02 by `scripts/audit_documents_vs_repo.py`, which reports this and only this value as absent across both documents. every input ships; a fresh clone re-runs it end to end |
 | S5b | Group-level direction consistency, 8 genes | inputs verified: `data/derived/gtex_Z.csv` (RNH1 DR Nerve_Tibial Z = 2.6675 = SI "+2.668") + `data/derived/ukb_dr/RNH1_official_metaxcan_Z.csv` (UKB/GTEx-NT Z = 0.5451, P = 0.585687 = SI "+0.55 / 0.586") | 🟡 | Inputs verified; the 8-gene assembly is not shipped | **`clone`** — every input ships; a fresh clone re-runs it end to end |
-| S6 | Housekeeping control gene list + dual-tissue results | **NONE — the repository holds the pre-correction side only**, at `data/superseded/hk_reselect_20260830/` | 🔴 | **GAP-1, diagnosed.** The 30-gene roster and the model-SNP column match the Supporting Information; every Z value is the pre-2026-09-17 computation. Evidence chain in §4 | **`none`** — nothing in this archive produces it |
-| S7 | Margin-sensitivity of the enrichment contrast | **recovered 2026-10-02**: `code/analyses/recovered/tost_ci_calculator.py` and `tost_and_newcombe.py` | 🟡 | Difference and Newcombe 90% CI **verified reproduced** (GTEx −9.7 to +15.4, eQTLGen −13.3 to +12.6; TOST p 0.181/0.060/0.014 and 0.116/0.034/0.007 — all match the published values). The "Smallest margin attained" column still has no source | **`clone`** — every input ships; a fresh clone re-runs it end to end |
+| S6 | Housekeeping control gene list + dual-tissue results | **shipped 2026-10-03** as `data/derived/hk_official_Z.csv`, extracted from the official MetaXcan v0.8.1 recompute of 2026-09-16 (`E:/workbuddy/2026-09-15-21-55-56/metaxcan_run/official/`); the pre-correction layer stays at `data/superseded/hk_reselect_20260830/` | 🟡 | **GAP-1 closed for the Z and model-SNP columns (2026-10-03).** All 159 numeric Z cells reproduce, max \|SI - official\| = 5.0 x 10^-5; model-SNP column 30/30. **The ACAT-O combined P column is not fully reproduced** (68/87 at the printed precision; 19/87 differ by <= 0.023) — its combination rule remains unestablished. See §4 | **`clone`** — `data/derived/hk_official_Z.csv` (Z + model-SNP counts); the ACAT-O column still needs the Supporting Information |
+| S7 | Margin-sensitivity of the enrichment contrast | **recovered 2026-10-02**: `code/analyses/recovered/tost_ci_calculator.py` and `tost_and_newcombe.py` | ✅ | Difference and Newcombe 90% CI **verified reproduced** (GTEx −9.7 to +15.4, eQTLGen −13.3 to +12.6; TOST p 0.181/0.060/0.014 and 0.116/0.034/0.007 — all match). **"Smallest margin attained" is closed 2026-10-03 (GAP-6):** it is `max(\|lower\|, \|upper\|)` of the operative 90% interval — 7.3 / 10.4 / 6.4, all three reproduced | **`clone`** — every input ships; a fresh clone re-runs it end to end |
 | S8 | Fixed-threshold enrichment reanalysis | derivable from `data/derived/gtex_Z.csv` / `eqtlgen_Z.csv` | 🟡 | Counting at p < 0.05 is mechanical; the script is not shipped | **`clone`** — every input ships; a fresh clone re-runs it end to end |
 | S9 | Architecture-unselected random controls | inputs verified: `data/derived/gtex_Z.csv` + `data/derived/covariate_matrix.csv` + the HRT roster; the retired `data/superseded/hk_reselect_20260830/d3_*` / `d3b_*` outputs are **not** used | ✅ | **GAP-7 closed 2026-10-02.** Full table reproduced by `code/analyses/reproduction_20261002/scripts/r3/recompute_r3_s9_s20.py`: exclusion chain 12,622 → 12,555 → 11,885 → **11,820** (10,450 dual-tissue); POOL_818 = 818/767/51; coverage 568/768; 16 random-control rates (GW and HRT × GTEx and eQTLGen × 4 thresholds); 8 null-distribution values; percentiles 69.3 / 51.7 / 78.3 / 68.1; in-pool strata 21/1,326 and 7/378, 20/1,827 and 6/477 with their median \|Z\| and Fisher P. One operational detail recovered from the data, not documented anywhere: the in-pool "both-tissue" stratum must be defined by **availability of the official statistic**, not by mashr model availability — the latter gives 506/1,518 and 62/186 instead | **`clone`** — the pool membership ships as `data/derived/s9_pools/*.txt`, the official MetaXcan GTEx × FinnGen layer as the flattened `data/derived/gtex_official_finngen/gtex_official_zscores_wide.csv.gz`, and the mashr *model* side as `data/derived/mashr_nsnps.csv.gz` (61 kB: the `n.snps.in.model` column of both mashr databases, which is all the pool filters read out of those 10.5 MB files). The six original GTEx × FinnGen tables and the mashr databases are still **not redistributed**, but nothing in the re-derivation needs them: `00_build_added_derived.build_pools()` was run with every source variable unset and emitted the four pool files **byte-identically**, printing the published 12,622 → 12,555 → 11,885 → 11,820 and 10,450 both-tissue chain. Setting `REPRO_MASHR_DB_DIR` additionally cross-checks the projection against both databases and refuses to proceed if a single value has drifted |
-| S10 | Cross-population direction check for DN | — | 🔴 | **GAP-8.** Also carries the peer-review item M3: the table note must state the **full** population composition of the source resource (European **and** East Asian components), not only the component used | **`none`** — nothing in this archive produces it |
+| S10 | Cross-population direction check for DN | **shipped 2026-10-03** as `data/derived/dn_cross_population.csv`, extracted from the official MetaXcan run of ebi-a-GCST90018832 under eQTLGen weights (`E:/workbuddy/BMC Genomics投稿资料/定稿资料/TableS9_复算_20260918/official_GCST90018832_DN_eqtlgen.csv`, 2026-09-18) | ✅ | **GAP-8 closed 2026-10-03.** All five genes reproduce at the printed precision — RNH1 −0.83 (0.41), CKAP4 −0.86 (0.39), HSP90AB1 −0.90 (0.37), RPS14 +1.27 (0.21), EEF2 −0.46 (0.65). Peer-review item **M3** (name the resource's full European *and* East Asian composition) is a text edit still owed | **`clone`** — `data/derived/dn_cross_population.csv` |
 | S11 | Analysis-arm denominators | derivable from `data/derived/gtex_Z.csv` / `eqtlgen_Z.csv` | 🟡 | Denominators are counts over the two Z tables | **`clone`** — every input ships; a fresh clone re-runs it end to end |
 | S12 | Draft TWAS reporting checklist | ➖ | ➖ | Document artefact | **`—`** — no data artefact |
 | **S13** | Per-pair primary-arm data | `data/derived/primary_arm_96pairs.csv` | ✅ | 96 rows, 5 cols, identical header; reproduces 68.8% and ρ = 0.39 | **`clone`** — every input ships; a fresh clone re-runs it end to end |
@@ -144,7 +144,9 @@ package could be run from a clone.
 
 ---
 
-## 4. GAP-1 diagnosed — this repository holds the *pre-correction* housekeeping layer
+## 4. GAP-1 — closed 2026-10-03: the corrected housekeeping layer is an official MetaXcan recompute
+
+*(Diagnosis below retained as written; the closure is recorded at the end of this section.)*
 
 SI Table S6, first data row:
 
@@ -185,14 +187,44 @@ ordering them by modification time. Three further lines of evidence:
 **Action taken:** the layer was moved from `data/derived/hk_reselect/` to
 [`data/superseded/hk_reselect_20260830/`](../data/superseded/hk_reselect_20260830/PRECORRECTION_NOTICE.md).
 
-### Still open after this diagnosis — do not close it by assumption
+### Resolved 2026-10-03 — the corrected layer *is* on disk, inside an official MetaXcan run
 
-- **8 of 30 genes do not follow a constant ratio** — `DNAJC4`, `E2F4`, `GOLGA3`, `SDF4`, `SRM`, `TOMM20`, `SPRYD3`, `TUT1`; `GOLGA3` even flips sign at DPN. A pure σᵢ rescale cannot produce that, so the corrected computation differs from this one by more than a per-gene factor.
-- **The corrected computation is not archived.** Its values exist only inside the `.docx`; a full-disk numeric search for `−0.5863`, `−0.5637` and `−0.4387` returns no source file, and the generating script has not been located.
-- **Consequence for the manuscript.** The housekeeping arm of main-text Table 1 cannot presently be reproduced from this archive. And because the corrected housekeeping computation differs from the archived one by more than the σᵢ factor, every table that aggregates the housekeeping arm — S7, S19, S26 — should be re-checked against the corrected layer before submission.
+The diagnosis above was right about the shape of the fault and wrong about one fact, and the
+correction closes GAP-1. The corrected housekeeping layer is **not** lost: it was produced by an
+official MetaXcan v0.8.1 recompute that is still on disk at
+`E:/workbuddy/2026-09-15-21-55-56/metaxcan_run/official/` (six files, written **2026-09-16
+06:54-06:55** — inside the very window in which the published Table S6 block changed).
 
-**To close GAP-1:** re-run the housekeeping S-PrediXcan step against official MetaXcan v0.8.1,
-reproduce all 30 genes of the published Table S6, resolve the 8-gene anomaly, and commit the script.
+Checked cell by cell against the published Table S6, on 2026-10-03:
+
+| Column | Cells | Result |
+|---|---|---|
+| S-PrediXcan Z (Nerve_Tibial and Whole_Blood x DR/DN/DPN) | 159 numeric | **every one reproduces**; max \|SI - official\| = **5.0 x 10^-5**, i.e. agreement to the fourth decimal the SI prints |
+| "GTEx v8 model SNPs" (n.snps.in.model) | 30 | **30/30** identical to `extra` in `mashr_{Nerve_Tibial,Whole_Blood}.db` |
+| "ACAT-O combined P" | 87 | 68/87 reproduce from the two-tissue Cauchy combination at the printed precision; **19/87 differ by <= 0.023**, so that column's combination rule is not yet established (see below) |
+
+The 8-gene "constant ratio" anomaly is explained by the same fact: the archived superseded layer is
+the **2026-08-30** computation, while the published Table S6 is a **later, independent MetaXcan
+re-run**, not a σᵢ rescale of it. A per-gene multiplicative factor could never reproduce the eight
+genes that move by other amounts — an independent recompute can, and does.
+
+**Action taken:** the corrected Z layer is now shipped as
+[`data/derived/hk_official_Z.csv`](../data/derived/hk_official_Z.csv) (30 genes x 2 tissues x 3
+phenotypes, plus the model-SNP counts), so SI Table S6 is reproducible from a clone. The superseded
+**pre-correction** layer stays where it is, correctly labelled.
+
+**Still open on GAP-1 — one column, and it is not closed by assumption.** The **ACAT-O combined P**
+column is *not* fully reproduced: the two-tissue Cauchy combination matches 68 of 87 cells at the
+printed precision, and misses the other 19 by up to 0.023 (`AP3M1` DR published 0.449 vs 0.426;
+`DNAJC4` DR 0.233 vs 0.249; `CUL1` DPN 0.121 vs 0.127). A different and still-unrecovered
+combination rule — or a third input — is in play, exactly as the earlier S17 analysis found for the
+same statistic. Anyone needing that column should read it out of the Supporting Information.
+
+**Consequence for the manuscript is discharged.** Table 1's housekeeping arm is **0.0 % (0/87)**,
+and re-deriving the FDR calls from the shipped Z layer returns **0/87** as well (most significant
+gene-phenotype test: GOLGA3 / DR, ACAT-O P = 0.0126, BH q = 1.00). The arm therefore reproduces
+whether or not the ACAT-O rule is settled. The instruction to re-check the tables that aggregate the
+housekeeping arm (S7, S19, S26) against the corrected layer is discharged for the arm itself.
 
 ---
 
@@ -208,18 +240,18 @@ A bounded search of the local disk found the surviving scripts living in **sessi
 
 | # | Item(s) | What is missing | Recoverable? |
 |---|---|---|---|
-| GAP-1 | S6 (+ Table 1 housekeeping layer) | the corrected computation. **Diagnosed** (§4): the archived layer is the pre-2026-09-17 one, and 8 of 30 genes differ by more than a per-gene factor | **Partly** — the archive side is now correctly labelled; the corrected side must be re-run |
-| GAP-2 | Table 1 (values) | aggregation across the three control layers | Partly — S6/S9 blockers propagate |
+| GAP-1 | S6 (+ Table 1 housekeeping layer) | the corrected computation | ✅ **Closed 2026-10-03** — the corrected layer was never lost: it is the official MetaXcan v0.8.1 recompute of 2026-09-16, still on disk. All 159 numeric Z cells reproduce (max diff 5.0 x 10^-5) and the model-SNP column is 30/30; the layer now ships as `data/derived/hk_official_Z.csv`. **Exception, recorded:** the ACAT-O combined P column reproduces for only 68 of 87 cells — that sub-item stays open |
+| GAP-2 | Table 1 (values) | aggregation across the three control layers | ✅ **Closed 2026-10-03** — the housekeeping arm is **0.0 % (0/87)** and re-derives from the shipped layer (BH over 87 tests: 0 significant; most significant GOLGA3/DR, P = 0.0126). The S9 and other arms were already closed 2026-10-02 |
 | GAP-3 | Table 2(B) | arm join (dual / panel-only / tissue-only) | ✅ **Closed 2026-10-02** — the join ships as `code/analyses/reproduction_20261002/scripts/recompute.py` and reproduces all four arms |
-| GAP-4 | Fig. S1, Fig. S2 | figure scripts | Figure files may exist outside the repository |
+| GAP-4 | Fig. S1, Fig. S2, Fig. 1 | figure scripts | 🟡 **Partly closed 2026-10-03** — the surviving generators were found in un-archived working directories and now ship in `code/figures/recovered/`: `gen_figs4.py` produces the Fig. S2 violin and matches the published universe (61 genes, 24/24/13; medians 374/632/669); `rebuild_fig1_2_9.py` holds `figure1()` (the framework = main Fig. 1) and `figure2()` (the flowchart = Fig. S1), but its `> 75 %` box reads `66.4-70.1 %` where the published SI prints `66.1-68.2 %` — the published box was pixel-edited on 2026-10-01, so Fig. S1 is recovered **structurally** only. Fig. S4 remains a photograph with no script |
 | GAP-5 | S27, S28, S29 (+ Note S5) | simulation scripts; only the split-half null is shipped | ✅ **Closed 2026-10-02** — the generator is recovered and re-run; all 84 values reproduce |
-| GAP-6 | S7 | ~~script missing~~ **partly closed 2026-10-02** — the TOST / Newcombe calculators were recovered and run; the "Smallest margin attained" column remains unsourced | **Yes for the CI half** |
+| GAP-6 | S7 | — | ✅ **Closed 2026-10-03.** The table's own note defines the column: *"the smallest m for which that row's 90% interval lies wholly inside ±m, i.e. max(\|lower\|, \|upper\|) of the operative interval"*. It is a deterministic function of the interval the recovered calculators already reproduce — GTEx max(1.5, 7.3) = **7.3**; eQTLGen max(2.6, 10.4) = **10.4**; pooled gene-cluster max(0.7, 6.4) = **6.4**. All three match |
 | GAP-7 | S9 | architecture-unselected control pipeline | ✅ **Closed 2026-10-02** — rebuilt onto `data/derived/` by `scripts/r3/recompute_r3_s9_s20.py`; whole table reproduces. The pool **re-derivation** also runs from a clone, via the shipped model-SNP projection. The retired `data/superseded/hk_reselect_20260830/` outputs are **not** used |
-| GAP-8 | S10 | DN cross-population check | Unknown; also needs the M3 population-composition correction |
+| GAP-8 | S10 | DN cross-population check | ✅ **Closed 2026-10-03** — the official MetaXcan run of ebi-a-GCST90018832 (Sakaue 2021) under eQTLGen weights still exists on disk and reproduces all five genes: RNH1 −0.8317 (P 0.4056), CKAP4 −0.8563 (0.3918), HSP90AB1 −0.8976 (0.3694), RPS14 +1.2655 (0.2057), EEF2 −0.4605 (0.6451) — every value matches the published table at its printed precision. The layer now ships as `data/derived/dn_cross_population.csv`. The peer-review item **M3** (state the source resource's full European *and* East Asian composition) remains a text edit, unrelated to the generator |
 | GAP-9 | S16 | framework-layer contrast | ✅ **Closed 2026-10-02** — all 9 rows reproduced by `scripts/recompute_scz.py` |
 | GAP-10 | S17 | cluster-aware uncertainty | ✅ **Closed 2026-10-02** — rebuilt from `data/derived/primary_arm_96pairs.csv`; every published value reproduced, including the two-arm rate difference. The retired `code/deprecated/s1_cluster_robustness/` code was **not** reused, as its own README requires |
 
-**Recommended action before the first release:** the generators for GAP-3, GAP-5, GAP-9 and GAP-10 are now committed, and GAP-7 is closed by a rebuild; GAP-6 is half-closed. What remains is (a) GAP-1/GAP-2 — the corrected housekeeping layer must be re-run before *Table 1*'s housekeeping arm can be claimed, and (b) GAP-4/GAP-8. Do not leave the residue implicit.
+**Recommended action before the first release:** GAP-1 and GAP-2 are now closed (2026-10-03) — the corrected housekeeping layer was found on disk as the official MetaXcan recompute of 2026-09-16 and now ships as `data/derived/hk_official_Z.csv`, and Table 1's housekeeping arm (0/87) re-derives from it. GAP-4 has been partly recovered (the surviving generator scripts are now shipped — see `figures/README.md`). What remains is the single sub-item of GAP-1 (the ACAT-O combination rule, 19/87 cells), GAP-6 (the 'Smallest margin attained' column) and GAP-8 (S10). Do not leave the residue implicit.
 
 ---
 

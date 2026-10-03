@@ -50,7 +50,7 @@ sentence was never updated, so this file contradicted `metadata/ARCHIVE_MAP.md`.
 | SI item | Status |
 |---|---|
 | S9, S16, S17, S27, S28, S29 | **closed** 2026-10-02 — see `ARCHIVE_MAP.md` (GAP-5/7/9/10) and `code/analyses/reproduction_20261002/` |
-| S6 | **open** (GAP-1) — the corrected housekeeping Z layer is not in this archive |
+| S6 | **closed 2026-10-03** for the Z and model-SNP columns — the corrected layer ships as `data/derived/hk_official_Z.csv`; only the ACAT-O combined-P column stays open (19/87 cells) |
 | S10 | **open** (GAP-8) — DN cross-population check |
 | S11 | reported as a denominators/availability table; no generating script |
 | S7 | the CI half is recovered here (`tost_ci_calculator.py`); the "Smallest margin attained" column is unsourced (GAP-6) |

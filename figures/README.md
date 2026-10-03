@@ -39,20 +39,24 @@ The three "not in the current manuscript" entries are kept because a revision ma
 because they document the earlier figure set. **Their output must not be presented as part of the
 current submission.**
 
-## Figures with no producing script in this archive
+## Figures whose producing script is not in `code/figures/`
 
 `figures/README.md` used to require that a figure whose producing script is missing be *named*, not
-left as an implicit claim. These four cannot be regenerated from this repository:
+left as an implicit claim. **Updated 2026-10-03:** two of the four were recovered from un-archived
+working directories and now ship, verbatim, in [`../code/figures/recovered/`](../code/figures/recovered/README.md).
 
-| Manuscript figure | Content | Why it is absent |
-|---|---|---|
-| **Fig. 1** | Overview of the analytical framework (six modules) | The generating script has never been in this repository or either predecessor |
-| **Fig. S1** | Exploratory diagnostic scheme (flowchart) | Same — script absent |
-| **Fig. S2** | eQTL SNP-count distribution across gene groups (violin) | Same — script absent |
-| **Fig. S4** | Silver-stain SDS–PAGE (wet-lab image) | Not a script at all: a photograph of a gel |
+| Manuscript figure | Content | Producing script | Status |
+|---|---|---|---|
+| **Fig. 1** | Overview of the analytical framework (six modules) | `recovered/rebuild_fig1_2_9.py::figure1()` | 🟡 **Recovered** — verbatim ancestor, not wired to `run_all.sh` |
+| **Fig. S1** | Exploratory diagnostic scheme (flowchart) | `recovered/rebuild_fig1_2_9.py::figure2()` | 🟡 **Recovered structurally.** The published box text was pixel-edited on 2026-10-01 and no surviving copy of the script prints it — see `recovered/README.md` |
+| **Fig. S2** | eQTL SNP-count distribution across gene groups (violin) | `recovered/gen_figs4.py` | ✅ **Recovered and matching** — same 61-gene universe (24/24/13) and the three published medians |
+| **Fig. S4** | Silver-stain SDS–PAGE (wet-lab image) | none — and none is possible | ➖ a photograph of a gel, not a plot |
 
-Consequently the manuscript's four main figures cannot be assembled end-to-end from this archive:
-Fig. 2, 3 and 4 can, Fig. 1 cannot. Recorded as such rather than implied.
+The two recovered scripts carry absolute paths and read the predecessor build root
+(`figstyle.py`, `prep_out.json`); they are evidence, not a runnable pipeline, and are deliberately
+**not** invoked by `code/run_all.sh`. Consequently the manuscript's four main figures still cannot be
+assembled end-to-end from this archive — Fig. 2, 3 and 4 can, Fig. 1 only by hand — and that is
+recorded rather than implied.
 
 ## Naming and format
 
