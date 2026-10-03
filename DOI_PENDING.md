@@ -8,8 +8,8 @@ source of truth; [`scripts/set_doi.py`](scripts/set_doi.py) fills the carriers f
 |---|---|
 | Status | pending |
 | Version to be released | whatever `.zenodo.json` declares — not duplicated here, so the two cannot disagree |
-| Concept DOI | `10.5281/zenodo.<CONCEPT>` |
-| Version DOI | `10.5281/zenodo.<VER>` |
+| Concept DOI | `10.5281/zenodo.23129112` |
+| Version DOI | `10.5281/zenodo.23129113` |
 | Zenodo record | _not yet created_ |
 
 > **Do not cite the placeholders.** They are not registered, resolve to nothing, and the README

@@ -309,18 +309,18 @@
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 76506,
-   "sha256": "b513264313be74c13ba9d7d32f29f55b57ac06294b036866cda11285d4a301b0"
+   "bytes": 76537,
+   "sha256": "23d1d79f1785a0b0eb289d755a3a3ecee69857f2160a05e1bca4119713fd4696"
   },
   {
    "path": "CITATION.cff",
-   "bytes": 3283,
-   "sha256": "bf036139bfdd661082c269d40fa3c92f95b79f1c587b74208c7b88b080d7737e"
+   "bytes": 3221,
+   "sha256": "b987994d1bf59bedfe4f06b6e833fe7e227c666ee6dc0e9ec5d809271a2f4625"
   },
   {
    "path": "DOI_PENDING.md",
-   "bytes": 5819,
-   "sha256": "efac2209fc06db8282d2366794498d35141f4a8dc1554ec44afb43765be0f82e"
+   "bytes": 5821,
+   "sha256": "0c525b28f32d64e2f5f1e74ff813ea483ee3557877fa4a13982048960b3059b8"
   },
   {
    "path": "LICENSE",
@@ -329,8 +329,8 @@
   },
   {
    "path": "README.md",
-   "bytes": 11553,
-   "sha256": "47e6025a984d3a630c226ae22283ad62a233d7268425cc8358d8a36326488ca5"
+   "bytes": 11158,
+   "sha256": "e735d912590fe6c78788c966b7cd52a916b3e0d453c6d5e7889da808939380bd"
   },
   {
    "path": "code/README.md",
@@ -2294,8 +2294,8 @@
   },
   {
    "path": "metadata/zenodo_release.json",
-   "bytes": 2028,
-   "sha256": "7c67bc47c0570202a562d79f8139a5f7798d3b1aeabed00b44a89c9cd444b90e"
+   "bytes": 2113,
+   "sha256": "4bd0986631b79e2bdb7fc74c1ccee55186b5b6a705a237b6650cc4928f28f065"
   },
   {
    "path": "scripts/audit_documents_vs_repo.py",

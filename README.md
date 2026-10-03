@@ -1,22 +1,16 @@
 # eqtl-source-discordance
 
-[![DOI: pending](https://img.shields.io/badge/DOI-pending%20release-orange)](DOI_PENDING.md)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.23129112.svg)](https://doi.org/10.5281/zenodo.23129112)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Analysis code, processed data and a containerized reproducibility environment for a methodological audit of **eQTL weight-source dependence in transcriptome-wide association studies (TWAS)**.
 
 <!-- DOI_STATUS_BEGIN — managed by scripts/set_doi.py; the pending and published variants live together in that file. Do not edit this block by hand. -->
-> ⚠️ **No published DOI yet.** This repository has not been deposited to Zenodo, so it has no citable
-> identifier and the placeholders below are unresolved. Everything needed for the deposit is in the
-> tree ([`.zenodo.json`](.zenodo.json), [`CITATION.cff`](CITATION.cff)); what was missing was a place
-> to record the result. That is [`DOI_PENDING.md`](DOI_PENDING.md), and the backfill is one command:
-> `python3 scripts/set_doi.py --concept … --version …`.
->
-> Concept DOI `10.5281/zenodo.<CONCEPT>` · version DOI `10.5281/zenodo.<VER>` — **placeholders, not
-> registered identifiers. Do not cite them.** See [`DOI_PENDING.md`](DOI_PENDING.md) for why the DOI
-> already quoted by the associated manuscript (an earlier repository's `10.5281/zenodo.22910500`) is
-> *not* a substitute: it resolves to a September 2026 snapshot that predates this repository's
-> reproductions.
+> **Archived, citable snapshot.** Cite the concept DOI `10.5281/zenodo.23129112` for the software and dataset —
+> it always resolves to the latest archived version — or the version DOI `10.5281/zenodo.23129113` to refer to
+> this exact analysed snapshot. Machine-readable form: [`CITATION.cff`](CITATION.cff). The registry
+> of record is [`metadata/zenodo_release.json`](metadata/zenodo_release.json); the steps that
+> produced it are in [`DOI_PENDING.md`](DOI_PENDING.md).
 <!-- DOI_STATUS_END -->
 
 ---

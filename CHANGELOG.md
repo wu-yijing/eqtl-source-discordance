@@ -15,7 +15,7 @@ This project has been re-archived three times. Version numbers **do not restart*
 |---|---|---|---|
 | v1.0.0 – v3.0.0 | `wu-yijing/twas-eqtl-source-discordance` (formerly `TWAS-eQTL-source-confounding`) | concept `10.5281/zenodo.21238202` | Full pre-2026-09-24 development history. **GitHub tags and Zenodo version labels for this period are not identical — see "Open item" below.** |
 | v1.0.0 – v1.0.1 | `wu-yijing/eqtl-source-discordance-audit` | concept `10.5281/zenodo.22910500` | Release-only snapshot; **its v1.0.0 tag sits two commits behind that repository's final state** |
-| **v4.0.0** → | **this repository** | new concept DOI `<CONCEPT>` | Canonical from here on |
+| **v4.0.0** → | **this repository** | new concept DOI `10.5281/zenodo.23129112` | Canonical from here on |
 
 > **Open item — do not close this by assumption.** The predecessor README declares Zenodo version **v2.7.0** as current, while its GitHub tags stop at **v3.0.0**. GitHub tags and Zenodo version labels for the predecessor repository are therefore out of step. Record the true mapping here once verified, because a reader comparing the two will otherwise conclude that a release is missing.
 
@@ -956,7 +956,7 @@ So several gaps are **not** "the script got lost". The number was pasted in from
 
 ### Migration notes
 - History imported from `wu-yijing/twas-eqtl-source-discordance`; predecessor tags were **not** imported, so `v1.0.0`–`v3.0.0` remain only in the archived repositories.
-- Cite this study as concept DOI `<CONCEPT>`; for the analysed snapshot cite `10.5281/zenodo.<VER>`.
+- Cite this study as concept DOI `10.5281/zenodo.23129112`; for the analysed snapshot cite `10.5281/zenodo.23129113`.
 
 ---
 

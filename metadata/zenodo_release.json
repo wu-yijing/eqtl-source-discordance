@@ -7,17 +7,17 @@
   "carriers have to stay in step and hand-editing is how they drift apart.",
   "See DOI_PENDING.md for the publication steps."
  ],
- "status": "pending",
+ "status": "published",
  "version_owned_by": ".zenodo.json",
  "_version_note": [
   "The release version is NOT duplicated here. .zenodo.json owns it, scripts/cut_release.sh",
   "checks it against CITATION.cff and CHANGELOG.md, and a second copy in this file would be",
   "one more place for the three of them to disagree. Read it from .zenodo.json."
  ],
- "release_date": null,
- "zenodo_record_url": null,
- "concept_doi": null,
- "version_doi": null,
+ "release_date": "2026-10-04",
+ "zenodo_record_url": "https://zenodo.org/records/23129113",
+ "concept_doi": "10.5281/zenodo.23129112",
+ "version_doi": "10.5281/zenodo.23129113",
  "placeholder_tokens": {
   "concept": "10.5281/zenodo.<CONCEPT>",
   "version": "10.5281/zenodo.<VER>"
