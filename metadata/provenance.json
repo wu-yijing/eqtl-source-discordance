@@ -305,22 +305,22 @@
   {
    "path": ".zenodo.json",
    "bytes": 4468,
-   "sha256": "7741c4b2ef6f7a3fd01ba177df45be1d31ef0aabb60ab29fb89391f68fafa5ce"
+   "sha256": "6833a4a4d8de9c5bf15f2a97610b2fe341685813d4450f0a029a120d62ef92e3"
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 76383,
-   "sha256": "571217579ab6662e87f7641682c45b97e293ee494190dafab37d44d497a3a39d"
+   "bytes": 76506,
+   "sha256": "b513264313be74c13ba9d7d32f29f55b57ac06294b036866cda11285d4a301b0"
   },
   {
    "path": "CITATION.cff",
    "bytes": 3283,
-   "sha256": "19cc5b32aa1dfb0f373e667a472bf711014d957916a8e34e8d07410896fec40d"
+   "sha256": "bf036139bfdd661082c269d40fa3c92f95b79f1c587b74208c7b88b080d7737e"
   },
   {
    "path": "DOI_PENDING.md",
-   "bytes": 5818,
-   "sha256": "1de481c4a6a0e6f7077aa1fdd5bfea3e755a5afb8c1273e14cf2a887e51e2bdd"
+   "bytes": 5819,
+   "sha256": "efac2209fc06db8282d2366794498d35141f4a8dc1554ec44afb43765be0f82e"
   },
   {
    "path": "LICENSE",
@@ -2275,7 +2275,7 @@
   {
    "path": "metadata/ARCHIVE_MAP.md",
    "bytes": 55813,
-   "sha256": "ca20d856b77065159a478be22e81202567d14705913093dad2d3b30ece92679b"
+   "sha256": "3d6bfecabbe38435e7bbadbaee02aa0b398c3d79a4493337dad0db2f213b5143"
   },
   {
    "path": "metadata/PRE_REGISTRATION.md",

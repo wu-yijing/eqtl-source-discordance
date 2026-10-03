@@ -23,6 +23,10 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+Nothing yet.
+
+## [4.0.1] — 2026-10-04
+
 ### 2026-10-04 (seventeenth pass) — the pinned environment could not build the figures it claims to build
 
 **Numbers: no reported number changes.** No file in `data/derived/` changed, no middleware artefact
@@ -956,5 +960,6 @@ So several gaps are **not** "the script got lost". The number was pasted in from
 
 ---
 
-[Unreleased]: https://github.com/wu-yijing/eqtl-source-discordance/compare/v4.0.0...HEAD
+[Unreleased]: https://github.com/wu-yijing/eqtl-source-discordance/compare/v4.0.1...HEAD
+[4.0.1]: https://github.com/wu-yijing/eqtl-source-discordance/releases/tag/v4.0.1
 [4.0.0]: https://github.com/wu-yijing/eqtl-source-discordance/releases/tag/v4.0.0

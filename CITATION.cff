@@ -13,8 +13,8 @@ license: MIT
 license-url: "https://opensource.org/license/mit"
 repository-code: "https://github.com/wu-yijing/eqtl-source-discordance"
 url: "https://github.com/wu-yijing/eqtl-source-discordance"
-version: 4.0.0
-date-released: "2026-10-02"
+version: 4.0.1
+date-released: "2026-10-04"
 identifiers:
   # Managed by scripts/set_doi.py from metadata/zenodo_release.json.
   # While that registry reports status "pending", the values below are unregistered

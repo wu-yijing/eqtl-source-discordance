@@ -25,7 +25,7 @@ in its current form the two **do not name the same object**:
 | Carrier | Names | What a reader actually gets |
 |---|---|---|
 | Zenodo `10.5281/zenodo.22910500` / `.22910501` | `wu-yijing/eqtl-source-discordance-audit` | **v1.0.0, published 2026-09-23, a single 2.34 MB zip.** The predecessor release-only snapshot. |
-| GitHub URL in reference [39] | `wu-yijing/eqtl-source-discordance` | **This repository**, v4.0.0, 338 tracked files, HEAD `e4e4dec`. |
+| GitHub URL in reference [39] | `wu-yijing/eqtl-source-discordance` | **This repository**, v4.0.1, 412 tracked files, HEAD `652918dc`. |
 
 The Zenodo snapshot predates, and therefore does not contain:
 
