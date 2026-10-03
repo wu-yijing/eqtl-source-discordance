@@ -75,22 +75,29 @@ disagrees exits non-zero instead of being described in prose.
 > identical. The content MD5 is the stable identifier; the plain-text and SQLite
 > rows above are byte-identical on re-run and carry their file hash.
 
-> **Row order inside a covariance file is load-bearing — and `build_covariance.py` had it wrong.**
-> The archived covariances are ordered (1) **genes** in the model database's own order — first
-> appearance in `weights`, i.e. `rowid` order, *not* alphabetical — and (2) **SNPs within a gene in
-> the LD panel's `.bim` order**, not the model database's SNP order and not `sorted()` on the rsid.
-> Measured directly against the archived `cov_Whole_Blood.txt.gz`: genes match
-> first-appearance-restricted 11,382/11,382, and SNPs within gene match `.bim` order 11,382/11,382,
-> where a plain rsid sort matches only 73.1 %.
-> The first version of `code/upstream/build_covariance.py` used `sorted()` for genes and the model's
-> row order for SNPs. That produced the same gene set, the same SNP pairs and the same values, so a
-> *content* comparison passed — while the content MD5, and therefore the two GTEx rows above, did not
-> reproduce. Found on 2026-10-03 by rebuilding both tissues and diffing line by line; fixed; both now
-> rebuild to the content MD5s above with **0 differing lines**. The downstream effect of the wrong
-> order was floating-point only (max |Δ| = 3.6 × 10⁻¹⁵ across the 162k cells of a GTEx arm), but the
-> file hash claim was false, which is the part that matters here.
-
-These are the intermediate layer `code/run_upstream.sh` rebuilds. They are **not** shipped, because they are re-derivable from the hashed inputs by one command each.
+> **Row order inside a covariance file is load-bearing — and it is not the same for the two arms.**
+> The two archived covariance sets were written by **two different producer scripts with different
+> conventions**, and each only reproduces byte-for-byte under its own. `build_covariance.py` exposes
+> both via `--order`, and `run_upstream.sh` passes the right one per arm:
+>
+> | `--order` | genes | SNPs within a gene | arm | producer script in the audit |
+> |---|---|---|---|---|
+> | `model` | ascending gene id | model-DB row order | eQTLGen | `eq2_cov.py` |
+> | `bim` | model-DB insertion order | **LD panel `.bim` order** | GTEx | `mx8_pipeline.py` |
+>
+> Measured against the archived files: `--order bim` reproduces `cov_Whole_Blood.txt.gz` and
+> `cov_Nerve_Tibial.txt.gz` with **0 differing lines** (11,382/11,382 genes and 11,382/11,382
+> within-gene SNP orders — a plain rsid sort matches only 73.1 %, the model-DB SNP order only
+> 76.0 %); `--order model` reproduces `cov_A.txt.gz` cell for cell across all 18,390,068 rows.
+>
+> **Why this was easy to get wrong.** Every wrong combination yields the *same gene set, the same SNP
+> pairs and the same values* — a content comparison passes while the file hash does not. The first
+> version of `build_covariance.py` used `sorted()` genes plus model-DB SNP order for both arms: right
+> by accident for the eQTLGen band (its genes are stored ascending already), wrong for both GTEx
+> tissues. The downstream effect of the GTEx ordering alone was floating-point only
+> (max |Δ| = 3.6 × 10⁻¹⁵ over a GTEx arm's 162k cells), which is why a value-level check could not
+> catch it. Found 2026-10-03 by rebuilding and diffing line by line; fixed; `verify_middleware.py`
+> now fails on it.
 
 ## Evidence that the upstream step executes
 Every claim below was produced by re-running the official MetaXcan v0.8.1 binary against the hashed inputs and comparing with `cmp`, not by inspection.
@@ -101,6 +108,21 @@ Every claim below was produced by re-running the official MetaXcan v0.8.1 binary
 | eQTLGen weights | eQTLGen cis-eQTL summary statistics → `eQTLGen_Whole_Blood.db` | **65,622/65,622 weight rows identical**, content MD5 `8ec08cc9baaf313a602f4518d220c2f5` both sides |
 | S-PrediXcan, eQTLGen arm | `eQTLGen_Whole_Blood.db` + `cov_eQTLGen_Whole_Blood.txt.gz` + `gwas_*_aligned.tsv` → `official_eQTLGen_*.csv` | ✅ **re-run 2026-09-16** — the model was split by gene size (A/B/C) and each band run under `--stream_covariance`, which is what keeps the 111–394 MB covariance off the heap; 9/9 runs returned 0 |
 | eQTLGen/GTEx Z layer | the official `official_*.csv` above → `data/derived/{eqtlgen,gtex}_Z.csv` | ✅ **reproduces the shipped layer** — every cell back-computed from the official outputs lands inside the archived tables' 4-decimal grid (eQTLGen 288/288, max abs diff 5.0 × 10⁻⁵; GTEx 360/360, max 5.0 × 10⁻⁵) |
+
+**Re-run end to end on 2026-10-03, independently of the run that produced the archive.**
+[`code/upstream/verify_middleware.py`](../../code/upstream/verify_middleware.py) hashed all
+**30** middleware artefacts against the archived copies:
+
+```
+identical 30 | differing 0 | missing 0   (of 30)
+RESULT: the whole upstream chain reproduces the archived middleware.
+```
+
+That includes the nine `official_eq_{A,B,C}_{DR,DN,DPN}.csv` band outputs of the eQTLGen
+S-PrediXcan arm — the step this file previously described as not re-run — and the GTEx
+covariance row order that `build_covariance.py` had wrong until this pass. Machine
+environment: unmodified official MetaXcan v0.8.1, Python 3.12.13, numpy 1.26.4, scipy
+1.13.1, pandas 2.2.3, pinned as [`env/environment-upstream.yml`](../../env/environment-upstream.yml).
 
 The commands, in order, are in [`../../code/run_upstream.sh`](../../code/run_upstream.sh).
 ## Retrieve date — per resource, and the recommendation
