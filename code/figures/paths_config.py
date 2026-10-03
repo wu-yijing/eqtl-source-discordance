@@ -64,6 +64,62 @@ RES = os.environ.get('FIG_RESULTS') or HERE
 #: reading it — it is never an input path.
 FORBIDDEN = os.path.join(REPO, 'data', 'superseded')
 
+#: ⚠️ **2026-10-03 — legacy filenames.** The scripts in this directory were written
+#: against the predecessor's data layer, which lived at `data/processed_officialZ/`
+#: and used a `_official` suffix. That directory has never existed in this repository
+#: (see `code/analyses/reproduction_20261002/INPUTS.md` §A.1): the same six files were
+#: renamed into `data/derived/` on 2026-10-02. The figure scripts were not updated, so
+#: every one of them raised FileNotFoundError from a fresh clone and `code/run_all.sh`
+#: failed its own preflight. `rz()` resolves the old name onto the shipped file, which
+#: is the same mapping `code/analyses/reproduction_20261002/paths_config.py` already
+#: carries as `OFFICIAL_Z_RENAME`.
+OFFICIAL_Z_RENAME = {
+    'scz_z_4arm_official.csv': 'scz_z_4arm.csv',
+    'gtex_official_Z.csv': 'gtex_Z.csv',
+    'eqtlgen_official_Z.csv': 'eqtlgen_Z.csv',
+    'gene_groups_TableS1_official.csv': 'gene_groups.csv',
+    'primary_arm_96pairs_official.csv': 'primary_arm_96pairs.csv',
+    'crosscohort_TableS4_official.csv': 'crosscohort.csv',
+}
+
+
+def rz(name):
+    """Resolve a legacy `processed_officialZ` filename to its `data/derived/` path.
+
+    Names that are already current (or are not data-layer files at all) are passed
+    through unchanged, so a call site may use this unconditionally.
+    """
+    return os.path.join(DATA_Z, OFFICIAL_Z_RENAME.get(name, name))
+
+
+#: Tokens the Supporting Information uses for "no value". `—` (em dash) is the one
+#: the GE revision uses; the figure scripts' original one-line lamdas only knew
+#: `None`/''/'NA' and raised `ValueError: could not convert string to float: '—'`
+#: on the first cell that carried it.
+_NA_TOKENS = frozenset(['', 'NA', 'N/A', 'n/a', 'NaN', 'nan', '-', '–', '−', '—', '.', '..'])
+
+
+def num(x):
+    """Parse one cell of a Supporting-Information table into a float, or NaN.
+
+    Robust on purpose: returns NaN instead of raising for placeholders, thousands
+    separators, percentages and free text, so a single unexpected cell cannot abort
+    a figure build.
+    """
+    if x is None:
+        return float('nan')
+    try:
+        s = str(x).strip()
+    except Exception:
+        return float('nan')
+    if s in _NA_TOKENS:
+        return float('nan')
+    s = s.replace(',', '').replace('%', '').replace('\u00a0', ' ').strip()
+    try:
+        return float(s)
+    except ValueError:
+        return float('nan')
+
 
 def need(path, what='input'):
     """Existence assertion that prints an actionable message instead of a traceback."""

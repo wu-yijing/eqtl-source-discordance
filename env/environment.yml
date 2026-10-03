@@ -1,16 +1,33 @@
+# ---------------------------------------------------------------------------
+# ⚠️ 2026-10-03 — the pins below were uninstallable. Read this before editing.
+#
+# The previous revision pinned `python=3.13.0` together with `numpy=1.26.4`.
+# numpy 1.26.4 predates CPython 3.13 (1.26.4 shipped 2024-02; Python 3.13 shipped
+# 2024-10) and has no cp313 build on any channel, so the solve had no solution:
+#
+#     $ pip download "numpy==1.26.4" --only-binary=:all:
+#     ERROR: Could not find a version that satisfies the requirement numpy==1.26.4
+#
+# `conda env create -f env/environment.yml` — the path README.md calls out in its
+# Quick start — therefore failed on a clean machine, and the Dockerfile that runs
+# the same file could not build. The stack below is the one the reproduction
+# package actually ran on (see code/analyses/reproduction_20261002/README.md);
+# every pin was verified to resolve to a cp313 wheel before being written here.
+#
+# Version numbers are exact on purpose — env/README.md rule 1.
+# ---------------------------------------------------------------------------
 name: twas-eqtl
 channels:
   - conda-forge
-  - defaults
 dependencies:
-  - python=3.13.0
-  - numpy=1.26.4
-  - pandas=2.2.0
-  - scipy=1.12.0
-  - statsmodels=0.14.1
-  - matplotlib=3.8.3
-  - seaborn=0.13.2
-  - scikit-learn=1.4.1
-  - pip=24.0
+  - python=3.13.12
+  - pip
   - pip:
-    - pyarrow==16.0.0
+    - numpy==2.4.4
+    - pandas==3.0.3
+    - scipy==1.17.1
+    - statsmodels==0.14.6
+    - matplotlib==3.10.8
+    - seaborn==0.13.2
+    - scikit-learn==1.7.2
+    - pyarrow==22.0.0

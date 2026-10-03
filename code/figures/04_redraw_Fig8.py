@@ -38,8 +38,33 @@ for _ch in d.element.body.iterchildren():
         if _cur and _cur not in _by_label:
             _by_label[_cur] = Table(_ch, d)
 print('AF1 tables resolved:', sorted(_by_label))
-grid = lambda s: [[c.text.strip() for c in r.cells] for r in _by_label[s].rows]
-f = lambda x: (float(x) if x not in (None, '', 'NA') else np.nan)
+
+# 2026-10-03：本脚本的表号是**前代 BMC 编号**，而 GE 版补充材料把每一张表整体位移一位
+#   （BMC S*n* -> GE S(*n*+1)，S4a/S4b -> S5a/S5b），并把原 S26（Positioning）提到 S1。
+#   上一版只按题注解析表号，仍按 BMC 号取值，于是 grid('S1') 取到 Positioning 表 →
+#   分组字典 G 全空 → is_cand 无一个为真 → 空数组索引，报
+#   "arrays used as indices must be of integer (or boolean) type"。
+#   两组编号指向同一张实物表；这里优先用现行 GE 号，回退到前代号，两种 SI 都能跑。
+_TBL_ALIAS = {
+    'S1': ('S2', 'S1'),   # 基因分组注释            BMC S1  -> GE S2
+    'S2': ('S3', 'S2'),   # GTEx v8 基线 TWAS（222） BMC S2  -> GE S3
+    'S5': ('S6', 'S5'),   # 管家对照双组织            BMC S5  -> GE S6
+}
+
+
+def _pick(label):
+    for cand in _TBL_ALIAS.get(label, (label,)):
+        if cand in _by_label:
+            return cand
+    raise SystemExit('[missing table] none of %r resolved; document has %s'
+                     % (_TBL_ALIAS.get(label, (label,)), sorted(_by_label)))
+
+
+grid = lambda s: [[c.text.strip() for c in r.cells] for r in _by_label[_pick(s)].rows]
+# 2026-10-03：`f` 由一行 lambda 换成 P.num()。GE 版 SI 用破折号 `—` 表示缺失值，
+#   原 lambda 只认 None/''/'NA'，遇到第一个破折号即
+#   ValueError: could not convert string to float: '—'，图件无法生成。
+f = P.num
 
 def rho_ci(x, y):
     m = ~(np.isnan(x) | np.isnan(y))
@@ -81,7 +106,7 @@ r_hk, n_hk, lo_hk, hi_hk = rho_ci(hk_wb, hk_nt)
 print('housekeeping tissue-only: rho=%.3f n=%d CI %.3f-%.3f' % (r_hk, n_hk, lo_hk, hi_hk))
 
 # --- SCZ genome-wide ---
-rows = list(csv.DictReader(open(os.path.join(NEW, 'scz_z_4arm_official.csv'), encoding='utf-8-sig')))
+rows = list(csv.DictReader(open(P.rz('scz_z_4arm_official.csv'), encoding='utf-8-sig')))
 g = lambda k: np.array([float(r[k]) if r[k] not in ('', 'NA') else np.nan for r in rows])
 ze, zwb_s, znt_s = g('eqZ'), g('wbZ'), g('ntZ')
 r_s, n_s, lo_s, hi_s = rho_ci(zwb_s, znt_s)

@@ -17,7 +17,7 @@ Fig. 6 单独重绘（v5 评审 P1-2 修订）—— 只出 Fig6，不触碰任�
 2026-09-20 格式批次：figsize 7.2->6.65（页宽 182.9->168.9 mm，满足 BMC <=170 mm）；k/N 标签 5.2->6.2 pt。
 """
 import paths_config as P  # 统一路径入口（2026-09-20）
-import os, shutil, sys, io
+import os, shutil, sys, io, re
 import numpy as np
 from scipy import stats
 from docx import Document
@@ -39,9 +39,43 @@ plt.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 7.5, 'axes.linew
 C_GTEX, C_EQTL = '#C0392B', '#2471A3'
 
 d = Document(AF)
-tabs = [Table(ch, d) for ch in d.element.body.iterchildren() if ch.tag == qn('w:tbl')]
-grid = lambda i: [[c.text.strip() for c in r.cells] for r in tabs[i].rows]
-f = lambda x: (float(x) if x not in (None, '', 'NA') else np.nan)
+# 2026-10-03：原按 body 顺序硬编码 `tabs[i]`（grid(0/1/5/15/18)），只对 2026-09-17 那一版
+#   Additional file 1 成立。GE 版补充材料重排了表号（每张表整体位移一位、S4a/S4b 拆成
+#   S5a/S5b、原 S26 提到 S1），硬编码索引因此整体错位：grid(5) 落到 Table S5a（RNH1 跨队列
+#   表，无 ACAT 列），触发 "Table S5 ACAT columns not found"。改为**按题注解析表号**，并保留
+#   BMC 号 → GE 号的映射；两种 SI 都能跑，加表/挪表也不会再错位。
+_by_label, _cur = {}, None
+for _ch in d.element.body.iterchildren():
+    if _ch.tag == qn('w:p'):
+        _t = ''.join(_x.text or '' for _x in _ch.iter(qn('w:t'))).strip()
+        _m = re.match(r'^\**\s*Table\s+(S\d+[a-c]?)\b', _t)
+        if _m:
+            _cur = _m.group(1)
+    elif _ch.tag == qn('w:tbl'):
+        if _cur and _cur not in _by_label:
+            _by_label[_cur] = Table(_ch, d)
+print('AF1 tables resolved:', sorted(_by_label))
+
+_TBL_ALIAS = {
+    'S1': ('S2', 'S1'),     # 基因分组注释              BMC S1  -> GE S2
+    'S2': ('S3', 'S2'),     # GTEx v8 基线 TWAS（222）  BMC S2  -> GE S3
+    'S5': ('S6', 'S5'),     # 管家对照双组织            BMC S5  -> GE S6
+    'S14': ('S15', 'S14'),  # 管家对照 eQTLGen          BMC S14 -> GE S15
+    'S17': ('S18', 'S17'),  # eQTLGen 逐基因（207 对）  BMC S17 -> GE S18
+}
+
+
+def _pick(label):
+    for cand in _TBL_ALIAS.get(label, (label,)):
+        if cand in _by_label:
+            return cand
+    raise SystemExit('[missing table] none of %r resolved; document has %s'
+                     % (_TBL_ALIAS.get(label, (label,)), sorted(_by_label)))
+
+
+grid = lambda s: [[c.text.strip() for c in r.cells] for r in _by_label[_pick(s)].rows]
+# 2026-10-03：改用 P.num()，与 04_redraw_Fig8.py 同一解析器；GE 版 SI 以 `—` 表示缺失值。
+f = P.num
 
 
 def norm(g):
@@ -54,8 +88,8 @@ def norm(g):
 
 
 # ---------------- 数据抽取（与原脚本同源，仅换现行文件名） ----------------
-S2 = grid(1); i2 = {n: k for k, n in enumerate(S2[0])}
-G  = {r[0]: norm(r[1]) for r in grid(0)[1:] if r[0]}
+S2 = grid('S2'); i2 = {n: k for k, n in enumerate(S2[0])}
+G  = {r[0]: norm(r[1]) for r in grid('S1')[1:] if r[0]}
 GT = {}
 for r in S2[1:]:
     if len(r) < 10 or not r[0]:
@@ -63,7 +97,7 @@ for r in S2[1:]:
     p = f(r[i2['P_ACAT_O']])
     if not np.isnan(p):
         GT.setdefault((G.get(r[0], '?'), r[1]), []).append(p)
-S5 = grid(5); acat_cols = [i for i, h in enumerate(S5[0]) if 'ACAT' in h.upper()]
+S5 = grid('S5'); acat_cols = [i for i, h in enumerate(S5[0]) if 'ACAT' in h.upper()]
 assert len(acat_cols) >= 3, 'Table S5 ACAT columns not found: %r' % (S5[0],)
 for r in S5[1:]:
     if not r[0]:
@@ -74,13 +108,13 @@ for r in S5[1:]:
             GT.setdefault(('Housekeeping', ph), []).append(p)
 
 EQ = {}
-for r in grid(18)[1:]:
+for r in grid('S17')[1:]:
     if len(r) < 8 or not r[0]:
         continue
     p = f(r[4])
     if not np.isnan(p):
         EQ.setdefault((norm(r[2]), r[1]), []).append(p)
-for r in grid(15)[1:]:
+for r in grid('S14')[1:]:
     if len(r) < 6 or not r[0]:
         continue
     p = f(r[3])

@@ -43,5 +43,17 @@ file as prose. The table-writing scripts in [`../../deprecated/si_editors/`](../
 carry their numbers as **hard-coded English literals** and read no data at all. Recovering those
 scripts therefore documents *what was published*, but does not make those tables reproducible.
 
-**Still missing after this recovery:** SI Tables S6, S9, S10, S11, S16, S17 and the simulation
-generators for S27–S29.
+**Still open after this recovery — restated 2026-10-03.** This list used to name *S6, S9, S10, S11,
+S16, S17* and the S27–S29 generators, but five of those were closed later on 2026-10-02 and the
+sentence was never updated, so this file contradicted `metadata/ARCHIVE_MAP.md`. Current state:
+
+| SI item | Status |
+|---|---|
+| S9, S16, S17, S27, S28, S29 | **closed** 2026-10-02 — see `ARCHIVE_MAP.md` (GAP-5/7/9/10) and `code/analyses/reproduction_20261002/` |
+| S6 | **open** (GAP-1) — the corrected housekeeping Z layer is not in this archive |
+| S10 | **open** (GAP-8) — DN cross-population check |
+| S11 | reported as a denominators/availability table; no generating script |
+| S7 | the CI half is recovered here (`tost_ci_calculator.py`); the "Smallest margin attained" column is unsourced (GAP-6) |
+
+The authoritative register is `metadata/ARCHIVE_MAP.md`, not this file.
+

@@ -24,15 +24,54 @@ Analysis, figure and simulation scripts.
 
 ## Script → manuscript item map
 
-Fill this in as the repository is assembled. Every entry should name the script, the input it reads, and the manuscript item it reproduces.
+Last filled in on **2026-10-03**, replacing the placeholder table. Every row names the script, the
+input it reads and the manuscript item it produces. A number in the manuscript that no row reaches
+is an **orphan** and must either be wired to a script or withdrawn.
+
+### Entry point and the two reproduction packages
 
 | Script | Reads | Reproduces |
 |---|---|---|
-| `analyses/01_primary_arm.py` | `data/derived/gtex_official_Z.csv`, `data/derived/eqtlgen_official_Z.csv` | Supporting Information Table S13; headline direction consistency 68.8% and ρ = 0.39 |
-| `analyses/…` | … | … |
-| `figures/fig1_*.py` | `data/derived/…` | Fig. 1 |
-| `simulations/s27_*.py` | — | Supporting Information Table S27 |
-| `simulations/s28_*.py` | — | Supporting Information Table S28 |
-| `simulations/s29_*.py` | — | Supporting Information Table S29 |
+| `run_all.sh` | `data/derived/`, `code/figures/` | the only supported entry point: figure pipeline + headline value check |
+| `analyses/reproduction_min/reproduce_headline.py` | `data/derived/{primary_arm_96pairs,gtex_Z,scz_z_4arm}.csv` | headline 66/96 = 68.75 %, ρ = 0.38964, per-phenotype 23/21/22; tissue-only arm 138 · 91 · 65.9 % · ρ 0.4138; SCZ three arms; 15 assertions, numpy only |
+| `analyses/reproduction_20261002/scripts/recompute.py` | `data/derived/`, the manuscript + SI `.docx` | Abstract/Results headline chain, Table 1 enrichment rates, Table 2(A)(B) arm partition, BH chains, Table S5a/S5b cross-cohort |
+| `analyses/reproduction_20261002/scripts/recompute_scz.py` | `data/derived/genomewide/*`, `scz_z_4arm.csv` | Fig. 4 SCZ point; Table S16 framework layer (9 rows); Table S17 empirical null; Δρ(SCZ) |
+| `analyses/reproduction_20261002/scripts/r3/simulation_validation.py` | **nothing** (pure synthetic) | Tables S27–S29, all 84 values |
+| `analyses/reproduction_20261002/scripts/r3/recompute_r3_s9_s20.py` | `data/derived/`, SI `.docx` | Table S9 (pools, exclusion chain, random controls); Table S20 (detection bounds, power) |
+| `analyses/reproduction_20261002/scripts/r3/m15/m15_pc.py` | `Additional file 1_审稿意见修订_20260917.docx` | Table S20 generator (positive control). **Not runnable from this archive** — that document is not redistributed |
+| `analyses/reproduction_20261002/scripts/repo_crosscheck/*` (13) | `data/derived/` (2 of them also the SI) | BH q per stratum; cluster robustness; cross-cohort; RNG/permutation convention identification |
+| `analyses/reproduction_20261002/scripts/bmc_ref/*` (8) | `primary_arm_96pairs.csv`, four documents | BMC ↔ GE cross-check of the two submissions |
+| `analyses/reproduction_20261002/scripts/r2_fix/*` (2) | `primary_arm_96pairs.csv` | the three residual R2 items (estimator enumeration) |
 
-> A number in the manuscript that no row of this table reaches is an **orphan** and must either be wired to a script or withdrawn. The predecessor archive contained at least one value (67.6%, in Table S14) with no originating table — check for this class of defect before release.
+### Figures — `figures/` (read `FIGURE_NUMBER_MAP.md` first)
+
+| Script | Reads | Reproduces |
+|---|---|---|
+| `figures/00_build_officialZ_data_layer.py` | SI `.docx` (`AF1_DOCX`) | rebuilds `data/derived/`; opt-in via `run_all.sh --rebuild-data` |
+| `figures/01_redraw_Fig5_Fig7.py` | `data/derived/` | build outputs `Fig5`, `Fig7` — *not in the current manuscript* |
+| `figures/02_redraw_Fig3.py` | `data/derived/` | **Fig. 2** — cross-source agreement scatter; build output `Fig3` |
+| `figures/03_redraw_Fig6.py` | — | hard-deprecation guard; exits 1 by design |
+| `figures/04_redraw_Fig8.py` | `data/derived/`, SI `.docx` | **Fig. 4** — cross-trait generalisation; build output `Fig8` |
+| `figures/05_recompute_arms.py` | `data/derived/` | read-only check of the four arm counts |
+| `figures/06_redraw_Fig4.py` | `data/derived/` | **Fig. 3** — axis-resolved partition; build output `Fig4` |
+| `figures/07_verify_SCZ_denominators.py` | `data/derived/scz_z_4arm.csv` | read-only check of the SCZ denominators (8,315 / 8,890 / 9,048) |
+| `figures/08_redraw_Fig6_labels_20260920.py` | SI `.docx` | build output `Fig6` — *not in the current manuscript* (regression: 24 groups against SI Table S18) |
+| `figures/10_redraw_FigS6_20260921.py` | `figures/m15_positive_control.json` | **Fig. S3** — endpoint calibration; build output `FigS6` |
+| `figures/11_figure_precheck.py` | `figures/` | release gate on figure format (page size, fonts, DPI) |
+
+Manuscript figures **Fig. 1, S1, S2 and S4 have no producing script here** — see `figures/README.md`.
+
+### Other analyses
+
+| Script | Reads | Reproduces |
+|---|---|---|
+| `analyses/run_hk_control.py` | GTEx model databases, `data/derived/hk_genes.txt` | the housekeeping S-PrediXcan layer (SI Table S6). **Its corrected output is not in this archive** — see GAP-1 in `metadata/ARCHIVE_MAP.md` |
+| `analyses/run_mahalanobis_matching.R` | `data/derived/covariate_matrix.csv` | Table S4 — the 30-gene Mahalanobis matching |
+| `analyses/m6_ne_weighted_sensitivity.py` | `data/derived/` | M6(b)/M6(d) — N_e-weighted re-merge of the RNH1 cross-cohort meta-analysis |
+| `analyses/m7_effect_size_supplement.py` | `data/derived/` | M7 — Top-k overlap (GTEx vs eQTLGen by \|Z\|) |
+| `analyses/robustness_check.py` | `data/derived/` | the 2×2 decomposition robustness check (unequal gene × trait coverage) |
+| `analyses/round4_recompute/round4_recompute_20260917/r14_recompute.py` | official-Z package, `groups.json` | R1 + R4 — Table S7 note (median \|Z\|/IQR, Fisher OR) and the two-arm paired gene-cluster bootstrap |
+| `analyses/recovered/tost_ci_calculator.py` | literals in source | Table S7 TOST p-values and Newcombe 90 % CIs. Carries a hard-coded Windows output path |
+| `analyses/recovered/scz_arm_recount_si_fix.py` | `data/derived/scz_z_4arm.csv` | the SCZ three-arm recount. Carries a hard-coded Windows path |
+| `simulations/split_half_null/splithalf_null_simulation.py` | LD panel (not redistributed) | the split-half null simulation. Carries a hard-coded Windows path |
+

@@ -18,7 +18,7 @@ plt.rcParams.update({'font.family': 'DejaVu Sans', 'font.size': 7.5, 'axes.linew
 C_GTEX, C_EQTL, C_POOL = '#C0392B', '#2471A3', '#7D3C98'
 
 def rd(name, key):
-    with open(os.path.join(NEW, name), encoding='utf-8-sig') as f:
+    with open(P.rz(name), encoding='utf-8-sig') as f:
         return {tuple(r[k] for k in key): r for r in csv.DictReader(f)}
 
 GT = rd('gtex_official_Z.csv', ['Gene', 'Trait'])

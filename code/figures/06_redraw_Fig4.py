@@ -18,7 +18,7 @@ C_PAN, C_TIS, C_DUA = '#2471A3', '#1E8449', '#C0392B'
 rng = np.random.default_rng(20260915)
 
 def rd(n):
-    return list(csv.DictReader(open(os.path.join(NEW, n), encoding='utf-8-sig')))
+    return list(csv.DictReader(open(P.rz(n), encoding='utf-8-sig')))
 f = lambda x: (float(x) if x not in (None, '', 'NA') else np.nan)
 GT = {(r['Gene'], r['Trait']): r for r in rd('gtex_official_Z.csv')}
 EQ = {(r['Gene'], r['Trait']): r for r in rd('eqtlgen_official_Z.csv')}

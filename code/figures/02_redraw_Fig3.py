@@ -19,7 +19,7 @@ C_GTEX, C_EQTL = '#C0392B', '#2471A3'
 CGRP = {'Candidate': '#C0392B', 'Non-Candidate': '#2471A3', 'T2DM control': '#1E8449'}
 
 def rd(name):
-    with open(os.path.join(NEW, name), encoding='utf-8-sig') as f:
+    with open(P.rz(name), encoding='utf-8-sig') as f:
         return list(csv.DictReader(f))
 def save(fig, name):
     # 2026-09-20 拆分：Fig6 已由 08_redraw_Fig6_labels_20260920.py 接管，

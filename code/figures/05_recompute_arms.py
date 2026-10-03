@@ -7,7 +7,7 @@ import paths_config as P  # 统一路径入口（2026-09-20）
 
 NEW = P.need(P.DATA_Z, '官方 MetaXcan Z 数据层')
 def rd(n):
-    return list(csv.DictReader(open(os.path.join(NEW, n), encoding='utf-8-sig')))
+    return list(csv.DictReader(open(P.rz(n), encoding='utf-8-sig')))
 f = lambda x: (float(x) if x not in (None, '', 'NA') else np.nan)
 
 GT = {(r['Gene'], r['Trait']): r for r in rd('gtex_official_Z.csv')}

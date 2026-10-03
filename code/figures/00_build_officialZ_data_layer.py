@@ -21,7 +21,11 @@ AF = P.need(P.AF1, 'Additional file 1（从期刊补充材料下载后用 AF1_DO
 REPO = P.REPO
 # 2026-10-02 — path update for the reorganized repository:
 #   authoritative layer:  data/processed_officialZ/  ->  data/derived/
-#   pre-correction layer: data/processed/            ->  data/superseded/
+#   pre-correction layer: the former `data/processed` ->  data/superseded/
+#   (2026-10-03: the trailing slash is deliberately omitted above. `code/run_all.sh`
+#    greps this directory for the quarantined path and treated this comment as a live
+#    reference, failing its own preflight. The guard matches a real path — i.e. the
+#    directory name followed by `/` or a quote — so prose must not spell it that way.)
 PROC = os.path.join(REPO, 'data', 'superseded')
 NEW = os.path.join(REPO, 'data', 'derived')
 META = os.path.join(REPO, 'metadata')
@@ -73,7 +77,7 @@ S1 = grid(0)
 write_csv('gene_groups.csv', S1[0], [r for r in S1[1:] if len(r) >= 2 and r[0]])
 
 # ---- 弃用声明 ----
-DEP = """# ⚠️ 本目录（data/processed/）已作废 —— 请勿用于出图或统计
+DEP = """# ⚠️ 本目录（旧名 data/processed，现已并入 data/superseded）已作废 —— 请勿用于出图或统计
 
 **作废日期**：2026-09-17
 **原因**：本目录下的 S-PrediXcan 输出产生于 **实现缺陷修正之前**。该版本的自研 S-PrediXcan 例程

@@ -23,6 +23,71 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-03 (seventh pass) — `run_all.sh` runs again, and the environment installs
+
+**Numbers: no reported number changes.** `data/derived/` is byte-identical, the three submitted
+documents are untouched, and no value in the manuscript or the Supporting Information moved. What
+changed is that the repository's self-declared *only supported entry point* now works.
+
+An independent audit found that `bash code/run_all.sh` — which `README.md` and `code/README.md` both
+call "the ONLY supported entry point" and which "must run end to end from a clean environment" —
+**failed on a fresh clone with exit 1 and eight FAIL lines**, ending in
+`Do not treat this run as reproducing the paper.`
+
+**Fixed — four independent causes, none of them numerical:**
+
+- **Legacy filenames were never remapped.** Seven figure scripts still asked for the predecessor's
+  `*_official.csv` names, which ceased to exist when the layer moved to `data/derived/` on
+  2026-10-02. `code/figures/paths_config.py` now carries the same `OFFICIAL_Z_RENAME` map its
+  `code/analyses/reproduction_20261002/` counterpart already had, exposed as `rz()`. No data was
+  duplicated to make this work.
+- **A false-positive preflight.** `run_all.sh` greps the figure directory for the quarantined path
+  `data/processed/`; the only hits were prose in `00_build_officialZ_data_layer.py` — the script that
+  *writes the deprecation notice*. The prose was reworded; the guard is unchanged and still catches a
+  real reference.
+- **BMC-era table numbering in the figure scripts.** `04_redraw_Fig8.py` and
+  `08_redraw_Fig6_labels_20260920.py` looked up SI tables by the predecessor's numbering, which the
+  new Supporting Information shifted by one (Table S*n* → S*(n+1)*, old S26 promoted to S1). Both now
+  resolve table numbers from the captions and accept either numbering.
+- **An em dash the cell parser could not read.** The new SI writes a missing value as `—`; the
+  one-line `float()` lambdas raised `ValueError: could not convert string to float: '—'`. A shared
+  `paths_config.num()` now returns NaN for placeholders, thousands separators and free text.
+
+**Fixed — the environment.** `env/environment.yml` pinned `python=3.13.0` with `numpy=1.26.4`, which
+has no cp313 build on any channel, so the conda environment had no solution
+(`pip download numpy==1.26.4` → `No matching distribution found`) and the Dockerfile that consumes
+the same file could not build. The stack now names the versions the reproduction actually ran under,
+each verified to have a cp313 wheel. `env/requirements.txt` used lower bounds throughout — against
+`env/README.md` rule 1, which the file itself quotes — and now pins the same versions.
+`env/Dockerfile` had four defective paths (`COPY environment.yml`, `chmod +x /app/run_all.sh`,
+`ENTRYPOINT … /app/run_all.sh`, `renv::snapshot` before `WORKDIR /app`) and an `apt` pin with no
+Debian candidate; all corrected.
+
+**Changed — the figure policy is now stated.** `figures/` was empty while `README.md` called it
+"archived figures exactly as submitted", `figures/README.md` argued that figures should be included,
+and `.zenodo.json` said the record "contains no figures" — three positions, none true, and
+`figures/README.md` itself demanded the choice be made explicitly. The policy is now: **`figures/`
+holds the build outputs of `code/run_all.sh` and they are committed.** Seven figures (PDF + PNG) are
+added, with a build-name → manuscript-figure map and an explicit list of the four manuscript figures
+whose producing script is not in this archive (Fig. 1, S1, S2 and the wet-lab S4). `README.md` and
+`.zenodo.json` were corrected to match.
+
+**Changed — documentation that contradicted itself.** `code/README.md`'s script → manuscript-item map
+was an unfilled template naming scripts that do not exist; it is now filled. `code/analyses/recovered/README.md`
+still listed S9, S16 and S27–S29 as missing a month after they were closed; it now defers to
+`metadata/ARCHIVE_MAP.md`. `docs/audit_notes/` gains the full repair record.
+
+**Verified from a clone, not locally.** `bash code/run_all.sh` → exit 0, no failures, all seven figure
+scripts producing output; headline check unchanged at 96 pairs / 68.8 % / ρ 0.3898. The regenerated
+figures reproduce the manuscript's own legend values (Fig. 4: ρ +0.414 / 138, +0.636 / 72, +0.418 /
+8,890; Fig. 3: Δρ −0.0197 and +0.0336). `scripts/verify_from_clone.sh` → 0 failures.
+
+**Deliberately left open, and recorded as such** (`docs/audit_notes/仓库可复现性修复记录_20261003.md`):
+the DOI placeholders, the unpinned `FROM …:latest`, GAP-1/GAP-2 (the housekeeping layer of Table 1),
+GAP-4, GAP-6, GAP-8, the `m15_pc.py` input document, and — the finding that let all of the above ship
+unnoticed — **`verify_from_clone.sh` does not run `run_all.sh`**, so a green gate says nothing about
+the one entry point readers are told to use.
+
 ### 2026-10-02 (sixth pass) — the documents audited against the archive; one row does not reproduce
 
 **No reported number changes.** New check, and one status that was wrong.

@@ -5,7 +5,7 @@ import numpy as np
 from scipy import stats
 import paths_config as P  # 统一路径入口（2026-09-20）
 
-SRC = P.need(os.path.join(P.DATA_Z, 'scz_z_4arm_official.csv'), 'SCZ 四臂官方数据层')
+SRC = P.need(P.rz('scz_z_4arm_official.csv'), 'SCZ 四臂官方数据层')
 rows = list(csv.DictReader(open(SRC, encoding='utf-8-sig')))
 def arr(k):
     return np.array([float(r[k]) if r[k] not in ('', 'NA') else np.nan for r in rows])

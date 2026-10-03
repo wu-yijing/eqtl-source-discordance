@@ -33,11 +33,17 @@ docker build -t eqtl-discordance -f env/Dockerfile .      # containerised
 conda env create -f env/environment.yml                    # or conda
 Rscript -e 'renv::restore()'                               # R side
 
-# 2. Reproduce every reported value
+# 2. Reproduce every reported value (and the figures)
 bash code/run_all.sh
+
+# Figures additionally need the Supporting Information .docx, which this archive
+# does not redistribute. Point at your copy; otherwise the figure step is skipped.
+AF1_DOCX=/path/to/Supporting_Information.docx bash code/run_all.sh
 ```
 
-`code/run_all.sh` is the **only** supported entry point. It reads `data/derived/`, writes to a runtime output directory, and prints a value-by-value check against the manuscript. External inputs that are not redistributed here are listed with their identifiers, versions, retrieval dates and checksums in [`data/README.md`](data/README.md).
+`code/run_all.sh` is the **only** supported entry point. It reads `data/derived/`, writes to a runtime output directory, and prints a value-by-value check against the manuscript. **It runs from a fresh clone** — verified by `scripts/verify_from_clone.sh`, which clones into a temp directory and runs every gate there. One input that is not redistributed here is needed for the figure step: the Supporting Information `.docx`, pointed at with `AF1_DOCX`. Without it that step is skipped, not failed; with it, all seven figure scripts run and write into `figures/`.
+
+External inputs that are not redistributed here are listed with their identifiers, versions, retrieval dates and checksums in [`data/README.md`](data/README.md).
 
 ---
 
@@ -48,7 +54,7 @@ bash code/run_all.sh
 | `code/` | Analysis, figure and simulation scripts (`code/README.md` maps each script to the manuscript item it produces) |
 | `data/` | `derived/` — redistributed derived tables; `README.md` — external-input manifest with checksums |
 | `env/` | `Dockerfile`, `environment.yml`, `renv.lock`, `requirements.txt` |
-| `figures/` | Archived figures (PDF + PNG) exactly as submitted |
+| `figures/` | Build outputs of `code/figures/` (PDF + PNG), committed so a reader can compare a re-run against what was shipped. See `figures/README.md` for the build-name → manuscript-figure map and for the four manuscript figures whose producing script is not in this archive |
 | `metadata/` | [`ARCHIVE_MAP.md`](metadata/ARCHIVE_MAP.md) — artefact → manuscript item; [`PRE_REGISTRATION.md`](metadata/PRE_REGISTRATION.md) — pre-specification anchors; `provenance.json` — input checksums |
 | `docs/` | [`RELEASE_PROCESS.md`](docs/RELEASE_PROCESS.md) — how releases and Zenodo archives are cut |
 
