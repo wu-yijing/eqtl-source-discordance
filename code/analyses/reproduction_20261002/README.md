@@ -102,7 +102,9 @@ results/                          machine-readable outputs and run logs for ever
 ## Running it
 
 Requirements: Python 3.13.12, numpy 2.4.4, scipy 1.17.1, pandas 3.0.3
-(`env/requirements.txt`).
+(`env/requirements.txt`) — plus `python-docx` and `pillow` when a step reads a
+submitted `.docx` or a published raster; both were added to the pins on
+2026-10-04 and are listed in `env/requirements.txt` and `env/environment.yml`.
 
 Check the wiring first — this prints every resolved path and verifies each MD5:
 

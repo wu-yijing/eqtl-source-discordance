@@ -19,6 +19,16 @@ seaborn==0.13.2
 scikit-learn==1.7.2
 pyarrow==22.0.0
 
+# Reading the submitted documents and the published rasters. Both were unpinned
+# until 2026-10-04 although 21 shipped scripts import them: every script under
+# `code/figures/` reads either the Supporting Information .docx or a PNG through
+# PIL, and `code/figures/ge_main/reproduce.sh` aborts in its preflight when PIL
+# is absent — so the four main figures did not rebuild from a clean environment
+# built from this file. Verified 2026-10-04: with both added, all four PNGs are
+# byte-identical to the submitted figures.
+python-docx==1.2.0
+pillow==12.3.0
+
 # Note: S-PrediXcan is run separately via the command line (official MetaXcan
 #       v0.8.1, installed from source — see env/Dockerfile).
 # Note: Mahalanobis matching uses the R `MatchIt` package (env/renv.lock).

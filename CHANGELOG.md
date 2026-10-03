@@ -23,6 +23,55 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-04 (seventeenth pass) — the pinned environment could not build the figures it claims to build
+
+**Numbers: no reported number changes.** No file in `data/derived/` changed, no middleware artefact
+changed, and neither submitted document was edited.
+
+A reproducibility pass re-checked every shipped input, both submitted documents and all four main
+figures against the hashes this archive records, and found them correct. What it could not do was
+*rebuild* them from the environment this archive pins, because two dependencies were not in it.
+
+Fixed
+- **Two dependencies that 21 shipped scripts import were not pinned.** `PIL` (Pillow) and `docx`
+  (python-docx) appear in every script under `code/figures/`, in
+  `code/figures/ge_si/published/{patch_figS1,patch_figS3,verify_published}.py`, in
+  `ge_main/figstyle_ge.py` and in `r3/m15/m15_pc.py`. Neither `env/requirements.txt` nor
+  `env/environment.yml` named them, so both Quick-start paths — `conda env create -f
+  env/environment.yml` and `docker build -f env/Dockerfile` — produced an environment in which
+  `bash code/figures/ge_main/reproduce.sh` aborts in its preflight (`python module missing: PIL`)
+  and every `.docx`-reading step fails at import. Both are now pinned (`pillow==12.3.0`,
+  `python-docx==1.2.0`); both resolve to cp313 wheels, as `env/README.md` rule 1 requires.
+  **Verified from that environment on 2026-10-04: all four main-figure PNGs rebuild
+  byte-identically** (`eb77483e…`, `87ee0eaa…`, `152f45df…`, `f29f2f56…`).
+
+Added
+- `data/README.md`: the `external/` row now says *which* files are tracked — the three manifest
+  files — instead of "No (git-ignored)", which was false for them and left a reader guessing whether
+  `SOURCES.tsv` and `SHA256SUMS` are in the clone at all.
+- `data/README.md`: the **Table S24 zero-value convention** is recorded beside the `scz_z_4arm.csv`
+  row it governs. `multiZ` carries **77 exact zeros** among the 8,315 complete-case genes; the
+  archived three-arm counts score a zero as **disagreement** (`numpy.sign`), and treating zeros as
+  positive instead moves the dual arm from 5,506 to 5,544 (**+0.46 pp**). The convention belongs in
+  the SI table note, which is a submission-document edit; paste-ready wording is in
+  `docs/audit_notes/R2残余差异消除方案_20261002.md` §五 item 7.
+
+Corrected
+- `figures/README.md` no longer contradicts itself. Its "Figures whose producing script is not in
+  `code/figures/`" section still ended with the pre-2026-10-03 sentence *"the manuscript's four main
+  figures still cannot be assembled end-to-end from this archive — Fig. 2, 3 and 4 can, Fig. 1 only
+  by hand"*, directly beneath a section saying all four regenerate byte-identically. The stale
+  sentence is replaced by a statement of what the limitation actually covers.
+- `figures/README.md`: **Fig. S2 is 🟡, not ✅.** The recovered `gen_figs4.py` reproduces the
+  published universe (61 genes, 24/24/13) and the three medians, but it carries hard-coded 2026-09
+  paths and is not invoked by `run_all.sh`; `metadata/ARCHIVE_MAP.md` records its input locality as
+  `none`. Marking it ✅ claimed more than the archive delivers.
+
+Verified
+- `bash scripts/verify_from_clone.sh` — **0 failures**, all 10 gates, from a fresh clone.
+- `bash code/figures/ge_main/reproduce.sh` — four PNGs byte-identical to the submitted figures.
+- `python code/analyses/reproduction_min/reproduce_headline.py` — 15 checks, 0 mismatches.
+
 ### 2026-10-03 (sixteenth pass) — the truncated input is traced to its source, and the class of bug is closed
 
 **Numbers: no reported number changes.** No file in `data/derived/` changed, no middleware artefact

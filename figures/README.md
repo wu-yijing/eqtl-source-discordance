@@ -62,14 +62,20 @@ working directories and now ship, verbatim, in [`../code/figures/recovered/`](..
 |---|---|---|---|
 | **Fig. 1** | Overview of the analytical framework (six modules) | **`ge_main/unified_fig1.py`** | ✅ **Regenerated and byte-identical** (PNG SHA-256 `eb77483e…`) |
 | **Fig. S1** | Exploratory diagnostic scheme (flowchart) | `ge_si/rebuild_fig1_2_9.py::figure2()` **+ `ge_si/published/`** | 🟡 **Content reproducible, raster not.** The script rebuilds **raster family A** (3188 × 3076) and is faithful to that family — its output differs from the historical 2026-09-23 render in one contiguous text band only (20,026 px), the rest identical. The **published** figure is **family B** (3189 × 3077), which no script in this archive produces; the two families differ on every glyph stroke under a different renderer build, not by a crop or a shift. The published raster **is** reproducible at *artefact* level: `ge_si/published/` ships it plus the 2026-10-01 pixel edit (17,589 px, bbox x[1260,1931] y[2256,2384]) and the equivalent Fig. S3 edit (10,587 px), and `verify_published.py` re-runs both to pixel identity and checks the four SHA-256. Evidence and the failed recovery attempts: `ge_si/README.md` |
-| **Fig. S2** | eQTL SNP-count distribution across gene groups (violin) | `recovered/gen_figs4.py` | ✅ **Recovered and matching** — same 61-gene universe (24/24/13) and the three published medians |
+| **Fig. S2** | eQTL SNP-count distribution across gene groups (violin) | `recovered/gen_figs4.py` | 🟡 **Recovered as evidence, not runnable.** Same 61-gene universe (24/24/13) and the same three published medians (374 / 632 / 669), but the script carries hard-coded 2026-09 absolute paths and is **not** invoked by `code/run_all.sh`; `metadata/ARCHIVE_MAP.md` records its input locality as `none`. It establishes what was computed, not a step a reader can re-run |
 | **Fig. S4** | Silver-stain SDS–PAGE (wet-lab image) | none — and none is possible | ➖ a photograph of a gel, not a plot |
 
 The two recovered scripts carry absolute paths and read the predecessor build root
 (`figstyle.py`, `prep_out.json`); they are evidence, not a runnable pipeline, and are deliberately
-**not** invoked by `code/run_all.sh`. Consequently the manuscript's four main figures still cannot be
-assembled end-to-end from this archive — Fig. 2, 3 and 4 can, Fig. 1 only by hand — and that is
-recorded rather than implied.
+**not** invoked by `code/run_all.sh`. That limitation covers the two *Supporting Information*
+figures above and nothing else.
+
+**The four main figures are a separate case and they are fully regenerable** — see the section
+above: `bash code/figures/ge_main/reproduce.sh` rebuilds Fig. 1–4 from `data/derived/` alone and
+every PNG is byte-identical to the submitted figure. *(This paragraph used to end "the manuscript's
+four main figures still cannot be assembled end-to-end from this archive — Fig. 2, 3 and 4 can,
+Fig. 1 only by hand", which was true until 2026-10-03 and which contradicted the section directly
+above it. Corrected 2026-10-04.)*
 
 ## Naming and format
 

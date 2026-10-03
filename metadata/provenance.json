@@ -309,8 +309,8 @@
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 72901,
-   "sha256": "d8f94b523c2f54a9ee8c52b4d224fca669b0c8dac33a09eda78807ad26a19293"
+   "bytes": 76383,
+   "sha256": "571217579ab6662e87f7641682c45b97e293ee494190dafab37d44d497a3a39d"
   },
   {
    "path": "CITATION.cff",
@@ -379,8 +379,8 @@
   },
   {
    "path": "code/analyses/reproduction_20261002/README.md",
-   "bytes": 10990,
-   "sha256": "d5029d6e52f3d2836438f93bc7571d8121975a87cc5fa74b8a6c64b903738937"
+   "bytes": 11196,
+   "sha256": "905ddc53b941a3fe652063d1a63b99d341efe925f195551a46701b8acbb7a9ee"
   },
   {
    "path": "code/analyses/reproduction_20261002/check_wiring.py",
@@ -1394,8 +1394,8 @@
   },
   {
    "path": "data/README.md",
-   "bytes": 16237,
-   "sha256": "2699a69158cb423eb8af6c5324eb87070183d2145445fed134aa364020a49139"
+   "bytes": 17681,
+   "sha256": "90e03853731f778179f427b3b98008485d04611aaa4d0eeba26a8d37712603ac"
   },
   {
    "path": "data/derived/covariate_matrix.csv",
@@ -2184,8 +2184,8 @@
   },
   {
    "path": "env/environment.yml",
-   "bytes": 1369,
-   "sha256": "7a4daf32a824892e45e1dd3af56a32113d6c80b6f0c004586efb1b787f975a31"
+   "bytes": 1564,
+   "sha256": "9231990ac940d3afb0e5eacff0e2ad8e3c7ede66d960956b1dc0b78cb203ae91"
   },
   {
    "path": "env/renv.lock",
@@ -2194,8 +2194,8 @@
   },
   {
    "path": "env/requirements.txt",
-   "bytes": 1109,
-   "sha256": "03aceeba8be422e61712bb37be0dbcf829e844bbb32619ea291b0350975a249d"
+   "bytes": 1669,
+   "sha256": "1d52260e5e3f553c031e1e28583b7533e9cd8b50be975b62cd28daaefde1e43b"
   },
   {
    "path": "figures/Fig3.pdf",
@@ -2269,8 +2269,8 @@
   },
   {
    "path": "figures/README.md",
-   "bytes": 7328,
-   "sha256": "7cbf98b1d206d9f7e8c2651cc385dfe9ec14601a23f83d773e9997d71e85a3ab"
+   "bytes": 8015,
+   "sha256": "a8fa2dc2ecf95ae71bd636c9a23202c7a6b2a028a9976623925e749dbe8c2aa7"
   },
   {
    "path": "metadata/ARCHIVE_MAP.md",

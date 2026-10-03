@@ -8,7 +8,7 @@
 | `derived/genomewide/` | **Yes** | The five genome-wide weight-source Z layers (gzipped, 2.8 MB total). They define the analysis universes and the framework-layer contrast, which no panel-restricted table can. Added 2026-10-02. |
 | `upstream/` | **Yes** (31 MiB) | The as-produced outputs of `code/run_upstream.sh` — the middleware between the third-party raw inputs and `derived/`. Added 2026-10-03 so the Z layer's provenance can be checked without fetching ~4.7 GB. Checked by `code/upstream/verify_middleware.py`; see [`upstream/README.md`](upstream/README.md), which also carries the redistribution ledger for every third-party input. |
 | `superseded/` | **Yes**, clearly marked | The earlier in-house implementation's output, retained **only** as an equivalence cross-check. Must never be quoted. |
-| `external/` | **No** (git-ignored) | Third-party raw inputs. **Not redistributed — linked instead.** Fourteen of the fifteen are freely obtainable, each with a direct link that was requested and size-checked on 2026-10-03; they are over GitHub's 100 MiB per-file block, or better served by their canonical host. The fifteenth, PGC3, is behind an access application whose terms forbid redistribution at any size. Links, licences and redistribution status: [`external/SOURCES.tsv`](external/SOURCES.tsv). Fetch with `python3 scripts/fetch_external_inputs.py` (~4.7 GB in total). |
+| `external/` | **No**, except the manifest | Third-party raw inputs. **Not redistributed — linked instead.** The three manifest files — [`external/SOURCES.tsv`](external/SOURCES.tsv), [`external/SHA256SUMS`](external/SHA256SUMS) and this README — **are** tracked; `.gitignore` excludes `data/external/*` and re-includes those three by name, because a bare directory pattern would exclude everything inside it and a negation cannot re-include a file whose parent directory is excluded. The payloads are what is git-ignored. Fourteen of the fifteen are freely obtainable, each with a direct link that was requested and size-checked on 2026-10-03; they are over GitHub's 100 MiB per-file block, or better served by their canonical host. The fifteenth, PGC3, is behind an access application whose terms forbid redistribution at any size. Links, licences and redistribution status: [`external/SOURCES.tsv`](external/SOURCES.tsv). Fetch with `python3 scripts/fetch_external_inputs.py` (~4.7 GB in total). |
 | `processed_officialZ/` | **No** | Name retired on 2026-10-02; it is now `derived/`. See [`processed_officialZ/README.md`](processed_officialZ/README.md) — that file exists only so stale references in `code/deprecated/` do not read as dangling links. |
 
 Large binaries belong in a repository, not in git: use Zenodo, figshare, or iProX (for the proteomics data) and record the accession here.
@@ -86,7 +86,7 @@ These are asserted in [`../metadata/ARCHIVE_MAP.md`](../metadata/ARCHIVE_MAP.md)
 | `derived/gtex_Z.csv` | 222 (74 genes × 3 phenotypes) | Supporting Information Table S3 |
 | `derived/primary_arm_96pairs.csv` | 96 | Supporting Information Table S13 |
 | `derived/eqtlgen_Z.csv` | 288 (96 genes × 3 phenotypes) | Supporting Information Table S18 (filter `Group != 'Housekeeping'` → 207 rows) and Table S15 (filter `Group == 'Housekeeping'` → 81 rows) |
-| `derived/scz_z_4arm.csv` | 15,875 | Supporting Information Table S24 |
+| `derived/scz_z_4arm.csv` | 15,875 | Supporting Information Table S24 — see the zero-value convention note below |
 | `derived/crosscohort.csv` | 4 | Supporting Information Table S5a |
 | `derived/hk_genes.txt` | 49 | The current 30-gene housekeeping roster plus its selection pool |
 | `derived/dn_cross_population.csv` | 5 | **Added 2026-10-03.** SI Table S10 — the five testbed genes' S-PrediXcan Z and P for DN under eQTLGen weights against ebi-a-GCST90018832 (Sakaue et al. 2021). Extracted from the official MetaXcan run of 2026-09-18; every value matches the published table at its printed precision |
@@ -114,6 +114,19 @@ could even be run from a clone.
 > verbatim, without case normalisation, and the gene sets it is subtracted from are
 > upper-cased. One token (`C5orf67`) is therefore inert, which is why `POOL_A` holds
 > 11,820 genes rather than 11,819. The reproduction preserves the published behaviour.
+
+> **Convention, stated rather than assumed — Table S24 and exact zeros.** `multiZ` is
+> `(wbZ + ntZ)/√2` rounded to six significant figures, which leaves **77 exact zeros**
+> among the 8,315 complete-case genes (88 among all 15,875 rows; the table uses the
+> former). The archived three-arm counts score a zero as **disagreement** — the
+> `numpy.sign` convention. Treating zeros as positive instead moves the dual arm from
+> 5,506 to **5,544** (+38 pairs, **+0.46 pp**), and the other two arms by +1 and +5.
+> `code/analyses/reproduction_min/reproduce_headline.py` prints all three deltas when it
+> runs. **This convention belongs in the Table S24 table note**; it is recorded here
+> because the note is a submission-document edit and this file is where a reader looking
+> at `scz_z_4arm.csv` will start. Paste-ready wording:
+> [`../docs/audit_notes/R2残余差异消除方案_20261002.md`](../docs/audit_notes/R2残余差异消除方案_20261002.md)
+> §五 item 7.
 
 **Superseded, and now replaced:** the housekeeping Z layer that used to live at `derived/hk_reselect/`
 was computed on 2026-08-30, before the σᵢ correction, and has been moved to
