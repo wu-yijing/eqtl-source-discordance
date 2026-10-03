@@ -1,0 +1,43 @@
+# SHA256SUMS — external third-party inputs of the eQTL-source-discordance audit
+#
+# These files are NOT redistributed here (`data/README.md`, "External-input manifest").
+# This list replaces the former `not-held` column: every third-party input now carries
+# the hash of the copy that produced the reported numbers.
+#
+# Verify, after renaming your downloads to the filenames below and placing them here:/n#     sha256sum -c data/external/SHA256SUMS
+# Or, tolerating a partial set:/n#     python3 scripts/verify_external_inputs.py --dir /path/to/downloads
+#
+# Filenames are the canonical names; `data/external/README.md` maps the two whose
+# download name differs from the canonical one.
+#
+# Role                                        Bytes
+# eQTL weight source A — GTEx v8 MASHR, Whole       4,612,096
+1f4abfeea5f0ed122e812112821cd3626f3cbde72044e5a283830e8c8e13ba0f  mashr_Whole_Blood.db
+# eQTL weight source A — GTEx v8 MASHR, Nerve       5,910,528
+48dda44649b12a046023301cdc537189a5395f266f1fb8adb3833602791a380c  mashr_Nerve_Tibial.db
+# GTEx v8 SNP-level covariance (PredictDB mas       2,362,720
+5c90428be350797bcd8f855d54bddece888a63a9ea864e35fe39f6ea44b5a9c2  gtex_v8_mashr_snp_covariance.txt.gz
+# eQTL weight source B — eQTLGen phase I cis-     322,775,879
+8d963046d7b74cf3533c3510614cdc724e7ad0e325a3d2f7cca63ad13661b4c4  2019-12-11-cis-eQTLsFDR0.05-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt.gz
+# Primary GWAS — DR (FinnGen R13)                 799,133,923
+92652925b89943fd216510d82622baec424b7713076734728cb46443ccb4d79a  finngen_R13_DM_RETINOPATHY_EXMORE.gz
+# Primary GWAS — DN (FinnGen R13)                 801,346,330
+9b17cbc3fb233df8113740a571f53e8efbfb0ee5f26ad23bd2640ffab35be69f  finngen_R13_DM_NEPHROPATHY.gz
+# Primary GWAS — DPN (FinnGen R13)                800,964,581
+5a7d603866e887b3d10dbd7b49d2f54aea79b535342e7bbc7c6058bb980f0c53  finngen_R13_DM_NEUROPATHY.gz
+# FinnGen R13 endpoint manifest                       820,805
+c9caafa9b98ee5ef050a705766bd1c451fc2154fb8e81b069022012a2f75ae20  finngen_R13_manifest.tsv
+# Cross-cohort GWAS — UK Biobank diabetic ret     528,201,989
+3776c85ada92559b4c6a66e27cbb0e40fa45963ce7c9f1131cd8df5e60878557  GCST90043640.h.tsv.gz
+# Cross-cohort GWAS — GCST90043640, GRCh37 bu     445,327,939
+f84387729df2d608fa77907184f54dc32265a2c5b448a7ba81c8bc4a0c9518a3  GCST90043640_buildGRCh37.tsv.gz
+# Independent-trait benchmark — PGC3 schizoph     239,710,564
+dbba3a85575c99fd1c2e3497d0c7a44539ccfdbf2e69742f8bdbda879230bcd7  PGC3_SCZ_wave3.european.autosome.public.v3.vcf.tsv.gz
+# LD reference panel — 1000 Genomes Phase 3,      511,626,945
+83a48fd9dcaa0b9a874b18c63143a4ede93f05505b215b0bd8790130a0d7a954  g1000_eur.zip
+# Cross-population DN resource (GCST90018832      178,400,853
+141114f3ae9add8a5b568b24b87bf833de4dff25fb94d66519c36f7fe8e3413f  meta_egfr_dmstrat_stage1plus2.txt.gz
+# Proteomics — RNA pull-down / LC-MS/MS resul      21,500,065
+c50e44b1c9ab2dcca46576ec0859ae2b12baa91360f9e97a232a72d39c810a4c  RNApull_down_MS_results.zip
+# Toolchain — official MetaXcan (unmodified)        6,484,124
+3a6e1ceefef8961e10b4096e6768577ee46c67a8273087eb2d88e17be2d9f1d3  MetaXcan-v0.8.1.tar.gz

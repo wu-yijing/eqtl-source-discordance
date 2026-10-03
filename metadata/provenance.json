@@ -14,20 +14,63 @@
    "role": "primary GWAS input: DR / DN / DPN",
    "version": "Data Freeze 13 (R13)",
    "source_url": "https://www.finngen.fi/en/access_results",
-   "retrieved": "2026-09-08",
-   "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
-   "sha256": "not-held",
-   "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file."
+   "retrieved": "2026-06-24",
+   "retrieved_basis": "download date of the three .gz endpoint files (and of the manifest, extracted 2026-06-25)",
+   "retrieval_note": "These dates are those of the hashed copy on the filesystem — the evidence available — not a restatement of Supporting Information Note S4, which gives one date (8 September 2026) for all eight resources. The two disagree for four of them; the discrepancy is recorded in data/external/README.md, 'Retrieve date', and Note S4 should carry these per-resource dates when the Supporting Information is next revised.",
+   "sha256": "held — 4 artefacts, see 'files'",
+   "sha256_note": "Hash of the copy that produced the reported numbers. Recorded 2026-10-03, and re-verified by re-running the upstream stage against it (code/run_upstream.sh). Check a download with scripts/verify_external_inputs.py.",
+   "files": [
+    {
+     "name": "finngen_R13_DM_RETINOPATHY_EXMORE.gz",
+     "bytes": 799133923,
+     "sha256": "92652925b89943fd216510d82622baec424b7713076734728cb46443ccb4d79a",
+     "md5": "7cee13550d6075cad5941484013ab3f8"
+    },
+    {
+     "name": "finngen_R13_DM_NEPHROPATHY.gz",
+     "bytes": 801346330,
+     "sha256": "9b17cbc3fb233df8113740a571f53e8efbfb0ee5f26ad23bd2640ffab35be69f",
+     "md5": "f6a494a2b6e24bbedc68470d91843437"
+    },
+    {
+     "name": "finngen_R13_DM_NEUROPATHY.gz",
+     "bytes": 800964581,
+     "sha256": "5a7d603866e887b3d10dbd7b49d2f54aea79b535342e7bbc7c6058bb980f0c53",
+     "md5": "a40fd725f4bba44396b805d75f67b0bb"
+    },
+    {
+     "name": "finngen_R13_manifest.tsv",
+     "bytes": 820805,
+     "sha256": "c9caafa9b98ee5ef050a705766bd1c451fc2154fb8e81b069022012a2f75ae20",
+     "md5": "a70f4ecb57acf7c23e8f5d71be11d936"
+    }
+   ]
   },
   {
    "id": "GCST90043640",
    "role": "UK Biobank diabetic retinopathy GWAS (PheCode 250.7); cross-cohort arm",
    "version": "as distributed by GWAS Catalog",
    "source_url": "https://www.ebi.ac.uk/gwas/studies/GCST90043640",
-   "retrieved": "2026-09-08",
-   "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
-   "sha256": "not-held",
-   "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file.",
+   "retrieved": "2026-06-23",
+   "retrieved_basis": "download date of the GRCh37 build; the harmonised .h.tsv.gz is dated 2026-06-24",
+   "retrieval_note": "These dates are those of the hashed copy on the filesystem — the evidence available — not a restatement of Supporting Information Note S4, which gives one date (8 September 2026) for all eight resources. The two disagree for four of them; the discrepancy is recorded in data/external/README.md, 'Retrieve date', and Note S4 should carry these per-resource dates when the Supporting Information is next revised.",
+   "sha256": "held — 2 artefacts, see 'files'",
+   "sha256_note": "Hash of the copy that produced the reported numbers. Recorded 2026-10-03, and re-verified by re-running the upstream stage against it (code/run_upstream.sh). Check a download with scripts/verify_external_inputs.py.",
+   "files": [
+    {
+     "name": "GCST90043640.h.tsv.gz",
+     "bytes": 528201989,
+     "sha256": "3776c85ada92559b4c6a66e27cbb0e40fa45963ce7c9f1131cd8df5e60878557",
+     "md5": "a802753ce87d30de09e3bc2df15c9b8c",
+     "download_name": "34737426-GCST90043640-EFO_0003770.h (1).tsv.gz"
+    },
+    {
+     "name": "GCST90043640_buildGRCh37.tsv.gz",
+     "bytes": 445327939,
+     "sha256": "f84387729df2d608fa77907184f54dc32265a2c5b448a7ba81c8bc4a0c9518a3",
+     "md5": "9ac919a05dbd8f3e2c405520b6aa870e"
+    }
+   ],
    "citation": "Publication recorded by GWAS Catalog: Jiang L, Zheng Z, Fang H, Yang J. Nat Genet 2021;53:1616-1621. doi:10.1038/s41588-021-00954-4"
   },
   {
@@ -35,60 +78,134 @@
    "role": "cross-population diabetic nephropathy meta-analysis (DN check)",
    "version": "as distributed by GWAS Catalog",
    "source_url": "https://www.ebi.ac.uk/gwas/studies/GCST90018832",
-   "retrieved": "2026-09-08",
-   "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
-   "sha256": "not-held",
-   "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file."
+   "retrieved": "2026-06-25",
+   "retrieved_basis": "download date of the DN meta-analysis deposit",
+   "retrieval_note": "These dates are those of the hashed copy on the filesystem — the evidence available — not a restatement of Supporting Information Note S4, which gives one date (8 September 2026) for all eight resources. The two disagree for four of them; the discrepancy is recorded in data/external/README.md, 'Retrieve date', and Note S4 should carry these per-resource dates when the Supporting Information is next revised.",
+   "sha256": "141114f3ae9add8a5b568b24b87bf833de4dff25fb94d66519c36f7fe8e3413f",
+   "sha256_note": "Hash of the copy that produced the reported numbers. Recorded 2026-10-03, and re-verified by re-running the upstream stage against it (code/run_upstream.sh). Check a download with scripts/verify_external_inputs.py.",
+   "files": [
+    {
+     "name": "meta_egfr_dmstrat_stage1plus2.txt.gz",
+     "bytes": 178400853,
+     "sha256": "141114f3ae9add8a5b568b24b87bf833de4dff25fb94d66519c36f7fe8e3413f",
+     "md5": "ffe5a12a04492085043741ea2f0bad96"
+    }
+   ]
   },
   {
    "id": "PGC3_SCZ_wave3",
    "role": "independent-trait genome-wide benchmark",
    "version": "schizophrenia wave 3 (scz2022)",
    "source_url": "https://pgc.unc.edu/for-researchers/download-results/",
-   "retrieved": "2026-09-08",
-   "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
-   "sha256": "not-held",
-   "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file."
+   "retrieved": "2026-07-17",
+   "retrieved_basis": "download date of the European-subset VCF",
+   "retrieval_note": "These dates are those of the hashed copy on the filesystem — the evidence available — not a restatement of Supporting Information Note S4, which gives one date (8 September 2026) for all eight resources. The two disagree for four of them; the discrepancy is recorded in data/external/README.md, 'Retrieve date', and Note S4 should carry these per-resource dates when the Supporting Information is next revised.",
+   "sha256": "dbba3a85575c99fd1c2e3497d0c7a44539ccfdbf2e69742f8bdbda879230bcd7",
+   "sha256_note": "Hash of the copy that produced the reported numbers. Recorded 2026-10-03, and re-verified by re-running the upstream stage against it (code/run_upstream.sh). Check a download with scripts/verify_external_inputs.py.",
+   "files": [
+    {
+     "name": "PGC3_SCZ_wave3.european.autosome.public.v3.vcf.tsv.gz",
+     "bytes": 239710564,
+     "sha256": "dbba3a85575c99fd1c2e3497d0c7a44539ccfdbf2e69742f8bdbda879230bcd7",
+     "md5": "6ebe2376f5cda972d37efa0f214c4df0"
+    }
+   ]
   },
   {
    "id": "GTEx_v8_MASHR",
    "role": "eQTL weight source A: Nerve_Tibial and Whole_Blood",
    "version": "GTEx v8 MASHR models",
    "source_url": "https://predictdb.org/post/2021/07/21/gtex-v8-models-on-eqtl-and-sqtl",
-   "retrieved": "2026-09-08",
-   "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
-   "sha256": "not-held",
-   "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file."
+   "retrieved": "2026-06-26",
+   "retrieved_basis": "extraction date of the PredictDB bundle; the .db payloads keep their 2019-10-03 build timestamp inside the tarball",
+   "retrieval_note": "These dates are those of the hashed copy on the filesystem — the evidence available — not a restatement of Supporting Information Note S4, which gives one date (8 September 2026) for all eight resources. The two disagree for four of them; the discrepancy is recorded in data/external/README.md, 'Retrieve date', and Note S4 should carry these per-resource dates when the Supporting Information is next revised.",
+   "sha256": "held — 3 artefacts, see 'files'",
+   "sha256_note": "Hash of the copy that produced the reported numbers. Recorded 2026-10-03, and re-verified by re-running the upstream stage against it (code/run_upstream.sh). Check a download with scripts/verify_external_inputs.py.",
+   "files": [
+    {
+     "name": "mashr_Whole_Blood.db",
+     "bytes": 4612096,
+     "sha256": "1f4abfeea5f0ed122e812112821cd3626f3cbde72044e5a283830e8c8e13ba0f",
+     "md5": "1613d73c3fcc53a27dc1422118680b97"
+    },
+    {
+     "name": "mashr_Nerve_Tibial.db",
+     "bytes": 5910528,
+     "sha256": "48dda44649b12a046023301cdc537189a5395f266f1fb8adb3833602791a380c",
+     "md5": "9983e7b1557230162331839acf5ed228"
+    },
+    {
+     "name": "gtex_v8_mashr_snp_covariance.txt.gz",
+     "bytes": 2362720,
+     "sha256": "5c90428be350797bcd8f855d54bddece888a63a9ea864e35fe39f6ea44b5a9c2",
+     "md5": "cc2a4c861095ea359da15cc31733702f"
+    }
+   ]
   },
   {
    "id": "eQTLGen_phaseI",
    "role": "eQTL weight source B",
    "version": "phase I cis-eQTL, N = 31,684",
    "source_url": "https://www.eqtlgen.org/",
-   "retrieved": "2026-09-08",
-   "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
-   "sha256": "not-held",
-   "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file."
+   "retrieved": "2026-06-24",
+   "retrieved_basis": "download date of the cis-eQTL summary statistics",
+   "retrieval_note": "These dates are those of the hashed copy on the filesystem — the evidence available — not a restatement of Supporting Information Note S4, which gives one date (8 September 2026) for all eight resources. The two disagree for four of them; the discrepancy is recorded in data/external/README.md, 'Retrieve date', and Note S4 should carry these per-resource dates when the Supporting Information is next revised.",
+   "sha256": "held — 2 artefacts, see 'files'",
+   "sha256_note": "Hash of the copy that produced the reported numbers. Recorded 2026-10-03, and re-verified by re-running the upstream stage against it (code/run_upstream.sh). Check a download with scripts/verify_external_inputs.py.",
+   "files": [
+    {
+     "name": "2019-12-11-cis-eQTLsFDR0.05-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt.gz",
+     "bytes": 322775879,
+     "sha256": "8d963046d7b74cf3533c3510614cdc724e7ad0e325a3d2f7cca63ad13661b4c4",
+     "md5": "3073e2f39d0847692c053949e85723d9"
+    },
+    {
+     "name": "eQTLGen_Whole_Blood.db",
+     "bytes": 4866048,
+     "derived": true,
+     "sha256": "413c4fff25c1820fd92f11f4370e25f3b82ea2ecd5a84ff0643d5f750312fa3c",
+     "md5": "aefbe7d485181145bd1e3ceffea2cfd6"
+    }
+   ]
   },
   {
    "id": "1000G_phase3_EUR",
    "role": "linkage-disequilibrium reference panel",
    "version": "Phase 3 European panel",
    "source_url": "https://www.internationalgenome.org/",
-   "retrieved": "2026-09-08",
-   "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
-   "sha256": "not-held",
-   "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file."
+   "retrieved": "2026-06-24",
+   "retrieved_basis": "download date of the g1000_eur bundle",
+   "retrieval_note": "These dates are those of the hashed copy on the filesystem — the evidence available — not a restatement of Supporting Information Note S4, which gives one date (8 September 2026) for all eight resources. The two disagree for four of them; the discrepancy is recorded in data/external/README.md, 'Retrieve date', and Note S4 should carry these per-resource dates when the Supporting Information is next revised.",
+   "sha256": "83a48fd9dcaa0b9a874b18c63143a4ede93f05505b215b0bd8790130a0d7a954",
+   "sha256_note": "Hash of the copy that produced the reported numbers. Recorded 2026-10-03, and re-verified by re-running the upstream stage against it (code/run_upstream.sh). Check a download with scripts/verify_external_inputs.py.",
+   "files": [
+    {
+     "name": "g1000_eur.zip",
+     "bytes": 511626945,
+     "sha256": "83a48fd9dcaa0b9a874b18c63143a4ede93f05505b215b0bd8790130a0d7a954",
+     "md5": "1919cb5c79bbe7871aed71ae4abe6217"
+    }
+   ]
   },
   {
    "id": "ProteomeXchange_iProX",
    "role": "RNA pull-down LC-MS/MS",
    "version": "PXD083775 (iProX IPX0019439000, subproject IPX0019439001)",
    "source_url": "https://proteomecentral.proteomexchange.org/",
-   "retrieved": "2026-09-08",
-   "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
-   "sha256": "not-held",
-   "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file."
+   "retrieved": "2026-06-22",
+   "retrieved_basis": "date of the RNA pull-down LC-MS/MS result archive",
+   "retrieval_note": "These dates are those of the hashed copy on the filesystem — the evidence available — not a restatement of Supporting Information Note S4, which gives one date (8 September 2026) for all eight resources. The two disagree for four of them; the discrepancy is recorded in data/external/README.md, 'Retrieve date', and Note S4 should carry these per-resource dates when the Supporting Information is next revised.",
+   "sha256": "c50e44b1c9ab2dcca46576ec0859ae2b12baa91360f9e97a232a72d39c810a4c",
+   "sha256_note": "Hash of the copy that produced the reported numbers. Recorded 2026-10-03, and re-verified by re-running the upstream stage against it (code/run_upstream.sh). Check a download with scripts/verify_external_inputs.py.",
+   "files": [
+    {
+     "name": "RNApull_down_MS_results.zip",
+     "bytes": 21500065,
+     "sha256": "c50e44b1c9ab2dcca46576ec0859ae2b12baa91360f9e97a232a72d39c810a4c",
+     "md5": "cba90b3492f608a6005bbfb4c2f71783",
+     "download_name": "RNApull down MS实验结果.zip"
+    }
+   ]
   }
  ],
  "repro_inputs": [
@@ -162,8 +279,8 @@
   },
   {
    "path": ".gitignore",
-   "bytes": 2051,
-   "sha256": "2c7a4fa829de36c8620e3b93255d654453a5bba773b026218f77a6b0118453ee"
+   "bytes": 2335,
+   "sha256": "9615f146413484de3db244f15a81e73dbd8e6642c7baa63867a9a52ca236c5d2"
   },
   {
    "path": ".zenodo.json",
@@ -1091,6 +1208,11 @@
    "sha256": "58a26804079a42f858ff5b69b3aed4c47fbe4f4b9c5848c10c07916a2204bcdd"
   },
   {
+   "path": "code/run_upstream.sh",
+   "bytes": 10287,
+   "sha256": "63c79a662763261216e11f25c72f39cec4446e9e075c31435b7d399da9ec0705"
+  },
+  {
    "path": "code/simulations/split_half_null/README.md",
    "bytes": 4060,
    "sha256": "3898a0c9b0bbe94d2792dde244b42f900ffc3a90e0dfa846ef4032943c382ad3"
@@ -1117,8 +1239,8 @@
   },
   {
    "path": "data/README.md",
-   "bytes": 12330,
-   "sha256": "0ba1d9653a07177d5ad36a8edfb17e2d0d330a0ee94313f2d16a632361a999c0"
+   "bytes": 14667,
+   "sha256": "95306b68023ee8d670f1e2985e06e7a9c6c01e6f3e3a51a7595e82a8f9ee604b"
   },
   {
    "path": "data/derived/covariate_matrix.csv",
@@ -1284,6 +1406,16 @@
    "path": "data/derived/ukb_dr/ukb_gcst90043640_gtex_Whole_Blood_official.csv.gz",
    "bytes": 720863,
    "sha256": "331cdb04f802d9093b8f613d2cfd644d4e3ea5729a29ee66832b25a6f06af750"
+  },
+  {
+   "path": "data/external/README.md",
+   "bytes": 10914,
+   "sha256": "1399554434200d4872f159c674b047d8974141f0c8de0f54da2debf2a9cd218a"
+  },
+  {
+   "path": "data/external/SHA256SUMS",
+   "bytes": 3177,
+   "sha256": "ddf9bcea006b97dde3451480eef7006a3a4529ec948a47813914cb1fdf187af5"
   },
   {
    "path": "data/processed_officialZ/README.md",
@@ -1832,8 +1964,8 @@
   },
   {
    "path": "metadata/ARCHIVE_MAP.md",
-   "bytes": 52300,
-   "sha256": "678f6ef7ebbf5fb610faef1bb85186450684c38465c10a5d27a119f6f18fb940"
+   "bytes": 53184,
+   "sha256": "dc6436676a00fe6f68a6a74a2de6786279c57573a063780a1807820c5cb91dcb"
   },
   {
    "path": "metadata/PRE_REGISTRATION.md",
@@ -1867,8 +1999,8 @@
   },
   {
    "path": "scripts/collect_provenance.py",
-   "bytes": 12755,
-   "sha256": "e5e15e235d91c5c6388ce2db6171108346abe93033ef1a3d3462d58d608d7bf1"
+   "bytes": 20529,
+   "sha256": "27cc1c0b3063dbb391db810fe79abee62d8eb2a1ca6c175f8bd709d66860bd79"
   },
   {
    "path": "scripts/cut_release.sh",
@@ -1881,6 +2013,11 @@
    "sha256": "158e4ce21dffcdf2bd6a1bfa23f44a8e39cc8d16c31585676a180fee46f13707"
   },
   {
+   "path": "scripts/verify_external_inputs.py",
+   "bytes": 5560,
+   "sha256": "e5ed06fcfaf53442ddf878d1e5302a758b2733ffb1bfd83b9e586a52bb338904"
+  },
+  {
    "path": "scripts/verify_from_clone.sh",
    "bytes": 10541,
    "sha256": "0694232d89d48978bb0737ff7d977171fdcdc2f90d729b5e677e8b25cabefdc1"
@@ -1891,12 +2028,12 @@
    "sha256": "25410afb8d1a34599f3cc87015f2fbd4bd59d211376f20bae1813bb196c6734d"
   }
  ],
- "file_count": 348,
+ "file_count": 352,
  "excluded": [
   {
    "path": "metadata/provenance.json",
    "reason": "the manifest cannot hash itself; its own content is regenerated by this script"
   }
  ],
- "tracked_file_count": 349
+ "tracked_file_count": 353
 }

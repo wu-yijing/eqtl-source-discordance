@@ -56,7 +56,12 @@ desktop.ini
 # Data hygiene
 # ---------------------------------------------------------------------------
 # Raw third-party inputs are NOT redistributed. Keep only the manifest.
-data/external/
+# `data/external/*` rather than `data/external/` so the two manifest files can be
+# tracked: a bare directory pattern would exclude everything inside it, and a
+# negation cannot re-include a file whose parent directory is excluded.
+data/external/*
+!data/external/SHA256SUMS
+!data/external/README.md
 data/raw/
 # Large archives and alignment/genotype formats belong in Zenodo / figshare /
 # iProX, not in git history.

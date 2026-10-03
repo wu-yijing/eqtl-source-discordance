@@ -25,10 +25,12 @@ records what a reader actually gets.
 
 The only exclusion is the manifest itself, which cannot hash itself.
 
-The external-input half is documentation, not discovery: those resources are not
-redistributed here, so their hashes are recorded as `not-held` until someone with
-the file on disk records them. Identifiers, versions and the retrieval date come
-from Supporting Information Note S4.
+The external-input half is documentation, not discovery: those resources are still
+not redistributed here, but their hashes are now **held** — 2026-10-03, the copies
+that produced the reported numbers were hashed on disk and the upstream stage was
+re-run against them (code/run_upstream.sh), so the `sha256` fields record a
+verified identity rather than `not-held`. Identifiers, versions and the retrieval
+date come from Supporting Information Note S4.
 """
 import hashlib
 import json
@@ -86,26 +88,143 @@ REPRO_INPUTS = [
 ]
 
 # Supporting Information Note S4 — identifiers, versions, retrieval date.
+#
+# `sha256` / `md5` / `bytes` are those of the copy that produced the reported
+# numbers, recorded 2026-10-03 and re-verified by re-running the upstream stage
+# against them (see code/run_upstream.sh and data/external/README.md). The files
+# are still NOT redistributed — the hashes are what a reader checks a download
+# against, with scripts/verify_external_inputs.py.
+#
+# `files` is a list because several inputs are one resource in more than one file,
+# and because two are distributed under a filename that differs from the canonical
+# one used here (recorded per entry as `download_name`).
 EXTERNAL = [
-    ("FinnGen", "primary GWAS input: DR / DN / DPN", "Data Freeze 13 (R13)",
-     "https://www.finngen.fi/en/access_results"),
-    ("GCST90043640", "UK Biobank diabetic retinopathy GWAS (PheCode 250.7); cross-cohort arm",
-     "as distributed by GWAS Catalog", "https://www.ebi.ac.uk/gwas/studies/GCST90043640",
-     "Publication recorded by GWAS Catalog: Jiang L, Zheng Z, Fang H, Yang J. Nat Genet 2021;53:1616-1621. doi:10.1038/s41588-021-00954-4"),
-    ("GCST90018832", "cross-population diabetic nephropathy meta-analysis (DN check)",
-     "as distributed by GWAS Catalog", "https://www.ebi.ac.uk/gwas/studies/GCST90018832"),
-    ("PGC3_SCZ_wave3", "independent-trait genome-wide benchmark", "schizophrenia wave 3 (scz2022)",
-     "https://pgc.unc.edu/for-researchers/download-results/"),
-    ("GTEx_v8_MASHR", "eQTL weight source A: Nerve_Tibial and Whole_Blood",
-     "GTEx v8 MASHR models", "https://predictdb.org/post/2021/07/21/gtex-v8-models-on-eqtl-and-sqtl"),
-    ("eQTLGen_phaseI", "eQTL weight source B", "phase I cis-eQTL, N = 31,684",
-     "https://www.eqtlgen.org/"),
-    ("1000G_phase3_EUR", "linkage-disequilibrium reference panel", "Phase 3 European panel",
-     "https://www.internationalgenome.org/"),
-    ("ProteomeXchange_iProX", "RNA pull-down LC-MS/MS",
-     "PXD083775 (iProX IPX0019439000, subproject IPX0019439001)",
-     "https://proteomecentral.proteomexchange.org/"),
+    {"id": "FinnGen", "role": "primary GWAS input: DR / DN / DPN",
+     "version": "Data Freeze 13 (R13)",
+     "source_url": "https://www.finngen.fi/en/access_results",
+     "files": [
+         {"name": "finngen_R13_DM_RETINOPATHY_EXMORE.gz", "bytes": 799133923,
+          "sha256": "92652925b89943fd216510d82622baec424b7713076734728cb46443ccb4d79a",
+          "md5": "7cee13550d6075cad5941484013ab3f8"},
+         {"name": "finngen_R13_DM_NEPHROPATHY.gz", "bytes": 801346330,
+          "sha256": "9b17cbc3fb233df8113740a571f53e8efbfb0ee5f26ad23bd2640ffab35be69f",
+          "md5": "f6a494a2b6e24bbedc68470d91843437"},
+         {"name": "finngen_R13_DM_NEUROPATHY.gz", "bytes": 800964581,
+          "sha256": "5a7d603866e887b3d10dbd7b49d2f54aea79b535342e7bbc7c6058bb980f0c53",
+          "md5": "a40fd725f4bba44396b805d75f67b0bb"},
+         {"name": "finngen_R13_manifest.tsv", "bytes": 820805,
+          "sha256": "c9caafa9b98ee5ef050a705766bd1c451fc2154fb8e81b069022012a2f75ae20",
+          "md5": "a70f4ecb57acf7c23e8f5d71be11d936"},
+     ]},
+    {"id": "GCST90043640", "role": "UK Biobank diabetic retinopathy GWAS (PheCode 250.7); cross-cohort arm",
+     "version": "as distributed by GWAS Catalog",
+     "source_url": "https://www.ebi.ac.uk/gwas/studies/GCST90043640",
+     "citation": "Publication recorded by GWAS Catalog: Jiang L, Zheng Z, Fang H, Yang J. Nat Genet 2021;53:1616-1621. doi:10.1038/s41588-021-00954-4",
+     "files": [
+         {"name": "GCST90043640.h.tsv.gz", "bytes": 528201989,
+          "sha256": "3776c85ada92559b4c6a66e27cbb0e40fa45963ce7c9f1131cd8df5e60878557",
+          "md5": "a802753ce87d30de09e3bc2df15c9b8c",
+          "download_name": "34737426-GCST90043640-EFO_0003770.h (1).tsv.gz"},
+         {"name": "GCST90043640_buildGRCh37.tsv.gz", "bytes": 445327939,
+          "sha256": "f84387729df2d608fa77907184f54dc32265a2c5b448a7ba81c8bc4a0c9518a3",
+          "md5": "9ac919a05dbd8f3e2c405520b6aa870e"},
+     ]},
+    {"id": "GCST90018832", "role": "cross-population diabetic nephropathy meta-analysis (DN check)",
+     "version": "as distributed by GWAS Catalog",
+     "source_url": "https://www.ebi.ac.uk/gwas/studies/GCST90018832",
+     "files": [
+         {"name": "meta_egfr_dmstrat_stage1plus2.txt.gz", "bytes": 178400853,
+          "sha256": "141114f3ae9add8a5b568b24b87bf833de4dff25fb94d66519c36f7fe8e3413f",
+          "md5": "ffe5a12a04492085043741ea2f0bad96"},
+     ]},
+    {"id": "PGC3_SCZ_wave3", "role": "independent-trait genome-wide benchmark", "version": "schizophrenia wave 3 (scz2022)",
+     "source_url": "https://pgc.unc.edu/for-researchers/download-results/",
+     "files": [
+         {"name": "PGC3_SCZ_wave3.european.autosome.public.v3.vcf.tsv.gz", "bytes": 239710564,
+          "sha256": "dbba3a85575c99fd1c2e3497d0c7a44539ccfdbf2e69742f8bdbda879230bcd7",
+          "md5": "6ebe2376f5cda972d37efa0f214c4df0"},
+     ]},
+    {"id": "GTEx_v8_MASHR", "role": "eQTL weight source A: Nerve_Tibial and Whole_Blood",
+     "version": "GTEx v8 MASHR models", "source_url": "https://predictdb.org/post/2021/07/21/gtex-v8-models-on-eqtl-and-sqtl",
+     "files": [
+         {"name": "mashr_Whole_Blood.db", "bytes": 4612096,
+          "sha256": "1f4abfeea5f0ed122e812112821cd3626f3cbde72044e5a283830e8c8e13ba0f",
+          "md5": "1613d73c3fcc53a27dc1422118680b97"},
+         {"name": "mashr_Nerve_Tibial.db", "bytes": 5910528,
+          "sha256": "48dda44649b12a046023301cdc537189a5395f266f1fb8adb3833602791a380c",
+          "md5": "9983e7b1557230162331839acf5ed228"},
+         {"name": "gtex_v8_mashr_snp_covariance.txt.gz", "bytes": 2362720,
+          "sha256": "5c90428be350797bcd8f855d54bddece888a63a9ea864e35fe39f6ea44b5a9c2",
+          "md5": "cc2a4c861095ea359da15cc31733702f"},
+     ]},
+    {"id": "eQTLGen_phaseI", "role": "eQTL weight source B", "version": "phase I cis-eQTL, N = 31,684",
+     "source_url": "https://www.eqtlgen.org/",
+     "files": [
+         {"name": "2019-12-11-cis-eQTLsFDR0.05-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt.gz", "bytes": 322775879,
+          "sha256": "8d963046d7b74cf3533c3510614cdc724e7ad0e325a3d2f7cca63ad13661b4c4",
+          "md5": "3073e2f39d0847692c053949e85723d9"},
+         {"name": "eQTLGen_Whole_Blood.db", "bytes": 4866048, "derived": True,
+          "sha256": "413c4fff25c1820fd92f11f4370e25f3b82ea2ecd5a84ff0643d5f750312fa3c",
+          "md5": "aefbe7d485181145bd1e3ceffea2cfd6"},
+     ]},
+    {"id": "1000G_phase3_EUR", "role": "linkage-disequilibrium reference panel", "version": "Phase 3 European panel",
+     "source_url": "https://www.internationalgenome.org/",
+     "files": [
+         {"name": "g1000_eur.zip", "bytes": 511626945,
+          "sha256": "83a48fd9dcaa0b9a874b18c63143a4ede93f05505b215b0bd8790130a0d7a954",
+          "md5": "1919cb5c79bbe7871aed71ae4abe6217"},
+     ]},
+    {"id": "ProteomeXchange_iProX", "role": "RNA pull-down LC-MS/MS",
+     "version": "PXD083775 (iProX IPX0019439000, subproject IPX0019439001)",
+     "source_url": "https://proteomecentral.proteomexchange.org/",
+     "files": [
+         {"name": "RNApull_down_MS_results.zip", "bytes": 21500065,
+          "sha256": "c50e44b1c9ab2dcca46576ec0859ae2b12baa91360f9e97a232a72d39c810a4c",
+          "md5": "cba90b3492f608a6005bbfb4c2f71783",
+          "download_name": "RNApull down MS实验结果.zip"},
+     ]},
 ]
+
+# ---------------------------------------------------------------------------
+# Retrieval dates, per resource — NOT one date for all eight.
+#
+# Supporting Information Note S4 states a single sentence: "every resource was
+# retrieved on 8 September 2026". That is not what the filesystem shows. The copies
+# that produced the reported numbers (identified by the SHA-256 in EXTERNAL above)
+# carry dates from 2026-06-22 to 2026-07-17, and the GTEx model databases carry the
+# PredictDB build date 2019-10-03 because they arrive inside a tarball that preserves
+# it. Four of the eight therefore disagree with the blanket statement.
+#
+# So the manifest records what is *verifiable*: the date of the hashed copy as it
+# sits on disk, plus what that date is a date *of* — because for an archived payload
+# the meaningful date is the extraction, not the file's internal timestamp.
+#
+# When the submitted Supporting Information is next revised, Note S4 should carry
+# these per-resource dates instead of the blanket sentence. Until then, the
+# discrepancy is recorded here rather than smoothed over.
+# ---------------------------------------------------------------------------
+EXTERNAL_RETRIEVAL = {
+    "FinnGen": ("2026-06-24",
+                "download date of the three .gz endpoint files (and of the manifest, extracted 2026-06-25)"),
+    "GCST90043640": ("2026-06-23",
+                     "download date of the GRCh37 build; the harmonised .h.tsv.gz is dated 2026-06-24"),
+    "GCST90018832": ("2026-06-25", "download date of the DN meta-analysis deposit"),
+    "PGC3_SCZ_wave3": ("2026-07-17", "download date of the European-subset VCF"),
+    "GTEx_v8_MASHR": ("2026-06-26",
+                      "extraction date of the PredictDB bundle; the .db payloads keep their "
+                      "2019-10-03 build timestamp inside the tarball"),
+    "eQTLGen_phaseI": ("2026-06-24", "download date of the cis-eQTL summary statistics"),
+    "1000G_phase3_EUR": ("2026-06-24", "download date of the g1000_eur bundle"),
+    "ProteomeXchange_iProX": ("2026-06-22", "date of the RNA pull-down LC-MS/MS result archive"),
+}
+
+RETRIEVAL_CAVEAT = (
+    "These dates are those of the hashed copy on the filesystem — the evidence available — "
+    "not a restatement of Supporting Information Note S4, which gives one date "
+    "(8 September 2026) for all eight resources. The two disagree for four of them; the "
+    "discrepancy is recorded in data/external/README.md, 'Retrieve date', and Note S4 should "
+    "carry these per-resource dates when the Supporting Information is next revised."
+)
 
 ANCESTRY_NOTE = (
     "For every GWAS resource, record the COMPLETE population composition of the source and "
@@ -199,16 +318,25 @@ def main():
 
     external = []
     for row in EXTERNAL:
-        rid, role, version, url = row[0], row[1], row[2], row[3]
+        artefacts = row.get("files", [])
+        held = [f for f in artefacts if f.get("sha256")]
+        retrieved, basis = EXTERNAL_RETRIEVAL.get(row["id"], ("unknown", "not recorded"))
         entry = {
-            "id": rid, "role": role, "version": version, "source_url": url,
-            "retrieved": "2026-09-08",
-            "retrieval_note": "Supporting Information Note S4 states: 'Every resource was retrieved on 8 September 2026.'",
-            "sha256": "not-held",
-            "sha256_note": "Not redistributed with this archive. Record the hash the first time someone runs this against the downloaded file.",
+            "id": row["id"], "role": row["role"], "version": row["version"],
+            "source_url": row["source_url"],
+            "retrieved": retrieved,
+            "retrieved_basis": basis,
+            "retrieval_note": RETRIEVAL_CAVEAT,
+            "sha256": (held[0]["sha256"] if len(held) == 1 else
+                       ("held — %d artefacts, see 'files'" % len(held) if held else "not-held")),
+            "sha256_note": ("Hash of the copy that produced the reported numbers. Recorded 2026-10-03, "
+                            "and re-verified by re-running the upstream stage against it "
+                            "(code/run_upstream.sh). Check a download with "
+                            "scripts/verify_external_inputs.py."),
+            "files": artefacts,
         }
-        if len(row) > 4:
-            entry["citation"] = row[4]
+        if row.get("citation"):
+            entry["citation"] = row["citation"]
         external.append(entry)
 
     doc = {
