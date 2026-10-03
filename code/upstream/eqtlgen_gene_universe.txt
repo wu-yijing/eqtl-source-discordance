@@ -1,0 +1,137 @@
+# eqtlgen_gene_universe.txt
+#
+# The gene universe the eQTLGen weight database was built over: the union of
+# the analysis gene sets that this project scores on the eQTLGen arm —
+#   * the housekeeping roster and its selection pool,
+#   * the 104-gene testbed panel,
+#   * the candidate / non-candidate / T2DM-control groups of the between-group
+#     comparisons,
+# taken together. 114 symbols.
+#
+# Why a checked-in list rather than a recomputation
+# ------------------------------------------------
+# The reported eQTLGen Z layer exists only for the genes that have a model in
+# the source cis-eQTL file. Of these 114 symbols, 103 have a model and 11 do
+# not (listed in the trailing comment). Filtering the source on these symbols
+# is what reproduces the archived 65,622 weight rows; shipping the list makes
+# the filter a fact about the archive rather than a fact about a directory
+# that no longer exists.
+#
+# Do not "tidy" the trailing 11 away. They record the fact that the published
+# tables carry 11 placeholder rows for genes with no eQTLGen model.
+# ---------------------------------------------------------------------------
+ACTB
+ANKRD40
+ANXA1
+ANXA5
+AP3M1
+APPL1
+ARAP1
+C1QBP
+CAMK1D
+CCT3
+CDKAL1
+CFDP1
+CKAP4
+CUL1
+DCTN2
+DDX5
+DHX9
+DNAJC4
+DUSP8
+E2F4
+EEF2
+EHD4
+EIF4A1
+EIF4H
+FIBP
+FTO
+GAPDH
+GCK
+GNA13
+GOLGA3
+GRB14
+H2AFV
+HHEX
+HNRNPK
+HSP90AB1
+HSP90B1
+HSPB1
+ILF2
+JAZF1
+KCNJ11
+KDM4B
+LSM12
+MAPK1IP1L
+MCMBP
+MFAP1
+MYH9
+NCL
+PAM
+PDIA3
+PDIA6
+PNN
+PPARG
+PSMC1
+PUF60
+RABGGTB
+RNF181
+RNH1
+RNPS1
+RPL10A
+RPL13
+RPL13A
+RPL14
+RPL17
+RPL23A
+RPL27A
+RPL7A
+RPL8
+RPLP0
+RPN1
+RPS13
+RPS14
+RPS16
+RPS18
+RPS25
+RPS3
+RPS3A
+RPS8
+RPSA
+RRBP1
+RREB1
+SDF4
+SDHAF2
+SEC13
+SERPINB9
+SERPINH1
+SLC16A11
+SPRYD3
+SRM
+ST6GAL1
+STX4
+TCF7L2
+TOMM20
+TPM4
+TRIP12
+TUBB
+TUT1
+U2AF2
+UBA52
+VAT1
+VCP
+XRCC5
+XRCC6
+YWHAQ
+# --- 11 symbols with no model in the source cis-eQTL file (placeholder rows) ---
+ATG101
+GCKR
+HNRNPA3
+HSPD1
+KLF14
+PCBP2
+PROX1
+RBX1
+RPL5
+RPL7
+SF3B4

@@ -6,7 +6,7 @@ This directory is **git-ignored** (`.gitignore`: *"Raw third-party inputs are NO
 |---|---|
 | `not-held` — no hash for any external input | **SHA-256 + MD5 + byte count for every input**, taken from the copy that produced the reported values |
 | "nothing here is claimed to have been verified by hash" | every hash below was produced by hashing the actual file, and the upstream step it feeds has been re-run from it (§"Evidence") |
-| S-PrediXcan "cannot be re-run from scratch" | the GTEx × FinnGen arm and the eQTLGen weights step have both been re-run from these inputs and reproduce byte-for-byte |
+| S-PrediXcan "cannot be re-run from scratch" | all three upstream steps — the GTEx × FinnGen arm, the eQTLGen weight build, and the eQTLGen S-PrediXcan arm — have been re-run from these inputs and reproduce (byte-for-byte, or content-for-content for the gzipped covariances); the build code is under [`../../code/upstream/`](../../code/upstream/README.md) |
 ## The inputs
 | Role | Canonical filename | Version / identifier | Bytes | SHA-256 | MD5 |
 |---|---|---|---|---|---|
@@ -35,14 +35,26 @@ This directory is **git-ignored** (`.gitignore`: *"Raw third-party inputs are NO
 - **RNApull_down_MS_results.zip** — https://www.iprox.cn/ Downloaded as `RNApull down MS实验结果.zip`. Downloaded as `RNApull down MS实验结果.zip`. The deposited archive is PXD083775; this is the working copy of the same experiment.
 
 ## Files that are derived, not external
-| File | Built from | Content hash |
+| File | Built by | Hash of the archived copy |
 |---|---|---|
-| `eQTLGen_Whole_Blood.db` | the eQTLGen cis-eQTL summary statistics above | MD5 `aefbe7d485181145bd1e3ceffea2cfd6`; SHA-256 `413c4fff25c1820fd92f11f4370e25f3b82ea2ecd5a84ff0643d5f750312fa3c` |
-| `cov_eQTLGen_Whole_Blood.txt.gz` | `g1000_eur.zip` + the model SNP list | — |
-| `cov_{Whole_Blood,Nerve_Tibial}.txt.gz` | `g1000_eur.zip` + the GTEx model SNP lists | — |
-| `gwas_{DR,DN,DPN}.tsv`, `gwas_{DR,DN,DPN}_aligned.tsv` | the three FinnGen R13 files above | see `code/run_upstream.sh` |
+| `eQTLGen_Whole_Blood.db` | [`build_eqtlgen_db.py`](../../code/upstream/build_eqtlgen_db.py) | file SHA-256 `413c4fff25c1820fd92f11f4370e25f3b82ea2ecd5a84ff0643d5f750312fa3c` · MD5 `aefbe7d485181145bd1e3ceffea2cfd6` (4,866,048 B) |
+| `cov_eQTLGen_Whole_Blood.txt.gz` | [`build_covariance.py`](../../code/upstream/build_covariance.py) | content MD5 `7e07393d45c8927cf766425380d95b77` (39,366,329 rows, 2,044,246,636 B decompressed) |
+| `cov_Whole_Blood.txt.gz` | [`build_covariance.py`](../../code/upstream/build_covariance.py) | content MD5 `31137589fc9ca1a261df19fba7f14e08` (1,498,762 B decompressed) |
+| `cov_Nerve_Tibial.txt.gz` | [`build_covariance.py`](../../code/upstream/build_covariance.py) | content MD5 `4ea16ad919cd0b90a693f54e8702eb59` (2,062,148 B decompressed) |
+| `db_{A,B,C}.db` | [`split_model_by_size.py`](../../code/upstream/split_model_by_size.py) | size-pinned: A 94 genes / 3,469,312 B · B 8 / 1,007,616 B · C 1 / 380,928 B |
+| `gwas_{DR,DN,DPN}.tsv` | `run_upstream.sh` step 1 | MD5 `390e4e9abaea0464e112008a39958511` (DR) · `25c53a645397870098cbed30e17a0a1c` (DN) · `70c16fc9783f225b55cc7dbc033fc5df` (DPN) |
+| `gwas_{DR,DN,DPN}_aligned.tsv` | [`align_gwas_to_model.py`](../../code/upstream/align_gwas_to_model.py) | file MD5 `3ea5fda0c3cc1222318eab1f57049ae9` (DR) · `269358b089b2bf56a6eb8ae7df1cf831` (DN) · `453e3226eba6b10213aebe3a8f1e70e4` (DPN) |
+| `official_{Whole_Blood,Nerve_Tibial}_{DR,DN,DPN}.csv` | step 3 (official MetaXcan) | e.g. Whole_Blood/DR MD5 `57738c427b957c25a6f455f5ff22c4a0` |
+
+> **Why the `.txt.gz` rows carry a *content* MD5, not a file hash.** A gzip stream
+> embeds the wall-clock time it was written, so the same covariance built twice
+> differs in the header (the archived `cov_eQTLGen_Whole_Blood.txt.gz` is 12 bytes
+> larger than a re-run of the same content) while the decompressed bytes are
+> identical. The content MD5 is the stable identifier; the plain-text and SQLite
+> rows above are byte-identical on re-run and carry their file hash.
 
 These are the intermediate layer `code/run_upstream.sh` rebuilds. They are **not** shipped, because they are re-derivable from the hashed inputs by one command each.
+
 ## Evidence that the upstream step executes
 Every claim below was produced by re-running the official MetaXcan v0.8.1 binary against the hashed inputs and comparing with `cmp`, not by inspection.
 | Step | Input → output | Result |
@@ -50,7 +62,8 @@ Every claim below was produced by re-running the official MetaXcan v0.8.1 binary
 | FinnGen raw → harmonised GWAS | `finngen_R13_DM_{RETINOPATHY_EXMORE,NEPHROPATHY,NEUROPATHY}.gz` → `gwas_{DR,DN,DPN}.tsv` | **3/3 byte-identical** (MD5 `390e4e9a…`, `25c53a64…`, `70c16fc9…`) |
 | S-PrediXcan, GTEx arm | `mashr_{Whole_Blood,Nerve_Tibial}.db` + `cov_*.txt.gz` + `gwas_*.tsv` → `official_*.csv` | **6/6 byte-identical** (e.g. Whole_Blood/DR MD5 `57738c427b957c25a6f455f5ff22c4a0`) |
 | eQTLGen weights | eQTLGen cis-eQTL summary statistics → `eQTLGen_Whole_Blood.db` | **65,622/65,622 weight rows identical**, content MD5 `8ec08cc9baaf313a602f4518d220c2f5` both sides |
-| S-PrediXcan, eQTLGen arm | `eQTLGen_Whole_Blood.db` + `cov_eQTLGen_Whole_Blood.txt.gz` + `gwas_*_aligned.tsv` → `official_eQTLGen_*.csv` | ⚠️ **not re-attempted here** — the 111–394 MB gzipped covariances need more memory than the machine used for this audit had available; see `code/run_upstream.sh` for the exact command |
+| S-PrediXcan, eQTLGen arm | `eQTLGen_Whole_Blood.db` + `cov_eQTLGen_Whole_Blood.txt.gz` + `gwas_*_aligned.tsv` → `official_eQTLGen_*.csv` | ✅ **re-run 2026-09-16** — the model was split by gene size (A/B/C) and each band run under `--stream_covariance`, which is what keeps the 111–394 MB covariance off the heap; 9/9 runs returned 0 |
+| eQTLGen/GTEx Z layer | the official `official_*.csv` above → `data/derived/{eqtlgen,gtex}_Z.csv` | ✅ **reproduces the shipped layer** — every cell back-computed from the official outputs lands inside the archived tables' 4-decimal grid (eQTLGen 288/288, max abs diff 5.0 × 10⁻⁵; GTEx 360/360, max 5.0 × 10⁻⁵) |
 
 The commands, in order, are in [`../../code/run_upstream.sh`](../../code/run_upstream.sh).
 ## Retrieve date — per resource, and the recommendation

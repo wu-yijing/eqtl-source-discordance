@@ -17,7 +17,6 @@
 # -----------------------------------------------------------------------------
 #   data/external/mashr_Whole_Blood.db
 #   data/external/mashr_Nerve_Tibial.db
-#   data/external/gtex_v8_mashr_snp_covariance.txt.gz
 #   data/external/2019-12-11-cis-eQTLsFDR0.05-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt.gz
 #   data/external/finngen_R13_DM_RETINOPATHY_EXMORE.gz
 #   data/external/finngen_R13_DM_NEPHROPATHY.gz
@@ -43,6 +42,12 @@
 #
 # Outputs land in $UPSTREAM_OUT (default: a run directory beside the repository).
 # Nothing in the repository is modified.
+#
+# The build steps in steps 2, 4, 5 and 6 are the middleware under
+# `code/upstream/` (see `code/upstream/README.md`). Before those scripts existed
+# this chain could not be run unsupervised: it asked the operator to supply a
+# GTEx gene-level covariance, an eQTLGen model database, an eQTLGen covariance
+# and an allele-aligned GWAS that nothing in the archive produced.
 # =============================================================================
 
 set -uo pipefail
@@ -53,6 +58,7 @@ EXT="${EXT_DIR:-${REPO}/data/external}"
 OUT="${UPSTREAM_OUT:-${REPO}/../_upstream_run}"
 SW="${METAXCAN_SW:-}"
 PY="${PYTHON:-$(command -v python3 || command -v python)}"
+UP="${REPO}/code/upstream"
 MODE="${1:-}"
 FAIL=0
 
@@ -61,7 +67,7 @@ bad()  { printf '  [FAIL] %s\n' "$1"; FAIL=$((FAIL+1)); }
 step() { printf '\n== %s ==\n' "$1"; }
 
 case "$MODE" in
-  -h|--help) sed -n '2,50p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; exit 0 ;;
+  -h|--help) sed -n '2,58p' "${BASH_SOURCE[0]}" | sed 's/^# \{0,1\}//'; exit 0 ;;
 esac
 
 PHENOS=(DR DN DPN)
@@ -71,6 +77,7 @@ declare -A FINNGEN=(
   [DPN]="finngen_R13_DM_NEUROPATHY.gz"
 )
 TISSUES=(Whole_Blood Nerve_Tibial)
+EQ_SOURCE="2019-12-11-cis-eQTLsFDR0.05-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt.gz"
 
 echo "====================================================================="
 echo " upstream rebuild — raw GWAS + eQTL weights -> Z layer"
@@ -90,6 +97,9 @@ step "0. Preflight"
 [ -d "${EXT}" ] || { bad "${EXT} missing — see data/external/README.md"; exit 1; }
 "${PY}" "${REPO}/scripts/verify_external_inputs.py" --dir "${EXT}" || \
   bad "one or more external inputs are the wrong file (see above)"
+for s in build_eqtlgen_db.py build_covariance.py align_gwas_to_model.py split_model_by_size.py; do
+  [ -f "${UP}/${s}" ] || bad "missing build script ${UP}/${s}"
+done
 
 if [ "${MODE}" != "--verify-only" ]; then
   [ -n "${SW}" ] && [ -f "${SW}/SPrediXcan.py" ] || { bad "set METAXCAN_SW to MetaXcan's software/ directory"; exit 1; }
@@ -144,19 +154,36 @@ PYEOF
 fi
 
 # ---------------------------------------------------------------------------
-step "2. GTEx arm — S-PrediXcan (official MetaXcan v0.8.1)"
+step "2. GTEx arm — build the gene-level covariance from g1000_eur"
 # ---------------------------------------------------------------------------
-# The gene-level covariance for each tissue is built from g1000_eur; if you do not
-# have it, build it with MetaXcan's own tools (M01_covariances_correlations.py) or
-# reuse the one your run produced. Note: `--stream_covariance` must NOT be used
-# here — the GTEx tables in this archive were produced without it.
+# The gene-level (not SNP-level) covariance each tissue's S-PrediXcan run needs.
+# `data/external/SHA256SUMS` pins the SNP-level covariance; this is the derived
+# layer built from it and from the LD panel. See `code/upstream/build_covariance.py`.
+if [ "${MODE}" = "--verify-only" ]; then
+  printf '  [skip] build (--verify-only)\n'
+else
+  for tis in "${TISSUES[@]}"; do
+    cov="${OUT}/cov/cov_${tis}.txt.gz"
+    if [ -f "${cov}" ]; then printf '  [skip] %s exists\n' "$(basename "${cov}")"; continue; fi
+    "${PY}" "${UP}/build_covariance.py" \
+        --model-db "${EXT}/mashr_${tis}.db" \
+        --plink-zip "${EXT}/g1000_eur.zip" --bfile-stem g1000_eur \
+        --out "${cov}" && ok "covariance ${tis}" || bad "covariance ${tis}"
+  done
+fi
+
+# ---------------------------------------------------------------------------
+step "3. GTEx arm — S-PrediXcan (official MetaXcan v0.8.1)"
+# ---------------------------------------------------------------------------
+# Note: `--stream_covariance` must NOT be used here — the GTEx tables in this
+# archive were produced without it.
 if [ "${MODE}" = "--verify-only" ]; then
   printf '  [skip] rerun (--verify-only)\n'
 else
   for tis in "${TISSUES[@]}"; do
     for ph in "${PHENOS[@]}"; do
       cov="${OUT}/cov/cov_${tis}.txt.gz"
-      [ -f "${cov}" ] || { printf '  [skip] %s: no %s (see data/external/README.md)\n' "$tis" "$cov"; continue; }
+      [ -f "${cov}" ] || { printf '  [skip] %s: no %s\n' "$tis" "$cov"; continue; }
       ( cd "${SW}" && "${PY}" SPrediXcan.py \
           --model_db_path "${EXT}/mashr_${tis}.db" \
           --covariance "${cov}" \
@@ -170,14 +197,69 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-step "3. eQTLGen arm — build the weight database, then S-PrediXcan"
+step "4. eQTLGen arm — build the weight database"
 # ---------------------------------------------------------------------------
-# Weights: AssessedAllele -> eff_allele, OtherAllele -> ref_allele, Zscore -> weight,
-# restricted to the genes the analysis uses. Filtering the cis-eQTL file on the ids
-# already in your model database reproduces the archived weights row-for-row.
+# AssessedAllele -> eff_allele, OtherAllele -> ref_allele, Zscore -> weight,
+# restricted to the analysis universe. Reproduces the archived weights row for
+# row, and the archived database byte for byte — see
+# `code/upstream/build_eqtlgen_db.py`.
+EQ_DB="${OUT}/eqtlgen/eQTLGen_Whole_Blood.db"
+if [ "${MODE}" = "--verify-only" ]; then
+  printf '  [skip] build (--verify-only)\n'
+elif [ -f "${EQ_DB}" ]; then
+  printf '  [skip] %s exists\n' "$(basename "${EQ_DB}")"
+else
+  "${PY}" "${UP}/build_eqtlgen_db.py" \
+      --cis-eqtl "${EXT}/${EQ_SOURCE}" \
+      --gene-symbols "${UP}/eqtlgen_gene_universe.txt" \
+      --out "${EQ_DB}" && ok "eQTLGen weights" || bad "eQTLGen weights"
+fi
+
+# ---------------------------------------------------------------------------
+step "5. eQTLGen arm — split by gene size, then build each band's covariance"
+# ---------------------------------------------------------------------------
+# The eQTLGen gene covariance is 111-394 MB gzipped; the official binary cannot
+# hold the whole model's in memory on most machines. Partitioning by SNPs per
+# gene and streaming each band's covariance keeps every run bounded.
+EQ_TAG="${EQ_TAG:-}"     # e.g. A, B, C for a panel subset; empty = whole-blood model
+if [ "${MODE}" = "--verify-only" ] || [ -z "${EQ_TAG}" ]; then
+  printf '  [skip] set EQ_TAG=A (or B / C) to build and run a size band\n'
+else
+  DB="${OUT}/eqtlgen/db_${EQ_TAG}.db"
+  COV="${OUT}/eqtlgen/cov_${EQ_TAG}.txt.gz"
+  if [ ! -f "${DB}" ] && [ -f "${EQ_DB}" ]; then
+    "${PY}" "${UP}/split_model_by_size.py" --model-db "${EQ_DB}" \
+        --out-dir "${OUT}/eqtlgen" && ok "split model" || bad "split model"
+  fi
+  if [ ! -f "${COV}" ] && [ -f "${DB}" ]; then
+    "${PY}" "${UP}/build_covariance.py" --model-db "${DB}" \
+        --plink-zip "${EXT}/g1000_eur.zip" --bfile-stem g1000_eur \
+        --out "${COV}" && ok "covariance ${EQ_TAG}" || bad "covariance ${EQ_TAG}"
+  fi
+fi
+
+# ---------------------------------------------------------------------------
+step "6. eQTLGen arm — align the GWAS onto the model alleles"
+# ---------------------------------------------------------------------------
+# The eQTLGen GWAS input is not simply the FinnGen extract: MetaXcan does not
+# flip alleles, so the Z is re-signed onto the model's eff_allele before running.
+if [ "${MODE}" = "--verify-only" ] || [ ! -f "${EQ_DB}" ]; then
+  printf '  [skip] needs the eQTLGen model database from step 4\n'
+else
+  for ph in "${PHENOS[@]}"; do
+    out="${OUT}/eqtlgen/gwas_${ph}_aligned.tsv"
+    if [ -f "${out}" ]; then printf '  [skip] gwas_%s_aligned.tsv exists\n' "${ph}"; continue; fi
+    "${PY}" "${UP}/align_gwas_to_model.py" --model-db "${EQ_DB}" \
+        --gwas "${EXT}/${FINNGEN[$ph]}" --out "${out}" \
+      && ok "aligned ${ph}" || bad "aligned ${ph}"
+  done
+fi
+
+# ---------------------------------------------------------------------------
+step "7. eQTLGen arm — S-PrediXcan (streamed covariance)"
+# ---------------------------------------------------------------------------
 # S-PrediXcan here DOES use --stream_covariance: the eQTLGen gene covariance is
 # 111-394 MB gzipped and will not fit in memory in one piece on most machines.
-EQ_TAG="${EQ_TAG:-}"     # e.g. A, B, C for a panel subset; empty = whole-blood model
 if [ "${MODE}" = "--verify-only" ] || [ -z "${EQ_TAG}" ]; then
   printf '  [skip] set EQ_TAG=A (and provide db_%%s.db / cov_%%s.txt.gz) to run a panel subset\n'
 else
@@ -195,10 +277,6 @@ else
       && ok "S-PrediXcan eQTLGen ${EQ_TAG} x ${ph}" || bad "S-PrediXcan eQTLGen ${EQ_TAG} x ${ph}"
   done
 fi
-
-printf '  [note] the eQTLGen GWAS input is not simply the FinnGen extract: the model'"'"'s
-  ' effect allele must be the GWAS effect allele, so the Z is re-signed onto the
-  ' model alleles before running (step 3 of the original pipeline).'
 
 # ---------------------------------------------------------------------------
 echo
