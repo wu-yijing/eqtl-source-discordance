@@ -29,6 +29,7 @@ pass=0
 fail=0
 ok()  { printf '  [ ok ] %s\n' "$*"; }
 bad() { printf '  [FAIL] %s\n' "$*"; fail=$((fail + 1)); }
+warn() { printf '  [warn] %s\n' "$*"; }
 
 # ---- the interpreter the reader is likely to have
 PY="${PY:-}"
@@ -184,6 +185,32 @@ PYEOF
   fi
 else
   warn "00_build_added_derived.py missing — S9's locality claim is not checked"
+fi
+
+echo
+echo "== 7. the only supported entry point actually runs =="
+# WHY THIS GATE EXISTS. Gates 1-6 check the data layer, the archive map, the provenance manifest,
+# the path wiring and the headline values — and every one of them passed while `code/run_all.sh`,
+# the single command README.md tells a reader to run, was broken from a fresh clone (exit 1, eight
+# FAIL lines, "Do not treat this run as reproducing the paper"). Nothing here invoked it, so the
+# defect survived indefinitely behind a green board. A gate that does not run the entry point is
+# not a definition of "it passes".
+#
+# The figure half of run_all.sh needs the Supporting Information .docx, which this repository does
+# not redistribute. Set AF1_DOCX to your copy and this gate exercises the figure scripts too; leave
+# it unset and only the headline half is run, which is still the half a reader gets without it.
+if [ -n "${AF1_DOCX:-}" ]; then
+  RUNALL_ARGS=""
+  ok "AF1_DOCX is set — running the full pipeline, figure scripts included"
+else
+  RUNALL_ARGS="--verify-only"
+  ok "AF1_DOCX is unset — running --verify-only, so the figure scripts are not exercised"
+fi
+if ( PYTHON="$PY" bash code/run_all.sh $RUNALL_ARGS ) > "$CLONE/runall.txt" 2>&1; then
+  ok "$(grep 'RESULT:' "$CLONE/runall.txt" | tail -1 | sed 's/^ *//')"
+else
+  bad "code/run_all.sh FAILED — the entry point README.md advertises does not run:"
+  grep -E '\[FAIL\]|RESULT:' "$CLONE/runall.txt" | head -8 | sed 's/^/         /'
 fi
 
 echo

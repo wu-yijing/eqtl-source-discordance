@@ -167,13 +167,13 @@
   },
   {
    "path": ".zenodo.json",
-   "bytes": 3615,
-   "sha256": "331cca7c052021276e7e7abf87246be8c9f26a5e8305508c296359f3572b6e04"
+   "bytes": 3946,
+   "sha256": "9e8576b97289f45b431533473acdf7eeab0e500705a61c441dd17dc5a45df495"
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 35468,
-   "sha256": "02cb8c728d81b30733863cf6add2a4cd2f5e2e520570e1c65657417e5ea21890"
+   "bytes": 40403,
+   "sha256": "fb57e6def4385ed4e1efb8b6412f49f37360ddaf3e99d0926ec779cb4abb6e6d"
   },
   {
    "path": "CITATION.cff",
@@ -187,13 +187,13 @@
   },
   {
    "path": "README.md",
-   "bytes": 6857,
-   "sha256": "acd12d6478a254162af2abf990777905b27c4a73051c0b1c5a8824957ee2782c"
+   "bytes": 7711,
+   "sha256": "26b59d8e327643216a336250c474490bf1e7317f7c01151111d81f37e2090c12"
   },
   {
    "path": "code/README.md",
-   "bytes": 3278,
-   "sha256": "aa165dfc7b5a4c0e2a4e237beb9acda4e0c2da367b2137bf63fa4f5e872a237a"
+   "bytes": 7628,
+   "sha256": "632c3a304b7290f139908177eeca9d928cbf1a15add5786af2693518dfe25dfa"
   },
   {
    "path": "code/analyses/m6_ne_weighted_sensitivity.py",
@@ -207,8 +207,8 @@
   },
   {
    "path": "code/analyses/recovered/README.md",
-   "bytes": 2896,
-   "sha256": "ac1b6f826aba3c23921d367ce09771758b470a448a1230ba0c34382936bab6d7"
+   "bytes": 3664,
+   "sha256": "baf6929aad8da274822e381e5c076307795e739155b1b5b4a6e6803bad460e5d"
   },
   {
    "path": "code/analyses/recovered/scz_arm_recount_si_fix.py",
@@ -952,18 +952,18 @@
   },
   {
    "path": "code/figures/00_build_officialZ_data_layer.py",
-   "bytes": 6646,
-   "sha256": "7ff67bb5d6fbf56583fc6ee76c61666cab06b46beec5e82d8e392111b99e6b66"
+   "bytes": 7030,
+   "sha256": "21ec17aefcb8ca05b1e14852d97f992b2ae6ed48b4f86800422c3373ebf9cf72"
   },
   {
    "path": "code/figures/01_redraw_Fig5_Fig7.py",
-   "bytes": 7041,
-   "sha256": "bd9548d2b25456bebcfe9e604eaa9b67608936622e0f8ad53c857f9fbccc91c5"
+   "bytes": 7028,
+   "sha256": "c60762a41b80a92457015d054dcaa0b51ccf40fc89b0c831c8e0ba59ab237da3"
   },
   {
    "path": "code/figures/02_redraw_Fig3.py",
-   "bytes": 7241,
-   "sha256": "d1f5b70514a0bfeb0a87eca2bc046392b70226ed0c4198f594482e48b36b80c7"
+   "bytes": 7228,
+   "sha256": "9e43716db8ca24784b5bf945d89791ae4877d3f0fdb2cd939a11e004f918c26f"
   },
   {
    "path": "code/figures/03_redraw_Fig6.py",
@@ -972,28 +972,28 @@
   },
   {
    "path": "code/figures/04_redraw_Fig8.py",
-   "bytes": 6758,
-   "sha256": "569a981050a627df98ee14002ef051562b5cacd68a42091f9cb7fdd36e717032"
+   "bytes": 8057,
+   "sha256": "4c3586e9b1642bd013a0ca9473c0c0c348b8941b204f588e12f56a27e889ff54"
   },
   {
    "path": "code/figures/05_recompute_arms.py",
-   "bytes": 3348,
-   "sha256": "6f44858a58c0f20c7500e7e82abaaa0f70729a77ff4ba3f9a7518cf7da490d84"
+   "bytes": 3335,
+   "sha256": "f6e0d1ac3f48ec0d99795bd5bda91c703ba6336a45a5fc0e4b54271e6ab15291"
   },
   {
    "path": "code/figures/06_redraw_Fig4.py",
-   "bytes": 6083,
-   "sha256": "77f3c9abc23e7e06b9cc5d791a4889069c8606d9df1faf107371d23d9949c8b9"
+   "bytes": 6070,
+   "sha256": "4af98de70a41bb547384bcd7c3afc8d99ed12ea713e5ba7e3398d2072586dff6"
   },
   {
    "path": "code/figures/07_verify_SCZ_denominators.py",
-   "bytes": 2048,
-   "sha256": "e698b4b8a5121bab5ee1d7490132d689e8320e3077ff3e66a461674fa5092edf"
+   "bytes": 2030,
+   "sha256": "f81dfe8ea1e04fa634a75ff81b5d33039f0036495c06c3287a77d0031972bee5"
   },
   {
    "path": "code/figures/08_redraw_Fig6_labels_20260920.py",
-   "bytes": 9320,
-   "sha256": "fe2b91afb844a85c7fffb7d2411bdd344a48ffa29ad50c0db87830386d8162b6"
+   "bytes": 10995,
+   "sha256": "53609c5be5dc76a57aff3713b99ab485eb811d4098c3a4cc3c3826e82e61b8b9"
   },
   {
    "path": "code/figures/10_redraw_FigS6_20260920.py",
@@ -1042,8 +1042,8 @@
   },
   {
    "path": "code/figures/paths_config.py",
-   "bytes": 3788,
-   "sha256": "f2a765f078d88166bd117ef1906256acf0a324f5954e0e9dbbd1f9bce7e29ba6"
+   "bytes": 6210,
+   "sha256": "01bcaf1b22b22f0e6651c920cf89b45a57ad57af238f175f7e800aee4b7ee13e"
   },
   {
    "path": "code/run_all.sh",
@@ -1582,8 +1582,8 @@
   },
   {
    "path": "docs/audit_notes/INDEX.md",
-   "bytes": 3524,
-   "sha256": "4d5de54a5a20db624d8c8a80f170b402f5619154517b6a52e53f99e04372c13d"
+   "bytes": 4271,
+   "sha256": "d59304d63fbe0202c56af93cc1550f7cb4ed13e484ead8a15dabf59fb32f161e"
   },
   {
    "path": "docs/audit_notes/R2残余差异消除方案_20261002.md",
@@ -1594,6 +1594,11 @@
    "path": "docs/audit_notes/S1重建与SCZ改名收口执行记录_20260920.md",
    "bytes": 11658,
    "sha256": "75bb0d99906fd8995f389f607f31ca3817df1b354575636bc193b6cbde0b2de2"
+  },
+  {
+   "path": "docs/audit_notes/仓库可复现性修复记录_20261003.md",
+   "bytes": 10176,
+   "sha256": "d6c371538b0a0a6ca68c59bee1764bf1b27aac40d9cd4db7e911896a188b56a6"
   },
   {
    "path": "docs/audit_notes/复现核验_GE投稿两份文档_20261002.md",
@@ -1647,8 +1652,8 @@
   },
   {
    "path": "env/Dockerfile",
-   "bytes": 3718,
-   "sha256": "3856d2eb66868bcfc7f7c91b3244d2642bbc18b06270208241c6057fbfd0596f"
+   "bytes": 4844,
+   "sha256": "96d65d2638bb98f4dfe78067d2b4a459e38d277a440f11e6a324e64c0497e85a"
   },
   {
    "path": "env/README.md",
@@ -1657,8 +1662,8 @@
   },
   {
    "path": "env/environment.yml",
-   "bytes": 268,
-   "sha256": "c8f1a5c7932fec82af094cc3e38adddef808553464c3239411f0118bfe2190d2"
+   "bytes": 1369,
+   "sha256": "7a4daf32a824892e45e1dd3af56a32113d6c80b6f0c004586efb1b787f975a31"
   },
   {
    "path": "env/renv.lock",
@@ -1667,13 +1672,83 @@
   },
   {
    "path": "env/requirements.txt",
-   "bytes": 407,
-   "sha256": "459250c0695a85a48b325e0ae0656792af2a9970f3a3e28891e3812d033ee30f"
+   "bytes": 1109,
+   "sha256": "03aceeba8be422e61712bb37be0dbcf829e844bbb32619ea291b0350975a249d"
+  },
+  {
+   "path": "figures/Fig3.pdf",
+   "bytes": 22483,
+   "sha256": "02bc2654357d5bd143bbbcfd6f480f3adbe03af3baf8deba966ed1cea0708d76"
+  },
+  {
+   "path": "figures/Fig3.png",
+   "bytes": 303035,
+   "sha256": "8d908197bcb5b3675bea553cc2cafd1943f6324cbed3fe9adeb1b8aa9ae98bc1"
+  },
+  {
+   "path": "figures/Fig4.pdf",
+   "bytes": 20856,
+   "sha256": "3bb007fae0d0dd0c0a1b6b7b22ea1c015fcd2731a683707ca77a7d2d6087fe4c"
+  },
+  {
+   "path": "figures/Fig4.png",
+   "bytes": 227848,
+   "sha256": "90d5fbb4339ab0362c0ced1a7fe1cd5908bc88b7ef1afce9d5c6005f0edc3c45"
+  },
+  {
+   "path": "figures/Fig5.pdf",
+   "bytes": 15842,
+   "sha256": "8902269ff59e3713b6441140e1486582d32dd8f76b01e3a71cf8762d7fc91098"
+  },
+  {
+   "path": "figures/Fig5.png",
+   "bytes": 180965,
+   "sha256": "ed15d620e191843df2521341a88ded67af3ec490109225be796150e596177635"
+  },
+  {
+   "path": "figures/Fig6.pdf",
+   "bytes": 17229,
+   "sha256": "4e08a30aab62ed2e36d16e8b54978813fb9da599ff1e2250c2a5bdeda416b883"
+  },
+  {
+   "path": "figures/Fig6.png",
+   "bytes": 179577,
+   "sha256": "92e5fbe0bac2e8b49b324d6f13a4bb81eb5b4e639bfc71a36f91804029c92f3b"
+  },
+  {
+   "path": "figures/Fig7.pdf",
+   "bytes": 18184,
+   "sha256": "78c8050b909227221759617d4ba605f57d01eca8a6f884924a5714d9c3f49f85"
+  },
+  {
+   "path": "figures/Fig7.png",
+   "bytes": 227094,
+   "sha256": "74e174eeecd9e910c6e3eef79e66c4a4b7d54ca0f7464f8d23f834c953607550"
+  },
+  {
+   "path": "figures/Fig8.pdf",
+   "bytes": 19889,
+   "sha256": "52bb2e730fe3091e7d16c2b62878b6813f65a9de9d7fc81cb9b5096fb0f27983"
+  },
+  {
+   "path": "figures/Fig8.png",
+   "bytes": 149208,
+   "sha256": "494fbd7023ccc17beef02111d191d6b038554f944b8ea0e3b2ac2ced136510e3"
+  },
+  {
+   "path": "figures/FigS6.pdf",
+   "bytes": 20899,
+   "sha256": "1a1d67477fe1fd7028e7738652fcb3dc83b70953249f63b836332f9a79448385"
+  },
+  {
+   "path": "figures/FigS6.png",
+   "bytes": 400718,
+   "sha256": "47c5518a97b75ce12ff4892ab2affca509e63b0e983558ab4733c64dc965eccc"
   },
   {
    "path": "figures/README.md",
-   "bytes": 2873,
-   "sha256": "326129519e07a9f3665420f8fb019d38ff6344e9409b508ebd6f5db1a37bc3f8"
+   "bytes": 5247,
+   "sha256": "5e6db1fb210d255ff9483ca404469e4db636e993ba78dcfb8be7a0638203660f"
   },
   {
    "path": "metadata/ARCHIVE_MAP.md",
@@ -1726,12 +1801,12 @@
    "sha256": "25410afb8d1a34599f3cc87015f2fbd4bd59d211376f20bae1813bb196c6734d"
   }
  ],
- "file_count": 315,
+ "file_count": 330,
  "excluded": [
   {
    "path": "metadata/provenance.json",
    "reason": "the manifest cannot hash itself; its own content is regenerated by this script"
   }
  ],
- "tracked_file_count": 316
+ "tracked_file_count": 331
 }
