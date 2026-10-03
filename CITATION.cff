@@ -16,9 +16,17 @@ url: "https://github.com/wu-yijing/eqtl-source-discordance"
 version: 4.0.0
 date-released: "2026-10-02"
 identifiers:
+  # Managed by scripts/set_doi.py from metadata/zenodo_release.json.
+  # While that registry reports status "pending", the values below are unregistered
+  # placeholders and must not be cited — see DOI_PENDING.md.
   - type: doi
     value: 10.5281/zenodo.<CONCEPT>
     description: "Concept DOI — always resolves to the latest archived version"
+#DOI_VERSION_IDENTIFIER_BEGIN
+  # - type: doi
+  #   value: 10.5281/zenodo.<VER>
+  #   description: "Version DOI — pins this exact archived snapshot"
+#DOI_VERSION_IDENTIFIER_END
 keywords:
   - transcriptome-wide association study
   - TWAS

@@ -8,6 +8,14 @@ M6(b)  k=2 primary set, sqrt(N_e)-weighted re-merge
   [heterogeneity] Cochran Q = 0.1 (df=1), I^2 = 0.0%
   [random effects] DL tau^2 = 0 (b scale); pooled b = 0.0106 (SE 0.0044); test Z = 2.39, P = 0.017
 ==============================================================================
+M6(c)  k=2 primary set, sqrt(N_e) weights applied DIRECTLY on the Z scale
+  studies: Z=+2.3091, N_e=49304; Z=+0.7225, N_e=1231
+  sqrt(N_e)-weighted mean Z = +2.0926  (published +2.09)
+  [heterogeneity, Z scale] Cochran Q = 76.27 (df=1), I^2 = 98.69%  (published 76.6; 98.7%)
+  RESIDUAL vs SI Table S5a row 4: Q differs by -0.33 (-0.43%); the pooled Z and I^2 agree
+  at the printed precision. The published Q is not reproducible to its third significant
+  figure from the two cohort Z/N_e pairs this archive ships -- recorded, not hidden.
+==============================================================================
 M6(d)  reference merge retaining the retracted ieu-b-4803 value (not an estimate)
   studies: Z=+2.309, N_e=49304; Z=+0.723, N_e=1231; Z=+0.950, N_e=54209
   N_e shares: 47.1%, 1.2%, 51.8%

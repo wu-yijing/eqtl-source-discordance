@@ -34,6 +34,18 @@ Two further predecessor names resolve the same way:
 | `data/processed/covariate_matrix.csv` | [`data/superseded/covariate_matrix.csv`](../superseded/covariate_matrix.csv) — declared exemption, see [`../README.md`](../README.md) |
 | `data/hk_reselect_20260830/data/` | [`data/superseded/hk_reselect_20260830/data/`](../superseded/hk_reselect_20260830/data/) |
 
+## The predecessor's own files are now in this repository
+
+Until 2026-10-03 this README could only point at the predecessor and ask the reader to trust the
+comparison. It no longer has to: every tracked file in both predecessor repositories has been
+compared against this tree by blob hash, and the predecessor documents this directory is named after
+are copied here verbatim (normalised to LF) under
+[`../../docs/predecessors/`](../../docs/predecessors/README.md) — including the predecessor's
+`ARCHIVE_NOTE.md`, its `audit_notes/README.md` with the 2026-09-23 rebuild addendum, and both
+repositories' `_PROVENANCE.json` records for the superseded layer. The disposition of all 355
+predecessor files is in
+[`../../docs/predecessors/MIGRATION_MANIFEST.json`](../../docs/predecessors/MIGRATION_MANIFEST.json).
+
 ## What to do
 
 Read `data/derived/`. If a script still names `data/processed_officialZ/`,

@@ -34,7 +34,7 @@ Inputs (all from archived official MetaXcan v0.8.1 outputs)
 
 Outputs
 -------
-  stdout / data/processed/m6_ne_weighted_sensitivity_results.txt
+  stdout / data/superseded/m6_ne_weighted_sensitivity_results.txt
 """
 import math
 
@@ -60,6 +60,29 @@ def ivw_b(zs, nes):
     b_hat = sum(n * b for n, b in zip(nes, bs)) / sum(nes)
     Q = sum(n * (b - b_hat) ** 2 for n, b in zip(nes, bs))
     return b_hat, Q
+
+
+def direct_nsqrt_weighting(zs, nes):
+    """Sqrt(N_e) weights applied directly on the Z scale; returns (Z_w, Q_w).
+
+    This is a DIFFERENT convention from ``weighted_stouffer`` above, and the two are
+    printed as separate rows of Supporting Information Table S5a:
+
+      * ``weighted_stouffer`` normalises by ``sqrt(sum N_e)`` and returns a Z statistic
+        on the unit-variance scale -- that is the "beta-scale inverse-variance merge
+        (beta = Z/sqrt(N_e))" row, pooled Z = +2.39, Q on the b scale = 0.13.
+      * this function takes the sqrt(N_e)-weighted *arithmetic mean* of the Z-scores
+        and evaluates Cochran's Q on the Z scale with the same weights -- that is the
+        "sqrt(N_e) weights applied directly on the Z scale" row, pooled Z = +2.09,
+        Q = 76.6, I^2 = 98.7 %.
+
+    Both rows are legitimately reported; they answer different questions. Reporting
+    only one of them, or conflating them, is the error this docstring exists to stop.
+    """
+    w = [math.sqrt(n) for n in nes]
+    z_w = sum(wi * z for wi, z in zip(w, zs)) / sum(w)
+    Q = sum(wi * (z - z_w) ** 2 for wi, z in zip(w, zs))
+    return z_w, Q
 
 
 def dl_random_effects(zs, nes):
@@ -105,6 +128,31 @@ def main():
     # M6(b): primary k=2 set (FinnGen + GCST90043640, both eQTLGen weights), sqrt(N_e)-weighted re-merge
     lines += report("M6(b)  k=2 primary set, sqrt(N_e)-weighted re-merge",
                     z_all[:2], ne_all[:2])
+    # M6(c): the SAME weights applied a different way -- a weighted MEAN on the Z scale,
+    # with Cochran's Q also on the Z scale. This is SI Table S5a's fourth data row
+    # ("sqrt(N_e) weights applied directly on the Z scale"), and it is not the same
+    # quantity as M6(b): the normalised Stouffer combination is M6(b) at +2.39, while
+    # the direct weighting is +2.09 with Q = 76.3 (published 76.6 -- see the residual
+    # note below). Both rows are printed because the SI prints both.
+    z2 = z_all[:2]
+    ne2 = ne_all[:2]
+    df2 = len(z2) - 1
+    z_direct, Q_direct = direct_nsqrt_weighting(z2, ne2)
+    I2_direct = max(0.0, (Q_direct - df2) / Q_direct) * 100 if Q_direct > 0 else 0.0
+    m6c = [
+        "=" * 78,
+        "M6(c)  k=2 primary set, sqrt(N_e) weights applied DIRECTLY on the Z scale",
+        "  studies: " + "; ".join("Z=%+.4f, N_e=%d" % (z, n) for z, n in zip(z2, ne2)),
+        "  sqrt(N_e)-weighted mean Z = %+.4f  (published +2.09)" % z_direct,
+        "  [heterogeneity, Z scale] Cochran Q = %.2f (df=%d), I^2 = %.2f%%  (published 76.6; 98.7%%)"
+        % (Q_direct, df2, I2_direct),
+        "  RESIDUAL vs SI Table S5a row 4: Q differs by %+.2f (%.2f%%); the pooled Z and I^2 agree"
+        % (Q_direct - 76.6, 100.0 * (Q_direct - 76.6) / 76.6),
+        "  at the printed precision. The published Q is not reproducible to its third significant",
+        "  figure from the two cohort Z/N_e pairs this archive ships -- recorded, not hidden.",
+    ]
+    print("\n".join(m6c))
+    lines += m6c
     # M6(d): reference merge that retains the retracted ieu-b-4803 value (completeness only; NOT an estimate)
     lines += report("M6(d)  reference merge retaining the retracted ieu-b-4803 value (not an estimate)",
                     z_all, ne_all)
@@ -123,9 +171,23 @@ def main():
     text = "\n".join(lines) + "\n"
     print()
     import os
-    out = os.path.join(os.path.dirname(__file__), "..", "..",
-                       "data", "processed", "m6_ne_weighted_sensitivity_results.txt")
-    with open(out, "w", encoding="utf-8") as f:
+
+    # Repository-root discovery by sentinel, the same convention as paths_config.py.
+    # The previous revision wrote to <repo>/data/processed/, a directory that no longer
+    # exists in this repository (it became data/superseded/), so the script produced its
+    # report and then died on the write. code/README.md rule 3 forbids absolute paths.
+    here = os.path.dirname(os.path.abspath(__file__))
+    root = here
+    for _ in range(8):
+        if os.path.exists(os.path.join(root, ".zenodo.json")):
+            break
+        parent = os.path.dirname(root)
+        if parent == root:
+            break
+        root = parent
+    out = os.path.join(root, "data", "superseded",
+                       "m6_ne_weighted_sensitivity_results.txt")
+    with open(out, "w", encoding="utf-8", newline="\n") as f:
         f.write(text)
     print("Saved:", os.path.normpath(out))
 

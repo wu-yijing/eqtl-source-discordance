@@ -23,6 +23,81 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-03 (twelfth pass) — DOI slot, predecessor migration, and the archive-map contradictions an external audit found
+
+**Numbers: no reported number changes.** Neither submitted document was edited. One value moved from
+"absent from this archive" to "derivable, with a stated residual" (see the S5a entry), and one
+repository file began reproducing a value it previously could not.
+
+This pass answers an independent reproducibility audit of this repository, run against HEAD
+`e4e4dec`. The audit's headline finding was that the *downstream* chain reproduces fully — 7/7 release
+gates, 15/15 minimal assertions, 87/87 ACAT-O cells, S9 pool re-derivation byte-identical, and every
+committed figure PNG identical on regeneration — while three things around it did not. Those three
+are what this pass fixes.
+
+* **The DOI was a placeholder with nowhere to put the answer.** Four carriers held concept- and
+  version-DOI placeholder tokens, `README.md` called the archive a "citable snapshot", and the badge
+  was a Zenodo badge that 404s. Added:
+  [`metadata/zenodo_release.json`](metadata/zenodo_release.json) (single source of truth),
+  [`scripts/set_doi.py`](scripts/set_doi.py) (`--show`, `--check`, and a one-command backfill that
+  rewrites all four carriers and the badge together), and [`DOI_PENDING.md`](DOI_PENDING.md), which
+  states the publication steps and why the manuscript's currently-cited DOI
+  (`10.5281/zenodo.22910500`) is **not** a substitute — it resolves to the predecessor `-audit`
+  repository's v1.0.0, a 2.34 MB snapshot published 2026-09-23, before every gap closure, the figure
+  build outputs and the SI ACAT-O rule. `README.md` now carries an honest pending notice instead of a
+  false citability claim, and `scripts/cut_release.sh` grew a section that surfaces the pending state
+  at pre-flight.
+* **The predecessor repositories no longer have to be cloned.** Every tracked file in both of them
+  (165 + 190) was compared against this tree **by blob hash**, and each was given a disposition:
+  123 + 167 already identical here, 30 + 15 superseded by a repaired canonical copy, 8 + 6
+  deliberately left behind (build/config files this repository replaces), and **6 migrated**. The
+  six are in [`docs/predecessors/`](docs/predecessors/README.md): the predecessor's `ARCHIVE_NOTE.md`
+  and `README.md`, both `audit_notes/README.md` indexes (the `-audit` one carries the 2026-09-23
+  rebuild addendum this repository had dropped), and both `_PROVENANCE.json` records for the
+  superseded layer. Machine-readable:
+  [`docs/predecessors/MIGRATION_MANIFEST.json`](docs/predecessors/MIGRATION_MANIFEST.json) (355 files).
+* **`metadata/ARCHIVE_MAP.md` contradicted itself in three places**, invisible to
+  `check_archive_map.py` because that check validates structure, not prose. (i) The Figs. 1–4 row
+  still read "`figures/` contains only its README" while seven figure build outputs were committed;
+  it is now split into a ✅ row for Figs. 2–4 (which regenerate byte-identically) and a 🟡 row for
+  Fig. 1. (ii) Figs. S1 and S2 were still 🔴 `none` while §5 recorded GAP-4 as partly closed and
+  `code/figures/recovered/` shipped their generators; both are now 🟡 with the reason each is not ✅.
+  (iii) The Note S4 row described checksums as `<hash>` placeholders while `data/README.md` records
+  them, correctly, as `not-held`. Counts: **47 items, 24 ✅ / 14 🟡 / 0 🔴 / 9 ➖** (was 46 / 23 / 12 / 2 / 9).
+* **SI Table S5a's fourth row now reproduces.** It was the single value
+  `scripts/audit_documents_vs_repo.py` reported as absent from the archive: "√N_e weights applied
+  directly on the Z scale" (pooled Z +2.09; Q 76.6; I² 98.7). The convention had been conflated with
+  the β-scale row. `code/analyses/m6_ne_weighted_sensitivity.py` now emits both — the normalised
+  Stouffer combination (M6(b), +2.39) **and** the √N_e-weighted arithmetic mean (M6(c)) — because the
+  SI prints both. M6(c) gives **+2.0926 → +2.09 ✓** and **I² 98.69 % → 98.7 % ✓**, with Cochran's Q
+  on the Z scale at **76.27 against the published 76.6** (Δ −0.33, −0.43 %). That residual is printed
+  by the script and recorded in the map; the published Q is not reproducible to its third significant
+  figure from the two cohort Z/N_e pairs this archive ships.
+* **S17's two undisclosed parameters are stated as measured facts, not as an outstanding debt.**
+  Generator = `numpy.random.RandomState` (MT19937): seed 20260915 gives the published interval
+  `[0.1161, 0.6220]` → `0.12–0.62` where PCG64 gives `0.11–0.63`. Resampling is over a
+  lexicographically sorted gene vector. What remains is the SI table note — a manuscript-side edit,
+  tracked in `docs/audit_notes/R2残余差异消除方案_20261002.md`.
+* **The archive's own record of the manuscript's hash was stale.** `INPUTS.md §B.1` and
+  `results/recompute_log.txt` recorded `dbbe4f81…` / 30,524 B, which is the file as it stood *before*
+  reference [39] was repointed to this repository; the submitted revision is `a6f7521b…` / 30,523 B.
+  The Supporting Information still matches its recorded hash exactly, and no number moved — the
+  change is one reference string. Both revisions are now recorded, with the reason for the delta, and
+  `results/` is regenerated against the current file.
+* **Defects fixed while in the area.** `recompute.py` wrote a tracked CSV through pandas' default
+  `lineterminator` (= `os.linesep`), so on Windows it rewrote `results/merged_pairs.csv` with CRLF
+  against `.gitattributes`' `eol=lf` — the same defect class fixed for another writer on 2026-10-02,
+  missed here; it is invisible because git normalises on commit, which is why it survived.
+  `run_spredixcan.sh` mounted its inputs at `/input/...` while reading `/app/input/...` and named a
+  non-existent entry point, so all nine runs silently reported "SKIP" and the script still exited 0;
+  the mounts are corrected and the script now **fails loudly** when nothing ran.
+  `m6_ne_weighted_sensitivity.py` wrote its report to `data/processed/`, a directory that has not
+  existed since the canonical reorganisation, so it printed and then died on the write.
+  `env/Dockerfile`'s unpinned base image is now surfaced by `cut_release.sh` section 7 with the exact
+  command to resolve it — still open, because Docker Hub was unreachable from the repair environment
+  (HTTP 000) and pinning to an unverified tag would be worse than saying so. `data/README.md` printed
+  Python 3.13.0 (the manuscript's figure) where the pin has been 3.13.12.
+
 ### 2026-10-03 (eleventh pass) — M3 verified already implemented, and `HK` pinned to housekeeping
 
 **Numbers: no reported number changes.** Neither submitted document was edited. This pass corrects a

@@ -1,0 +1,39 @@
+{
+ "_comment": [
+  "Single source of truth for this repository's Zenodo identifiers.",
+  "Until the canonical repository is published to Zenodo, every DOI in the tree is a",
+  "placeholder token and this file says so. Fill it with scripts/set_doi.py — do not",
+  "hand-edit the DOI strings in README.md / CITATION.cff / CHANGELOG.md, because four",
+  "carriers have to stay in step and hand-editing is how they drift apart.",
+  "See DOI_PENDING.md for the publication steps."
+ ],
+ "status": "pending",
+ "version_owned_by": ".zenodo.json",
+ "_version_note": [
+  "The release version is NOT duplicated here. .zenodo.json owns it, scripts/cut_release.sh",
+  "checks it against CITATION.cff and CHANGELOG.md, and a second copy in this file would be",
+  "one more place for the three of them to disagree. Read it from .zenodo.json."
+ ],
+ "release_date": null,
+ "zenodo_record_url": null,
+ "concept_doi": null,
+ "version_doi": null,
+ "placeholder_tokens": {
+  "concept": "10.5281/zenodo.<CONCEPT>",
+  "version": "10.5281/zenodo.<VER>"
+ },
+ "fallback_readme_badge": "[![DOI: pending](https://img.shields.io/badge/DOI-pending%20release-orange)](DOI_PENDING.md)",
+ "published_readme_badge_template": "[![DOI](https://zenodo.org/badge/DOI/{concept}.svg)](https://doi.org/{concept})",
+ "carriers": [
+  "README.md",
+  "CITATION.cff",
+  "CHANGELOG.md",
+  "DOI_PENDING.md",
+  "docs/predecessors/README.md"
+ ],
+ "predecessor_dois_for_reference": {
+  "wu-yijing/twas-eqtl-source-discordance": "10.5281/zenodo.21238202",
+  "wu-yijing/eqtl-source-discordance-audit": "10.5281/zenodo.22910500"
+ },
+ "note_on_predecessor_doi": "The associated manuscript's Data availability statement currently cites 10.5281/zenodo.22910500 / .22910501, which resolve to wu-yijing/eqtl-source-discordance-audit v1.0.0 (2026-09-23) — a 2.34 MB snapshot that predates every gap closure in metadata/ARCHIVE_MAP.md, the committed figure build outputs, and the SI ACAT-O rule. Publishing this repository and citing the resulting DOI is what closes that mismatch."
+}

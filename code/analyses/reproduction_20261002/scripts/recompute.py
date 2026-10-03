@@ -246,7 +246,13 @@ log(f'  GTEx(S3) 命中 = {int(M["Z_multi_tissue"].notna().sum())} 行, '
     f'主臂(S13) 命中 = {int(M["Same_S13"].notna().sum())} 行, '
     f'两源交集 = {int((M["Z_multi_tissue"].notna() & M["Z_eQTLGen"].notna()).sum())} 行')
 M['Group'] = M['Group'].fillna(M['Gene group'])
-M.to_csv(os.path.join(OUTD, 'merged_pairs.csv'), index=False, encoding='utf-8-sig')
+# lineterminator='\n' is not cosmetic. pandas' to_csv defaults to os.linesep, so on Windows
+# this shipped input was rewritten with CRLF while .gitattributes declares *.csv eol=lf —
+# the same defect class that was fixed for 00_build_added_derived.py's writer on 2026-10-02,
+# missed here. A CRLF working copy still commits as LF (git normalises), which is exactly why
+# it survived: the committed bytes looked right and the local file did not.
+M.to_csv(os.path.join(OUTD, 'merged_pairs.csv'), index=False, encoding='utf-8-sig',
+         lineterminator='\n')
 
 # ============================================================ 3. 目标量重算
 R = {}   # 结果容器

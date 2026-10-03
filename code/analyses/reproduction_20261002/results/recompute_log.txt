@@ -1,7 +1,7 @@
 ==============================================================================
 输入文件校验
 ==============================================================================
-  Manuscript                 md5=dbbe4f81a6fe9433b6a28019c6538eab  bytes=30524
+  Manuscript                 md5=a6f7521b98efa0e2ef247664e2f0db3a  bytes=30523
   Supporting Information     md5=bd50b7f819db7851c50ddfa76ae336eb  bytes=1462835
 
 Table S2  104 基因注释: n=104 分组=['Candidate', 'Non-candidate', 'T2DM control']

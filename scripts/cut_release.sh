@@ -254,6 +254,42 @@ PH=$(git ls-files -z 2>/dev/null | xargs -0 grep -l '<CONCEPT>\|<VER>\|PLACEHOLD
 [ -z "$PH" ] && ok "no <CONCEPT>/<VER> placeholders left" || { warn "placeholders still present in:"; echo "$PH" | sed 's/^/         /'; }
 
 echo
+echo "== 6. DOI registry =="
+# The DOI cannot exist yet at pre-flight time: Zenodo mints it from the release this
+# script is about to authorise. So an unresolved placeholder is expected here and is a
+# warning, NOT a failure — but it must be visible, because the one thing that must not
+# happen is a release that claims to be citable while every DOI in the tree is a token.
+if [ -f scripts/set_doi.py ]; then
+  if "$PY" scripts/set_doi.py --check > /dev/null 2>&1; then
+    ok "every DOI carrier resolves to a real identifier"
+  else
+    warn "DOI is still pending. Publish to Zenodo, then:"
+    echo "         python3 scripts/set_doi.py --concept 10.5281/zenodo.<N> \\" | sed 's/^/  /'
+    echo "             --version 10.5281/zenodo.<M> --record <url> --release-date <YYYY-MM-DD>" | sed 's/^/  /'
+    echo "         See DOI_PENDING.md. Until then do not describe the archive as citable." | sed 's/^/  /'
+  fi
+else
+  warn "scripts/set_doi.py missing — the DOI registry is not checkable"
+fi
+
+echo
+echo "== 7. container base image is pinned =="
+# env/README.md rule 1 requires an exact pin. `FROM ...:latest` is not one. This cannot be
+# resolved offline (Docker Hub is unreachable from some repair environments), so it warns
+# with the exact command rather than failing the release on an environment-only issue.
+FROM_LINE=$(grep -m1 '^FROM' env/Dockerfile 2>/dev/null || true)
+case "$FROM_LINE" in
+  *:latest*|*"${FROM_LINE%%:*}"|"")
+    warn "env/Dockerfile does not pin its base image: ${FROM_LINE:-<no FROM line>}"
+    echo "         Resolve a digest and pin:  docker buildx imagetools inspect <image>:<tag>" | sed 's/^/  /'
+    echo "         then:  FROM <image>@sha256:<digest>   (keep the readable tag in a comment)" | sed 's/^/  /'
+    ;;
+  *)
+    ok "env/Dockerfile pins a base image: ${FROM_LINE}"
+    ;;
+esac
+
+echo
 echo "=================================================="
 printf ' failures: %d   warnings: %d\n' "$FAIL" "$WARN"
 if [ "$FAIL" -gt 0 ]; then

@@ -7,15 +7,32 @@
 #
 # 使用方式:
 #   docker run --rm \
-#     -v /path/to/finngen_data:/input/finngen \
-#     -v /path/to/gtex_models:/input/gtex \
-#     -v /path/to/1000g:/input/1000g \
+#     -v /path/to/finngen_data:/app/input/finngen \
+#     -v /path/to/gtex_models:/app/input/gtex \
+#     -v /path/to/eqtlgen_models:/app/input/eqtlgen \
+#     -v /path/to/1000g:/app/input/1000g \
 #     -v $(pwd)/output:/app/output \
 #     twas-eqtl-repro \
-#     bash /app/run_spredixcan.sh
+#     bash /app/code/run_spredixcan.sh
+#
+# NOTE ON THE MOUNT POINTS. They are /app/input/... to match INPUT_DIR below. An earlier
+# revision of this header mounted them at /input/... while the script read /app/input/...,
+# so every model and GWAS file resolved to a path that did not exist and the script printed
+# "SKIP: missing model or GWAS file" for all nine runs — a silent no-op that looked like a
+# successful run. The entry-point path was wrong too (/app/run_spredixcan.sh; the file lives
+# under code/). Both fixed 2026-10-03.
+#
+# This script is NOT invoked by code/run_all.sh. It documents the upstream step, which needs
+# three layers this archive does not redistribute (see data/README.md, all rows `not-held`).
 # =============================================================================
 
 set -euo pipefail
+
+# Loud-failure accounting. A previous revision printed "SKIP: missing model or GWAS file" for
+# every run and still exited 0, so an unconfigured invocation was indistinguishable from a
+# successful one. At least one run must actually execute.
+RAN=0
+SKIPPED=0
 
 INPUT_DIR="/app/input"
 OUTPUT_DIR="/app/output"
@@ -57,8 +74,10 @@ for TISSUE in "Nerve_Tibial" "Whole_Blood"; do
                 --additional_output \
                 2>&1 | tail -5
             echo "    Output: ${OUTPUT}"
+            RAN=$((RAN + 1))
         else
-            echo "    SKIP: missing model or GWAS file"
+            echo "    SKIP: missing model or GWAS file (${MODEL} , ${GWAS})"
+            SKIPPED=$((SKIPPED + 1))
         fi
     done
 done
@@ -100,15 +119,26 @@ for PHENO in "DR" "DN" "DPN"; do
             --additional_output \
             2>&1 | tail -5
         echo "    Output: ${OUTPUT}"
+        RAN=$((RAN + 1))
     else
-        echo "    SKIP: missing model or GWAS file"
+        echo "    SKIP: missing model or GWAS file (${MODEL} , ${GWAS})"
+        SKIPPED=$((SKIPPED + 1))
     fi
 done
 
 echo ""
 echo "====================================================================="
-echo " S-PrediXcan runs complete."
+echo " S-PrediXcan runs complete: ${RAN} run, ${SKIPPED} skipped."
 echo "====================================================================="
+if [ "${RAN}" -eq 0 ]; then
+    echo ""
+    echo " ERROR: nothing ran. Every model and GWAS path was missing, which means the input"
+    echo "        layers are not mounted where this script reads them. Check the -v mounts in"
+    echo "        the header: they must land under /app/input/. Exiting non-zero so an"
+    echo "        unconfigured invocation cannot be mistaken for a successful one."
+    echo ""
+    exit 1
+fi
 echo " Next steps: Run downstream analysis with:"
-echo "   bash /app/run_all.sh"
+echo "   bash /app/code/run_all.sh"
 echo "====================================================================="

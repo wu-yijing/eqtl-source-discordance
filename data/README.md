@@ -33,7 +33,15 @@ Every input that a reported number depends on must appear in this table, with it
 
 `not-held` means the resource is **not redistributed with this archive** — record its hash the first time someone runs the pipeline against the downloaded file. Nothing here is claimed to have been verified by hash; that would be a false claim.
 
-**Software versions** (Note S4): S-PrediXcan statistics were computed with the **official MetaXcan v0.8.1 binary**; analyses used Python 3.13.0 and R 4.5.2 with MatchIt, pinned as `env/environment.yml` and `env/renv.lock`.
+**Software versions** (Note S4): S-PrediXcan statistics were computed with the **official MetaXcan v0.8.1 binary**; analyses used Python 3.13.12 and R 4.5.2 with MatchIt, pinned as `env/environment.yml` and `env/renv.lock`.
+
+> **Python version — the pin says 3.13.12, the manuscript says 3.13.0.** The pinned interpreter in
+> `env/environment.yml` is `python=3.13.12`, and that is the version the reproduction package
+> records having run under (`code/analyses/reproduction_20261002/README.md`). The manuscript's
+> Methods currently prints `3.13.0`, which was an earlier pin — an earlier revision of this file
+> repeated the manuscript's figure rather than the pin's. Both are 3.13.x patch releases and no
+> reported value depends on the difference, but the two should agree; aligning the manuscript is an
+> author-side edit, recorded here so it is not lost.
 
 **Citation for GCST90043640.** The GWAS Catalog records Jiang L, Zheng Z, Fang H, Yang J. *Nat Genet.* 2021;53:1616–1621 (doi:10.1038/s41588-021-00954-4) as the publication for this accession — the paper that deposited it alongside the fastGWA-GLMM tool. Cite it, not only the accession.
 

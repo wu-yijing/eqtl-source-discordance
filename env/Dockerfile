@@ -25,8 +25,16 @@
 #    step was reached. R now comes from conda-forge, where the pin does resolve.
 #
 #    OPEN ITEM: the base image tag is `latest`, which env/README.md rule 1 forbids.
-#    It is left unpinned rather than pinned to a tag that could not be verified
-#    when this file was repaired; pin it to a dated tag before the next release.
+#    Still open as of 2026-10-03: hub.docker.com and registry.hub.docker.com were both
+#    unreachable from the environment that repaired this file (curl exit 56, HTTP 000), so
+#    no dated tag or digest could be verified. Pinning to a tag that was never resolved
+#    would be worse than leaving `latest` and saying so.
+#
+#    To close it, from a machine with Docker Hub access:
+#        docker buildx imagetools inspect continuumio/miniconda3:latest
+#    then replace the FROM line with the digest form, keeping the readable tag as a comment:
+#        FROM continuumio/miniconda3@sha256:<digest>   # continuumio/miniconda3:<dated tag>
+#    scripts/cut_release.sh section 7 warns until this is done.
 # =============================================================================
 
 FROM continuumio/miniconda3:latest AS base

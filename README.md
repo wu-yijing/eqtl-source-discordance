@@ -1,11 +1,23 @@
 # eqtl-source-discordance
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.<CONCEPT>.svg)](https://doi.org/10.5281/zenodo.<CONCEPT>)
+[![DOI: pending](https://img.shields.io/badge/DOI-pending%20release-orange)](DOI_PENDING.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 Analysis code, processed data and a containerized reproducibility environment for a methodological audit of **eQTL weight-source dependence in transcriptome-wide association studies (TWAS)**.
 
-> **Archived, citable snapshot.** Cite the concept DOI `10.5281/zenodo.<CONCEPT>` for the software/dataset (always resolves to the latest version), or the version DOI `10.5281/zenodo.<VER>` to refer to a specific analysed version. See [`CITATION.cff`](CITATION.cff).
+<!-- DOI_STATUS_BEGIN — managed by scripts/set_doi.py; the pending and published variants live together in that file. Do not edit this block by hand. -->
+> ⚠️ **No published DOI yet.** This repository has not been deposited to Zenodo, so it has no citable
+> identifier and the placeholders below are unresolved. Everything needed for the deposit is in the
+> tree ([`.zenodo.json`](.zenodo.json), [`CITATION.cff`](CITATION.cff)); what was missing was a place
+> to record the result. That is [`DOI_PENDING.md`](DOI_PENDING.md), and the backfill is one command:
+> `python3 scripts/set_doi.py --concept … --version …`.
+>
+> Concept DOI `10.5281/zenodo.<CONCEPT>` · version DOI `10.5281/zenodo.<VER>` — **placeholders, not
+> registered identifiers. Do not cite them.** See [`DOI_PENDING.md`](DOI_PENDING.md) for why the DOI
+> already quoted by the associated manuscript (an earlier repository's `10.5281/zenodo.22910500`) is
+> *not* a substitute: it resolves to a September 2026 snapshot that predates this repository's
+> reproductions.
+<!-- DOI_STATUS_END -->
 
 ---
 
@@ -55,8 +67,10 @@ External inputs that are not redistributed here are listed with their identifier
 | `data/` | `derived/` — redistributed derived tables; `README.md` — external-input manifest with checksums |
 | `env/` | `Dockerfile`, `environment.yml`, `renv.lock`, `requirements.txt` |
 | `figures/` | Build outputs of `code/figures/` (PDF + PNG), committed so a reader can compare a re-run against what was shipped. See `figures/README.md` for the build-name → manuscript-figure map and for the four manuscript figures whose producing script is not in this archive |
-| `metadata/` | [`ARCHIVE_MAP.md`](metadata/ARCHIVE_MAP.md) — artefact → manuscript item; [`PRE_REGISTRATION.md`](metadata/PRE_REGISTRATION.md) — pre-specification anchors; `provenance.json` — input checksums |
-| `docs/` | [`RELEASE_PROCESS.md`](docs/RELEASE_PROCESS.md) — how releases and Zenodo archives are cut |
+| `metadata/` | [`ARCHIVE_MAP.md`](metadata/ARCHIVE_MAP.md) — artefact → manuscript item; [`PRE_REGISTRATION.md`](metadata/PRE_REGISTRATION.md) — pre-specification anchors; [`zenodo_release.json`](metadata/zenodo_release.json) — the DOI registry; `provenance.json` — input checksums |
+| `docs/` | [`RELEASE_PROCESS.md`](docs/RELEASE_PROCESS.md) — how releases and Zenodo archives are cut; [`audit_notes/`](docs/audit_notes/INDEX.md) — dated audit records; [`predecessors/`](docs/predecessors/README.md) — the predecessor repositories, and the files migrated out of them |
+| `scripts/` | Release gates and maintenance: [`verify_from_clone.sh`](scripts/verify_from_clone.sh), [`cut_release.sh`](scripts/cut_release.sh), [`set_doi.py`](scripts/set_doi.py), [`collect_provenance.py`](scripts/collect_provenance.py), [`audit_documents_vs_repo.py`](scripts/audit_documents_vs_repo.py) |
+| `DOI_PENDING.md` | The DOI slot, why it is empty, and the exact steps to fill it |
 
 ---
 
@@ -95,6 +109,14 @@ Earlier repositories of this project are retained read-only for provenance:
 | Repository | Zenodo concept DOI | Status |
 |---|---|---|
 | `wu-yijing/twas-eqtl-source-discordance` (formerly `TWAS-eQTL-source-confounding`) | `10.5281/zenodo.21238202` | Archived — full pre-2026-09-24 development history |
-| `wu-yijing/eqtl-source-discordance-audit` | `10.5281/zenodo.22910500` | Archived — release-only snapshot |
+| `wu-yijing/eqtl-source-discordance-audit` | `10.5281/zenodo.22910500` | Archived — release-only snapshot. **This is the object the associated manuscript's Data availability statement currently resolves to**; see [`DOI_PENDING.md`](DOI_PENDING.md) |
 
 **This repository is the canonical archive from v4.0.0 onward.** The version line continues across the predecessor repositories rather than restarting, so that no two releases in this project ever share a version number.
+
+**Their contents no longer need to be fetched.** Every tracked file in both predecessors has been
+compared against this tree by blob hash and given a disposition — identical here already, superseded
+by a repaired copy here, migrated into [`docs/predecessors/`](docs/predecessors/README.md), or
+deliberately left behind with a reason. The machine-readable record is
+[`docs/predecessors/MIGRATION_MANIFEST.json`](docs/predecessors/MIGRATION_MANIFEST.json) (355 files),
+and the six files actually copied out are listed in
+[`docs/predecessors/README.md`](docs/predecessors/README.md).

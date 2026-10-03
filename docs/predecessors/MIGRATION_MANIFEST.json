@@ -1,0 +1,2215 @@
+{
+ "canonical_repository": "wu-yijing/eqtl-source-discordance",
+ "canonical_head": "e4e4dec2f5c36e8d398d1dde6bc43e3359bf12e0",
+ "path_root_map": {
+  "data/processed_officialZ/": "data/derived/",
+  "data/processed/ukb_dr_official/": "data/derived/ukb_dr/",
+  "data/processed/": "data/superseded/",
+  "data/hk_reselect_20260830/": "data/superseded/hk_reselect_20260830/",
+  "data/hk_genes.txt": "data/derived/hk_genes.txt",
+  "figure_scripts_officialZ_20260917/": "code/figures/",
+  "analyses/": "code/analyses/",
+  "scripts/R/": "code/analyses/",
+  "scripts/python/round4_recompute_20260917/": "code/analyses/round4_recompute/round4_recompute_20260917/",
+  "scripts/python/s1_cluster_robustness/": "code/deprecated/s1_cluster_robustness/",
+  "scripts/python/split_half_null_simulation/": "code/simulations/split_half_null/",
+  "scripts/python/manuscript_revision_2026-07-19/": "code/deprecated/manuscript_revision_20260719/",
+  "scripts/python/": "code/deprecated/python_early/",
+  "_DEPRECATED_figure_scripts_pre20260917/": "code/deprecated/figure_scripts_pre20260917/",
+  "_DEPRECATED_scz_self_implemented/": "code/deprecated/scz_self_implemented/",
+  "audit_notes/": "docs/audit_notes/"
+ },
+ "predecessors": {
+  "pred-audit": {
+   "remote": "wu-yijing/eqtl-source-discordance-audit",
+   "head": "7e70f3de2a67f73535d56942538e5b8eeb362649",
+   "head_date": "2026-09-24",
+   "tracked_files": 165,
+   "files": [
+    {
+     "path": ".dockerignore",
+     "sha": "b6c2ccfc2a94bdbb09d57136d7da1164f424ed92",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": ".dockerignore"
+    },
+    {
+     "path": ".gitignore",
+     "sha": "0dc248c99f01527c09dba46abb5a084f2bc4d73c",
+     "disposition": "not_migrated",
+     "note": "build or configuration file for which the canonical repository has its own replacement, or a superseded artefact with no reader-facing role; retained read-only in the predecessor"
+    },
+    {
+     "path": ".zenodo.json",
+     "sha": "f5bd2ea049d2851acc79933830b649d666163da5",
+     "disposition": "not_migrated",
+     "note": "build or configuration file for which the canonical repository has its own replacement, or a superseded artefact with no reader-facing role; retained read-only in the predecessor"
+    },
+    {
+     "path": "ARCHIVE_NOTE.md",
+     "sha": "30245ad9f7fb885d0bd9ff95a96a22883d135d99",
+     "disposition": "migrated_into_this_repository",
+     "destination": "docs/predecessors/eqtl-source-discordance-audit/ARCHIVE_NOTE.md"
+    },
+    {
+     "path": "Dockerfile",
+     "sha": "7e2eb8bd440eb1121303be14076b0a04836e9eca",
+     "disposition": "not_migrated",
+     "note": "build or configuration file for which the canonical repository has its own replacement, or a superseded artefact with no reader-facing role; retained read-only in the predecessor"
+    },
+    {
+     "path": "LICENSE",
+     "sha": "6d619b7a2dba07d941563373ab2b09d75f67576f",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "LICENSE"
+    },
+    {
+     "path": "README.md",
+     "sha": "89cb3fd2c4eeeb7490d06f55b5c10e251aeb0e69",
+     "disposition": "migrated_into_this_repository",
+     "destination": "docs/predecessors/eqtl-source-discordance-audit/README.md"
+    },
+    {
+     "path": "analyses/logs/00_master_provenance.txt",
+     "sha": "81486d48506ce4b479b00d1a9168dbcd20da8fe3",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/provenance_logs/00_master_provenance.txt"
+    },
+    {
+     "path": "analyses/logs/01_gtex_twas_log.txt",
+     "sha": "e22fd627a5a3232f294366cfbdda2452b3475288",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/provenance_logs/01_gtex_twas_log.txt"
+    },
+    {
+     "path": "analyses/logs/02_eqtlgen_twas_log.txt",
+     "sha": "5e117a8d077ba8ef4a91f27840071161caf11104",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/provenance_logs/02_eqtlgen_twas_log.txt"
+    },
+    {
+     "path": "analyses/logs/03_downstream_analysis_log.txt",
+     "sha": "d943a011f63c77e4dea01fe0392fb68f9d21a0e6",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/provenance_logs/03_downstream_analysis_log.txt"
+    },
+    {
+     "path": "analyses/logs/04_mahalanobis_matching_log.txt",
+     "sha": "367638d995be22420de131a2e0211bde11b2e5b2",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/provenance_logs/04_mahalanobis_matching_log.txt"
+    },
+    {
+     "path": "analyses/logs/05_cross_pop_replication_log.txt",
+     "sha": "0c7a8a1f0414ae0d3844296c237de622a145ec2e",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/provenance_logs/05_cross_pop_replication_log.txt"
+    },
+    {
+     "path": "analyses/logs/06_checksums.txt",
+     "sha": "e75923c726c89923ce7888d436ddcd3a040cf07a",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/provenance_logs/06_checksums.txt"
+    },
+    {
+     "path": "analyses/run_hk_control.py",
+     "sha": "a16c7f2128e372b5a582b8c0e29d3d81c7cc279d",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/run_hk_control.py"
+    },
+    {
+     "path": "audit_notes/AF1\\344\\270\\216\\344\\270\\273\\347\\250\\277\\345\\233\\276\\350\\241\\250\\345\\220\\214\\346\\255\\245\\346\\240\\270\\346\\237\\245\\346\\212\\245\\345\\221\\212_20260920.md",
+     "sha": "1f61765615b82bd6d519124323a112226018ef36",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/audit_notes/AF1\\344\\270\\216\\344\\270\\273\\347\\250\\277\\345\\233\\276\\350\\241\\250\\345\\220\\214\\346\\255\\245\\346\\240\\270\\346\\237\\245\\346\\212\\245\\345\\221\\212_20260920.md"
+    },
+    {
+     "path": "audit_notes/README.md",
+     "sha": "bf9a4fc321313e0ad3e3ccf4e8aa6143dff801e0",
+     "disposition": "migrated_into_this_repository",
+     "destination": "docs/predecessors/eqtl-source-discordance-audit/audit_notes_README.md"
+    },
+    {
+     "path": "audit_notes/S1\\351\\207\\215\\345\\273\\272\\344\\270\\216SCZ\\346\\224\\271\\345\\220\\215\\346\\224\\266\\345\\217\\243\\346\\211\\247\\350\\241\\214\\350\\256\\260\\345\\275\\225_20260920.md",
+     "sha": "76c1801b5f95a57fceac55fcd73ff9c9d07b973c",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/audit_notes/S1\\351\\207\\215\\345\\273\\272\\344\\270\\216SCZ\\346\\224\\271\\345\\220\\215\\346\\224\\266\\345\\217\\243\\346\\211\\247\\350\\241\\214\\350\\256\\260\\345\\275\\225_20260920.md"
+    },
+    {
+     "path": "audit_notes/\\350\\241\\245\\345\\205\\205\\345\\233\\276\\347\\233\\256\\345\\275\\225\\347\\211\\210\\346\\234\\254\\350\\260\\261\\347\\263\\273\\345\\210\\244\\345\\256\\232_20260920.md",
+     "sha": "51dbed456c6d37d1751f40930dc4505167664e11",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/audit_notes/\\350\\241\\245\\345\\205\\205\\345\\233\\276\\347\\233\\256\\345\\275\\225\\347\\211\\210\\346\\234\\254\\350\\260\\261\\347\\263\\273\\345\\210\\244\\345\\256\\232_20260920.md"
+    },
+    {
+     "path": "data/README.md",
+     "sha": "ff53f0ebdad57190e4c7673e7151a6e697a18d63",
+     "disposition": "not_migrated",
+     "note": "build or configuration file for which the canonical repository has its own replacement, or a superseded artefact with no reader-facing role; retained read-only in the predecessor"
+    },
+    {
+     "path": "data/hk_genes.txt",
+     "sha": "cf6034d686cdfca628bb268be2478f63411353ee",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/hk_genes.txt"
+    },
+    {
+     "path": "data/hk_reselect_20260830/README.md",
+     "sha": "091a7b2ee2cb2df79987690e33a73e56d5740cbb",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/README.md"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/Human_Mouse_Common.csv",
+     "sha": "3399a06a098b46bc64853789cf607803fbd21649",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/Human_Mouse_Common.csv",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/MD5SUMS_architecture_controls.txt",
+     "sha": "0ceaf0621eeaa8d6a5bae4db7eb3edce8fc305e2",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/MD5SUMS_architecture_controls.txt"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/README_hrt_source.md",
+     "sha": "db1c2e4ba0e148505a503a0583a22ad5205ff175",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/README_hrt_source.md"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/Table2_v2.csv",
+     "sha": "540c2b182a804335f69731f55af2ad43efbfdb4b",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/Table2_v2.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/TableS6_hk_control_v2.csv",
+     "sha": "519c1ce7cab817e03ea2c9cf5e96a33cf386284e",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/TableS6_hk_control_v2.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/arms_all_groups.csv",
+     "sha": "08541b8b8f07f367ca3f44cc91d0a19680b8159c",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/arms_all_groups.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3_gw_acat.csv",
+     "sha": "ed06b9f8120dbd8239e331c39329e8baf814becb",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3_gw_acat.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3_gw_sample_raw.csv",
+     "sha": "495fdf7772111c1684e7ec39dc0ab3814ef80130",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3_gw_sample_raw.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3_results.txt",
+     "sha": "94aceb83555ebf0351189ad4118c4b2bd5fde3cb",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3_results.txt"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3_summary.json",
+     "sha": "95b068d7edaa99ead3ad86e64dcd08ea1719a819",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3_summary.json"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3b_hrt_acat.csv",
+     "sha": "0685a9271277838f2e5ea6b071f440ed5ad0d15e",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3b_hrt_acat.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3b_hrt_control.py",
+     "sha": "f7e5648ed9a269e6317452ba879bdb97d27f23d6",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3b_hrt_control.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3b_hrt_pool_raw.csv",
+     "sha": "e1be4994c238f3a7155251e22b4ca73e16c1876d",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3b_hrt_pool_raw.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3b_results.txt",
+     "sha": "ff974d9274880e5ecd180c102f87fe83003caf78",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3b_results.txt"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3b_summary.json",
+     "sha": "c88eba476eead0282b358828943d11a5f12178c8",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3b_summary.json"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/hk_genes_v2.txt",
+     "sha": "cf6034d686cdfca628bb268be2478f63411353ee",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/hk_genes.txt"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/hk_selection_meta.json",
+     "sha": "c32991274248e57b1878308ee9e797eb36cef1a5",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/hk_selection_meta.json"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/hk_twas_v2_raw.csv",
+     "sha": "0ecf00849f1490cfd7d7be18555cb51a9b9a96b9",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/hk_twas_v2_raw.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/hk_v2_summary.json",
+     "sha": "7b01a73702a700e15499975dacac6e125612d015",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/hk_v2_summary.json"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/hrt_verify.json",
+     "sha": "2e8b1c7147d99e3eba60030ded3bbbccdf1ccee3",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/hrt_verify.json"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/hrt_verify.txt",
+     "sha": "cbedeeda55bf25cd6c9a66b39e535c09d614c8d2",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/hrt_verify.txt"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/panel104.txt",
+     "sha": "f17174c382745a135bb58e1ed152eb5785bc6d54",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/panel104.txt"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/validate_panel104.csv",
+     "sha": "f73c089700e5699907365c8ccc2067185d044f77",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/validate_panel104.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/01_select_hk_genes.py",
+     "sha": "4fa8fe4ee9563738116f1a0b33e5a9bb6e7d7c76",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/01_select_hk_genes.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/02_spredixcan.py",
+     "sha": "71322fcc6c3b737e501a4ad7846d25f4ed6749d0",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/02_spredixcan.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/03_enrichment_and_figs.py",
+     "sha": "ea5a5b2f4d84f1f46e2e7fb040c8f1aaef00f248",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/03_enrichment_and_figs.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/04_regenerate_table2.py",
+     "sha": "5e4141579f5732b05eb99f608684c498ff29acb3",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/04_regenerate_table2.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/05_ld_panel_audit.py",
+     "sha": "1c84fd295075c5e2f37da89b8cb63f76fec1ff2b",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/05_ld_panel_audit.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/06_figure9_v2.py",
+     "sha": "48db0454f923e2e1ff02bb2935e898453f8e8e7e",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/06_figure9_v2.py"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/d3_gw_control.py",
+     "sha": "1b7b1ffbb3b819bfd747882bec1bd666363974e5",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/d3_gw_control.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/d3b_hrt_control.py",
+     "sha": "f7e5648ed9a269e6317452ba879bdb97d27f23d6",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/d3b_hrt_control.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/verify_all.py",
+     "sha": "500c3346f85db1c23900ec394dbf4893b19d000f",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/verify_all.py"
+    },
+    {
+     "path": "data/processed/_DEPRECATED_\\345\\213\\277\\347\\224\\250_\\344\\277\\256\\346\\255\\243\\345\\211\\215\\346\\225\\260\\346\\215\\256_20260917.md",
+     "sha": "147ab5507b5fcb7fb9e21eca80f2ff68afafedd5",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/_DEPRECATED_\\345\\213\\277\\347\\224\\250_\\344\\277\\256\\346\\255\\243\\345\\211\\215\\346\\225\\260\\346\\215\\256_20260917.md"
+    },
+    {
+     "path": "data/processed/_WARNING_\\351\\231\\210\\346\\227\\247\\346\\226\\207\\344\\273\\266\\350\\257\\264\\346\\230\\216.md",
+     "sha": "3d2ef7d8d22e43be62944eb60ec4107c72378684",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/_WARNING_\\351\\231\\210\\346\\227\\247\\346\\226\\207\\344\\273\\266\\350\\257\\264\\346\\230\\216.md"
+    },
+    {
+     "path": "data/processed/candidate_comparison_DR.csv",
+     "sha": "4eb25b5520a65fbf7350b75927bc8b39680c0e95",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/candidate_comparison_DR.csv"
+    },
+    {
+     "path": "data/processed/covariate_matrix.csv",
+     "sha": "db0ffe0f4d0a837d0437863c8d6fde8599a79cc6",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/covariate_matrix.csv"
+    },
+    {
+     "path": "data/processed/enrichment_comparison.csv",
+     "sha": "46c7de7e9d69ec9f1de15fa88d0b886a7942cd62",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/enrichment_comparison.csv"
+    },
+    {
+     "path": "data/processed/enrichment_comparison_BACKUP_before_candidate_fix.csv",
+     "sha": "c347502f86993764808ce7eff379c35aecd5b1fb",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/enrichment_comparison_BACKUP_before_candidate_fix.csv"
+    },
+    {
+     "path": "data/processed/enrichment_comparison_harmonized.csv",
+     "sha": "1350e64eb35ed0f3a1f421c505c99d888044bead",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/enrichment_comparison_harmonized.csv"
+    },
+    {
+     "path": "data/processed/eqtlgen_DR_pergene_FDR.csv",
+     "sha": "ecac4d4a2640d900e2eeba7d6964122e86b2dc63",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/eqtlgen_DR_pergene_FDR.csv"
+    },
+    {
+     "path": "data/processed/eqtlgen_spredixcan_harmonized_results.csv",
+     "sha": "75d6aae89a470d9cda2e7ecb5517d7f3b5e1eb7c",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/eqtlgen_spredixcan_harmonized_results.csv"
+    },
+    {
+     "path": "data/processed/eqtlgen_spredixcan_results.csv",
+     "sha": "9de31798c3575794c2a43344098744d709ad8c1a",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/eqtlgen_spredixcan_results.csv"
+    },
+    {
+     "path": "data/processed/eqtlgen_vs_gtex_comparison.csv",
+     "sha": "10de39656f42750f2112c050037aa520cf24dffd",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/eqtlgen_vs_gtex_comparison.csv"
+    },
+    {
+     "path": "data/processed/gigadb_metadata_form.csv",
+     "sha": "98fd7aa54d3dbcb06a6dec6b3ca212a94710a2bb",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "data/superseded/gigadb_metadata_form.csv",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "data/processed/gtex_Nerve_Tibial_DN.csv",
+     "sha": "75771ada45bff475f50168793b720394677ed65e",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gtex_Nerve_Tibial_DN.csv"
+    },
+    {
+     "path": "data/processed/gtex_Nerve_Tibial_DPN.csv",
+     "sha": "ff9693c9684022b9f6cc5f3d381c445acc301e50",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gtex_Nerve_Tibial_DPN.csv"
+    },
+    {
+     "path": "data/processed/gtex_Nerve_Tibial_DR.csv",
+     "sha": "4b0a09f784e0667f5a399612d99880a132164b31",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gtex_Nerve_Tibial_DR.csv"
+    },
+    {
+     "path": "data/processed/gtex_Whole_Blood_DN.csv",
+     "sha": "4f139b9902fab4e9492035074c2c8b8d101b25e8",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gtex_Whole_Blood_DN.csv"
+    },
+    {
+     "path": "data/processed/gtex_Whole_Blood_DPN.csv",
+     "sha": "54e08d6f9d6d06ef01ee1ebc09e6dc127001958a",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gtex_Whole_Blood_DPN.csv"
+    },
+    {
+     "path": "data/processed/gtex_Whole_Blood_DR.csv",
+     "sha": "85ecdf0b015db5c1efb648aebc2edcb053a75cf2",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gtex_Whole_Blood_DR.csv"
+    },
+    {
+     "path": "data/processed/gtex_acat_o_results.csv",
+     "sha": "f696eb221e2fb374b71e386c907a271b7cce2c91",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gtex_acat_o_results.csv"
+    },
+    {
+     "path": "data/processed/gtex_stouffer_integrated.csv",
+     "sha": "0fdfc9c82967506baa4cd9344c8c515e18e79d5f",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gtex_stouffer_integrated.csv"
+    },
+    {
+     "path": "data/processed/layer_analysis.csv",
+     "sha": "9b351f5fb86e165e64c6c2ee71c80e1458413ff0",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/layer_analysis.csv"
+    },
+    {
+     "path": "data/processed/m6_ne_weighted_sensitivity_results.txt",
+     "sha": "b7140843d8c93180edbedb984ea972d1e94619bb",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/m6_ne_weighted_sensitivity_results.txt"
+    },
+    {
+     "path": "data/processed/m7_effect_size_supplement.json",
+     "sha": "57b6011b7cdd5c45f3b27f0df808b4d4775b5637",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/m7_effect_size_supplement.json"
+    },
+    {
+     "path": "data/processed/mahalanobis_matched_pairs.csv",
+     "sha": "6058adc5f786fe914046dc3bf97546890c055e31",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/mahalanobis_matched_pairs.csv"
+    },
+    {
+     "path": "data/processed/ukb_dr_official/README.md",
+     "sha": "1d1a6e54d2f06f04042648ec7ccec9cabdd3125d",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/ukb_dr/README.md"
+    },
+    {
+     "path": "data/processed/ukb_dr_official/RNH1_official_metaxcan_Z.csv",
+     "sha": "5a7bc9026fc7ae531a606b0c627107bfcae4c72b",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/ukb_dr/RNH1_official_metaxcan_Z.csv"
+    },
+    {
+     "path": "data/processed/ukb_dr_official/finngen_r13_dr_eqtlgen_official.csv",
+     "sha": "cfd4db32a468a1014da0fe6f1507e05ca6f38db1",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/ukb_dr/finngen_r13_dr_eqtlgen_official.csv"
+    },
+    {
+     "path": "data/processed/ukb_dr_official/ukb_gcst90043640_eqtlgen_official.csv",
+     "sha": "bbd32a95edd3e96df72633472255d0382eec1b41",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/ukb_dr/ukb_gcst90043640_eqtlgen_official.csv"
+    },
+    {
+     "path": "data/processed/ukb_dr_official/ukb_gcst90043640_gtex_Nerve_Tibial_official.csv.gz",
+     "sha": "00e27f7db7e8c0923b66007a462d648348cce8e9",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/ukb_dr/ukb_gcst90043640_gtex_Nerve_Tibial_official.csv.gz"
+    },
+    {
+     "path": "data/processed/ukb_dr_official/ukb_gcst90043640_gtex_Whole_Blood_official.csv.gz",
+     "sha": "f0316c580f52457bf26ea18b8745e7447390d935",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/ukb_dr/ukb_gcst90043640_gtex_Whole_Blood_official.csv.gz"
+    },
+    {
+     "path": "data/processed/viz_z_distribution.csv",
+     "sha": "f6218486add2ca68bb158ade062540b1e72571b0",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/viz_z_distribution.csv"
+    },
+    {
+     "path": "data/processed_officialZ/_PROVENANCE.json",
+     "sha": "73980ecf35f043fb035f08f726e7d04376ffa5ff",
+     "disposition": "migrated_into_this_repository",
+     "destination": "docs/predecessors/eqtl-source-discordance-audit/superseded_layer_PROVENANCE.json"
+    },
+    {
+     "path": "data/processed_officialZ/crosscohort_TableS4_official.csv",
+     "sha": "d2f207533dd47e2ed571ff55c7de701c9a9ba080",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/crosscohort.csv"
+    },
+    {
+     "path": "data/processed_officialZ/eqtlgen_official_Z.csv",
+     "sha": "73deae47191c9e7a77266a92b6cb90e112a7ec0a",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/eqtlgen_Z.csv"
+    },
+    {
+     "path": "data/processed_officialZ/gene_groups_TableS1_official.csv",
+     "sha": "e87deb5a58c030798d0db407a15d42293817a845",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/gene_groups.csv"
+    },
+    {
+     "path": "data/processed_officialZ/gtex_official_Z.csv",
+     "sha": "e043f88e56b65fd510ddfcafd40e5b6128ca7a13",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/gtex_Z.csv"
+    },
+    {
+     "path": "data/processed_officialZ/primary_arm_96pairs_official.csv",
+     "sha": "484750977dcf5d7dc0db4f658cfae45cb4393fa2",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/primary_arm_96pairs.csv"
+    },
+    {
+     "path": "data/processed_officialZ/scz_z_4arm_official.csv",
+     "sha": "f78a2d6091a6998e658b055cc73305b9bc75cdfb",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/scz_z_4arm.csv"
+    },
+    {
+     "path": "environment.yml",
+     "sha": "ea1b71ded3ff5c054b7c9bde5a0ed8a6a00bcb02",
+     "disposition": "not_migrated",
+     "note": "build or configuration file for which the canonical repository has its own replacement, or a superseded artefact with no reader-facing role; retained read-only in the predecessor"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/00_build_officialZ_data_layer.py",
+     "sha": "462cf11dcc206e79bfbd7ffb1fac17401829e78b",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/00_build_officialZ_data_layer.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/01_redraw_Fig5_Fig7.py",
+     "sha": "0d70e6d0215109cfb7b0451e39db20f99fd0ca58",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/01_redraw_Fig5_Fig7.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/02_redraw_Fig3.py",
+     "sha": "92dc9643484ced86f69a69ae44aba551a0935f19",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/02_redraw_Fig3.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/03_redraw_Fig6.py",
+     "sha": "bc0a36254fd13e1b98c311ae99f5039d7f18e10b",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/figures/03_redraw_Fig6.py"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/04_redraw_Fig8.py",
+     "sha": "63c2c4be6e8ad29ae6a24f6b66899128d85db3c2",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/04_redraw_Fig8.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/05_recompute_arms.py",
+     "sha": "70bc0af17768dc4c008a3fb53fd05d16fff4e64d",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/05_recompute_arms.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/06_redraw_Fig4.py",
+     "sha": "e2139fc9e08251ff0c84784b8ef98304b8c20f2a",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/06_redraw_Fig4.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/07_verify_SCZ_denominators.py",
+     "sha": "dcf327e34c03609313913da14023ec041b5bde51",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/07_verify_SCZ_denominators.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/08_redraw_Fig6_labels_20260920.py",
+     "sha": "29e3aa99786c8529169a6a756cdaae7f6654bf88",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/08_redraw_Fig6_labels_20260920.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/10_redraw_FigS6_20260920.py",
+     "sha": "7a334c3837b79a65462cb3799f73357d3974cea0",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/figures/10_redraw_FigS6_20260920.py"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/10_redraw_FigS6_20260921.py",
+     "sha": "0144a0509faaa7cd88c6d3d1c7526dcd9aed3504",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/figures/10_redraw_FigS6_20260921.py"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/11_figure_precheck.py",
+     "sha": "954d200d7b8189da79e0f1c899fcbf6811921796",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/figures/11_figure_precheck.py"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/README.md",
+     "sha": "d7f460495589848d7e6022388935b64e2c981c2f",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/README.md",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/_numbers_figs4.json",
+     "sha": "cb6def781a85246973a790438733e1747e3639d4",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/figures/_numbers_figs4.json"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/_recon_Fig6.py",
+     "sha": "00714f862464624a49ed0135c1f8bba6c6621247",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/figures/_recon_Fig6.py"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/fig4_bootstrap_officialZ.json",
+     "sha": "294657aa6783e2ab30d723e5cfd6a1d0f9a223f8",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/figures/fig4_bootstrap_officialZ.json"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/m15_positive_control.json",
+     "sha": "3104101b48f7b6e10a186b45d2bda9eccb0bc692",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/figures/m15_positive_control.json"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/paths_config.py",
+     "sha": "a048ed38fa496d4ccd3ad8673e49ed276a333cc0",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/paths_config.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "renv.lock",
+     "sha": "f3cce8672e20565332bea8434ba27578eb4f0c4b",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "env/renv.lock"
+    },
+    {
+     "path": "requirements.txt",
+     "sha": "52ce0658be45866f89ee2027bf84fdda846d5953",
+     "disposition": "not_migrated",
+     "note": "build or configuration file for which the canonical repository has its own replacement, or a superseded artefact with no reader-facing role; retained read-only in the predecessor"
+    },
+    {
+     "path": "run_all.sh",
+     "sha": "89bd463d71ef94443e6ff19dd3f6e4b3d7d51da4",
+     "disposition": "not_migrated",
+     "note": "build or configuration file for which the canonical repository has its own replacement, or a superseded artefact with no reader-facing role; retained read-only in the predecessor"
+    },
+    {
+     "path": "run_spredixcan.sh",
+     "sha": "397e7d93fadcfe6d2bb15460c1fe734d7ad5d50e",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/run_spredixcan.sh"
+    },
+    {
+     "path": "run_three_figs.py",
+     "sha": "49cd28f67ce165cfd0251b5c669b6df8a58f3e00",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/run_three_figs.py"
+    },
+    {
+     "path": "scripts/R/run_mahalanobis_matching.R",
+     "sha": "af6ac07ddfbc73edb8ef3dec162ae13efb9716c6",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/run_mahalanobis_matching.R"
+    },
+    {
+     "path": "scripts/python/01_visualize_mahalanobis_love_plot.py",
+     "sha": "428d9ba913b8688391da8323fad758ff06b688a6",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/01_visualize_mahalanobis_love_plot.py"
+    },
+    {
+     "path": "scripts/python/02_density_scatter_consistency.py",
+     "sha": "68a663f151c18dd233e7cebd9680b75936046a63",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/02_density_scatter_consistency.py"
+    },
+    {
+     "path": "scripts/python/03_enrichment_analysis.py",
+     "sha": "83a79448350bb0fff05b1f0b7a6dbb563e558334",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/03_enrichment_analysis.py"
+    },
+    {
+     "path": "scripts/python/04_generate_all_figures.py",
+     "sha": "e97d38f282ec92633dd13ed34204ecbfe0544f41",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/04_generate_all_figures.py"
+    },
+    {
+     "path": "scripts/python/05_generate_decision_framework.py",
+     "sha": "38ba199bfe25b1a669f2c471f8adb2513d08495c",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/05_generate_decision_framework.py"
+    },
+    {
+     "path": "scripts/python/06_generate_supplementary_figures.py",
+     "sha": "d439b086ab0ef7675ecbff0af9b9d279cb466ea0",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/deprecated/python_early/06_generate_supplementary_figures.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "scripts/python/07_generate_supplementary_tables.py",
+     "sha": "e2d24569ed300012e1d33d846554352c5b6d0a2c",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/deprecated/python_early/07_generate_supplementary_tables.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "scripts/python/08_generate_tables_S1_S2.py",
+     "sha": "45357c8f4f513138ad77991883094eb8e35c174c",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/deprecated/python_early/08_generate_tables_S1_S2.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "scripts/python/README_DEPRECATED.md",
+     "sha": "bc642729b2ad61e0ed8b656f998a54f7a97aaec2",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/deprecated/python_early/README_DEPRECATED.md",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "scripts/python/build_iScience_decomposition.py",
+     "sha": "97b851434b65590f3d2dbc8568aa06b353b58f02",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/build_iScience_decomposition.py"
+    },
+    {
+     "path": "scripts/python/decompose_source_v2.py",
+     "sha": "0cc5c00c23bc5c9e352d7e8a7e4f34d313a4272f",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/decompose_source_v2.py"
+    },
+    {
+     "path": "scripts/python/m6_ne_weighted_sensitivity.py",
+     "sha": "9e315a497478a400cfb12abb56cbe24362d51474",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/m6_ne_weighted_sensitivity.py"
+    },
+    {
+     "path": "scripts/python/m7_effect_size_supplement.py",
+     "sha": "514bedfd27c1919817ff0222c9e1ab9c5db071e2",
+     "disposition": "not_migrated",
+     "note": "build or configuration file for which the canonical repository has its own replacement, or a superseded artefact with no reader-facing role; retained read-only in the predecessor"
+    },
+    {
+     "path": "scripts/python/make_figure8.py",
+     "sha": "568d8169784b3266fb0eeaccd0cb5e3f425646a6",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/make_figure8.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/apply_apa_c3.py",
+     "sha": "355db5bcb22b5d9b0f06eebf391c61ee9642a800",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/apply_apa_c3.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/apply_data_fixes.py",
+     "sha": "1ce180412d7d730d9d1b3b75cdd0a9f257b5f659",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/apply_data_fixes.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/fix_abstract.py",
+     "sha": "1f9d9b2a6a560b302c41688184d84ff280a2af91",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/fix_abstract.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/fix_table2_sync.py",
+     "sha": "28a96719e5c3a1c4397a998740f5238521d1cc40",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/fix_table2_sync.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/fix_table3_sync.py",
+     "sha": "82ace643b49f85b40f329eb90480107e84c5da68",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/fix_table3_sync.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/fix_zenodo_revert.py",
+     "sha": "2b2f2e4d7653595f24df7e0d0fe5ca4c7b85249c",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/fix_zenodo_revert.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/make_figure2_with_title.py",
+     "sha": "73e492a06508a5f61e129ae869a0a62d7593a0b6",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/make_figure2_with_title.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/reorder_imrad.py",
+     "sha": "2aba5fe78ad45790e6000da85e688dc7f84ab043",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/reorder_imrad.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/verify_v9.py",
+     "sha": "0efee2334c47923a360e69080b2da548d16f1e9a",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/verify_v9.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/verify_v9_detail.py",
+     "sha": "863f045726bffac5c3886dbd8f2a4e238d57ff8d",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/verify_v9_detail.py"
+    },
+    {
+     "path": "scripts/python/regenerate_figure2.py",
+     "sha": "d610aed441807915be8fb4b97b6c5e533e33ba75",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/regenerate_figure2.py"
+    },
+    {
+     "path": "scripts/python/regenerate_figure4.py",
+     "sha": "54f3b908da82a0c31a7fea8541eb65ba7b11436d",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/regenerate_figure4.py"
+    },
+    {
+     "path": "scripts/python/regenerate_figure5.py",
+     "sha": "422be3cd9b06e3ee71b3107cbcca08f0753b64fc",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/regenerate_figure5.py"
+    },
+    {
+     "path": "scripts/python/robustness_check.py",
+     "sha": "fac46ab37c8fd102439c3c84094966bb0f251aa9",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/robustness_check.py"
+    },
+    {
+     "path": "scripts/python/round4_recompute_20260917/r14_recompute.json",
+     "sha": "44b9cbd375e09289a779f295be4d493e71ca1e66",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/round4_recompute/round4_recompute_20260917/r14_recompute.json"
+    },
+    {
+     "path": "scripts/python/round4_recompute_20260917/r14_recompute.py",
+     "sha": "befda2c15d76e4aee16999ef647e3dc51a008610",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/round4_recompute/round4_recompute_20260917/r14_recompute.py"
+    },
+    {
+     "path": "scripts/python/round4_recompute_20260917/r4_dual_bootstrap_seed1.json",
+     "sha": "2351467681d8e461076cfa575dbe98eebaa89ebf",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/round4_recompute/round4_recompute_20260917/r4_dual_bootstrap_seed1.json"
+    },
+    {
+     "path": "scripts/python/round4_recompute_20260917/r4_dual_bootstrap_seed20260915.json",
+     "sha": "b7a16ed886363bb95299217a9804f4371da8eb83",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/round4_recompute/round4_recompute_20260917/r4_dual_bootstrap_seed20260915.json"
+    },
+    {
+     "path": "scripts/python/round4_recompute_20260917/r4_exact.py",
+     "sha": "fa4b1861fc962b9113dce452635f9437ee74192b",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/round4_recompute/round4_recompute_20260917/r4_exact.py"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/README.md",
+     "sha": "c5737ca0fba8507ade6c9b6db94a408d3763d944",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/deprecated/s1_cluster_robustness/README.md",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_anchor_102pairs.csv",
+     "sha": "0c860e05f50860b19a8bd1fb098c7845629d931e",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/s1_cluster_robustness/s1_anchor_102pairs.csv"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_cluster.py",
+     "sha": "19e49f80ee80184fcd7378c65fc2d86b3f72ec5d",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/deprecated/s1_cluster_robustness/s1_cluster.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_diag.py",
+     "sha": "f320a45b396cea283cafe92fef5918cd2c91c443",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/deprecated/s1_cluster_robustness/s1_diag.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_fix.py",
+     "sha": "11052f12605f0ea7775aaef8da2dfb94c3c2d019",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/deprecated/s1_cluster_robustness/s1_fix.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_primary_arm_96pairs.csv",
+     "sha": "32ba1da438114f30795950335d4c3a7e06529b7a",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/s1_cluster_robustness/s1_primary_arm_96pairs.csv"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_recon.py",
+     "sha": "d4bdb160ddf00ab15c2443632e589cb4ca84aba9",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/deprecated/s1_cluster_robustness/s1_recon.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_results.json",
+     "sha": "5eb591b7d03e4491f9e7b46a8d47abab331477e0",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/s1_cluster_robustness/s1_results.json"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_scz_cluster.py",
+     "sha": "9ef7e2d8901d162e7b4ac7dcdfd87c79cc41a28c",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/deprecated/s1_cluster_robustness/s1_scz_cluster.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_scz_results.json",
+     "sha": "a53d7d4d3697908562224267c00b00ebe43ddb02",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/s1_cluster_robustness/s1_scz_results.json"
+    },
+    {
+     "path": "scripts/python/split_half_null_simulation/README.md",
+     "sha": "5c0ff518f350b070f2bfd4132a0c2ba2cab8b4f8",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/simulations/split_half_null/README.md"
+    },
+    {
+     "path": "scripts/python/split_half_null_simulation/splithalf_null_simulation.py",
+     "sha": "84af416022deaa5efb75c50593f8057550ee103d",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/simulations/split_half_null/splithalf_null_simulation.py"
+    },
+    {
+     "path": "scripts/python/split_half_null_simulation/splithalf_per_pair.csv",
+     "sha": "33277bec6227eee6705ac02ab43a681530bcc720",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/simulations/split_half_null/splithalf_per_pair.csv"
+    },
+    {
+     "path": "scripts/python/split_half_null_simulation/splithalf_result_raw.json",
+     "sha": "b55265c980a30ef7e563bb0b8c0c760482780e68",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/simulations/split_half_null/splithalf_result_raw.json"
+    },
+    {
+     "path": "scripts/python/split_half_null_simulation/splithalf_summary.csv",
+     "sha": "82cc151f97d17cc475dcdd0841d3fc05eb94122c",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/simulations/split_half_null/splithalf_summary.csv"
+    }
+   ]
+  },
+  "pred-twas": {
+   "remote": "wu-yijing/twas-eqtl-source-discordance",
+   "head": "162e113bdab6c8edee76540ef7a42df2a6e6d566",
+   "head_date": "2026-09-23",
+   "tracked_files": 190,
+   "files": [
+    {
+     "path": ".dockerignore",
+     "sha": "b6c2ccfc2a94bdbb09d57136d7da1164f424ed92",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": ".dockerignore"
+    },
+    {
+     "path": ".gitignore",
+     "sha": "0bd5b5fc55d2bee7950b043dafa232658a34a62c",
+     "disposition": "not_migrated",
+     "note": "build or configuration file for which the canonical repository has its own replacement, or a superseded artefact with no reader-facing role; retained read-only in the predecessor"
+    },
+    {
+     "path": ".zenodo.json",
+     "sha": "8ae797db5cab5015ced77995b9562eedc17665a9",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "metadata/zenodo_metadata_predecessor.json"
+    },
+    {
+     "path": "Dockerfile",
+     "sha": "14d8d01e1214c0ea51ffe64207d3f9e4e6b914bc",
+     "disposition": "not_migrated",
+     "note": "build or configuration file for which the canonical repository has its own replacement, or a superseded artefact with no reader-facing role; retained read-only in the predecessor"
+    },
+    {
+     "path": "LICENSE",
+     "sha": "6d619b7a2dba07d941563373ab2b09d75f67576f",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "LICENSE"
+    },
+    {
+     "path": "README.md",
+     "sha": "15328fdad86094f3581e4bcd99d67220440e3441",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/PROJECT_NOTES_from_predecessor_README.md"
+    },
+    {
+     "path": "_DEPRECATED_figure_scripts_pre20260917/Fig4_axis_decomposition.py",
+     "sha": "3a3922479be0a00c670d67132ce42efea087ce36",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/figure_scripts_pre20260917/Fig4_axis_decomposition.py"
+    },
+    {
+     "path": "_DEPRECATED_figure_scripts_pre20260917/Fig5_candidate_dumbbell.py",
+     "sha": "0094ab49cb8da53ed404a5690a8c566de22855b0",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/figure_scripts_pre20260917/Fig5_candidate_dumbbell.py"
+    },
+    {
+     "path": "_DEPRECATED_figure_scripts_pre20260917/Fig6_fdr_enrichment_3panel.py",
+     "sha": "65887c59b3e8c9f5412ef80f274d455353ba6437",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/figure_scripts_pre20260917/Fig6_fdr_enrichment_3panel.py"
+    },
+    {
+     "path": "_DEPRECATED_figure_scripts_pre20260917/Fig7_rnh1_crosscohort.py",
+     "sha": "f334c26190816c0b583d6353f7f0f022febe2077",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/figure_scripts_pre20260917/Fig7_rnh1_crosscohort.py"
+    },
+    {
+     "path": "_DEPRECATED_figure_scripts_pre20260917/Fig8_crosstrait_3genesets.py",
+     "sha": "a502d4c04911b2e1024cb3786b5753b23cb5167c",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/figure_scripts_pre20260917/Fig8_crosstrait_3genesets.py"
+    },
+    {
+     "path": "_DEPRECATED_figure_scripts_pre20260917/README_DEPRECATED.md",
+     "sha": "0707e2b924dcf20575a060cd5a4f4491dea88871",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/figure_scripts_pre20260917/README_DEPRECATED.md"
+    },
+    {
+     "path": "_DEPRECATED_figure_scripts_pre20260917/README_\\346\\225\\260\\346\\215\\256\\346\\235\\245\\346\\272\\220.md",
+     "sha": "0ad8e49b3113545403d6e4ee080e492c292cec05",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/figure_scripts_pre20260917/README_\\346\\225\\260\\346\\215\\256\\346\\235\\245\\346\\272\\220.md"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/README_DEPRECATED.md",
+     "sha": "287645f5c47ff6e0d3286b63ec3cda0d08c96229",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/README_DEPRECATED.md"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/build_weights_db.py",
+     "sha": "aa0d97066cb8ae06f3e33a52a16ddd6201ff8099",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/build_weights_db.py"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/hk_replication_analysis.py",
+     "sha": "d25a3fee689703897127d4114405c114a302ab38",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/hk_replication_analysis.py"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/m7_effect_size_supplement.json",
+     "sha": "57b6011b7cdd5c45f3b27f0df808b4d4775b5637",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/m7_effect_size_supplement.json"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/make_fdr_ci_figures.py",
+     "sha": "94c4c93a1b243f148047723d41dda42901a1669f",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/make_fdr_ci_figures.py"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/make_figure9_scz.py",
+     "sha": "0d3ec6e3eddee85851822489bd2b06acc428f96b",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/make_figure9_scz.py"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/make_replication_figure.py",
+     "sha": "2d7ba381bf20cee5be96c7117680403fcc586c6a",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/make_replication_figure.py"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/make_robustness_fig.py",
+     "sha": "d1ea8f7e86486bbcd2fd9803e606912b76079794",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/make_robustness_fig.py"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/patch_manuscript_scz.py",
+     "sha": "fcd747bdecc4a8ac3ae7cc0ccd1fb0515a33bc53",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/patch_manuscript_scz.py"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/patch_robustness.py",
+     "sha": "6289b69b8a65d9141a343bd3e8eb5e6f4a5ebbb9",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/patch_robustness.py"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/results/scz_axis_difference.json",
+     "sha": "1bc69c978587467580ced5bc5bcc0f0e548d301a",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/results/scz_axis_difference.json"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/results/scz_decomp_limit0.json",
+     "sha": "9902ae102be6f59575e0724defd5dea19f14f5e9",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/results/scz_decomp_limit0.json"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/results/scz_robustness.json",
+     "sha": "3d135b1b54b23d2aa8557a4e803720090b088420",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/results/scz_robustness.json"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/results/scz_threshold_calibration.json",
+     "sha": "d09cf0b56c98b2fe69e6402b986b83f8946ddaa5",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/results/scz_threshold_calibration.json"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/results/scz_twas_results_limit0.csv",
+     "sha": "61a4390c50fab679ffecbeb8886990cb36a3de71",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/results/scz_twas_results_limit0.csv"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/robustness_scz.py",
+     "sha": "c2be39ff70c8a3026e16a9e7d48cac84a4c92553",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/robustness_scz.py"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/scz_axis_difference_analysis.py",
+     "sha": "99aaa6435554709bec389832c71fb5f8e2e98b16",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/scz_axis_difference_analysis.py"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/scz_threshold_calibration.py",
+     "sha": "319f9d7fcc906d3e029a2a33fb7d38349358e1d0",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/scz_threshold_calibration.py"
+    },
+    {
+     "path": "_DEPRECATED_scz_self_implemented/scz_twas.py",
+     "sha": "bc22bea53fa651ff37c1347a449b719bad147412",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/scz_twas.py"
+    },
+    {
+     "path": "analyses/logs/00_master_provenance.txt",
+     "sha": "81486d48506ce4b479b00d1a9168dbcd20da8fe3",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/provenance_logs/00_master_provenance.txt"
+    },
+    {
+     "path": "analyses/logs/01_gtex_twas_log.txt",
+     "sha": "e22fd627a5a3232f294366cfbdda2452b3475288",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/provenance_logs/01_gtex_twas_log.txt"
+    },
+    {
+     "path": "analyses/logs/02_eqtlgen_twas_log.txt",
+     "sha": "5e117a8d077ba8ef4a91f27840071161caf11104",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/provenance_logs/02_eqtlgen_twas_log.txt"
+    },
+    {
+     "path": "analyses/logs/03_downstream_analysis_log.txt",
+     "sha": "d943a011f63c77e4dea01fe0392fb68f9d21a0e6",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/provenance_logs/03_downstream_analysis_log.txt"
+    },
+    {
+     "path": "analyses/logs/04_mahalanobis_matching_log.txt",
+     "sha": "367638d995be22420de131a2e0211bde11b2e5b2",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/provenance_logs/04_mahalanobis_matching_log.txt"
+    },
+    {
+     "path": "analyses/logs/05_cross_pop_replication_log.txt",
+     "sha": "0c7a8a1f0414ae0d3844296c237de622a145ec2e",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/provenance_logs/05_cross_pop_replication_log.txt"
+    },
+    {
+     "path": "analyses/logs/06_checksums.txt",
+     "sha": "e75923c726c89923ce7888d436ddcd3a040cf07a",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/provenance_logs/06_checksums.txt"
+    },
+    {
+     "path": "analyses/run_hk_control.py",
+     "sha": "a16c7f2128e372b5a582b8c0e29d3d81c7cc279d",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/run_hk_control.py"
+    },
+    {
+     "path": "audit_notes/AF1\\344\\270\\216\\344\\270\\273\\347\\250\\277\\345\\233\\276\\350\\241\\250\\345\\220\\214\\346\\255\\245\\346\\240\\270\\346\\237\\245\\346\\212\\245\\345\\221\\212_20260920.md",
+     "sha": "1f61765615b82bd6d519124323a112226018ef36",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/audit_notes/AF1\\344\\270\\216\\344\\270\\273\\347\\250\\277\\345\\233\\276\\350\\241\\250\\345\\220\\214\\346\\255\\245\\346\\240\\270\\346\\237\\245\\346\\212\\245\\345\\221\\212_20260920.md"
+    },
+    {
+     "path": "audit_notes/README.md",
+     "sha": "8568f2cc36a604988814822278342962edd8513e",
+     "disposition": "migrated_into_this_repository",
+     "destination": "docs/predecessors/twas-eqtl-source-discordance/audit_notes_README.md"
+    },
+    {
+     "path": "audit_notes/S1\\351\\207\\215\\345\\273\\272\\344\\270\\216SCZ\\346\\224\\271\\345\\220\\215\\346\\224\\266\\345\\217\\243\\346\\211\\247\\350\\241\\214\\350\\256\\260\\345\\275\\225_20260920.md",
+     "sha": "76c1801b5f95a57fceac55fcd73ff9c9d07b973c",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/audit_notes/S1\\351\\207\\215\\345\\273\\272\\344\\270\\216SCZ\\346\\224\\271\\345\\220\\215\\346\\224\\266\\345\\217\\243\\346\\211\\247\\350\\241\\214\\350\\256\\260\\345\\275\\225_20260920.md"
+    },
+    {
+     "path": "audit_notes/\\350\\241\\245\\345\\205\\205\\345\\233\\276\\347\\233\\256\\345\\275\\225\\347\\211\\210\\346\\234\\254\\350\\260\\261\\347\\263\\273\\345\\210\\244\\345\\256\\232_20260920.md",
+     "sha": "51dbed456c6d37d1751f40930dc4505167664e11",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "docs/audit_notes/\\350\\241\\245\\345\\205\\205\\345\\233\\276\\347\\233\\256\\345\\275\\225\\347\\211\\210\\346\\234\\254\\350\\260\\261\\347\\263\\273\\345\\210\\244\\345\\256\\232_20260920.md"
+    },
+    {
+     "path": "data/README.md",
+     "sha": "48674a9ba8da9a0710cd0e86bda8de0640b66a3d",
+     "disposition": "not_migrated",
+     "note": "build or configuration file for which the canonical repository has its own replacement, or a superseded artefact with no reader-facing role; retained read-only in the predecessor"
+    },
+    {
+     "path": "data/hk_genes.txt",
+     "sha": "cf6034d686cdfca628bb268be2478f63411353ee",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/hk_genes.txt"
+    },
+    {
+     "path": "data/hk_reselect_20260830/README.md",
+     "sha": "091a7b2ee2cb2df79987690e33a73e56d5740cbb",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/README.md"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/Human_Mouse_Common.csv",
+     "sha": "3399a06a098b46bc64853789cf607803fbd21649",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/Human_Mouse_Common.csv",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/MD5SUMS_architecture_controls.txt",
+     "sha": "0ceaf0621eeaa8d6a5bae4db7eb3edce8fc305e2",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/MD5SUMS_architecture_controls.txt"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/README_hrt_source.md",
+     "sha": "db1c2e4ba0e148505a503a0583a22ad5205ff175",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/README_hrt_source.md"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/Table2_v2.csv",
+     "sha": "540c2b182a804335f69731f55af2ad43efbfdb4b",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/Table2_v2.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/TableS6_hk_control_v2.csv",
+     "sha": "519c1ce7cab817e03ea2c9cf5e96a33cf386284e",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/TableS6_hk_control_v2.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/arms_all_groups.csv",
+     "sha": "08541b8b8f07f367ca3f44cc91d0a19680b8159c",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/arms_all_groups.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3_gw_acat.csv",
+     "sha": "ed06b9f8120dbd8239e331c39329e8baf814becb",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3_gw_acat.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3_gw_sample_raw.csv",
+     "sha": "495fdf7772111c1684e7ec39dc0ab3814ef80130",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3_gw_sample_raw.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3_results.txt",
+     "sha": "94aceb83555ebf0351189ad4118c4b2bd5fde3cb",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3_results.txt"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3_summary.json",
+     "sha": "95b068d7edaa99ead3ad86e64dcd08ea1719a819",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3_summary.json"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3b_hrt_acat.csv",
+     "sha": "0685a9271277838f2e5ea6b071f440ed5ad0d15e",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3b_hrt_acat.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3b_hrt_control.py",
+     "sha": "af48829a76c194d3aca629484343b7bf9496cbed",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3b_hrt_control.py"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3b_hrt_pool_raw.csv",
+     "sha": "e1be4994c238f3a7155251e22b4ca73e16c1876d",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3b_hrt_pool_raw.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3b_results.txt",
+     "sha": "ff974d9274880e5ecd180c102f87fe83003caf78",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3b_results.txt"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/d3b_summary.json",
+     "sha": "c88eba476eead0282b358828943d11a5f12178c8",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3b_summary.json"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/hk_genes_v2.txt",
+     "sha": "cf6034d686cdfca628bb268be2478f63411353ee",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/hk_genes.txt"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/hk_selection_meta.json",
+     "sha": "c32991274248e57b1878308ee9e797eb36cef1a5",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/hk_selection_meta.json"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/hk_twas_v2_raw.csv",
+     "sha": "0ecf00849f1490cfd7d7be18555cb51a9b9a96b9",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/hk_twas_v2_raw.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/hk_v2_summary.json",
+     "sha": "7b01a73702a700e15499975dacac6e125612d015",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/hk_v2_summary.json"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/hrt_verify.json",
+     "sha": "2e8b1c7147d99e3eba60030ded3bbbccdf1ccee3",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/hrt_verify.json"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/hrt_verify.txt",
+     "sha": "cbedeeda55bf25cd6c9a66b39e535c09d614c8d2",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/hrt_verify.txt"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/panel104.txt",
+     "sha": "f17174c382745a135bb58e1ed152eb5785bc6d54",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/panel104.txt"
+    },
+    {
+     "path": "data/hk_reselect_20260830/data/validate_panel104.csv",
+     "sha": "f73c089700e5699907365c8ccc2067185d044f77",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/validate_panel104.csv"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/01_select_hk_genes.py",
+     "sha": "04b1c2fb68701c0997efaf75cf8f42dad46e5402",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/01_select_hk_genes.py"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/02_spredixcan.py",
+     "sha": "5bb48edabdd4bf21345d9e6a3e01ade5cbe38ea1",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/02_spredixcan.py"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/03_enrichment_and_figs.py",
+     "sha": "d82ad13fe13941eefa78ab951378f00bbbf38221",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/03_enrichment_and_figs.py"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/04_regenerate_table2.py",
+     "sha": "7c126327c79ccfb61e7283f76cc00a2427937179",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/04_regenerate_table2.py"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/05_ld_panel_audit.py",
+     "sha": "ec4353200e8c18be2998501591487370c6eaa6d3",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/05_ld_panel_audit.py"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/06_figure9_v2.py",
+     "sha": "48db0454f923e2e1ff02bb2935e898453f8e8e7e",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/06_figure9_v2.py"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/d3_gw_control.py",
+     "sha": "e429827254af22d1e9b19f95891d910a1970f167",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/d3_gw_control.py"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/d3b_hrt_control.py",
+     "sha": "af48829a76c194d3aca629484343b7bf9496cbed",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/data/d3b_hrt_control.py"
+    },
+    {
+     "path": "data/hk_reselect_20260830/scripts/verify_all.py",
+     "sha": "500c3346f85db1c23900ec394dbf4893b19d000f",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/hk_reselect_20260830/scripts/verify_all.py"
+    },
+    {
+     "path": "data/processed/_DEPRECATED_\\345\\213\\277\\347\\224\\250_\\344\\277\\256\\346\\255\\243\\345\\211\\215\\346\\225\\260\\346\\215\\256_20260917.md",
+     "sha": "147ab5507b5fcb7fb9e21eca80f2ff68afafedd5",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/_DEPRECATED_\\345\\213\\277\\347\\224\\250_\\344\\277\\256\\346\\255\\243\\345\\211\\215\\346\\225\\260\\346\\215\\256_20260917.md"
+    },
+    {
+     "path": "data/processed/_WARNING_\\351\\231\\210\\346\\227\\247\\346\\226\\207\\344\\273\\266\\350\\257\\264\\346\\230\\216.md",
+     "sha": "3d2ef7d8d22e43be62944eb60ec4107c72378684",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/_WARNING_\\351\\231\\210\\346\\227\\247\\346\\226\\207\\344\\273\\266\\350\\257\\264\\346\\230\\216.md"
+    },
+    {
+     "path": "data/processed/candidate_comparison_DR.csv",
+     "sha": "4eb25b5520a65fbf7350b75927bc8b39680c0e95",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/candidate_comparison_DR.csv"
+    },
+    {
+     "path": "data/processed/covariate_matrix.csv",
+     "sha": "db0ffe0f4d0a837d0437863c8d6fde8599a79cc6",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/covariate_matrix.csv"
+    },
+    {
+     "path": "data/processed/enrichment_comparison.csv",
+     "sha": "46c7de7e9d69ec9f1de15fa88d0b886a7942cd62",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/enrichment_comparison.csv"
+    },
+    {
+     "path": "data/processed/enrichment_comparison_BACKUP_before_candidate_fix.csv",
+     "sha": "c347502f86993764808ce7eff379c35aecd5b1fb",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/enrichment_comparison_BACKUP_before_candidate_fix.csv"
+    },
+    {
+     "path": "data/processed/enrichment_comparison_harmonized.csv",
+     "sha": "1350e64eb35ed0f3a1f421c505c99d888044bead",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/enrichment_comparison_harmonized.csv"
+    },
+    {
+     "path": "data/processed/eqtlgen_DR_pergene_FDR.csv",
+     "sha": "ecac4d4a2640d900e2eeba7d6964122e86b2dc63",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/eqtlgen_DR_pergene_FDR.csv"
+    },
+    {
+     "path": "data/processed/eqtlgen_spredixcan_harmonized_results.csv",
+     "sha": "75d6aae89a470d9cda2e7ecb5517d7f3b5e1eb7c",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/eqtlgen_spredixcan_harmonized_results.csv"
+    },
+    {
+     "path": "data/processed/eqtlgen_spredixcan_results.csv",
+     "sha": "9de31798c3575794c2a43344098744d709ad8c1a",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/eqtlgen_spredixcan_results.csv"
+    },
+    {
+     "path": "data/processed/eqtlgen_vs_gtex_comparison.csv",
+     "sha": "10de39656f42750f2112c050037aa520cf24dffd",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/eqtlgen_vs_gtex_comparison.csv"
+    },
+    {
+     "path": "data/processed/gigadb_metadata_form.csv",
+     "sha": "273758334959cfb693d6a6604d2354b5fa977a49",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gigadb_metadata_form.csv"
+    },
+    {
+     "path": "data/processed/gtex_Nerve_Tibial_DN.csv",
+     "sha": "75771ada45bff475f50168793b720394677ed65e",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gtex_Nerve_Tibial_DN.csv"
+    },
+    {
+     "path": "data/processed/gtex_Nerve_Tibial_DPN.csv",
+     "sha": "ff9693c9684022b9f6cc5f3d381c445acc301e50",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gtex_Nerve_Tibial_DPN.csv"
+    },
+    {
+     "path": "data/processed/gtex_Nerve_Tibial_DR.csv",
+     "sha": "4b0a09f784e0667f5a399612d99880a132164b31",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gtex_Nerve_Tibial_DR.csv"
+    },
+    {
+     "path": "data/processed/gtex_Whole_Blood_DN.csv",
+     "sha": "4f139b9902fab4e9492035074c2c8b8d101b25e8",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gtex_Whole_Blood_DN.csv"
+    },
+    {
+     "path": "data/processed/gtex_Whole_Blood_DPN.csv",
+     "sha": "54e08d6f9d6d06ef01ee1ebc09e6dc127001958a",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gtex_Whole_Blood_DPN.csv"
+    },
+    {
+     "path": "data/processed/gtex_Whole_Blood_DR.csv",
+     "sha": "85ecdf0b015db5c1efb648aebc2edcb053a75cf2",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gtex_Whole_Blood_DR.csv"
+    },
+    {
+     "path": "data/processed/gtex_acat_o_results.csv",
+     "sha": "f696eb221e2fb374b71e386c907a271b7cce2c91",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gtex_acat_o_results.csv"
+    },
+    {
+     "path": "data/processed/gtex_stouffer_integrated.csv",
+     "sha": "0fdfc9c82967506baa4cd9344c8c515e18e79d5f",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/gtex_stouffer_integrated.csv"
+    },
+    {
+     "path": "data/processed/layer_analysis.csv",
+     "sha": "9b351f5fb86e165e64c6c2ee71c80e1458413ff0",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/layer_analysis.csv"
+    },
+    {
+     "path": "data/processed/m6_ne_weighted_sensitivity_results.txt",
+     "sha": "b7140843d8c93180edbedb984ea972d1e94619bb",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/m6_ne_weighted_sensitivity_results.txt"
+    },
+    {
+     "path": "data/processed/m7_effect_size_supplement.json",
+     "sha": "57b6011b7cdd5c45f3b27f0df808b4d4775b5637",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/scz_self_implemented/m7_effect_size_supplement.json"
+    },
+    {
+     "path": "data/processed/mahalanobis_matched_pairs.csv",
+     "sha": "6058adc5f786fe914046dc3bf97546890c055e31",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/mahalanobis_matched_pairs.csv"
+    },
+    {
+     "path": "data/processed/ukb_dr_official/README.md",
+     "sha": "1d1a6e54d2f06f04042648ec7ccec9cabdd3125d",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/ukb_dr/README.md"
+    },
+    {
+     "path": "data/processed/ukb_dr_official/RNH1_official_metaxcan_Z.csv",
+     "sha": "5a7bc9026fc7ae531a606b0c627107bfcae4c72b",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/ukb_dr/RNH1_official_metaxcan_Z.csv"
+    },
+    {
+     "path": "data/processed/ukb_dr_official/finngen_r13_dr_eqtlgen_official.csv",
+     "sha": "cfd4db32a468a1014da0fe6f1507e05ca6f38db1",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/ukb_dr/finngen_r13_dr_eqtlgen_official.csv"
+    },
+    {
+     "path": "data/processed/ukb_dr_official/ukb_gcst90043640_eqtlgen_official.csv",
+     "sha": "bbd32a95edd3e96df72633472255d0382eec1b41",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/ukb_dr/ukb_gcst90043640_eqtlgen_official.csv"
+    },
+    {
+     "path": "data/processed/ukb_dr_official/ukb_gcst90043640_gtex_Nerve_Tibial_official.csv.gz",
+     "sha": "00e27f7db7e8c0923b66007a462d648348cce8e9",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/ukb_dr/ukb_gcst90043640_gtex_Nerve_Tibial_official.csv.gz"
+    },
+    {
+     "path": "data/processed/ukb_dr_official/ukb_gcst90043640_gtex_Whole_Blood_official.csv.gz",
+     "sha": "f0316c580f52457bf26ea18b8745e7447390d935",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/ukb_dr/ukb_gcst90043640_gtex_Whole_Blood_official.csv.gz"
+    },
+    {
+     "path": "data/processed/viz_z_distribution.csv",
+     "sha": "f6218486add2ca68bb158ade062540b1e72571b0",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/viz_z_distribution.csv"
+    },
+    {
+     "path": "data/processed_officialZ/_PROVENANCE.json",
+     "sha": "5e678e8bd7ef34f003ee51f2356fb78a8cdeca2a",
+     "disposition": "migrated_into_this_repository",
+     "destination": "docs/predecessors/twas-eqtl-source-discordance/superseded_layer_PROVENANCE.json"
+    },
+    {
+     "path": "data/processed_officialZ/crosscohort_TableS4_official.csv",
+     "sha": "d2f207533dd47e2ed571ff55c7de701c9a9ba080",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/crosscohort.csv"
+    },
+    {
+     "path": "data/processed_officialZ/eqtlgen_official_Z.csv",
+     "sha": "73deae47191c9e7a77266a92b6cb90e112a7ec0a",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/eqtlgen_Z.csv"
+    },
+    {
+     "path": "data/processed_officialZ/gene_groups_TableS1_official.csv",
+     "sha": "e87deb5a58c030798d0db407a15d42293817a845",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/gene_groups.csv"
+    },
+    {
+     "path": "data/processed_officialZ/gtex_official_Z.csv",
+     "sha": "e043f88e56b65fd510ddfcafd40e5b6128ca7a13",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/gtex_Z.csv"
+    },
+    {
+     "path": "data/processed_officialZ/primary_arm_96pairs_official.csv",
+     "sha": "484750977dcf5d7dc0db4f658cfae45cb4393fa2",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/primary_arm_96pairs.csv"
+    },
+    {
+     "path": "data/processed_officialZ/scz_z_4arm_official.csv",
+     "sha": "f78a2d6091a6998e658b055cc73305b9bc75cdfb",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/derived/scz_z_4arm.csv"
+    },
+    {
+     "path": "environment.yml",
+     "sha": "ea1b71ded3ff5c054b7c9bde5a0ed8a6a00bcb02",
+     "disposition": "not_migrated",
+     "note": "build or configuration file for which the canonical repository has its own replacement, or a superseded artefact with no reader-facing role; retained read-only in the predecessor"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/00_build_officialZ_data_layer.py",
+     "sha": "5af2f63a8839c590c0fc6a94930a116c19fb1201",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/00_build_officialZ_data_layer.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/01_redraw_Fig5_Fig7.py",
+     "sha": "0d70e6d0215109cfb7b0451e39db20f99fd0ca58",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/01_redraw_Fig5_Fig7.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/02_redraw_Fig3.py",
+     "sha": "d2d022593671bf19053c660c1183dc5d78043d6f",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/02_redraw_Fig3.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/03_redraw_Fig6.py",
+     "sha": "bc0a36254fd13e1b98c311ae99f5039d7f18e10b",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/figures/03_redraw_Fig6.py"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/04_redraw_Fig8.py",
+     "sha": "63c2c4be6e8ad29ae6a24f6b66899128d85db3c2",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/04_redraw_Fig8.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/05_recompute_arms.py",
+     "sha": "70bc0af17768dc4c008a3fb53fd05d16fff4e64d",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/05_recompute_arms.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/06_redraw_Fig4.py",
+     "sha": "e2139fc9e08251ff0c84784b8ef98304b8c20f2a",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/06_redraw_Fig4.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/07_verify_SCZ_denominators.py",
+     "sha": "dcf327e34c03609313913da14023ec041b5bde51",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/07_verify_SCZ_denominators.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/08_redraw_Fig6_labels_20260920.py",
+     "sha": "29e3aa99786c8529169a6a756cdaae7f6654bf88",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/08_redraw_Fig6_labels_20260920.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/10_redraw_FigS6_20260920.py",
+     "sha": "7a334c3837b79a65462cb3799f73357d3974cea0",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/figures/10_redraw_FigS6_20260920.py"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/10_redraw_FigS6_20260921.py",
+     "sha": "0144a0509faaa7cd88c6d3d1c7526dcd9aed3504",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/figures/10_redraw_FigS6_20260921.py"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/11_figure_precheck.py",
+     "sha": "954d200d7b8189da79e0f1c899fcbf6811921796",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/figures/11_figure_precheck.py"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/README.md",
+     "sha": "71eed6277e11891b8fd0ed2ee1e3392d8716b5f0",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/README.md",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/_numbers_figs4.json",
+     "sha": "cb6def781a85246973a790438733e1747e3639d4",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/figures/_numbers_figs4.json"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/_recon_Fig6.py",
+     "sha": "00714f862464624a49ed0135c1f8bba6c6621247",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/figures/_recon_Fig6.py"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/fig4_bootstrap_officialZ.json",
+     "sha": "294657aa6783e2ab30d723e5cfd6a1d0f9a223f8",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/figures/fig4_bootstrap_officialZ.json"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/m15_positive_control.json",
+     "sha": "3104101b48f7b6e10a186b45d2bda9eccb0bc692",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/figures/m15_positive_control.json"
+    },
+    {
+     "path": "figure_scripts_officialZ_20260917/paths_config.py",
+     "sha": "696679866b9a6f1c731477eceec61c459861b9d4",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/figures/paths_config.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "renv.lock",
+     "sha": "f3cce8672e20565332bea8434ba27578eb4f0c4b",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "env/renv.lock"
+    },
+    {
+     "path": "requirements.txt",
+     "sha": "52ce0658be45866f89ee2027bf84fdda846d5953",
+     "disposition": "not_migrated",
+     "note": "build or configuration file for which the canonical repository has its own replacement, or a superseded artefact with no reader-facing role; retained read-only in the predecessor"
+    },
+    {
+     "path": "run_all.sh",
+     "sha": "89bd463d71ef94443e6ff19dd3f6e4b3d7d51da4",
+     "disposition": "not_migrated",
+     "note": "build or configuration file for which the canonical repository has its own replacement, or a superseded artefact with no reader-facing role; retained read-only in the predecessor"
+    },
+    {
+     "path": "run_spredixcan.sh",
+     "sha": "397e7d93fadcfe6d2bb15460c1fe734d7ad5d50e",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/run_spredixcan.sh"
+    },
+    {
+     "path": "run_three_figs.py",
+     "sha": "49cd28f67ce165cfd0251b5c669b6df8a58f3e00",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/run_three_figs.py"
+    },
+    {
+     "path": "scripts/R/run_mahalanobis_matching.R",
+     "sha": "af6ac07ddfbc73edb8ef3dec162ae13efb9716c6",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/run_mahalanobis_matching.R"
+    },
+    {
+     "path": "scripts/python/01_visualize_mahalanobis_love_plot.py",
+     "sha": "428d9ba913b8688391da8323fad758ff06b688a6",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/01_visualize_mahalanobis_love_plot.py"
+    },
+    {
+     "path": "scripts/python/02_density_scatter_consistency.py",
+     "sha": "68a663f151c18dd233e7cebd9680b75936046a63",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/02_density_scatter_consistency.py"
+    },
+    {
+     "path": "scripts/python/03_enrichment_analysis.py",
+     "sha": "83a79448350bb0fff05b1f0b7a6dbb563e558334",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/03_enrichment_analysis.py"
+    },
+    {
+     "path": "scripts/python/04_generate_all_figures.py",
+     "sha": "e97d38f282ec92633dd13ed34204ecbfe0544f41",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/04_generate_all_figures.py"
+    },
+    {
+     "path": "scripts/python/05_generate_decision_framework.py",
+     "sha": "38ba199bfe25b1a669f2c471f8adb2513d08495c",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/05_generate_decision_framework.py"
+    },
+    {
+     "path": "scripts/python/06_generate_supplementary_figures.py",
+     "sha": "379272c8cd4e951522e557ff046c2c4eac042238",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/06_generate_supplementary_figures.py"
+    },
+    {
+     "path": "scripts/python/07_generate_supplementary_tables.py",
+     "sha": "125b57f84b35bf8cea2df34e4140c1d7561aaeaf",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/07_generate_supplementary_tables.py"
+    },
+    {
+     "path": "scripts/python/08_generate_tables_S1_S2.py",
+     "sha": "f9dc57245a748db5b34e2fef150ab60ff734eae2",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/08_generate_tables_S1_S2.py"
+    },
+    {
+     "path": "scripts/python/README_DEPRECATED.md",
+     "sha": "aa18b794999a56cbfccc8951998bd3d0d344cf7e",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/README_DEPRECATED.md"
+    },
+    {
+     "path": "scripts/python/build_iScience_decomposition.py",
+     "sha": "97b851434b65590f3d2dbc8568aa06b353b58f02",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/build_iScience_decomposition.py"
+    },
+    {
+     "path": "scripts/python/decompose_source_v2.py",
+     "sha": "0cc5c00c23bc5c9e352d7e8a7e4f34d313a4272f",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/decompose_source_v2.py"
+    },
+    {
+     "path": "scripts/python/m6_ne_weighted_sensitivity.py",
+     "sha": "9e315a497478a400cfb12abb56cbe24362d51474",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/m6_ne_weighted_sensitivity.py"
+    },
+    {
+     "path": "scripts/python/m7_effect_size_supplement.py",
+     "sha": "3202f9181aeab2fb9fd241b7baadbb75bc9d35d7",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/m7_effect_size_supplement.py"
+    },
+    {
+     "path": "scripts/python/make_figure8.py",
+     "sha": "568d8169784b3266fb0eeaccd0cb5e3f425646a6",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/make_figure8.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/apply_apa_c3.py",
+     "sha": "355db5bcb22b5d9b0f06eebf391c61ee9642a800",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/apply_apa_c3.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/apply_data_fixes.py",
+     "sha": "1ce180412d7d730d9d1b3b75cdd0a9f257b5f659",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/apply_data_fixes.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/fix_abstract.py",
+     "sha": "1f9d9b2a6a560b302c41688184d84ff280a2af91",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/fix_abstract.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/fix_table2_sync.py",
+     "sha": "28a96719e5c3a1c4397a998740f5238521d1cc40",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/fix_table2_sync.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/fix_table3_sync.py",
+     "sha": "82ace643b49f85b40f329eb90480107e84c5da68",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/fix_table3_sync.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/fix_zenodo_revert.py",
+     "sha": "2b2f2e4d7653595f24df7e0d0fe5ca4c7b85249c",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/fix_zenodo_revert.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/make_figure2_with_title.py",
+     "sha": "73e492a06508a5f61e129ae869a0a62d7593a0b6",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/make_figure2_with_title.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/reorder_imrad.py",
+     "sha": "2aba5fe78ad45790e6000da85e688dc7f84ab043",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/reorder_imrad.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/verify_v9.py",
+     "sha": "0efee2334c47923a360e69080b2da548d16f1e9a",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/verify_v9.py"
+    },
+    {
+     "path": "scripts/python/manuscript_revision_2026-07-19/verify_v9_detail.py",
+     "sha": "863f045726bffac5c3886dbd8f2a4e238d57ff8d",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/manuscript_revision_20260719/verify_v9_detail.py"
+    },
+    {
+     "path": "scripts/python/regenerate_figure2.py",
+     "sha": "d610aed441807915be8fb4b97b6c5e533e33ba75",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/regenerate_figure2.py"
+    },
+    {
+     "path": "scripts/python/regenerate_figure4.py",
+     "sha": "54f3b908da82a0c31a7fea8541eb65ba7b11436d",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/regenerate_figure4.py"
+    },
+    {
+     "path": "scripts/python/regenerate_figure5.py",
+     "sha": "422be3cd9b06e3ee71b3107cbcca08f0753b64fc",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/python_early/regenerate_figure5.py"
+    },
+    {
+     "path": "scripts/python/robustness_check.py",
+     "sha": "fac46ab37c8fd102439c3c84094966bb0f251aa9",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/robustness_check.py"
+    },
+    {
+     "path": "scripts/python/round4_recompute_20260917/r14_recompute.json",
+     "sha": "44b9cbd375e09289a779f295be4d493e71ca1e66",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/round4_recompute/round4_recompute_20260917/r14_recompute.json"
+    },
+    {
+     "path": "scripts/python/round4_recompute_20260917/r14_recompute.py",
+     "sha": "befda2c15d76e4aee16999ef647e3dc51a008610",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/round4_recompute/round4_recompute_20260917/r14_recompute.py"
+    },
+    {
+     "path": "scripts/python/round4_recompute_20260917/r4_dual_bootstrap_seed1.json",
+     "sha": "2351467681d8e461076cfa575dbe98eebaa89ebf",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/round4_recompute/round4_recompute_20260917/r4_dual_bootstrap_seed1.json"
+    },
+    {
+     "path": "scripts/python/round4_recompute_20260917/r4_dual_bootstrap_seed20260915.json",
+     "sha": "b7a16ed886363bb95299217a9804f4371da8eb83",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/round4_recompute/round4_recompute_20260917/r4_dual_bootstrap_seed20260915.json"
+    },
+    {
+     "path": "scripts/python/round4_recompute_20260917/r4_exact.py",
+     "sha": "fa4b1861fc962b9113dce452635f9437ee74192b",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/analyses/round4_recompute/round4_recompute_20260917/r4_exact.py"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/README.md",
+     "sha": "5a6c20b5e6b8f509297d4fe60ae8a3c495ba6887",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/s1_cluster_robustness/README.md"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_anchor_102pairs.csv",
+     "sha": "0c860e05f50860b19a8bd1fb098c7845629d931e",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/s1_cluster_robustness/s1_anchor_102pairs.csv"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_cluster.py",
+     "sha": "8661d8c0433c264260bc8984776aadbc4698031a",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/s1_cluster_robustness/s1_cluster.py"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_diag.py",
+     "sha": "1dcc57092eef5516e3efd5381d7e3709dfaf0925",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/deprecated/s1_cluster_robustness/s1_diag.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_fix.py",
+     "sha": "26cab166f743253e57233fc5dbb99e1a1cdee007",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/deprecated/s1_cluster_robustness/s1_fix.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_primary_arm_96pairs.csv",
+     "sha": "32ba1da438114f30795950335d4c3a7e06529b7a",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "data/superseded/s1_cluster_robustness/s1_primary_arm_96pairs.csv"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_recon.py",
+     "sha": "cc29fa600ca3571af212237d5c6f5f631ce7e99c",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/deprecated/s1_cluster_robustness/s1_recon.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_results.json",
+     "sha": "5eb591b7d03e4491f9e7b46a8d47abab331477e0",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/s1_cluster_robustness/s1_results.json"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_scz_cluster.py",
+     "sha": "c76e38b79d12f807d656d5b624976ce78f27641b",
+     "disposition": "superseded_by_canonical_copy",
+     "canonical_path": "code/deprecated/s1_cluster_robustness/s1_scz_cluster.py",
+     "note": "same role, contents differ: the canonical copy was repaired after this snapshot (path bootstrap, CRLF, legacy data-layer name), or it is the repository-own replacement of a build/config file"
+    },
+    {
+     "path": "scripts/python/s1_cluster_robustness/s1_scz_results.json",
+     "sha": "a53d7d4d3697908562224267c00b00ebe43ddb02",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/deprecated/s1_cluster_robustness/s1_scz_results.json"
+    },
+    {
+     "path": "scripts/python/split_half_null_simulation/README.md",
+     "sha": "5c0ff518f350b070f2bfd4132a0c2ba2cab8b4f8",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/simulations/split_half_null/README.md"
+    },
+    {
+     "path": "scripts/python/split_half_null_simulation/splithalf_null_simulation.py",
+     "sha": "84af416022deaa5efb75c50593f8057550ee103d",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/simulations/split_half_null/splithalf_null_simulation.py"
+    },
+    {
+     "path": "scripts/python/split_half_null_simulation/splithalf_per_pair.csv",
+     "sha": "33277bec6227eee6705ac02ab43a681530bcc720",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/simulations/split_half_null/splithalf_per_pair.csv"
+    },
+    {
+     "path": "scripts/python/split_half_null_simulation/splithalf_result_raw.json",
+     "sha": "b55265c980a30ef7e563bb0b8c0c760482780e68",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/simulations/split_half_null/splithalf_result_raw.json"
+    },
+    {
+     "path": "scripts/python/split_half_null_simulation/splithalf_summary.csv",
+     "sha": "82cc151f97d17cc475dcdd0841d3fc05eb94122c",
+     "disposition": "content_identical_present_in_canonical",
+     "canonical_path": "code/simulations/split_half_null/splithalf_summary.csv"
+    }
+   ]
+  }
+ }
+}

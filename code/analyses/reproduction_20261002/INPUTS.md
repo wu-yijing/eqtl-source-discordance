@@ -98,9 +98,24 @@ the file that produced the numbers in `results/`, so a run either matches or say
 
 | Logical name | File | MD5 | Bytes | Env var | Read by |
 |---|---|---|---|---|---|
-| `manuscript` | `Manuscript_GenetEpidemiol_20260930.docx` | `dbbe4f81a6fe9433b6a28019c6538eab` | 30,524 | `REPRO_MS_DOCX` | `recompute.py`, `bmc_ref/` |
+| `manuscript` | `Manuscript_GenetEpidemiol_20260930.docx` | `a6f7521b98efa0e2ef247664e2f0db3a` | 30,523 | `REPRO_MS_DOCX` | `recompute.py`, `bmc_ref/` |
 | `si` | `Supporting_Information_GenetEpidemiol_20260930.docx` | `bd50b7f819db7851c50ddfa76ae336eb` | 1,462,835 | `REPRO_SI_DOCX` | `recompute.py`, `r3/`, `repo_crosscheck/`, `bmc_ref/` |
 | `af1` | `Additional file 1_审稿意见修订_20260917.docx` | — | — | `REPRO_AF1_DOCX` | `r3/m15/m15_pc.py` — **optional since 2026-10-03.** The four tables S20's generator reads (S1, S2, S15, S18) also ship as `data/derived/{gene_groups,gtex_Z,eqtlgen_Z}.csv`, verified row for row identical to the document (104/104, 222/222, 90→81/81, 207/207, zero differing cells). Supply the document and it is used instead |
+
+> **The manuscript hash changed on 2026-10-03, and only because of reference [39].**
+> The revision that produced the archived `results/` carried MD5
+> `dbbe4f81a6fe9433b6a28019c6538eab` (30,524 bytes). The revision now on disk is
+> `a6f7521b98efa0e2ef247664e2f0db3a` (30,523 bytes) — one byte shorter, because reference [39]'s
+> repository URL was repointed from the predecessor `…-audit` to this canonical repository.
+> **No number in the manuscript or in the Supporting Information moved**, and the Supporting
+> Information still matches its recorded hash exactly, so the archived results stand as published.
+> The earlier value is recorded here rather than deleted, because a reader running against the
+> pre-repoint file should get an explanation rather than a bare mismatch:
+>
+> | Revision of the manuscript | MD5 | Bytes | Difference |
+> |---|---|---|---|
+> | Before the [39] repoint (produced `results/`) | `dbbe4f81a6fe9433b6a28019c6538eab` | 30,524 | — |
+> | Current (submitted) | `a6f7521b98efa0e2ef247664e2f0db3a` | 30,523 | reference [39] only |
 
 Obtain them from the journal (they accompany the submission). `bmc_ref/` has two
 further, optional documents — the predecessor BMC submission (`REPRO_PRED_MS_DOCX`,
