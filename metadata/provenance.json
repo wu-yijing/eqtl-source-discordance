@@ -136,9 +136,11 @@
     },
     {
      "name": "gtex_v8_mashr_snp_covariance.txt.gz",
-     "bytes": 2362720,
-     "sha256": "5c90428be350797bcd8f855d54bddece888a63a9ea864e35fe39f6ea44b5a9c2",
-     "md5": "cc2a4c861095ea359da15cc31733702f"
+     "bytes": 34851462,
+     "sha256": "68dccc21c4e0293c51395a9ef1d464797a0482ba51ab47b93f92c4d0b49c84bb",
+     "md5": "dda0eedeb842cfc272e76ad432753d73",
+     "source_url": "https://zenodo.org/records/3518299/files/gtex_v8_expression_mashr_snp_smultixcan_covariance.txt.gz",
+     "note": "Upstream name gtex_v8_expression_mashr_snp_smultixcan_covariance.txt.gz. The 2,362,720-byte / 5c90428b record that stood here until 2026-10-03 was the first 6.78 % of this file, not the file; a byte-level prefix match against this URL identified it, and the complete download equals Zenodo's published MD5."
     }
    ]
   },
@@ -307,8 +309,8 @@
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 69873,
-   "sha256": "3fa59aae108dbf989dd2f4b639c3b4365897d00d38746b013dbae56f82536b7c"
+   "bytes": 72901,
+   "sha256": "d8f94b523c2f54a9ee8c52b4d224fca669b0c8dac33a09eda78807ad26a19293"
   },
   {
    "path": "CITATION.cff",
@@ -327,8 +329,8 @@
   },
   {
    "path": "README.md",
-   "bytes": 11379,
-   "sha256": "305f968de0bbf6f806b4678bf216a08ceb844e94c1477e5d7196be2bd30b446c"
+   "bytes": 11553,
+   "sha256": "47e6025a984d3a630c226ae22283ad62a233d7268425cc8358d8a36326488ca5"
   },
   {
    "path": "code/README.md",
@@ -1392,8 +1394,8 @@
   },
   {
    "path": "data/README.md",
-   "bytes": 16175,
-   "sha256": "aa527ba51e4981441e555e9cd56cba4130aa0cad54a356576b9d8994320f6481"
+   "bytes": 16237,
+   "sha256": "2699a69158cb423eb8af6c5324eb87070183d2145445fed134aa364020a49139"
   },
   {
    "path": "data/derived/covariate_matrix.csv",
@@ -1562,18 +1564,18 @@
   },
   {
    "path": "data/external/README.md",
-   "bytes": 22479,
-   "sha256": "941271ced0fbe7bb9d75fe5dea0b6936048af91448893e2a67609fd45d8b184a"
+   "bytes": 24156,
+   "sha256": "519053adefebdce1a5f6c7931ae4d1f37d304a17b2b6bc0151cdc0a1cc78f93d"
   },
   {
    "path": "data/external/SHA256SUMS",
    "bytes": 3374,
-   "sha256": "678f1cefcfcb35567ffc0cc7afe5c70717da5c647006febfac21a7d98de51013"
+   "sha256": "a1e696c2ae054f4ea77aa2d69319a4b82b65fe05c983d12cd7f6f0ba4e6058e5"
   },
   {
    "path": "data/external/SOURCES.tsv",
-   "bytes": 5683,
-   "sha256": "5e92c8fbbdb0fe29ba4d2649d9fd5abfa2e66009972ef277ed0f6cba0de47361"
+   "bytes": 5999,
+   "sha256": "c494dfd681e6f0fafc2c7456371010291dbc9fc997ce60c5664e7a694597edde"
   },
   {
    "path": "data/processed_officialZ/README.md",
@@ -1892,8 +1894,8 @@
   },
   {
    "path": "data/upstream/README.md",
-   "bytes": 9524,
-   "sha256": "17dd9a3f062a440a6df44bcc77d5f7a08b721549f65d605480c29b5ce28da834"
+   "bytes": 9536,
+   "sha256": "9f57002f67500cc3648114efcd85f051dcb017377a0ab9edf2468f1eedad43c3"
   },
   {
    "path": "data/upstream/cov/cov_Nerve_Tibial.txt.gz",
@@ -2307,8 +2309,8 @@
   },
   {
    "path": "scripts/collect_provenance.py",
-   "bytes": 28098,
-   "sha256": "667be8dcf9d1a022c5a37c2023655c2b398e80faba22a50f603e2d2320c36e31"
+   "bytes": 28553,
+   "sha256": "6fd1dfa9e3face12266035024ac85b91c486addb5ad523c769bc50b18d2960dd"
   },
   {
    "path": "scripts/cut_release.sh",
@@ -2317,8 +2319,8 @@
   },
   {
    "path": "scripts/fetch_external_inputs.py",
-   "bytes": 12228,
-   "sha256": "7500ec9c3ecaf253282e6896d44e8b9463315408dfa61616f8f3b10803b4c117"
+   "bytes": 12456,
+   "sha256": "768da590a6fa0606585274a3783f3d7c1d4ee307a580dc503925580ccf7afe11"
   },
   {
    "path": "scripts/set_doi.py",
@@ -2327,8 +2329,8 @@
   },
   {
    "path": "scripts/verify_external_inputs.py",
-   "bytes": 5560,
-   "sha256": "e5ed06fcfaf53442ddf878d1e5302a758b2733ffb1bfd83b9e586a52bb338904"
+   "bytes": 9018,
+   "sha256": "5d6a683db4e7837fcc54275f11574f61d600af1663a4373d303f3aa7855b0361"
   },
   {
    "path": "scripts/verify_from_clone.sh",

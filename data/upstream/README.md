@@ -49,7 +49,7 @@ read from the sources on 2026-10-03.
 | Input | Size | Licence / terms as published | Redistributable? |
 |---|---|---|---|
 | GTEx v8 MASHR models (WB / NT) — PredictDB | 4.4 / 5.6 MiB | PredictDB publishes the site text and figures under **CC BY 4.0** and its code under MIT, and asks for citation. The model bundles themselves are a **citable Zenodo deposit**. | **Yes, with attribution** — but not re-hosted: the canonical copy is the deposit, and pointing at it is more useful than duplicating it |
-| GTEx v8 SNP covariance (PredictDB) | 2.3 MiB | as above | as above |
+| GTEx v8 expression SNP covariance (PredictDB) | 33.2 MiB | as above | as above |
 | eQTLGen phase I cis-eQTL | 307.8 MiB | Resource offered to the community; **no licence entered** in the registry entry, and no explicit redistribution grant on the source site. | **No** — over the 100 MiB block *and* no explicit grant. Hash + URL recorded |
 | FinnGen R13 DR / DN / DPN | 762–764 MiB each | Public "green" aggregate summary statistics; free for research after the 12-month embargo; acknowledgement and citation of Kurki et al. 2023 required. **No redistribution grant stated.** | **No** — over the block; terms do not grant redistribution |
 | GCST90043640 (2 builds, UKB diabetic retinopathy) | 503.7 / 424.7 MiB | GWAS Catalog: summary statistics are released under **CC0** unless stated otherwise. | Licence **permits** it; **over the block** → not shipped |

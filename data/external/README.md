@@ -8,14 +8,14 @@ This directory is **git-ignored** (`.gitignore`: *"Raw third-party inputs are NO
 | "nothing here is claimed to have been verified by hash" | every hash below was produced by hashing the actual file, and the upstream step it feeds has been re-run from it (§"Evidence") |
 | S-PrediXcan "cannot be re-run from scratch" | all three upstream steps — the GTEx × FinnGen arm, the eQTLGen weight build, and the eQTLGen S-PrediXcan arm — have been re-run from these inputs and reproduce (byte-for-byte, or content-for-content for the gzipped covariances); the build code is under [`../../code/upstream/`](../../code/upstream/README.md) |
 ## Where to get them — the links
-`SOURCES.tsv` is the machine-readable half of this directory: one row per input, with the direct download URL, the exact byte count, the licence as published, whether the archive may pass it on, and a note. Fifteen rows; thirteen carry a working direct link, each requested on 2026-10-03 and compared against the recorded size (the four strongest checks — where the *publisher's own* hash manifest confirms ours — are named in the row's note).
+`SOURCES.tsv` is the machine-readable half of this directory: one row per input, with the direct download URL, the exact byte count, the licence as published, whether the archive may pass it on, and a note. Fifteen rows; **fourteen** carry a working direct link, each requested on 2026-10-03 and compared against the recorded size. Five of the checks are stronger than size: two are the GWAS Catalog's *own* `md5sum.txt`, one is Zenodo's published checksum for the GTEx covariance, and two are server `Content-Length` values matching the recorded byte count exactly — all named in the row's note.
 ```bash
 python3 scripts/fetch_external_inputs.py --list                       # what would be fetched, no network
 python3 scripts/fetch_external_inputs.py --only finngen_R13_manifest  # one file
 python3 scripts/fetch_external_inputs.py                              # everything, ~4.7 GB
 ```
 The script downloads from the recorded link, checks the SHA-256 against `SHA256SUMS`, leaves a mismatched file on disk but says loudly not to use it, and refuses to run at all when the two manifests disagree about which files exist — a file in one and not the other is exactly how an unhashed download slips through.
-Two rows carry no direct link, for opposite reasons. PGC3 is behind a data-access application and its terms forbid redistribution. The GTEx covariance in §"Known defect" has no source this archive could confirm. Both are reported `NO-URL` with the reason attached; neither is skipped silently.
+One row carries no direct link: PGC3, which is behind a data-access application and whose terms forbid redistribution at any size. It is reported `NO-URL` with that reason attached, never skipped silently.
 ## What is stored and what is linked
 The repository stores an artefact only when a reader cannot get it anywhere else. Everything else is a link.
 | Category | Stored? | Where |
@@ -30,7 +30,7 @@ Nothing freely obtainable is stored here, and nothing stored here is freely obta
 |---|---|---|---|---|---|
 | eQTL weight source A — GTEx v8 MASHR, Whole_Blood | `mashr_Whole_Blood.db` | GTEx v8 / PredictDB mashr | 4,612,096 | `1f4abfeea5f0ed122e812112821cd3626f3cbde72044e5a283830e8c8e13ba0f` | `1613d73c3fcc53a27dc1422118680b97` |
 | eQTL weight source A — GTEx v8 MASHR, Nerve_Tibial | `mashr_Nerve_Tibial.db` | GTEx v8 / PredictDB mashr | 5,910,528 | `48dda44649b12a046023301cdc537189a5395f266f1fb8adb3833602791a380c` | `9983e7b1557230162331839acf5ed228` |
-| GTEx v8 SNP-level covariance (PredictDB mashr) | `gtex_v8_mashr_snp_covariance.txt.gz` | v8 | 2,362,720 | `5c90428be350797bcd8f855d54bddece888a63a9ea864e35fe39f6ea44b5a9c2` | `cc2a4c861095ea359da15cc31733702f` |
+| GTEx v8 expression SNP covariance — the S-MultiXcan LD reference | `gtex_v8_mashr_snp_covariance.txt.gz` | GTEx v8 MASHR, 2019-10-03 build | 34,851,462 | `68dccc21c4e0293c51395a9ef1d464797a0482ba51ab47b93f92c4d0b49c84bb` | `dda0eedeb842cfc272e76ad432753d73` |
 | eQTL weight source B — eQTLGen phase I cis-eQTL summary statistics | `2019-12-11-cis-eQTLsFDR0.05-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt.gz` | phase I, 2019-12-11, N = 31,684 | 322,775,879 | `8d963046d7b74cf3533c3510614cdc724e7ad0e325a3d2f7cca63ad13661b4c4` | `3073e2f39d0847692c053949e85723d9` |
 | Primary GWAS — DR (FinnGen R13) | `finngen_R13_DM_RETINOPATHY_EXMORE.gz` | Data Freeze 13 (R13) · RETINOPATHY_EXMORE | 799,133,923 | `92652925b89943fd216510d82622baec424b7713076734728cb46443ccb4d79a` | `7cee13550d6075cad5941484013ab3f8` |
 | Primary GWAS — DN (FinnGen R13) | `finngen_R13_DM_NEPHROPATHY.gz` | Data Freeze 13 (R13) · NEPHROPATHY | 801,346,330 | `9b17cbc3fb233df8113740a571f53e8efbfb0ee5f26ad23bd2640ffab35be69f` | `f6a494a2b6e24bbedc68470d91843437` |
@@ -46,22 +46,56 @@ Nothing freely obtainable is stored here, and nothing stored here is freely obta
 
 ### Source and notes
 URLs and licences now live in `SOURCES.tsv`, one row each, rather than in this prose. What stays here is the reasoning that a table cannot carry.
-- **Three provenance corrections, 2026-10-03.** (1) `meta_egfr_dmstrat_stage1plus2.txt.gz` was labelled "Cross-population DN resource (GCST90018832 lineage)". It is not a GWAS Catalog deposit and the GCST90018832 directory does not serve a file by this name; it is the CKDGen diabetes-stratified eGFR meta-analysis, served from the University of Regensburg, and its `Content-Length` is the recorded 178,400,853 B exactly. (2) `g1000_eur.zip` was described as "PredictDB `g1000_eur` bundle". The filename is MAGMA's and the held copy confirms it — the archive contains `g1000_eur.synonyms`, which only the MAGMA distribution ships. (3) `GCST90043640.h.tsv.gz` and `GCST90043640_buildGRCh37.tsv.gz` are now identified by the GWAS Catalog's **own** `md5sum.txt`, which gives `a802753ce87d30de09e3bc2df15c9b8c` and `9ac919a05dbd8f3e2c405520b6aa870e` — the MD5s recorded here. That is a publisher-side confirmation, not a re-download.
+- **Four provenance corrections, 2026-10-03.** (1) `meta_egfr_dmstrat_stage1plus2.txt.gz` was labelled "Cross-population DN resource (GCST90018832 lineage)". It is not a GWAS Catalog deposit and the GCST90018832 directory does not serve a file by this name; it is the CKDGen diabetes-stratified eGFR meta-analysis, served from the University of Regensburg, and its `Content-Length` is the recorded 178,400,853 B exactly. (2) `g1000_eur.zip` was described as "PredictDB `g1000_eur` bundle". The filename is MAGMA's and the held copy confirms it — the archive contains `g1000_eur.synonyms`, which only the MAGMA distribution ships. (3) `GCST90043640.h.tsv.gz` and `GCST90043640_buildGRCh37.tsv.gz` are now identified by the GWAS Catalog's **own** `md5sum.txt`, which gives `a802753ce87d30de09e3bc2df15c9b8c` and `9ac919a05dbd8f3e2c405520b6aa870e` — the MD5s recorded here. That is a publisher-side confirmation, not a re-download. (4) `gtex_v8_mashr_snp_covariance.txt.gz` was registered as a 2,362,720-byte artefact when it was in fact 6.78 % of a 34,851,462-byte one; see §"Resolved" for the byte-level trace and the corrected hashes.
 - **Renaming.** Two inputs are distributed under a different name from the canonical one: `GCST90043640.h.tsv.gz` arrives as `34737426-GCST90043640-EFO_0003770.h.tsv.gz`, and `RNApull_down_MS_results.zip` as `RNApull down MS实验结果.zip`. `scripts/verify_external_inputs.py` accepts both names.
 - **eQTLGen, still the strongest functional check.** Filtering the cis-eQTL file on the 103 ENSG ids in the model database reproduces all **65,622 weight rows row-for-row** (content MD5 `8ec08cc9baaf313a602f4518d220c2f5` both sides). No other input has an equivalent end-to-end identity test.
 - **PGC3 has no direct link, by design.** The download is behind an application, and the PGC Data Access Terms state that investigators *"will not cross-post these data or make them available elsewhere"*. Its row in `SOURCES.tsv` points at the access page and is marked `no` for redistribution — the one input whose absence from this repository is a licence condition rather than a size limit.
 
-## Known defect — one listed input is a truncated download
-`gtex_v8_mashr_snp_covariance.txt.gz` (2,362,720 B) is **not a complete gzip stream**.
+## Resolved — the listed input that was a truncated download
+
+`gtex_v8_mashr_snp_covariance.txt.gz` was registered as 2,362,720 B carrying the hash of that
+file. **That file was not the artefact.** It was the first 2,362,720 bytes of a 34,851,462-byte
+file — an interrupted download, found on 2026-10-03 and traced the same day.
+
+**The source was established by byte-level identity, not by a log.** The opening 2,362,720 bytes of
+
 ```
-$ gzip -t gtex_v8_mashr_snp_covariance.txt.gz
-gzip: ...: unexpected end of file          # exit 1
+https://zenodo.org/records/3518299/files/gtex_v8_expression_mashr_snp_smultixcan_covariance.txt.gz
 ```
-It decompresses to 14,624,957 B and stops mid-token, at `ENSG00000172613.7 chr11_67314013_T_C_b38 chr11_6731`, having covered 1,099 genes. The SHA-256 in `SHA256SUMS` is the hash of **this incomplete file**, so `verify_external_inputs.py` reports it `ok`: a recorded hash cannot tell "the right bytes" from "the right bytes so far".
-What it does and does not touch:
-- **No reported number.** No script in this archive reads the file. It appears only in `SHA256SUMS`, this `README.md` and `scripts/collect_provenance.py`, which lists it. `code/run_upstream.sh` builds its own covariances from `mashr_*.db` + `g1000_eur.zip`.
-- **The manifest.** The row advertises an input this archive can neither supply nor validate.
-**Open.** Closing it needs the canonical source, which the PredictDB pages reviewed on 2026-10-03 do not serve under this name — that release ships per-tissue `mashr_<tissue>.txt.gz` instead. Either re-fetch from the source the original run used and re-hash, or drop the row if nothing depends on it. Until then `SOURCES.tsv` carries `-` for its URL with this reason attached, so the fetch script reports `NO-URL` rather than pretending.
+
+are byte-for-byte the local file — MD5 `cc2a4c861095ea359da15cc31733702f` computed over both. A
+complete download then reproduced the publisher's own checksum exactly:
+
+| | |
+|---|---|
+| Source | `https://zenodo.org/records/3518299/files/gtex_v8_expression_mashr_snp_smultixcan_covariance.txt.gz` |
+| Record | `10.5281/zenodo.3518299` — "GWAS and GTEx QTL integration", licence **CC-BY-4.0** |
+| Complete size | 34,851,462 B |
+| MD5 | `dda0eedeb842cfc272e76ad432753d73` — **equal to the checksum Zenodo's API publishes for this file** |
+| SHA-256 | `68dccc21c4e0293c51395a9ef1d464797a0482ba51ab47b93f92c4d0b49c84bb` |
+| Decompresses to | 214,012,383 B, 2,508,317 rows, header `GENE RSID1 RSID2 VALUE` |
+| What was held | bytes 1 … 2,362,720 — **6.78 %** of it, stream cut mid-token |
+| Also in its gzip header | the original member name `gtex_v8_expression_mashr_snp_covariance.txt` and mtime `2019-10-03 13:34:35 UTC`, the PredictDB GTEx v8 MASHR build date |
+
+**The mistake, in one line.** A recorded hash cannot distinguish "the right bytes" from "the right
+bytes so far". The manifest held the hash of a fragment, so `verify_external_inputs.py` reported
+`ok` — correctly by its own rule, and uselessly.
+
+**What changed.**
+- `SOURCES.tsv` carries the URL and the real byte count; `SHA256SUMS` carries the SHA-256 of the
+  complete file. The upstream filename differs from the canonical one, so
+  `verify_external_inputs.py` accepts it as an alias.
+- `scripts/verify_external_inputs.py` gained a **gzip-completeness pass**: for a `.gz` input present
+  on disk it also checks that the stream *ends* (trailer, CRC32, ISIZE) and fails with `incomplete`
+  when it does not. A hash match is no longer accepted as proof of a whole file. `--no-integrity`
+  skips the pass, which is the slow part.
+- On the full 15-file set (4.67 GB, 2 m 31 s) that pass reports `ok 15  mismatched 0  incomplete 1
+  missing 0` against the **old** manifest: this one file, and nothing else.
+
+**What was never at risk.** No reported number. No script in this archive reads the file —
+`code/run_upstream.sh` builds its own gene-level covariances from `mashr_*.db` + `g1000_eur.zip`.
+The file mattered to the manifest, not to the analysis.
+
 ## Files that are derived, not external
 **All 30 are machine-verified** by [`code/upstream/verify_middleware.py`](../../code/upstream/verify_middleware.py),
 which `code/run_upstream.sh` step 8 now runs on every invocation — a rebuild that

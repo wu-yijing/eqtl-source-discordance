@@ -22,11 +22,14 @@ not copies.
     python3 scripts/fetch_external_inputs.py --dir /data/eqtl_inputs
     python3 scripts/fetch_external_inputs.py --check-manifests        # no network
 
-Total is about 4.7 GB, so fetch one arm at a time unless you mean it.
+Total is about 4.7 GB, so fetch one arm at a time unless you mean it. A file whose
+`url` is `-` — PGC3, behind a data-access application — is reported `NO-URL` with the
+reason, never skipped silently.
 
-Files with `-` in the `url` column have no direct link — PGC3 is behind an
-application, and one GTEx covariance has no source this archive could confirm.
-They are reported as NO-URL with the reason, not silently skipped.
+Every file with a link is also checked for **completeness**, not just for its hash:
+a gzip stream that ends early hashes exactly like the whole file, which is how a
+6.8 %-downloaded covariance came to be registered as an artefact. `.gz` targets are
+therefore verified to terminate. `--no-integrity` skips that pass.
 
 Exit status: 0 if every file that has a URL ends up present and byte-correct;
 1 if any download mismatched, failed, or if the two manifests disagree; 2 on a

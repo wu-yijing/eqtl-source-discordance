@@ -21,8 +21,8 @@
 1f4abfeea5f0ed122e812112821cd3626f3cbde72044e5a283830e8c8e13ba0f  mashr_Whole_Blood.db
 # eQTL weight source A — GTEx v8 MASHR, Nerve       5,910,528
 48dda44649b12a046023301cdc537189a5395f266f1fb8adb3833602791a380c  mashr_Nerve_Tibial.db
-# GTEx v8 SNP-level covariance (PredictDB mas       2,362,720
-5c90428be350797bcd8f855d54bddece888a63a9ea864e35fe39f6ea44b5a9c2  gtex_v8_mashr_snp_covariance.txt.gz
+# GTEx v8 expression SNP covariance                34,851,462
+68dccc21c4e0293c51395a9ef1d464797a0482ba51ab47b93f92c4d0b49c84bb  gtex_v8_mashr_snp_covariance.txt.gz
 # eQTL weight source B — eQTLGen phase I cis-     322,775,879
 8d963046d7b74cf3533c3510614cdc724e7ad0e325a3d2f7cca63ad13661b4c4  2019-12-11-cis-eQTLsFDR0.05-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt.gz
 # Primary GWAS — DR (FinnGen R13)                 799,133,923

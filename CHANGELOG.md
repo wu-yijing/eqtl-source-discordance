@@ -23,6 +23,46 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-03 (sixteenth pass) — the truncated input is traced to its source, and the class of bug is closed
+
+**Numbers: no reported number changes.** No file in `data/derived/` changed, no middleware artefact
+changed, and neither submitted document was edited.
+
+The fifteenth pass found that `gtex_v8_mashr_snp_covariance.txt.gz` — registered as a 2,362,720-byte
+input whose hash matched — was a truncated gzip stream, and left it open because its source was not
+known. It is now traced, and the class of defect has a guard.
+
+Traced
+- **A full-disk search, then byte-level identity.** The gzip header of the held file names its original
+  member (`gtex_v8_expression_mashr_snp_covariance.txt`) and carries mtime `2019-10-03 13:34:35 UTC`,
+  the PredictDB GTEx v8 MASHR build date. The decisive test was a ranged request: the first 2,362,720
+  bytes of
+  `https://zenodo.org/records/3518299/files/gtex_v8_expression_mashr_snp_smultixcan_covariance.txt.gz`
+  are **byte-for-byte** the local file — MD5 `cc2a4c861095ea359da15cc31733702f` over both.
+- **The complete file reproduces the publisher's checksum.** 34,851,462 B; MD5
+  `dda0eedeb842cfc272e76ad432753d73`, equal to the checksum Zenodo's API publishes for it; SHA-256
+  `68dccc21c4e0293c51395a9ef1d464797a0482ba51ab47b93f92c4d0b49c84bb`; decompresses to 214,012,383 B
+  across 2,508,317 rows, header `GENE RSID1 RSID2 VALUE`. Record `10.5281/zenodo.3518299`, licence
+  CC-BY-4.0. The copy that had been registered was **6.78 %** of it.
+- **The download dated 2026-07-16 21:42 is an artefact of the file being moved, not downloaded.** Four
+  identical truncated copies exist on the machine; Chrome's download record independently shows the
+  same Zenodo record in use on 2026-06-25. The originals were left where they were.
+
+Added
+- `scripts/verify_external_inputs.py` gained a **gzip-completeness pass**: for a `.gz` input present on
+  disk the stream must *end* — trailer, CRC32 and ISIZE — or the file is reported `incomplete` and the
+  exit status is non-zero. Measured over the whole set (4.67 GB, 2 m 31 s) against the **old** manifest:
+  `ok 15  mismatched 0  incomplete 1  missing 0` — this file, and nothing else. `--no-integrity` skips
+  the pass. **A hash match is no longer accepted as proof of a whole file**, which is the real lesson:
+  an interrupted download hashes exactly like the artefact it failed to become.
+
+Fixed
+- `SOURCES.tsv` carries the URL, the true byte count and the licence; `SHA256SUMS` carries the SHA-256
+  of the complete file; `provenance.json` follows. Link coverage is now fourteen of fifteen — the one
+  without a link, PGC3, has none for a licence reason rather than an unknown one.
+- `verify_external_inputs.py` accepts `gtex_v8_expression_mashr_snp_smultixcan_covariance.txt.gz` as an
+  alias, because the PredictDB release names this file after its consumer rather than its contents.
+
 ### 2026-10-03 (fifteenth pass) — every third-party input now has a link, and one of them is a truncated file
 
 **Numbers: no reported number changes.** No file in `data/derived/` changed, no middleware artefact
@@ -35,8 +75,9 @@ URL, and only inside prose, so "not redistributed" was easier to read than to ac
 
 Added
 - `data/external/SOURCES.tsv`: one row per input — direct download URL, exact byte count, licence as
-  published, redistribution decision, and a note. Thirteen of the fifteen rows carry a working direct
-  link, each requested on 2026-10-03 and matched against the recorded size. Four are stronger than a
+  published, redistribution decision, and a note. Thirteen of the fifteen rows carried a working direct
+  link when this pass ran, each requested on 2026-10-03 and matched against the recorded size; the
+  fourteenth was added by the next pass. Four are stronger than a
   size check: the GWAS Catalog's **own** `md5sum.txt` gives `a802753ce87d30de09e3bc2df15c9b8c` and
   `9ac919a05dbd8f3e2c405520b6aa870e`, the MD5s recorded here for the two `GCST90043640` files; the
   eQTLGen and CKDGen servers report exactly the recorded 322,775,879 and 178,400,853 bytes; and the
@@ -57,6 +98,7 @@ Fixed
   hash of *that* file, so `verify_external_inputs.py` reports it `ok` — a recorded hash cannot tell
   "the right bytes" from "the right bytes so far". **No reported number is affected**: nothing in the
   archive reads the file. Recorded as an open item with the evidence, URL column set to `-`.
+  **Traced to its source and closed in the sixteenth pass.**
 - **`meta_egfr_dmstrat_stage1plus2.txt.gz` was mis-attributed.** It was labelled "Cross-population DN
   resource (GCST90018832 lineage)". It is not a GWAS Catalog deposit — the GCST90018832 directory
   serves no file by that name — it is the CKDGen diabetes-stratified eGFR meta-analysis, served from
