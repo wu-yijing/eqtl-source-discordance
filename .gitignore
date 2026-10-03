@@ -63,6 +63,9 @@ data/external/*
 !data/external/SHA256SUMS
 !data/external/README.md
 data/raw/
+# Outputs of the two published-raster patch scripts. They write these next to the rasters
+# they read; the checked-in references are FigS1_published.png / FigS3_published.png.
+code/figures/ge_si/published/*_reapplied.png
 # Large archives and alignment/genotype formats belong in Zenodo / figshare /
 # iProX, not in git history.
 # NOTE: bare `*.gz` is deliberately NOT ignored — the predecessor repository

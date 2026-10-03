@@ -230,6 +230,45 @@ else
 fi
 
 echo
+echo "== 8. the published SI rasters reproduce, pixel for pixel =="
+# WHY THIS GATE EXISTS. `metadata/ARCHIVE_MAP.md`, `figures/README.md` and
+# `code/figures/ge_si/README.md` now claim that the rasters embedded in the submitted
+# Supporting Information are reproducible at *artefact* level: the published pixel content,
+# plus the 2026-10-01 edits that connect it to the pre-patch versions. A claim about
+# reproducibility is worth exactly what a reader can re-run, so this gate re-runs it.
+# `verify_published.py` checks the four SHA-256, re-applies both edits, and requires zero
+# differing pixels — it also restates the changed-pixel counts and bounding boxes against
+# the recorded 17,589 px (Fig. S1) and 10,587 px (Fig. S3), so the archive cannot silently
+# drift from what it says it ships.
+#
+# It needs Pillow and NumPy; the Fig. S1 edit additionally needs Arial, because that is the
+# family the published glyphs were drawn in. Where those are missing this gate *warns*
+# rather than fails — a font absent from the reader's machine says nothing about the
+# archive. Run it directly with:
+#     cd code/figures/ge_si/published && python3 verify_published.py
+PUB_PY=""
+for c in "$PY" python3 python; do
+  [ -n "$c" ] || continue
+  command -v "$c" >/dev/null 2>&1 || continue
+  if "$c" -c "import numpy, PIL" >/dev/null 2>&1; then PUB_PY="$c"; break; fi
+done
+if [ -z "$PUB_PY" ]; then
+  warn "no interpreter with Pillow + NumPy on PATH (tried \$PY, python3, python) — the published-raster check was not run"
+else
+  ok "published-raster check: $PUB_PY"
+  if ( cd code/figures/ge_si/published && "$PUB_PY" verify_published.py ) > "$CLONE/pub.txt" 2>&1; then
+    ok "$(tail -1 "$CLONE/pub.txt")"
+    grep -E 'edit size|pixel-identical' "$CLONE/pub.txt" | sed 's/^ */         /'
+  elif grep -q 'Arial not found' "$CLONE/pub.txt"; then
+    warn "Arial is absent, so the Fig. S1 glyph re-draw could not be checked here; the checks that do not need it still ran:"
+    grep -E '^  (ok|FAIL)' "$CLONE/pub.txt" | head -6 | sed 's/^/         /'
+  else
+    bad "verify_published.py FAILED — the published rasters do not reproduce from a clone:"
+    grep -E '^  FAIL|FAILED' "$CLONE/pub.txt" | head -8 | sed 's/^/         /'
+  fi
+fi
+
+echo
 echo "=================================================="
 printf ' verified from a clone: %d failure(s)\n' "$fail"
 if [ "$KEEP" = "1" ]; then
