@@ -15,7 +15,7 @@ reported numbers came from.
     python3 code/upstream/verify_middleware.py --run-dir /path/to/_upstream_run/out
 
 There is also a **shipped copy** of most of this middleware, at `data/upstream/`, added
-on 2026-10-03 so the Z layer's provenance can be checked without the ~7.5 GB of
+on 2026-10-03 so the Z layer's provenance can be checked without the ~4.7 GB of
 third-party inputs. Point this script at that directory to verify a fresh clone:
 
     python3 code/upstream/verify_middleware.py --run-dir data/upstream

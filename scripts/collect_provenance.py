@@ -112,7 +112,8 @@ REPRO_INPUTS = [
 EXTERNAL = [
     {"id": "FinnGen", "role": "primary GWAS input: DR / DN / DPN",
      "version": "Data Freeze 13 (R13)",
-     "source_url": "https://www.finngen.fi/en/access_results",
+     "source_url": "https://storage.googleapis.com/finngen-public-data-r13/summary_stats/",
+     "landing_page": "https://www.finngen.fi/en/access_results",
      "files": [
          {"name": "finngen_R13_DM_RETINOPATHY_EXMORE.gz", "bytes": 799133923,
           "sha256": "92652925b89943fd216510d82622baec424b7713076734728cb46443ccb4d79a",
@@ -129,7 +130,9 @@ EXTERNAL = [
      ]},
     {"id": "GCST90043640", "role": "UK Biobank diabetic retinopathy GWAS (PheCode 250.7); cross-cohort arm",
      "version": "as distributed by GWAS Catalog",
-     "source_url": "https://www.ebi.ac.uk/gwas/studies/GCST90043640",
+     "source_url": "https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90043001-GCST90044000/GCST90043640/",
+     "landing_page": "https://www.ebi.ac.uk/gwas/studies/GCST90043640",
+     "note": "The publisher's own md5sum.txt in this directory gives a802753ce87d30de09e3bc2df15c9b8c (harmonised) and 9ac919a05dbd8f3e2c405520b6aa870e (GRCh37 build) — the MD5s recorded here.",
      "citation": "Publication recorded by GWAS Catalog: Jiang L, Zheng Z, Fang H, Yang J. Nat Genet 2021;53:1616-1621. doi:10.1038/s41588-021-00954-4",
      "files": [
          {"name": "GCST90043640.h.tsv.gz", "bytes": 528201989,
@@ -140,9 +143,11 @@ EXTERNAL = [
           "sha256": "f84387729df2d608fa77907184f54dc32265a2c5b448a7ba81c8bc4a0c9518a3",
           "md5": "9ac919a05dbd8f3e2c405520b6aa870e"},
      ]},
-    {"id": "GCST90018832", "role": "cross-population diabetic nephropathy meta-analysis (DN check)",
-     "version": "as distributed by GWAS Catalog",
-     "source_url": "https://www.ebi.ac.uk/gwas/studies/GCST90018832",
+    {"id": "CKDGen_eGFR_by_DM", "role": "cross-population kidney-function resource: eGFR stratified by diabetes status (DN check)",
+     "version": "CKDGen / Winkler et al., Commun Biol 5, 580 (2022)",
+     "source_url": "https://homepages.uni-regensburg.de/~wit59712/dmstrat/meta_egfr_dmstrat_stage1plus2.txt.gz",
+     "landing_page": "https://www.uni-regensburg.de/medizin/institut-fuer-epidemiologie-und-praeventivmedizin/genetische-epidemiologie/gwas-summary-statistics",
+     "note": "Called `GCST90018832` here until 2026-10-03. This file is not a GWAS Catalog deposit, and the GCST90018832 FTP directory serves no file by this name; the CKDGen server reports exactly the 178,400,853 bytes recorded here. The archive's separate OpenGWAS `ebi-a-GCST90018832` check is a different resource and this correction does not touch it.",
      "files": [
          {"name": "meta_egfr_dmstrat_stage1plus2.txt.gz", "bytes": 178400853,
           "sha256": "141114f3ae9add8a5b568b24b87bf833de4dff25fb94d66519c36f7fe8e3413f",
@@ -156,7 +161,10 @@ EXTERNAL = [
           "md5": "6ebe2376f5cda972d37efa0f214c4df0"},
      ]},
     {"id": "GTEx_v8_MASHR", "role": "eQTL weight source A: Nerve_Tibial and Whole_Blood",
-     "version": "GTEx v8 MASHR models", "source_url": "https://predictdb.org/post/2021/07/21/gtex-v8-models-on-eqtl-and-sqtl",
+     "version": "GTEx v8 MASHR models",
+     "source_url": "https://zenodo.org/records/3518299/files/mashr_eqtl.tar",
+     "landing_page": "https://predictdb.org/post/2021/07/21/gtex-v8-models-on-eqtl-and-sqtl",
+     "note": "Both .db files are members of mashr_eqtl.tar (262,092,800 B), so the direct link names the archive rather than a standalone file; extract the member and hash that.",
      "files": [
          {"name": "mashr_Whole_Blood.db", "bytes": 4612096,
           "sha256": "1f4abfeea5f0ed122e812112821cd3626f3cbde72044e5a283830e8c8e13ba0f",
@@ -169,7 +177,8 @@ EXTERNAL = [
           "md5": "cc2a4c861095ea359da15cc31733702f"},
      ]},
     {"id": "eQTLGen_phaseI", "role": "eQTL weight source B", "version": "phase I cis-eQTL, N = 31,684",
-     "source_url": "https://www.eqtlgen.org/",
+     "source_url": "https://molgenis26.gcc.rug.nl/downloads/eqtlgen/cis-eqtl/2019-12-11-cis-eQTLsFDR0.05-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt.gz",
+     "landing_page": "https://www.eqtlgen.org/",
      "files": [
          {"name": "2019-12-11-cis-eQTLsFDR0.05-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt.gz", "bytes": 322775879,
           "sha256": "8d963046d7b74cf3533c3510614cdc724e7ad0e325a3d2f7cca63ad13661b4c4",
@@ -179,7 +188,9 @@ EXTERNAL = [
           "md5": "aefbe7d485181145bd1e3ceffea2cfd6"},
      ]},
     {"id": "1000G_phase3_EUR", "role": "linkage-disequilibrium reference panel", "version": "Phase 3 European panel",
-     "source_url": "https://www.internationalgenome.org/",
+     "source_url": "https://ctg.cncr.nl/software/MAGMA/ref_data/g1000_eur.zip",
+     "landing_page": "https://www.internationalgenome.org/",
+     "note": "The filename is MAGMA's and the held copy settles it: the archive contains g1000_eur.synonyms, which only the MAGMA distribution ships.",
      "files": [
          {"name": "g1000_eur.zip", "bytes": 511626945,
           "sha256": "83a48fd9dcaa0b9a874b18c63143a4ede93f05505b215b0bd8790130a0d7a954",
@@ -187,7 +198,9 @@ EXTERNAL = [
      ]},
     {"id": "ProteomeXchange_iProX", "role": "RNA pull-down LC-MS/MS",
      "version": "PXD083775 (iProX IPX0019439000, subproject IPX0019439001)",
-     "source_url": "https://proteomecentral.proteomexchange.org/",
+     "source_url": "https://www.iprox.cn/page/PSV023.html?projectId=IPX0019439000",
+     "landing_page": "https://proteomecentral.proteomexchange.org/",
+     "note": "PXD083775 reports \"reserved but not yet accessible\" on ProteomeXchange until the paper is published; the accession is the citable copy, which is why this file is linked and not duplicated.",
      "files": [
          {"name": "RNApull_down_MS_results.zip", "bytes": 21500065,
           "sha256": "c50e44b1c9ab2dcca46576ec0859ae2b12baa91360f9e97a232a72d39c810a4c",
@@ -196,8 +209,71 @@ EXTERNAL = [
      ]},
 ]
 
+#: The two places where EXTERNAL and `data/external/SOURCES.tsv` are deliberately
+#: asymmetric. Both directions are reasons, not oversights, and `check_sources()`
+#: below fails if any *third* difference appears.
+#:
+#:   eQTLGen_Whole_Blood.db   is in EXTERNAL because it belongs to the eQTLGen resource,
+#:                            but it is `derived: True` — this archive builds it from the
+#:                            cis-eQTL summary statistics — so it has no download link and
+#:                            SOURCES.tsv correctly omits it.
+#:   MetaXcan-v0.8.1.tar.gz   is in SOURCES.tsv and SHA256SUMS because a reader must fetch
+#:                            the tool, but it is a toolchain, not a data input, so EXTERNAL
+#:                            does not carry it.
+DERIVED_IN_EXTERNAL = {'eQTLGen_Whole_Blood.db'}
+TOOLCHAIN_IN_SOURCES = {'MetaXcan-v0.8.1.tar.gz'}
+
+
+def read_sources_tsv(path=None):
+    """{filename: url} from data/external/SOURCES.tsv, or None if it is not there."""
+    path = path or os.path.join(REPO, 'data', 'external', 'SOURCES.tsv')
+    if not os.path.exists(path):
+        return None
+    out = {}
+    with open(path, encoding='utf-8') as fh:
+        for line in fh:
+            line = line.rstrip('\n')
+            if not line or line.startswith('#') or line.startswith('file\t'):
+                continue
+            parts = line.split('\t')
+            if len(parts) == 6:
+                out[parts[0]] = parts[1]
+    return out
+
+
+def check_sources():
+    """EXTERNAL and SOURCES.tsv must name the same third-party files, bar the two recorded
+    exceptions. Two hand-maintained lists that drift are how a file ends up hashed and
+    unfetchable, or fetchable and unhashed. Returns a list of problem strings."""
+    sources = read_sources_tsv()
+    if sources is None:
+        return ['data/external/SOURCES.tsv is missing - cannot cross-check the external inputs']
+    prov_files = set()
+    for entry in EXTERNAL:
+        for f in entry.get('files', []):
+            if not f.get('derived'):
+                prov_files.add(f['name'])
+    want = set(sources) - TOOLCHAIN_IN_SOURCES
+    problems = []
+    only_prov = sorted(prov_files - want - DERIVED_IN_EXTERNAL)
+    only_src = sorted(want - prov_files)
+    if only_prov:
+        problems.append('in provenance EXTERNAL but not in SOURCES.tsv: %s' % ', '.join(only_prov))
+    if only_src:
+        problems.append('in SOURCES.tsv but not in provenance EXTERNAL: %s' % ', '.join(only_src))
+    # A row with no link is a NOTICE, not a failure: it is a recorded state, documented in
+    # data/external/README.md and in that row's own `note`, and blocking a release on a
+    # known-and-labelled gap would only teach the next person to delete the label.
+    notices = []
+    no_url = sorted(k for k, v in sources.items() if v == '-')
+    if no_url:
+        notices.append('SOURCES.tsv row(s) with no download link, as documented: %s'
+                       % ', '.join(no_url))
+    return problems, notices
+
+
 # ---------------------------------------------------------------------------
-# Retrieval dates, per resource — NOT one date for all eight.
+# Retrieval dates, per resource - NOT one date for all eight.
 #
 # Supporting Information Note S4 states a single sentence: "every resource was
 # retrieved on 8 September 2026". That is not what the filesystem shows. The copies
@@ -413,12 +489,22 @@ def main():
         json.dump(doc, fh, indent=1, ensure_ascii=False)
         fh.write('\n')
     print('wrote %s' % OUT)
-    print('  tracked %d, hashed %d, excluded %d, external inputs %d, reproduction inputs %d'
-          % (tracked_count, len(files), len(excluded), len(external), len(REPRO_INPUTS)))
+    n_ext_files = sum(len(e.get('files', [])) for e in EXTERNAL)
+    print('  tracked %d, hashed %d, excluded %d, external inputs %d resources / %d files, '
+          'reproduction inputs %d'
+          % (tracked_count, len(files), len(excluded), len(external), n_ext_files,
+             len(REPRO_INPUTS)))
+    rc = 0
     if len(files) + len(excluded) != tracked_count:
         print('  !! COVERAGE MISMATCH — cut_release.sh will refuse the release')
-        return 1
-    return 0
+        rc = 1
+    problems, notices = check_sources()
+    for msg in notices:
+        print('  .. %s' % msg)
+    for msg in problems:
+        print('  !! %s' % msg)
+        rc = 1
+    return rc
 
 
 if __name__ == '__main__':

@@ -23,6 +23,59 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-03 (fifteenth pass) — every third-party input now has a link, and one of them is a truncated file
+
+**Numbers: no reported number changes.** No file in `data/derived/` changed, no middleware artefact
+changed, and neither submitted document was edited.
+
+The previous pass shipped the middleware (`data/upstream/`, 31 MiB) so a reader could check the Z layer
+without the third-party inputs. This pass answers the other half: where to *get* those inputs. They were
+already not stored — `data/external/*` is git-ignored — but the archive named only five of the fifteen by
+URL, and only inside prose, so "not redistributed" was easier to read than to act on.
+
+Added
+- `data/external/SOURCES.tsv`: one row per input — direct download URL, exact byte count, licence as
+  published, redistribution decision, and a note. Thirteen of the fifteen rows carry a working direct
+  link, each requested on 2026-10-03 and matched against the recorded size. Four are stronger than a
+  size check: the GWAS Catalog's **own** `md5sum.txt` gives `a802753ce87d30de09e3bc2df15c9b8c` and
+  `9ac919a05dbd8f3e2c405520b6aa870e`, the MD5s recorded here for the two `GCST90043640` files; the
+  eQTLGen and CKDGen servers report exactly the recorded 322,775,879 and 178,400,853 bytes; and the
+  three FinnGen endpoints plus their manifest match by size.
+- `scripts/fetch_external_inputs.py`: downloads from those links and verifies each file against
+  `SHA256SUMS`. Resume-capable; streams a member out of a `.tar` without unpacking it whole (the
+  PredictDB models live inside `mashr_eqtl.tar`); reports a file with no link as `NO-URL` with the
+  reason attached; and **refuses to run at all when the two manifests disagree about which files
+  exist** — a file in one and not the other is exactly how an unhashed download slips through.
+- `scripts/verify_from_clone.sh` gate 10: that disagreement, checked at release time. Gate count 9 → 10.
+- `data/external/README.md` §"What is stored and what is linked": the rule, and the four categories it
+  was applied to.
+
+Fixed
+- **A listed input is a truncated download.** `gtex_v8_mashr_snp_covariance.txt.gz` fails `gzip -t`
+  ("unexpected end of file"): it decompresses to 14,624,957 B and stops mid-token, at
+  `ENSG00000172613.7 chr11_67314013_T_C_b38 chr11_6731`, after 1,099 genes. `SHA256SUMS` records the
+  hash of *that* file, so `verify_external_inputs.py` reports it `ok` — a recorded hash cannot tell
+  "the right bytes" from "the right bytes so far". **No reported number is affected**: nothing in the
+  archive reads the file. Recorded as an open item with the evidence, URL column set to `-`.
+- **`meta_egfr_dmstrat_stage1plus2.txt.gz` was mis-attributed.** It was labelled "Cross-population DN
+  resource (GCST90018832 lineage)". It is not a GWAS Catalog deposit — the GCST90018832 directory
+  serves no file by that name — it is the CKDGen diabetes-stratified eGFR meta-analysis, served from
+  the University of Regensburg (Winkler et al., Commun Biol 5, 580 (2022)), whose server reports the
+  recorded byte count exactly.
+- **`g1000_eur.zip` was attributed to PredictDB.** The filename is MAGMA's, and the held copy settles
+  it: the archive contains `g1000_eur.synonyms`, which only the MAGMA distribution ships.
+- **Every stated download size was wrong.** The archive said "~7.5 GB" in seven places; the fifteen
+  byte counts in `SHA256SUMS` sum to 4.67 GB. Corrected in all seven. `fetch_external_inputs.py
+  --list` recomputes the figure, so it can be re-derived rather than taken on trust.
+- `data/external/SHA256SUMS` header carried three literal `/n` sequences where newlines were meant,
+  running the two documented commands together on one line.
+- `metadata/provenance.json`'s `source_url` fields were landing pages (`https://www.eqtlgen.org/`)
+  rather than download links, and one resource carried the same `GCST90018832` mis-attribution fixed
+  above. The id is now `CKDGen_eGFR_by_DM`, the direct URLs match `SOURCES.tsv`, and
+  `collect_provenance.py` **cross-checks the two lists** — the same class of drift gate 10 catches
+  between `SOURCES.tsv` and `SHA256SUMS`. Its summary line now separates resources (8) from files
+  (15), which had been a standing source of "eight or fifteen?" confusion.
+
 ### 2026-10-03 (fourteenth pass) — the upstream middleware ships, and every third-party input's redistribution status is on the record
 
 **Numbers: no reported number changes.** No file in `data/derived/` changed; neither submitted
@@ -32,7 +85,7 @@ document was edited. This pass only adds material that lets a reader *check* the
 - **`data/upstream/` (27 files, 31 MiB)** — the as-produced outputs of `code/run_upstream.sh`:
   the eQTLGen weight database and its three size bands, both GTEx gene-level covariances, the
   three harmonised and three allele-aligned GWAS tables, and all 15 `official_*` / `official_eq_*`
-  S-PrediXcan band outputs. Previously a reader had to fetch ~7.5 GB to check that `data/derived/`
+  S-PrediXcan band outputs. Previously a reader had to fetch ~4.7 GB to check that `data/derived/`
   came from the inputs the archive names; now one command does it:
   `python3 code/upstream/verify_middleware.py --run-dir data/upstream` →
   `identical 27 | differing 0 | missing 3`.

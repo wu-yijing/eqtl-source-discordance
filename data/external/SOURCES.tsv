@@ -1,0 +1,36 @@
+# SOURCES.tsv — where each third-party input comes from, as a link
+#
+# `SHA256SUMS` says WHICH BYTES are the ones the reported numbers came from.
+# This file says WHERE TO GET THEM. Together they are the whole external-input
+# contract; neither duplicates the other.
+#
+#   17 columns are not used here on purpose: five fields, tab-separated.
+#
+#   file          canonical filename, as in SHA256SUMS
+#   url           direct download URL, or '-' when none exists
+#   bytes         exact byte count of the copy the numbers came from
+#   licence       as published by the source, read on 2026-10-03
+#   redistribute  yes | yes-with-attribution | no | n/a
+#   note          why, or how to use the URL
+#
+# Fetch with:   python3 scripts/fetch_external_inputs.py
+# Check with:   python3 scripts/verify_external_inputs.py --dir data/external
+#
+# Verified 2026-10-03 by requesting each URL and comparing what the server
+# reported against `bytes`; the four strongest checks are named in `note`.
+file	url	bytes	licence	redistribute	note
+mashr_Whole_Blood.db	https://zenodo.org/records/3518299/files/mashr_eqtl.tar	4612096	CC-BY-4.0 (site text and figures); MIT (code)	yes-with-attribution	Inside mashr_eqtl.tar (262,092,800 B); fetch script extracts it by basename. Canonical landing page: https://predictdb.org/post/2021/07/21/gtex-v8-models-on-eqtl-and-sqtl
+mashr_Nerve_Tibial.db	https://zenodo.org/records/3518299/files/mashr_eqtl.tar	5910528	CC-BY-4.0 (site text and figures); MIT (code)	yes-with-attribution	Inside mashr_eqtl.tar; fetch script extracts it by basename. Cite Barbeira et al. Genome Biol 22, 49 (2021)
+gtex_v8_mashr_snp_covariance.txt.gz	-	2362720	PredictDB mashr release	-	NO URL CONFIRMED and the copy held is a TRUNCATED gzip stream - see the defect note in README.md. No script in this archive reads it
+2019-12-11-cis-eQTLsFDR0.05-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt.gz	https://molgenis26.gcc.rug.nl/downloads/eqtlgen/cis-eqtl/2019-12-11-cis-eQTLsFDR0.05-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt.gz	322775879	None stated on the source site	yes	Server Content-Length equals 322,775,879 exactly. Landing page https://www.eqtlgen.org/
+finngen_R13_DM_RETINOPATHY_EXMORE.gz	https://storage.googleapis.com/finngen-public-data-r13/summary_stats/finngen_R13_DM_RETINOPATHY_EXMORE.gz	799133923	FinnGen public data (green); cite Kurki et al. 2023	no	Free for research after the 12-month embargo, but no redistribution grant. Endpoint: DR, EXMORE
+finngen_R13_DM_NEPHROPATHY.gz	https://storage.googleapis.com/finngen-public-data-r13/summary_stats/finngen_R13_DM_NEPHROPATHY.gz	801346330	FinnGen public data (green); cite Kurki et al. 2023	no	Server Content-Length equals 801,346,330 exactly
+finngen_R13_DM_NEUROPATHY.gz	https://storage.googleapis.com/finngen-public-data-r13/summary_stats/finngen_R13_DM_NEUROPATHY.gz	800964581	FinnGen public data (green); cite Kurki et al. 2023	no	Server Content-Length equals 800,964,581 exactly
+finngen_R13_manifest.tsv	https://storage.googleapis.com/finngen-public-data-r13/summary_stats/finngen_R13_manifest.tsv	820805	FinnGen public data (green)	no	Server object size equals 820,805 exactly
+GCST90043640.h.tsv.gz	https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90043001-GCST90044000/GCST90043640/harmonised/34737426-GCST90043640-EFO_0003770.h.tsv.gz	528201989	CC0 (GWAS Catalog default since 2022)	yes	Strongest check: the publisher's own harmonised/md5sum.txt gives a802753ce87d30de09e3bc2df15c9b8c, the MD5 recorded here. Downloaded file is renamed to GCST90043640.h.tsv.gz
+GCST90043640_buildGRCh37.tsv.gz	https://ftp.ebi.ac.uk/pub/databases/gwas/summary_statistics/GCST90043001-GCST90044000/GCST90043640/GCST90043640_buildGRCh37.tsv.gz	445327939	CC0 (GWAS Catalog)	yes	Strongest check: the publisher's own md5sum.txt gives 9ac919a05dbd8f3e2c405520b6aa870e, the MD5 recorded here
+PGC3_SCZ_wave3.european.autosome.public.v3.vcf.tsv.gz	https://pgc.unc.edu/for-researchers/download-results/	239710564	PGC Data Access Terms	no	No direct URL exists: the download is behind an application. The terms state investigators "will not cross-post these data or make them available elsewhere", so this file may not be redistributed at any size
+g1000_eur.zip	https://ctg.cncr.nl/software/MAGMA/ref_data/g1000_eur.zip	511626945	1000 Genomes Project open data	yes	Same bundle as the MAGMA reference panel: the held copy contains g1000_eur.synonyms, which is MAGMA-specific. The host was unreachable from the repair environment (DNS resolves, connection fails); URL verified only as the canonical one named by the MAGMA documentation
+meta_egfr_dmstrat_stage1plus2.txt.gz	https://homepages.uni-regensburg.de/~wit59712/dmstrat/meta_egfr_dmstrat_stage1plus2.txt.gz	178400853	CKDGen; cite Winkler et al. Commun Biol 5, 580 (2022)	yes	Server Content-Length equals 178,400,853 exactly. eGFR stratified by diabetes status, mostly European: n_DM = 178,691 vs n_NoDM = 1,296,113. Landing page: https://www.uni-regensburg.de/medizin/institut-fuer-epidemiologie-und-praeventivmedizin/genetische-epidemiologie/gwas-summary-statistics
+RNApull_down_MS_results.zip	https://www.iprox.cn/page/PSV023.html?projectId=IPX0019439000	21500065	Authors' own experiment; deposited at iProX under PXD083775	no	Not a third-party file: it is this study's own RNA pull-down proteomics. The canonical copy is the deposit, so it is linked rather than duplicated. PXD083775 reports "reserved but not yet accessible" until the paper is published
+MetaXcan-v0.8.1.tar.gz	https://codeload.github.com/hakyimlab/MetaXcan/tar.gz/refs/tags/v0.8.1	6484124	Apache-2.0	yes	Upstream is canonical and hash-pinned here; not duplicated. Extracts to MetaXcan-0.8.1/

@@ -61,6 +61,7 @@ desktop.ini
 # negation cannot re-include a file whose parent directory is excluded.
 data/external/*
 !data/external/SHA256SUMS
+!data/external/SOURCES.tsv
 !data/external/README.md
 data/raw/
 # Outputs of the two published-raster patch scripts. They write these next to the rasters

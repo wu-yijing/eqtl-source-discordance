@@ -5,7 +5,7 @@ middleware between the third-party raw inputs and the Z layer in `data/derived/`
 
 **Why it is here.** The archive already reproduces every reported value from
 `data/derived/` alone, and `data/external/SHA256SUMS` pins all 15 third-party inputs
-by hash. What a reader could not do, without fetching ~7.5 GB, was *check the layer in
+by hash. What a reader could not do, without fetching ~4.7 GB, was *check the layer in
 between*: that `data/derived/` really did come from the inputs the archive names.
 Shipping these 31 MiB of small artefacts makes that checkable in one command, with no
 downloads and no toolchain.

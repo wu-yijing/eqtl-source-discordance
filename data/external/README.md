@@ -1,5 +1,5 @@
 # data/external/ — external-input manifest (hashes now recorded)
-This directory is **git-ignored** (`.gitignore`: *"Raw third-party inputs are NOT redistributed. Keep only the manifest."*). The two files kept in version control are `SHA256SUMS` and this `README.md`.
+This directory is **git-ignored** (`.gitignore`: *"Raw third-party inputs are NOT redistributed. Keep only the manifest."*). The three files kept in version control are `SHA256SUMS`, `SOURCES.tsv` and this `README.md`.
 `data/README.md` used to list all eight external inputs as **`not-held`, with no SHA-256** — the honest statement that the archive did not distribute them, but also the reason a reader could not check whether their download was the same file the reported numbers came from. **That column is now filled in.**
 ## What changed
 | Before | After |
@@ -7,6 +7,24 @@ This directory is **git-ignored** (`.gitignore`: *"Raw third-party inputs are NO
 | `not-held` — no hash for any external input | **SHA-256 + MD5 + byte count for every input**, taken from the copy that produced the reported values |
 | "nothing here is claimed to have been verified by hash" | every hash below was produced by hashing the actual file, and the upstream step it feeds has been re-run from it (§"Evidence") |
 | S-PrediXcan "cannot be re-run from scratch" | all three upstream steps — the GTEx × FinnGen arm, the eQTLGen weight build, and the eQTLGen S-PrediXcan arm — have been re-run from these inputs and reproduce (byte-for-byte, or content-for-content for the gzipped covariances); the build code is under [`../../code/upstream/`](../../code/upstream/README.md) |
+## Where to get them — the links
+`SOURCES.tsv` is the machine-readable half of this directory: one row per input, with the direct download URL, the exact byte count, the licence as published, whether the archive may pass it on, and a note. Fifteen rows; thirteen carry a working direct link, each requested on 2026-10-03 and compared against the recorded size (the four strongest checks — where the *publisher's own* hash manifest confirms ours — are named in the row's note).
+```bash
+python3 scripts/fetch_external_inputs.py --list                       # what would be fetched, no network
+python3 scripts/fetch_external_inputs.py --only finngen_R13_manifest  # one file
+python3 scripts/fetch_external_inputs.py                              # everything, ~4.7 GB
+```
+The script downloads from the recorded link, checks the SHA-256 against `SHA256SUMS`, leaves a mismatched file on disk but says loudly not to use it, and refuses to run at all when the two manifests disagree about which files exist — a file in one and not the other is exactly how an unhashed download slips through.
+Two rows carry no direct link, for opposite reasons. PGC3 is behind a data-access application and its terms forbid redistribution. The GTEx covariance in §"Known defect" has no source this archive could confirm. Both are reported `NO-URL` with the reason attached; neither is skipped silently.
+## What is stored and what is linked
+The repository stores an artefact only when a reader cannot get it anywhere else. Everything else is a link.
+| Category | Stored? | Where |
+|---|---|---|
+| Third-party raw inputs (this directory) | **No** — link + hash | `SOURCES.tsv` + `SHA256SUMS` |
+| Author-produced middleware | **Yes**, 31 MiB | `data/upstream/` — not obtainable elsewhere, and it is what makes the Z layer checkable without the downloads |
+| Author-produced derived tables | **Yes**, 6.0 MiB | `data/derived/` — the artefact every reported number is read from |
+| The four band covariances (175 / 106 / 94 / 394 MiB) | **No** — content hash only | over GitHub's 100 MiB per-file block; rebuilt by `code/run_upstream.sh`, hashes in `data/external/README.md` |
+Nothing freely obtainable is stored here, and nothing stored here is freely obtainable elsewhere. That direction was checked, not assumed: [`data/upstream/README.md`](../upstream/README.md) carries the per-input redistribution ledger that decided every row above.
 ## The inputs
 | Role | Canonical filename | Version / identifier | Bytes | SHA-256 | MD5 |
 |---|---|---|---|---|---|
@@ -22,18 +40,28 @@ This directory is **git-ignored** (`.gitignore`: *"Raw third-party inputs are NO
 | Cross-cohort GWAS — GCST90043640, GRCh37 build | `GCST90043640_buildGRCh37.tsv.gz` | — · GCST90043640 | 445,327,939 | `f84387729df2d608fa77907184f54dc32265a2c5b448a7ba81c8bc4a0c9518a3` | `9ac919a05dbd8f3e2c405520b6aa870e` |
 | Independent-trait benchmark — PGC3 schizophrenia wave 3, European subset | `PGC3_SCZ_wave3.european.autosome.public.v3.vcf.tsv.gz` | wave 3 (scz2022) | 239,710,564 | `dbba3a85575c99fd1c2e3497d0c7a44539ccfdbf2e69742f8bdbda879230bcd7` | `6ebe2376f5cda972d37efa0f214c4df0` |
 | LD reference panel — 1000 Genomes Phase 3, European | `g1000_eur.zip` | Phase 3 EUR | 511,626,945 | `83a48fd9dcaa0b9a874b18c63143a4ede93f05505b215b0bd8790130a0d7a954` | `1919cb5c79bbe7871aed71ae4abe6217` |
-| Cross-population DN resource (GCST90018832 lineage) | `meta_egfr_dmstrat_stage1plus2.txt.gz` | — · GCST90018832 | 178,400,853 | `141114f3ae9add8a5b568b24b87bf833de4dff25fb94d66519c36f7fe8e3413f` | `ffe5a12a04492085043741ea2f0bad96` |
+| Cross-population kidney-function resource — eGFR stratified by diabetes status | `meta_egfr_dmstrat_stage1plus2.txt.gz` | CKDGen · Winkler et al. Commun Biol 5, 580 (2022) | 178,400,853 | `141114f3ae9add8a5b568b24b87bf833de4dff25fb94d66519c36f7fe8e3413f` | `ffe5a12a04492085043741ea2f0bad96` |
 | Proteomics — RNA pull-down / LC-MS/MS results | `RNApull_down_MS_results.zip` | — · PXD083775 / iProX IPX0019439000 | 21,500,065 | `c50e44b1c9ab2dcca46576ec0859ae2b12baa91360f9e97a232a72d39c810a4c` | `cba90b3492f608a6005bbfb4c2f71783` |
 | Toolchain — official MetaXcan (unmodified) | `MetaXcan-v0.8.1.tar.gz` | tag v0.8.1 | 6,484,124 | `3a6e1ceefef8961e10b4096e6768577ee46c67a8273087eb2d88e17be2d9f1d3` | `1cb55305a5abf81d154e0868bcd6db03` |
 
 ### Source and notes
-- **mashr_Whole_Blood.db** — https://predictdb.org/post/2021/07/21/gtex-v8-models-on-eqtl-and-sqtl MD5 `1613d73c3fcc53a27dc1422118680b97` matches `INPUTS.md` §B.2 — the same copy the S9 pool filters read.
-- **mashr_Nerve_Tibial.db** — https://predictdb.org/post/2021/07/21/gtex-v8-models-on-eqtl-and-sqtl MD5 `9983e7b1557230162331839acf5ed228` matches `INPUTS.md` §B.2.
-- **2019-12-11-cis-eQTLsFDR0.05-ProbeLevel-CohortInfoRemoved-BonferroniAdded.txt.gz** — https://www.eqtlgen.org/ Verified to be the source of the eQTLGen arm weights: filtering this file on the 103 ENSG ids in the model database reproduces all **65,622 weight rows row-for-row** (content MD5 `8ec08cc9baaf313a602f4518d220c2f5` both sides).
-- **GCST90043640.h.tsv.gz** — https://www.ebi.ac.uk/gwas/studies/GCST90043640 Downloaded as `34737426-GCST90043640-EFO_0003770.h (1).tsv.gz`. Downloaded as `34737426-GCST90043640-EFO_0003770.h (1).tsv.gz`; rename to the canonical name above to use `sha256sum -c` directly.
-- **g1000_eur.zip** — https://www.internationalgenome.org/ PredictDB `g1000_eur` bundle; the eQTLGen gene covariance is computed from the `.bed/.bim/.fam` inside it.
-- **RNApull_down_MS_results.zip** — https://www.iprox.cn/ Downloaded as `RNApull down MS实验结果.zip`. Downloaded as `RNApull down MS实验结果.zip`. The deposited archive is PXD083775; this is the working copy of the same experiment.
+URLs and licences now live in `SOURCES.tsv`, one row each, rather than in this prose. What stays here is the reasoning that a table cannot carry.
+- **Three provenance corrections, 2026-10-03.** (1) `meta_egfr_dmstrat_stage1plus2.txt.gz` was labelled "Cross-population DN resource (GCST90018832 lineage)". It is not a GWAS Catalog deposit and the GCST90018832 directory does not serve a file by this name; it is the CKDGen diabetes-stratified eGFR meta-analysis, served from the University of Regensburg, and its `Content-Length` is the recorded 178,400,853 B exactly. (2) `g1000_eur.zip` was described as "PredictDB `g1000_eur` bundle". The filename is MAGMA's and the held copy confirms it — the archive contains `g1000_eur.synonyms`, which only the MAGMA distribution ships. (3) `GCST90043640.h.tsv.gz` and `GCST90043640_buildGRCh37.tsv.gz` are now identified by the GWAS Catalog's **own** `md5sum.txt`, which gives `a802753ce87d30de09e3bc2df15c9b8c` and `9ac919a05dbd8f3e2c405520b6aa870e` — the MD5s recorded here. That is a publisher-side confirmation, not a re-download.
+- **Renaming.** Two inputs are distributed under a different name from the canonical one: `GCST90043640.h.tsv.gz` arrives as `34737426-GCST90043640-EFO_0003770.h.tsv.gz`, and `RNApull_down_MS_results.zip` as `RNApull down MS实验结果.zip`. `scripts/verify_external_inputs.py` accepts both names.
+- **eQTLGen, still the strongest functional check.** Filtering the cis-eQTL file on the 103 ENSG ids in the model database reproduces all **65,622 weight rows row-for-row** (content MD5 `8ec08cc9baaf313a602f4518d220c2f5` both sides). No other input has an equivalent end-to-end identity test.
+- **PGC3 has no direct link, by design.** The download is behind an application, and the PGC Data Access Terms state that investigators *"will not cross-post these data or make them available elsewhere"*. Its row in `SOURCES.tsv` points at the access page and is marked `no` for redistribution — the one input whose absence from this repository is a licence condition rather than a size limit.
 
+## Known defect — one listed input is a truncated download
+`gtex_v8_mashr_snp_covariance.txt.gz` (2,362,720 B) is **not a complete gzip stream**.
+```
+$ gzip -t gtex_v8_mashr_snp_covariance.txt.gz
+gzip: ...: unexpected end of file          # exit 1
+```
+It decompresses to 14,624,957 B and stops mid-token, at `ENSG00000172613.7 chr11_67314013_T_C_b38 chr11_6731`, having covered 1,099 genes. The SHA-256 in `SHA256SUMS` is the hash of **this incomplete file**, so `verify_external_inputs.py` reports it `ok`: a recorded hash cannot tell "the right bytes" from "the right bytes so far".
+What it does and does not touch:
+- **No reported number.** No script in this archive reads the file. It appears only in `SHA256SUMS`, this `README.md` and `scripts/collect_provenance.py`, which lists it. `code/run_upstream.sh` builds its own covariances from `mashr_*.db` + `g1000_eur.zip`.
+- **The manifest.** The row advertises an input this archive can neither supply nor validate.
+**Open.** Closing it needs the canonical source, which the PredictDB pages reviewed on 2026-10-03 do not serve under this name — that release ships per-tissue `mashr_<tissue>.txt.gz` instead. Either re-fetch from the source the original run used and re-hash, or drop the row if nothing depends on it. Until then `SOURCES.tsv` carries `-` for its URL with this reason attached, so the fetch script reports `NO-URL` rather than pretending.
 ## Files that are derived, not external
 **All 30 are machine-verified** by [`code/upstream/verify_middleware.py`](../../code/upstream/verify_middleware.py),
 which `code/run_upstream.sh` step 8 now runs on every invocation — a rebuild that
@@ -133,7 +161,7 @@ Supporting Information Note S4 states one sentence for all eight resources: *"ev
 |---|---|---|
 | FinnGen R13 (3 files) | **2026-06-24** | download date of the `.gz` endpoints (manifest extracted 2026-06-25) |
 | GCST90043640 (UKB DR) | **2026-06-23** | download date of the GRCh37 build; the harmonised `.h.tsv.gz` is 2026-06-24 |
-| GCST90018832 (DN meta) | **2026-06-25** | download date of the deposit |
+| CKDGen diabetes-stratified eGFR (`meta_egfr_dmstrat_stage1plus2.txt.gz`) | **2026-06-25** | download date of the deposit. Labelled "GCST90018832 (DN meta)" here until 2026-10-03; see the provenance correction above |
 | PGC3 SCZ wave 3 | **2026-07-17** | download date of the European-subset VCF |
 | eQTLGen phase I cis-eQTL | **2026-06-24** | download date of the summary statistics |
 | 1000G phase 3 EUR | **2026-06-24** | download date of the `g1000_eur` bundle |
@@ -156,4 +184,10 @@ sha256sum -c data/external/SHA256SUMS
 
 # partial set tolerated; prints per-file ok / MISSING / MISMATCH
 python3 scripts/verify_external_inputs.py --dir data/external
+
+# or download from the recorded links and check in one step (~4.7 GB; use --only)
+python3 scripts/fetch_external_inputs.py
+
+# the two manifests must name the same files, or the fetch script refuses to run
+python3 scripts/fetch_external_inputs.py --check-manifests
 ```

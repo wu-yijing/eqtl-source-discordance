@@ -4,8 +4,14 @@
 # This list replaces the former `not-held` column: every third-party input now carries
 # the hash of the copy that produced the reported numbers.
 #
-# Verify, after renaming your downloads to the filenames below and placing them here:/n#     sha256sum -c data/external/SHA256SUMS
-# Or, tolerating a partial set:/n#     python3 scripts/verify_external_inputs.py --dir /path/to/downloads
+# Where to GET each file:  data/external/SOURCES.tsv  (one link, licence and
+# redistribution status per row). Fetch and check them in one step with:
+#     python3 scripts/fetch_external_inputs.py
+#
+# Verify, after renaming your downloads to the filenames below and placing them here:
+#     sha256sum -c data/external/SHA256SUMS
+# Or, tolerating a partial set:
+#     python3 scripts/verify_external_inputs.py --dir /path/to/downloads
 #
 # Filenames are the canonical names; `data/external/README.md` maps the two whose
 # download name differs from the canonical one.

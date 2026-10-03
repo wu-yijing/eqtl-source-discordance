@@ -273,7 +273,7 @@ fi
 
 echo "== 9. the shipped upstream artefacts hash to what the archive claims =="
 # WHY THIS GATE EXISTS. `data/upstream/` ships the as-produced middleware so a reader can check
-# the Z layer's provenance without the ~7.5 GB of third-party inputs. Some of those artefacts are
+# the Z layer's provenance without the ~4.7 GB of third-party inputs. Some of those artefacts are
 # CRLF — the official MetaXcan CSV outputs are — and `.gitattributes` would happily normalise them
 # to LF, which changes every byte of the file and makes every recorded hash wrong. That is exactly
 # the failure this archive has already hit once, recorded against `data/external/SHA256SUMS`
@@ -289,6 +289,24 @@ if [ -f code/upstream/verify_middleware.py ] && [ -d data/upstream ]; then
   fi
 else
   bad "code/upstream/verify_middleware.py or data/upstream/ is missing"
+fi
+
+echo "== 10. the two external-input manifests name the same files =="
+# WHY THIS GATE EXISTS. `data/external/SHA256SUMS` says which bytes, `data/external/SOURCES.tsv`
+# says where to get them. Both are hand-maintained, so they can drift: add an input to one and
+# forget the other, and a reader either downloads a file nobody hashed, or is handed a hash for a
+# file with no source. `fetch_external_inputs.py` refuses to run in that state — this gate is what
+# makes the refusal visible at release time instead of on the reader's first attempt. It touches
+# no network, so it is safe inside a clone.
+if [ -f scripts/fetch_external_inputs.py ] && [ -f data/external/SOURCES.tsv ]; then
+  if "$PY" scripts/fetch_external_inputs.py --check-manifests > "$CLONE/mf.txt" 2>&1; then
+    ok "$(grep -E '^manifests' "$CLONE/mf.txt" | sed 's/^ *//') — same file set in both"
+  else
+    bad "data/external/SOURCES.tsv and data/external/SHA256SUMS disagree:"
+    grep -E '\[FAIL\]' "$CLONE/mf.txt" | head -6 | sed 's/^/         /'
+  fi
+else
+  bad "scripts/fetch_external_inputs.py or data/external/SOURCES.tsv is missing"
 fi
 
 echo
