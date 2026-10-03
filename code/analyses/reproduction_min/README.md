@@ -25,7 +25,7 @@ so scipy is not needed and the arithmetic is in the file. No network, no argumen
 | SCZ three arms ρ | Table S24 | **+0.4690 · +0.4199 · +0.4465** |
 | SCZ complete-case n | Table S24 | **8,315** |
 
-The script exits non-zero if any archived value fails to reproduce. Current status: **15 checks,
+The script exits non-zero if any archived value fails to reproduce. Current status: **15 checks (+1 ACAT-O section),
 0 mismatches**.
 
 Inputs, all inside this repository:

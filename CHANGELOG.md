@@ -23,6 +23,45 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-03 (tenth pass) — the SI's ACAT-O combination rule, found and gated
+
+**Numbers: no reported number changes.** Nothing in either submitted document moved. What changes is
+one column's status: the last sub-item left open by the ninth pass is closed, and the rule behind it
+is now written down and asserted by a gate rather than described.
+
+The ninth pass recorded that SI Table S6's **"ACAT-O combined P"** column reproduced for only 68 of
+87 cells and concluded that "the combination rule is still not established". **The conclusion was
+wrong, and the error was in the check, not the archive.**
+
+* **What was actually being computed.** The column is not an unweighted average of the tissues'
+  Cauchy terms. It is a **sqrt(N)-weighted** Cauchy combination:
+
+      p_ACAT-O = 0.5 - arctan( SUM_t w_t * tan((0.5 - p_t) * pi) / SUM_t w_t ) / pi,   w_t = sqrt(N_t)
+
+  with `p_t = 2*Phi(-|Z_t|)`, `N_t` the GTEx v8 eQTL sample size of tissue *t* —
+  **Nerve_Tibial 532, Whole_Blood 670** — component p-values clipped to `[1e-15, 1-1e-15]` and the
+  result to `[1e-300, 1]`. That weighting was not a guess: the same sqrt(N) convention governs the
+  `Z_multi_tissue` column of SI Table S3 (Stouffer), which reproduces to four decimals.
+* **Why 68/87 looked like a rule problem.** Two independent mistakes cancelled into a plausible
+  number. The tissue p-values were combined *without* weights, and the SI prints this column at
+  **three significant figures** (`%.3g`) — so 19 cells were being scored against a fixed absolute
+  tolerance on a grid that is 10x coarser for values near 1 than for values near 0.1. With the
+  weights restored and the column compared at its own precision the count is **87/87, character for
+  character**.
+* **Independently corroborated.** The same rule reproduces **all 138** `P_ACAT_O` cells of SI
+  Table S3 (25/138 for the unweighted form), including ACTB/DR = 0.2085, which an earlier audit had
+  recorded as unreachable.
+* **Made a gate, not a sentence.** `code/analyses/reproduction_20261002/scripts/recompute_acat_o.py`
+  re-derives all 87 cells from `data/derived/hk_official_Z.csv` alone and exits non-zero on the first
+  disagreement; `scripts/verify_from_clone.sh` §5 now runs it in the clone. A rule that "mostly
+  works" is exactly the failure mode this package exists to catch, so it is asserted rather than
+  described. `data/derived/hk_official_Z.csv` now carries the ACAT-O columns itself, and its Z columns
+  are stored at full precision (the 4-decimal rounding previously stored flipped one cell,
+  TRIP12/DPN, across a `%.3g` boundary).
+
+**Recorded correction:** the ninth-pass entry below says the ACAT-O combination rule "is still not
+established". It is established as of this pass; that clause is superseded.
+
 ### 2026-10-03 (ninth pass) — GAP-1, GAP-2, GAP-6 and GAP-8 close; nothing was ever lost, it was found
 
 **Numbers: no reported number changes.** Not one value in `data/derived/` moved, and neither submitted
@@ -42,7 +81,7 @@ had never been catalogued closed most of it.
   the superseded layer, so no per-gene factor could ever have matched. The layer now ships as
   **`data/derived/hk_official_Z.csv`**. *One sub-item stays open and is recorded as such:* the SI's
   **ACAT-O combined-P** column reproduces for only 68 of 87 cells (the rest differ by ≤ 0.023), so its
-  combination rule is still not established.
+  combination rule is still not established. *(Superseded the same day — see the tenth pass.)*
 * **GAP-2 (Table 1 housekeeping arm) — closed.** The arm is **0.0 % (0/87)**, and re-deriving the FDR
   calls from the shipped layer returns **0/87** (most significant test: GOLGA3/DR, P = 0.0126, BH
   q = 1.00). The arm reproduces whether or not the ACAT-O rule is settled.

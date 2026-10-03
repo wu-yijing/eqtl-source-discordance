@@ -145,6 +145,22 @@ if "$PY" -c "import numpy" >/dev/null 2>&1; then
     bad "reproduce_headline.py FAILED — a reported value no longer reproduces:"
     tail -6 "$CLONE/repro.txt" | sed 's/^/         /'
   fi
+
+  # SI Table S6 carries a second kind of reported value: the "ACAT-O combined P" column,
+  # which is *derived* rather than read off a run, and whose combination rule was only
+  # settled on 2026-10-03. A rule stated in prose is not a verified rule — and the wrong
+  # rule here looks plausible (the unweighted Cauchy combination reproduces 68 of 87 cells,
+  # which reads like "mostly right"). This re-derives all 87 from
+  # data/derived/hk_official_Z.csv and exits non-zero if a single one disagrees with the
+  # published three-significant-figure value, so the gate carries the claim.
+  if [ -f code/analyses/reproduction_20261002/scripts/recompute_acat_o.py ]; then
+    if "$PY" code/analyses/reproduction_20261002/scripts/recompute_acat_o.py > "$CLONE/acat.txt" 2>&1; then
+      ok "$(grep -i 'reproduced' "$CLONE/acat.txt" | tail -1 | sed 's/^ *//')"
+    else
+      bad "recompute_acat_o.py FAILED — the SI Table S6 ACAT-O column no longer reproduces:"
+      tail -8 "$CLONE/acat.txt" | sed 's/^/         /'
+    fi
+  fi
 else
   ok "reproduction_min skipped: $PY has no numpy (interpreter limitation, not an archive fault)"
 fi

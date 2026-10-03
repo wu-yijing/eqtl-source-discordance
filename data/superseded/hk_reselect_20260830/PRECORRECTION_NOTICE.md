@@ -54,7 +54,7 @@ Information `.docx`; a full-disk numeric search for the published values (`−0.
   manuscript, a response letter or a figure.
 - **The housekeeping layer of main-text Table 1 therefore cannot be reproduced from this
   repository.** That gap is now closed: the corrected layer ships as `data/derived/hk_official_Z.csv`
-  (GAP-1 closed 2026-10-03; only the SI's ACAT-O combination rule stays open). See
+  (GAP-1 closed 2026-10-03, including the ACAT-O combination rule). See
   `metadata/ARCHIVE_MAP.md` §4.
 - The 8-gene anomaly needs the author's attention independently of the archival question: if the
   corrected housekeeping computation differs for reasons beyond the σᵢ fix, then every table that
