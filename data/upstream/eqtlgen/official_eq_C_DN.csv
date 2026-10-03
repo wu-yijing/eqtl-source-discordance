@@ -1,0 +1,2 @@
+gene,gene_name,zscore,effect_size,pvalue,var_g,pred_perf_r2,pred_perf_pval,pred_perf_qval,n_snps_used,n_snps_in_cov,n_snps_in_model,best_gwas_p,largest_weight
+ENSG00000145730,PAM,0.20717955140399388,3.9989391807990724e-06,0.8358696364682446,1717468375.9988234,NA,NA,NA,4672,4783,5032,2.1672366383403124e-05,172.3943

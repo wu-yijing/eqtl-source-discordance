@@ -6,6 +6,7 @@
 |---|---|---|
 | `derived/` | **Yes** | Small processed tables that a reported number depends on. These *are* the artefact — a reader must be able to obtain them without re-running the pipeline. |
 | `derived/genomewide/` | **Yes** | The five genome-wide weight-source Z layers (gzipped, 2.8 MB total). They define the analysis universes and the framework-layer contrast, which no panel-restricted table can. Added 2026-10-02. |
+| `upstream/` | **Yes** (31 MiB) | The as-produced outputs of `code/run_upstream.sh` — the middleware between the third-party raw inputs and `derived/`. Added 2026-10-03 so the Z layer's provenance can be checked without fetching ~7.5 GB. Checked by `code/upstream/verify_middleware.py`; see [`upstream/README.md`](upstream/README.md), which also carries the redistribution ledger for every third-party input. |
 | `superseded/` | **Yes**, clearly marked | The earlier in-house implementation's output, retained **only** as an equivalence cross-check. Must never be quoted. |
 | `external/` | **No** (git-ignored) | Third-party raw inputs. Not redistributed; obtain from the sources below. |
 | `processed_officialZ/` | **No** | Name retired on 2026-10-02; it is now `derived/`. See [`processed_officialZ/README.md`](processed_officialZ/README.md) — that file exists only so stale references in `code/deprecated/` do not read as dangling links. |

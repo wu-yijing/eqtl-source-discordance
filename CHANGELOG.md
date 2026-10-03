@@ -23,6 +23,40 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-03 (fourteenth pass) — the upstream middleware ships, and every third-party input's redistribution status is on the record
+
+**Numbers: no reported number changes.** No file in `data/derived/` changed; neither submitted
+document was edited. This pass only adds material that lets a reader *check* the Z layer.
+
+**Added**
+- **`data/upstream/` (27 files, 31 MiB)** — the as-produced outputs of `code/run_upstream.sh`:
+  the eQTLGen weight database and its three size bands, both GTEx gene-level covariances, the
+  three harmonised and three allele-aligned GWAS tables, and all 15 `official_*` / `official_eq_*`
+  S-PrediXcan band outputs. Previously a reader had to fetch ~7.5 GB to check that `data/derived/`
+  came from the inputs the archive names; now one command does it:
+  `python3 code/upstream/verify_middleware.py --run-dir data/upstream` →
+  `identical 27 | differing 0 | missing 3`.
+- **`data/upstream/README.md`** — what ships, what cannot and why (four covariances are over
+  GitHub's **100 MiB per-file hard block**, one of them by 2.7×), plus a **redistribution ledger**
+  for all 15 third-party inputs: size, the licence as published, and whether the archive may pass
+  it on. Two facts from that ledger decide it:
+  - **9 of 15 inputs exceed GitHub's 100 MiB per-file block** and physically cannot be committed
+    (FinnGen R13 ×3 at 762–764 MiB, GCST90043640 ×2 at 504/425 MiB, `g1000_eur` at 488 MiB,
+    eQTLGen at 308 MiB, PGC3 at 229 MiB, GCST90018832 at 170 MiB).
+  - **PGC3 may not be redistributed at all**, independently of size: its Data Access Terms state
+    *"Investigators will not cross-post these data or make them available elsewhere"*. The GWAS
+    Catalog inputs, by contrast, are CC0 — they fail on size, not on licence.
+- **`scripts/verify_from_clone.sh` gate 9** — hashes the shipped middleware **inside a clone**.
+  This is not belt-and-braces: some of it is CRLF, and `.gitattributes` would happily normalise it
+  to LF, changing every byte and invalidating every recorded hash. That is the failure this archive
+  already recorded once against `data/external/SHA256SUMS`. `.gitattributes` now carries
+  `data/upstream/** -text` to keep the bytes verbatim, and gate 9 is what proves it held — verified
+  by direct comparison of the stored blob against the working file for all 27 files.
+
+**Fixed**
+- `DOI_PENDING.md` still said `verify_from_clone.sh` runs "7 gates" (it was 8, now 9) and described
+  `env/Dockerfile`'s base image as unpinned. Both corrected.
+
 ### 2026-10-03 (thirteenth pass) — the upstream chain re-run end to end, and the two defects that found
 
 **Numbers: no reported number changes.** Neither submitted document was edited. No file in

@@ -14,6 +14,18 @@ reported numbers came from.
 
     python3 code/upstream/verify_middleware.py --run-dir /path/to/_upstream_run/out
 
+There is also a **shipped copy** of most of this middleware, at `data/upstream/`, added
+on 2026-10-03 so the Z layer's provenance can be checked without the ~7.5 GB of
+third-party inputs. Point this script at that directory to verify a fresh clone:
+
+    python3 code/upstream/verify_middleware.py --run-dir data/upstream
+    # identical 27 | differing 0 | missing 3   <- the 3 are the band covariances,
+    # which are over GitHub's 100 MiB per-file block and cannot be shipped
+
+`scripts/verify_from_clone.sh` gate 9 runs exactly that, because the shipped artefacts
+include CRLF files (the official MetaXcan CSV outputs) and a `.gitattributes` rule
+normalising them to LF would change every byte and silently invalidate every hash here.
+
 Every expectation below is also recorded in `data/external/README.md`
 (§"Files that are derived") so the two can be compared by eye.
 

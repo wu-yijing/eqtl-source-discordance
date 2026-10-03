@@ -268,6 +268,26 @@ else
   fi
 fi
 
+echo "== 9. the shipped upstream artefacts hash to what the archive claims =="
+# WHY THIS GATE EXISTS. `data/upstream/` ships the as-produced middleware so a reader can check
+# the Z layer's provenance without the ~7.5 GB of third-party inputs. Some of those artefacts are
+# CRLF — the official MetaXcan CSV outputs are — and `.gitattributes` would happily normalise them
+# to LF, which changes every byte of the file and makes every recorded hash wrong. That is exactly
+# the failure this archive has already hit once, recorded against `data/external/SHA256SUMS`
+# ("11 of the shipped inputs reported MD5 MISMATCH"). `.gitattributes` sets `data/upstream/** -text`
+# to prevent it, but a claim about checked-out bytes can only be settled by hashing checked-out
+# bytes — which is what running this inside a clone does.
+if [ -f code/upstream/verify_middleware.py ] && [ -d data/upstream ]; then
+  if "$PY" code/upstream/verify_middleware.py --run-dir data/upstream > "$CLONE/mw.txt" 2>&1; then
+    ok "$(grep -E '^identical' "$CLONE/mw.txt" | sed 's/^ *//')"
+  else
+    bad "the shipped middleware does not hash to the recorded values — the checked-out bytes differ from the bytes they were hashed as:"
+    grep -E 'DIFFERS|expected|got' "$CLONE/mw.txt" | head -8 | sed 's/^/         /'
+  fi
+else
+  bad "code/upstream/verify_middleware.py or data/upstream/ is missing"
+fi
+
 echo
 echo "=================================================="
 printf ' verified from a clone: %d failure(s)\n' "$fail"

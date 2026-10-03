@@ -21,6 +21,18 @@
 *.bat  text eol=crlf
 *.ps1  text eol=crlf
 
+# --- shipped upstream artefacts (added 2026-10-03) --------------------------
+# `data/upstream/` carries the as-produced bytes of `code/run_upstream.sh`, so a
+# reader can verify the Z layer's provenance without the ~7.5 GB of third-party
+# inputs. They must be stored VERBATIM, not newline-normalised: the official
+# MetaXcan CSV outputs are CRLF, and the MD5s in
+# `code/upstream/verify_middleware.py` and `data/external/README.md` are hashes
+# of those CRLF bytes. Normalising them to LF would make a fresh clone fail its
+# own hash check — the same class of bug this archive already hit once and
+# recorded against `data/external/SHA256SUMS` on 2026-10-02. `-text` also keeps
+# git from sniffing the SQLite model databases.
+data/upstream/** -text
+
 # --- binary / do not diff ---------------------------------------------------
 *.pdf  binary
 *.png  binary

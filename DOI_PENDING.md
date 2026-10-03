@@ -54,7 +54,7 @@ release first, DOI second, backfill third.
 bash scripts/cut_release.sh          # pre-flight; it warns, correctly, that the DOI is pending
 git add -A
 python3 scripts/collect_provenance.py   # after staging: it hashes the index, not the worktree
-bash scripts/verify_from_clone.sh       # 7 gates, inside a fresh clone
+bash scripts/verify_from_clone.sh       # 9 gates, inside a fresh clone
 ```
 
 ### 2. Publish to Zenodo
@@ -116,7 +116,7 @@ submitted `.docx` and is **not** made by anything in this repository.
 | `.zenodo.json` metadata | present; it owns the release version, and `cut_release.sh` checks it against `CITATION.cff` and `CHANGELOG.md` |
 | `CITATION.cff` | present, with a concept-DOI slot that resolves to a placeholder until step 3, and a commented version-DOI slot that step 3 activates |
 | Predecessor archives | recorded read-only in [`README.md`](README.md#archived-predecessors), and their contents materialised in [`docs/predecessors/`](docs/predecessors/README.md) |
-| Reproducibility gates | `scripts/verify_from_clone.sh` (7 gates) and `scripts/cut_release.sh` (sections 6 and 7 surface the pending DOI and the unpinned base image) |
+| Reproducibility gates | `scripts/verify_from_clone.sh` (**9** gates) and `scripts/cut_release.sh` — section 6 surfaces the pending DOI; section 7 checks the container base image is pinned by digest (it is, as of 2026-10-03) |
 | DOI backfill tooling | [`scripts/set_doi.py`](scripts/set_doi.py) — `--show`, `--check`, and the backfill |
 
 *Written 2026-10-03. Nothing in this file asserts a DOI that does not exist.*

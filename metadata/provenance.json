@@ -292,8 +292,8 @@
   },
   {
    "path": ".gitattributes",
-   "bytes": 1443,
-   "sha256": "1a64c8e271d0a85175e01a4a589dc5c9fb0880b0574f2541f5444ab4c10b90a0"
+   "bytes": 2198,
+   "sha256": "30ad1f909f4fe3e6ebaef5a8da8b5a6b5cb75ef2437ba3d9811d8867de9f2fc7"
   },
   {
    "path": ".gitignore",
@@ -307,8 +307,8 @@
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 63066,
-   "sha256": "98398c9607cc2f7ffd4d0b5a94a1ab977d03584b3bb76c359e608fe3cb2bf9c7"
+   "bytes": 65594,
+   "sha256": "c619692d75db3db1d8c5860d8af40d3299af2024c05613302e2c2564a7049704"
   },
   {
    "path": "CITATION.cff",
@@ -317,8 +317,8 @@
   },
   {
    "path": "DOI_PENDING.md",
-   "bytes": 5755,
-   "sha256": "6def3750cc6c7f7089981394a994f2c386a70f14c277656f2635a3f12e23f727"
+   "bytes": 5816,
+   "sha256": "a851d211d324a3787aec5d01b19a6572ce76e8a0694a3370f1e4a9ad1b52acee"
   },
   {
    "path": "LICENSE",
@@ -1387,13 +1387,13 @@
   },
   {
    "path": "code/upstream/verify_middleware.py",
-   "bytes": 7648,
-   "sha256": "cb20cf94e6d4b3687d1e99e38f5260c166b2d32863d3eb9e9dcf0a0171bf4041"
+   "bytes": 8386,
+   "sha256": "2526a3171e5261a3c5154f0ea1747298ca46a32f562e9e24274039b8be46ed83"
   },
   {
    "path": "data/README.md",
-   "bytes": 15071,
-   "sha256": "35c1323548e6932ea710c7b14d1c20d4c0ff9607994953c957028a349697452e"
+   "bytes": 15485,
+   "sha256": "1f2c59344155ac131c4ecc445362ae49b7b3eaaf02ca9d725b8b10581863e7df"
   },
   {
    "path": "data/derived/covariate_matrix.csv",
@@ -1886,6 +1886,146 @@
    "sha256": "6e771cead407983e7118250d1776bb8e2ba5e2086d3b9ace02a13f8ccb0fa11c"
   },
   {
+   "path": "data/upstream/README.md",
+   "bytes": 9524,
+   "sha256": "19b81052d2762927e233f1de8d0e621a071403a3a5a12a9d9203d03c8eff9f68"
+  },
+  {
+   "path": "data/upstream/cov/cov_Nerve_Tibial.txt.gz",
+   "bytes": 646597,
+   "sha256": "fecc51e009bc85d66869c784135bff06ef6f9e5d315c06379a42a4fbaadf0d5b"
+  },
+  {
+   "path": "data/upstream/cov/cov_Whole_Blood.txt.gz",
+   "bytes": 476502,
+   "sha256": "1f4798ffa9f3e15cbb7284cbbd6c0a07c3bbe7f18a8f6fff3eac0379d0b1559d"
+  },
+  {
+   "path": "data/upstream/eqtlgen/db_A.db",
+   "bytes": 3469312,
+   "sha256": "f3a29eee9bf1aa4384de6b8627136c55988b077ff34af28431b3e2c9c2156d74"
+  },
+  {
+   "path": "data/upstream/eqtlgen/db_B.db",
+   "bytes": 1007616,
+   "sha256": "51777828c3607b5b172264f380cc9928ef19dc6b9e382abc460db0b9c8e8b966"
+  },
+  {
+   "path": "data/upstream/eqtlgen/db_C.db",
+   "bytes": 380928,
+   "sha256": "1617c517e030394b62a33f0466bd9904ae81b7e0e3c7cf3a20db27e84e4e66d8"
+  },
+  {
+   "path": "data/upstream/eqtlgen/eQTLGen_Whole_Blood.db",
+   "bytes": 4866048,
+   "sha256": "413c4fff25c1820fd92f11f4370e25f3b82ea2ecd5a84ff0643d5f750312fa3c"
+  },
+  {
+   "path": "data/upstream/eqtlgen/gwas_DN_aligned.tsv",
+   "bytes": 1752488,
+   "sha256": "2c5c9c173f85cd420c01d0deed8023f31cd5f15baf53c96f09c4ec49d10a5e9a"
+  },
+  {
+   "path": "data/upstream/eqtlgen/gwas_DPN_aligned.tsv",
+   "bytes": 1754047,
+   "sha256": "c46aa282d3afcfcce81b5eba2de4b9c0c807dc6976b7d96c658299b63da67f35"
+  },
+  {
+   "path": "data/upstream/eqtlgen/gwas_DR_aligned.tsv",
+   "bytes": 1752257,
+   "sha256": "8ea556471122af7c2077e6e16596763a1b0ac3a3d97e90bc7f88e647acde382d"
+  },
+  {
+   "path": "data/upstream/eqtlgen/official_eq_A_DN.csv",
+   "bytes": 14260,
+   "sha256": "2d608bb15b4dfe87b6a6362fbe8f8717e95b8499634d289411c942c4b68cb23a"
+  },
+  {
+   "path": "data/upstream/eqtlgen/official_eq_A_DPN.csv",
+   "bytes": 14256,
+   "sha256": "58aba7c6aa716d10e27154f962eae04c711812f1c3a7fc314ee9ed45a723bca5"
+  },
+  {
+   "path": "data/upstream/eqtlgen/official_eq_A_DR.csv",
+   "bytes": 14261,
+   "sha256": "1cdf626497a51097b96d91e71735d906775b3dbcb3c54ecdb4b80c4386a6ed75"
+  },
+  {
+   "path": "data/upstream/eqtlgen/official_eq_B_DN.csv",
+   "bytes": 1398,
+   "sha256": "2d8b8fae8448ee8a860615e16334d5a80ec2daf0e5f940ea12c99d3a42756328"
+  },
+  {
+   "path": "data/upstream/eqtlgen/official_eq_B_DPN.csv",
+   "bytes": 1399,
+   "sha256": "4420d041497a804033d99e309cd3f0b13efc0a72fbacbd075c4056dba1888689"
+  },
+  {
+   "path": "data/upstream/eqtlgen/official_eq_B_DR.csv",
+   "bytes": 1408,
+   "sha256": "27f7304ab4fa376307d7ef8f9d6ceba9a2108b5309c86c9a728a352a0d731713"
+  },
+  {
+   "path": "data/upstream/eqtlgen/official_eq_C_DN.csv",
+   "bytes": 318,
+   "sha256": "ea5eae3ba2cd994e0dd3e1b9fde4d46126f1607a9ed0cfb9deb668d4968c9eb6"
+  },
+  {
+   "path": "data/upstream/eqtlgen/official_eq_C_DPN.csv",
+   "bytes": 318,
+   "sha256": "88da90d8cfea009edac81b4bb6d9f90d974bcb58703578f6ff5e822381ac3c66"
+  },
+  {
+   "path": "data/upstream/eqtlgen/official_eq_C_DR.csv",
+   "bytes": 315,
+   "sha256": "f5878ac89f62f419cb846565cd08397d5339e81874784b59fd75f1250f1c37c2"
+  },
+  {
+   "path": "data/upstream/gwas/gwas_DN.tsv",
+   "bytes": 1312095,
+   "sha256": "86abf981f6ea3d65e679378b3f19b11097fb2e4ebff724fe9e776ec6d5a4fb35"
+  },
+  {
+   "path": "data/upstream/gwas/gwas_DPN.tsv",
+   "bytes": 1309024,
+   "sha256": "9cf39946d1686038a5d9635f09c82112340c2856c5fa82278658f2d88c727094"
+  },
+  {
+   "path": "data/upstream/gwas/gwas_DR.tsv",
+   "bytes": 1318700,
+   "sha256": "25a4f0e8a0a259e5dc86fe76c9a53cc588282062ff2719f473d6ea8db91370e1"
+  },
+  {
+   "path": "data/upstream/official_Nerve_Tibial_DN.csv",
+   "bytes": 2256166,
+   "sha256": "63880bee0338eab926dd5d59b75a109df8b022550880951a085609e58b9ebe46"
+  },
+  {
+   "path": "data/upstream/official_Nerve_Tibial_DPN.csv",
+   "bytes": 2254949,
+   "sha256": "cbf0edbafe8db74fe9a090e79384e0e643102e56a1ff009f0f415087ffe31144"
+  },
+  {
+   "path": "data/upstream/official_Nerve_Tibial_DR.csv",
+   "bytes": 2259160,
+   "sha256": "7bb2626b9cbd00e288691c52bfddcfbfc3fd3e00a6262617b0b81a7d2952cf42"
+  },
+  {
+   "path": "data/upstream/official_Whole_Blood_DN.csv",
+   "bytes": 1835601,
+   "sha256": "003d3c6f30b65113c6a5d1e9c9c9b65f8233bdc4b7490c3df7e9dec73f5ae42d"
+  },
+  {
+   "path": "data/upstream/official_Whole_Blood_DPN.csv",
+   "bytes": 1834688,
+   "sha256": "820926dae2a6bafdec4eebabd2a7393980dd74e1b2f9425d3a22dfcfdf04ea3f"
+  },
+  {
+   "path": "data/upstream/official_Whole_Blood_DR.csv",
+   "bytes": 1837692,
+   "sha256": "001f834f766cfefa89db8e4522889dfdf8f65eddc57d74cd908a349f804f54c6"
+  },
+  {
    "path": "docs/PROJECT_NOTES_from_predecessor_README.md",
    "bytes": 32861,
    "sha256": "55df1ce72599c8ba1b04e9e1c9ee5353ec2ac4f64749322b8d02a533e91e6037"
@@ -2182,8 +2322,8 @@
   },
   {
    "path": "scripts/verify_from_clone.sh",
-   "bytes": 12782,
-   "sha256": "606b8a63b4da76593fcfd640d968c1371486d43a71515aaf609be3a391606990"
+   "bytes": 14162,
+   "sha256": "b3e097c22959555458eb0f69241af2b563823d689e4a729c26165090ad09be33"
   },
   {
    "path": "scripts/verify_provenance.py",
@@ -2191,12 +2331,12 @@
    "sha256": "25410afb8d1a34599f3cc87015f2fbd4bd59d211376f20bae1813bb196c6734d"
   }
  ],
- "file_count": 381,
+ "file_count": 409,
  "excluded": [
   {
    "path": "metadata/provenance.json",
    "reason": "the manifest cannot hash itself; its own content is regenerated by this script"
   }
  ],
- "tracked_file_count": 382
+ "tracked_file_count": 410
 }
