@@ -23,6 +23,47 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-04 (twenty-seventh pass) — the account name leaves the archive; the machine paths are parameters
+
+Numbers: **no reported number changed.** Four scripts were edited, twelve evidence files had a
+path elided, and neither submitted document was touched.
+
+An archive is published under a name; the machine it was built on is not part of the claim. Each
+of these was a path that named the author's account or a scratch directory, and the four scripts
+are now parameters rather than absolute paths:
+
+| was | now |
+|---|---|
+| `code/analyses/m7_effect_size_supplement.py` — `sys.path.insert(0, '<user>/.workbuddy/…/site-packages')` | removed; imports resolve from the pinned environment, per `env/README.md` rule 1 |
+| `code/analyses/run_hk_control.py` — `PLINK_PREFIX = '<user>/.workbuddy/tools/1000g_eur/g1000_eur'` | `os.environ['REPRO_G1000_EUR_PREFIX']`, with a message naming the `SOURCES.tsv` row to fetch — it is the same LD panel the archive already registers |
+| `code/deprecated/si_editors/apply_edits_20260911.py` — `PY = '<user>/.workbuddy/…/python.exe'` | `os.environ.get('REPRO_PYTHON', sys.executable)` |
+| `code/deprecated/manuscript_revision_20260719/make_figure2_with_title.py` — `title_img_path = '<user>/.workbuddy/clipboard-images/…png'` | `os.environ['FIG2_TITLE_IMAGE']`, with a message pointing at the supported generator. The image was a paste into a working session and was never part of the archive |
+
+Evidence files keep their content but lose the account name: `<user-library>` (an R user library),
+`<temp-workdir>` (a scratch clone directory) and `<user-home>` (the compiler's 8.3 short form of
+the same account). Substitutions, scripted and counted so that a skipped file cannot pass:
+
+```
+ 23  docs/audit_notes/s4_matchit_version_test_20261004/logs/install_matchit455.log
+ 18  docs/audit_notes/s4_matchit_version_test_20261004/results/m472_conventions.csv
+  1  docs/audit_notes/s4_matchit_version_test_20261004/logs/ab_matchit472.log
+  1  docs/audit_notes/open_items_closure_20261004/README.md
+  1  docs/audit_notes/upstream_chain_closure_20261004/inputs/verify_external_inputs.log
+  1  docs/audit_notes/upstream_chain_closure_20261004/toolchain/environment.txt
+  6  docs/audit_notes/upstream_chain_closure_20261004/logs/{upstream_[ABC].log, signals_upstream_[ABC].txt}
+  1  code/analyses/reproduction_20261002/results/sim_stdout.txt
+```
+
+Each affected directory's README now states that the elision happened and what it covers.
+**Deliberately not changed:** `env/Dockerfile`'s `LABEL maintainer="…"` carries the author's own
+name and address, and that is attribution rather than a leak — leave it there.
+
+What is **not** fixed by this pass, and is a different defect: the four scripts above, and others
+in `code/deprecated/`, still hard-code absolute paths into the working directories they were
+written in (`E:/workbuddy/…`). None of them is clone-runnable, which is why they live where they
+do — but a reader who tries them will get "file not found" rather than a reason. Parameterising
+`E:/workbuddy/…` is worth doing and is **not** done here.
+
 ### 2026-10-04 (twenty-sixth pass) — SI Table S4 is re-emitted; the control set reproduces and the pairing is a sort signature
 
 Numbers: **no reported number changed.** One file was added to `data/derived/`; no reported value,

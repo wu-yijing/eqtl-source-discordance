@@ -222,3 +222,13 @@ and matched**, which is the part that was missing.
   中间量（37,192 行/表型、11,382 基因、94/8/1 分带、`413c4fff…`）。
 - **边界**：只覆盖 104 基因测试台臂；EN（elastic-net）臂与全基因组层的生产链**仍无脚本**，
   不在本次闭环范围内。
+
+## Note on the elision in ``inputs/verify_external_inputs.log`, `toolchain/environment.txt`, `logs/upstream_[ABC].log` and `logs/signals_upstream_[ABC].txt`` (2026-10-04)
+
+Some paths in the input ledger, the toolchain fingerprint and the six run transcripts were replaced by placeholders: `<user-library>` for an R user library
+on the author's machine, `<temp-workdir>` for a scratch directory used to hold a clone
+during an audit, and `<user-home>` for the compiler's 8.3 short form of the same account
+name. The names of the account and the machine are not evidence for anything these files
+are cited to show — the versions and the resolved components are, and those are untouched.
+Nothing else in the files was edited. The substitution is scripted and counted in the
+2026-10-04 CHANGELOG entry, so it is reproducible rather than a hand edit.

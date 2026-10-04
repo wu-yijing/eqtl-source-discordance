@@ -7,7 +7,15 @@ from scipy import stats
 
 t0 = time.time()
 MODEL_DIR = r'E:\workbuddy\hotair\mashr_eqtl\eqtl\mashr'
-PLINK_PREFIX = r'C:\Users\Administrator\.workbuddy\tools\1000g_eur\g1000_eur'
+# 2026-10-04: the LD panel prefix used to be an absolute path into the author's machine.
+# It is the same file the archive already registers as an external input —
+# `g1000_eur.zip`, see data/external/SOURCES.tsv — so it is now named by an environment
+# variable and the script stops with a reason instead of failing later on a missing path.
+PLINK_PREFIX = os.environ.get('REPRO_G1000_EUR_PREFIX')
+if not PLINK_PREFIX:
+    sys.exit("REPRO_G1000_EUR_PREFIX is unset. Fetch data/external/SOURCES.tsv row "
+             "`g1000_eur.zip`, unpack it, and point REPRO_G1000_EUR_PREFIX at the "
+             "PLINK prefix (without the .bed/.bim/.fam suffix).")
 GWAS_DIR = r'E:\workbuddy\hotair'
 
 HK_ONLY = ['B2M','UBC','TBP','HPRT1','GUSB','SDHA','HMBS','YWHAZ','PPIA','IPO8',

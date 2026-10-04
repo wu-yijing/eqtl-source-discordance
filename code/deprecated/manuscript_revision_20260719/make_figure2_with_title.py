@@ -4,7 +4,14 @@ import io, os, sys
 
 # Paths
 fig_png_path = r'E:/workbuddy/Genetic Epidemiology/投稿资料/03_主文图_Figures_Main/Figure2.png'
-title_img_path = r'C:/Users/Administrator/.workbuddy/clipboard-images/clipboard-2026-07-19T11-40-25-246Z-f9da8002.png'
+title_img_path = os.environ.get('FIG2_TITLE_IMAGE')  # 2026-10-04: was an absolute path
+                                                     # into the author's clipboard cache
+if not title_img_path:
+    sys.exit("FIG2_TITLE_IMAGE is unset. This script strips a title band from Figure2.png "
+             "by comparing it against the title image that was pasted into the original "
+             "working session; that image was never part of the archive. Point "
+             "FIG2_TITLE_IMAGE at any PNG of the same title band, or use "
+             "code/figures/ge_main/ which regenerates Figure 2 from data/derived/.")
 out_pdf_path = r'E:/workbuddy/Genetic Epidemiology/投稿资料/03_主文图_Figures_Main/Figure2.pdf'
 
 # 1. Load Figure2.png

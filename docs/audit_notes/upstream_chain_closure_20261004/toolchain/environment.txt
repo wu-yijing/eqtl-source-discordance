@@ -2,7 +2,7 @@ Run configuration
 =================
 
 audited repo HEAD   : 7742953de514827ab78d69ea2a03dbfc6cbdd2f4
-audit clone         : C:/Users/Administrator/AppData/Local/Temp/repoaudit/eqtl-source-discordance
+audit clone         : <temp-workdir>
 EXT_DIR             : E:/workbuddy/_ext_stage_20261004
 UPSTREAM_OUT        : E:/workbuddy/_upstream_20261004/run
 METAXCAN_SW         : E:/workbuddy/_upstream_20261004/MetaXcan-0.8.1/software

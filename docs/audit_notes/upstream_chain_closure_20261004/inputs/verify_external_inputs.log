@@ -1,4 +1,4 @@
-manifest : C:\Users\Administrator\AppData\Local\Temp\repoaudit\eqtl-source-discordance\data\external\SHA256SUMS (15 entries)
+manifest : <temp-workdir>\data\external\SHA256SUMS (15 entries)
 directory: E:/workbuddy/_ext_stage_20261004
 ------------------------------------------------------------------------------
   [ ok ] mashr_Whole_Blood.db                                       4.4 MB

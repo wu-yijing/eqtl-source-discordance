@@ -5,7 +5,7 @@ During startup - Warning messages:
 4: Setting LC_TIME=C.UTF-8 failed 
 === 目标库 ===
 [1] "E:/workbuddy/_s4_repro/rlib452"                        
-[2] "C:/Users/Administrator/AppData/Local/R/win-library/4.5"
+[2] "<user-library>"
 [3] "D:/R/R-4.5.2/library"                                  
 === 编译工具 ===
 Rtools: TRUE 
@@ -21,16 +21,16 @@ During startup - Warning messages:
 ** using staged installation
 ** libs
 using C++ compiler: 'G__~1.EXE (GCC) 14.3.0'
-g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/Rcpp/include' -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c RcppExports.cpp -o RcppExports.o
+g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'<user-library>/Rcpp/include' -I'<user-library>/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c RcppExports.cpp -o RcppExports.o
 In file included from ../inst/include/MatchIt.h:7,
                  from RcppExports.cpp:4:
 ../inst/include/MatchIt_RcppExports.h:14:14: warning: 'void MatchIt::{anonymous}::validateSignature(const char*)' defined but not used [-Wunused-function]
    14 |         void validateSignature(const char* sig) {
       |              ^~~~~~~~~~~~~~~~~
-g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/Rcpp/include' -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c dist_to_matrix.cpp -o dist_to_matrix.o
-g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/Rcpp/include' -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c energy_match.cpp -o energy_match.o
-g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/Rcpp/include' -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c internal.cpp -o internal.o
-g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/Rcpp/include' -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c nn_matchC.cpp -o nn_matchC.o
+g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'<user-library>/Rcpp/include' -I'<user-library>/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c dist_to_matrix.cpp -o dist_to_matrix.o
+g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'<user-library>/Rcpp/include' -I'<user-library>/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c energy_match.cpp -o energy_match.o
+g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'<user-library>/Rcpp/include' -I'<user-library>/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c internal.cpp -o internal.o
+g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'<user-library>/Rcpp/include' -I'<user-library>/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c nn_matchC.cpp -o nn_matchC.o
 nn_matchC.cpp: In function 'Rcpp::IntegerMatrix nn_matchC(const Rcpp::IntegerVector&, const Rcpp::IntegerVector&, const Rcpp::IntegerVector&, const Rcpp::LogicalVector&, const int&, const Rcpp::Nullable<Rcpp::Vector<14, Rcpp::PreserveStorage> >&, const Rcpp::Nullable<Rcpp::Matrix<14> >&, const Rcpp::Nullable<Rcpp::Vector<13> >&, const Rcpp::Nullable<double>&, const Rcpp::Nullable<Rcpp::Vector<14, Rcpp::PreserveStorage> >&, const Rcpp::Nullable<Rcpp::Matrix<14> >&, const Rcpp::Nullable<Rcpp::Matrix<14> >&, const Rcpp::Nullable<Rcpp::Matrix<13> >&, const Rcpp::Nullable<Rcpp::Vector<13> >&, const bool&)':
 nn_matchC.cpp:188:34: warning: 'n_anti' may be used uninitialized [-Wmaybe-uninitialized]
   188 |         for (a = 0; (a < n_anti) && (c_eligible.size() > 0); ++a) {
@@ -38,8 +38,8 @@ nn_matchC.cpp:188:34: warning: 'n_anti' may be used uninitialized [-Wmaybe-unini
 nn_matchC.cpp:69:66: note: 'n_anti' was declared here
    69 |   int t, t_ind, min_ind, c_chosen, num_eligible, cal_len, t_rat, n_anti, antiexact_t;
       |                                                                  ^~~~~~
-g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/Rcpp/include' -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c nn_matchC_closest.cpp -o nn_matchC_closest.o
-g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/Rcpp/include' -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c nn_matchC_vec.cpp -o nn_matchC_vec.o
+g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'<user-library>/Rcpp/include' -I'<user-library>/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c nn_matchC_closest.cpp -o nn_matchC_closest.o
+g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'<user-library>/Rcpp/include' -I'<user-library>/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c nn_matchC_vec.cpp -o nn_matchC_vec.o
 nn_matchC_vec.cpp: In function 'Rcpp::IntegerMatrix nn_matchC_vec(const Rcpp::IntegerVector&, const Rcpp::IntegerVector&, const Rcpp::IntegerVector&, const Rcpp::LogicalVector&, const int&, const Rcpp::NumericVector&, const Rcpp::Nullable<Rcpp::Matrix<13> >&, const Rcpp::Nullable<double>&, const Rcpp::Nullable<Rcpp::Vector<14, Rcpp::PreserveStorage> >&, const Rcpp::Nullable<Rcpp::Matrix<14> >&, const Rcpp::Nullable<Rcpp::Matrix<13> >&, const Rcpp::Nullable<Rcpp::Vector<13> >&, const bool&)':
 nn_matchC_vec.cpp:367:25: warning: 'caliper_dist' may be used uninitialized [-Wmaybe-uninitialized]
   367 |       k_left = find_left(ii, first_control,
@@ -63,10 +63,10 @@ nn_matchC_vec.cpp:367:25: warning: 'caliper_dist' may be used uninitialized [-Wm
 nn_matchC_vec.cpp:280:10: note: 'caliper_dist' was declared here
   280 |   double caliper_dist;
       |          ^~~~~~~~~~~~
-g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/Rcpp/include' -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c pairdistC.cpp -o pairdistC.o
-g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/Rcpp/include' -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c subclass2mm.cpp -o subclass2mm.o
-g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/Rcpp/include' -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c tabulateC.cpp -o tabulateC.o
-g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/Rcpp/include' -I'C:/Users/Administrator/AppData/Local/R/win-library/4.5/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c weights_matrixC.cpp -o weights_matrixC.o
+g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'<user-library>/Rcpp/include' -I'<user-library>/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c pairdistC.cpp -o pairdistC.o
+g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'<user-library>/Rcpp/include' -I'<user-library>/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c subclass2mm.cpp -o subclass2mm.o
+g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'<user-library>/Rcpp/include' -I'<user-library>/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c tabulateC.cpp -o tabulateC.o
+g++ -std=gnu++17  -I"D:/R/R-45~1.2/include" -DNDEBUG  -I'<user-library>/Rcpp/include' -I'<user-library>/RcppProgress/include'   -I"D:/R/rtools45/x86_64-w64-mingw32.static.posix/include"   -fopenmp   -O2 -Wall  -mfpmath=sse -msse2 -mstackrealign    -c weights_matrixC.cpp -o weights_matrixC.o
 g++ -std=gnu++17 -shared -s -static-libgcc -o MatchIt.dll tmp.def RcppExports.o dist_to_matrix.o energy_match.o internal.o nn_matchC.o nn_matchC_closest.o nn_matchC_vec.o pairdistC.o subclass2mm.o tabulateC.o weights_matrixC.o -fopenmp -LD:/R/R-45~1.2/bin/x64 -lRlapack -LD:/R/R-45~1.2/bin/x64 -lRblas -lgfortran -lquadmath -LD:/R/rtools45/x86_64-w64-mingw32.static.posix/lib/x64 -LD:/R/rtools45/x86_64-w64-mingw32.static.posix/lib -LD:/R/R-45~1.2/bin/x64 -lR
 installing to E:/workbuddy/_s4_repro/rlib452/00LOCK-MatchIt/00new/MatchIt/libs/x64
 ** R

@@ -148,3 +148,13 @@ build. The versions on this machine are newer than `env/renv.lock` pins for `Rcp
 R, so it cannot move the result — and the A/B shows the result does not move.
 
 `results/` and `logs/` carry `MANIFEST.sha256`. Nothing in this directory is a `.docx`.
+
+## Note on the elision in ``logs/ab_matchit472.log` and `logs/install_matchit455.log`` (2026-10-04)
+
+Some paths in the two A/B transcripts were replaced by placeholders: `<user-library>` for an R user library
+on the author's machine, `<temp-workdir>` for a scratch directory used to hold a clone
+during an audit, and `<user-home>` for the compiler's 8.3 short form of the same account
+name. The names of the account and the machine are not evidence for anything these files
+are cited to show — the versions and the resolved components are, and those are untouched.
+Nothing else in the files was edited. The substitution is scripted and counted in the
+2026-10-04 CHANGELOG entry, so it is reproducible rather than a hand edit.

@@ -28,7 +28,7 @@ A full-disk search found what the earlier audit recorded as absent:
 | Component | Found at | Version | `env/renv.lock` pins |
 |---|---|---|---|
 | R | `D:\R\R-4.5.2\bin\Rscript.exe` | **4.5.2** | 4.5.2 ✅ |
-| `MatchIt` | `C:\Users\Administrator\AppData\Local\R\win-library\4.5\MatchIt` | **4.7.2** | 4.5.5 ❌ |
+| `MatchIt` | `<user-library>\MatchIt` | **4.7.2** | 4.5.5 ❌ |
 | `cobalt` | same library | **5.0.0** | 4.5.2 ❌ |
 | `optmatch` | same library | **0.10.8** | 0.10.6 ❌ |
 | Rtools | present (`pkgbuild::has_build_tools()` → TRUE) | — | — |
@@ -306,3 +306,13 @@ is a font-rasterisation build, not a missing generator), and one is **blocked by
 machine's policy** (the SI PDF render). The S4 result is the most consequential: a table the
 archive marks ✅ / "a fresh clone re-runs it end to end" **does not re-run**, and three
 distinct defects in the shipped path were measured rather than suspected.
+
+## Note on the elision in `the `MatchIt` row of the environment table` (2026-10-04)
+
+Some paths in that table cell were replaced by placeholders: `<user-library>` for an R user library
+on the author's machine, `<temp-workdir>` for a scratch directory used to hold a clone
+during an audit, and `<user-home>` for the compiler's 8.3 short form of the same account
+name. The names of the account and the machine are not evidence for anything these files
+are cited to show — the versions and the resolved components are, and those are untouched.
+Nothing else in the files was edited. The substitution is scripted and counted in the
+2026-10-04 CHANGELOG entry, so it is reproducible rather than a hand edit.

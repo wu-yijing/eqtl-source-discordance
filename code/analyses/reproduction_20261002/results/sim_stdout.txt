@@ -21,4 +21,4 @@ SIM 3  两轴分解 Δρ 检验的 I 类错误（Δρ = 0 时）
    32 基因（ 96 对）  I 类错误 =   5.8%  平均 95% CI 宽度 = 0.495
    64 基因（192 对）  I 类错误 =   7.2%  平均 95% CI 宽度 = 0.346
 
-结果已写入 C:\Users\Administrator\AppData\Local\Temp\esd_fix\code\analyses\reproduction_20261002\results\_sim_results.json
+结果已写入 <temp-workdir>\code\analyses\reproduction_20261002\results\_sim_results.json

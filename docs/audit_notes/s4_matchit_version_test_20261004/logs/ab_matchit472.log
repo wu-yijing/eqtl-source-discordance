@@ -5,7 +5,7 @@ During startup - Warning messages:
 4: Setting LC_TIME=C.UTF-8 failed 
 Warning message:
 package 'MatchIt' was built under R version 4.5.3 
-MatchIt 4.7.2   (loaded from C:/Users/Administrator/AppData/Local/R/win-library)
+MatchIt 4.7.2   (loaded from <user-library>)
 R 4.5.2
 归档配对：30 对
 随库矩阵：候选 30，非候选 44，T2DM 30

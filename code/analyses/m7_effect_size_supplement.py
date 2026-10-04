@@ -8,9 +8,15 @@ Compute:
 3. Cross-source Z-score concordance by phenotype
 
 Output: JSON for manuscript integration
+
+ARCHIVED SCRIPT — not runnable from a clone. `REPO` below points at the predecessor
+working copy this was written in, and the supplement it produced is already shipped
+(`data/derived/`). It is kept because the manuscript cites it as the derivation of the
+effect-size supplement. 2026-10-04: the `sys.path.insert` that reached into the author's
+personal Python environment was removed — a script in this archive resolves its imports
+from the pinned environment (`env/requirements.txt`), never from an absolute path into
+someone's machine.
 """
-import sys
-sys.path.insert(0, r'C:/Users/Administrator/.workbuddy/binaries/python/envs/default/Lib/site-packages')
 import pandas as pd
 import numpy as np
 from scipy import stats

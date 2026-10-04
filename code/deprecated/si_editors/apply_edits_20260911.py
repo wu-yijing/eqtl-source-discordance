@@ -2,7 +2,8 @@
 """按审稿意见对 manuscript.docx 批量执行修订（经 editor_sdk 路由）"""
 import io, os, json, subprocess, sys
 
-PY = r"C:\Users\Administrator\.workbuddy\binaries\python\envs\default\Scripts\python.exe"
+PY = os.environ.get("REPRO_PYTHON", sys.executable)  # 2026-10-04: was an absolute path
+                                                     # into the author's personal venv
 SD = r"E:\Program Files\WorkBuddy\resources\app.asar.unpacked\resources\plugins\workbuddy-builtin\skills\tencent-local-office-edit\edsdk.py"
 FID = "bf32e4f2-6843-4082-b59e-4703831aded6"
 MS = r"E:\workbuddy\2026-09-11-18-13-13\_ms.txt"
