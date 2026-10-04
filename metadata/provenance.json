@@ -299,8 +299,8 @@
   },
   {
    "path": ".gitignore",
-   "bytes": 2983,
-   "sha256": "4d5e4f57e20fa172d17d11e9307e17af4d860452db6ac86c8c28fc74afccb234"
+   "bytes": 3449,
+   "sha256": "30e6fc0c232e81086cb4ba99dc7853554216e550d40fac90bfd82b37954bc699"
   },
   {
    "path": ".zenodo.json",
@@ -309,8 +309,8 @@
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 83907,
-   "sha256": "26277ee7ff8489472cd235a238dfab93e1f0bcb1a022b9d842fe847deb6dac1f"
+   "bytes": 87314,
+   "sha256": "f99e1d82b312d4890e4af8e64ec804668cbf3a81cf418ba7a7dada1bda975005"
   },
   {
    "path": "CITATION.cff",
@@ -2054,8 +2054,8 @@
   },
   {
    "path": "docs/audit_notes/INDEX.md",
-   "bytes": 5165,
-   "sha256": "3b339cda05f5bae1becef449761c5d6ff70ece0fd2cf293c87056e8dffe8b847"
+   "bytes": 6182,
+   "sha256": "74153787034aea6dd8cd9019ede2c31964b74e2b4a45015c60b0c4612bd28c0b"
   },
   {
    "path": "docs/audit_notes/R2残余差异消除方案_20261002.md",
@@ -2066,6 +2066,111 @@
    "path": "docs/audit_notes/S1重建与SCZ改名收口执行记录_20260920.md",
    "bytes": 11658,
    "sha256": "75bb0d99906fd8995f389f607f31ca3817df1b354575636bc193b6cbde0b2de2"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/MANIFEST.sha256",
+   "bytes": 1784,
+   "sha256": "20710e8780351e7c1ebe84081bb700f4091b1f555fc546fe14d3b94c7f704e80"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/README.md",
+   "bytes": 16433,
+   "sha256": "d8c3c0f00cb3f4cb9941e6d2c65efa2f0c133a3b5bf95b498b0637ce35dfdbd8"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/RUNBOOK.md",
+   "bytes": 6107,
+   "sha256": "efe0ad298176da7e2454c5be1fb6ad09d5a3e54eca645788a2c89e1ddc46f3fc"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/driver/run_chain.sh",
+   "bytes": 699,
+   "sha256": "ea412f4ee6a32172de8ad90f811383f107af0073f23f50e76e5f46311cc63356"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/inputs/staged_inputs.tsv",
+   "bytes": 3200,
+   "sha256": "1a4bcbb4a4549e78380ddd32bee6f633816da24a2cb03eea6f5189fb03af76c5"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/inputs/verify_external_inputs.log",
+   "bytes": 1532,
+   "sha256": "764be056e94949957810fde1a61db8f21ef6647e4685c53559dc7ceb782b9209"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/ledger/archive_verifier.txt",
+   "bytes": 2629,
+   "sha256": "76f1f9240087a7590fb78b217d7ac5dfd074265b2e884fa182f4fe8278ca992b"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/ledger/check_middleware.py",
+   "bytes": 5787,
+   "sha256": "a5afa145269d75bffa94ba907de3f6153e431cfc2cb57100123e2cbe7464e067"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/ledger/ledger_console.txt",
+   "bytes": 1953,
+   "sha256": "5e316235e30e0a900329e23bea6da7801a4c81f116b31d08a92887a1d4798453"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/ledger/middleware_ledger.tsv",
+   "bytes": 4453,
+   "sha256": "93a776103a109992bd7cc662d48509850e6a0712d363bb5fcd0e2f114f929cac"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/logs/chain.log",
+   "bytes": 372,
+   "sha256": "0fcba1598a9555d971a74e2c9afd4b2d9344374b8fca73d282dd1b9a822d29d9"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/logs/signals_chain.txt",
+   "bytes": 372,
+   "sha256": "0fcba1598a9555d971a74e2c9afd4b2d9344374b8fca73d282dd1b9a822d29d9"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/logs/signals_upstream_A.txt",
+   "bytes": 29156,
+   "sha256": "9a4782b351a8678758a53b0f972ae53f7949594fcb0a56ec239f52adb586d92e"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/logs/signals_upstream_B.txt",
+   "bytes": 27132,
+   "sha256": "b7a96a2337798b18907534cef9277bf3197167d083f4df5522818cdd1864c8f7"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/logs/signals_upstream_C.txt",
+   "bytes": 26061,
+   "sha256": "6188ad2f4602e48948ff8493ab2e23d261d9f5ae12e21737c4f221ccf2066ad5"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/logs/upstream_A.log",
+   "bytes": 115448,
+   "sha256": "af678e1a1a41fe62195855e9f5a93b37ff583073ccd9fb39e28e5bb5cbc6c688"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/logs/upstream_B.log",
+   "bytes": 34476,
+   "sha256": "bfa4a4ec1ba698e438af579e3cfd513bcc7a2a3064f12ba0a99240119f9a7893"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/logs/upstream_C.log",
+   "bytes": 26979,
+   "sha256": "971a25f8c337db5bbb0c2c0c42b48821c0873a0a81d15356dd8f35449c9a451c"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/toolchain/environment.txt",
+   "bytes": 600,
+   "sha256": "e0ae76dcaf5c51ed5958140e03373a73d670ab0e1c8354a6003b3b96e82d2323"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/toolchain/metaxcan.txt",
+   "bytes": 654,
+   "sha256": "4530488def8f8666ae549ab7dcd17b794814e5ca5a2dae45dafd454022469fdd"
+  },
+  {
+   "path": "docs/audit_notes/upstream_chain_closure_20261004/toolchain/versions.txt",
+   "bytes": 60,
+   "sha256": "fcee6947dd96111c200c3219cf5c07993e322bb9f6e2f8b1f6e4001dee0bdf9c"
   },
   {
    "path": "docs/audit_notes/上游eQTLGen臂闭环_20261003.md",
@@ -2343,12 +2448,12 @@
    "sha256": "25410afb8d1a34599f3cc87015f2fbd4bd59d211376f20bae1813bb196c6734d"
   }
  ],
- "file_count": 411,
+ "file_count": 432,
  "excluded": [
   {
    "path": "metadata/provenance.json",
    "reason": "the manifest cannot hash itself; its own content is regenerated by this script"
   }
  ],
- "tracked_file_count": 412
+ "tracked_file_count": 433
 }

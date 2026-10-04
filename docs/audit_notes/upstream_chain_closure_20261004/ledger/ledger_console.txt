@@ -1,0 +1,35 @@
+artefact                     verdict      detail
+--------------------------------------------------------------------------------------------
+eQTLGen_Whole_Blood.db       ✓ MATCH      ok
+cov_Whole_Blood.txt.gz       ✓ MATCH      ok (1,498,762 B decompressed)
+cov_Nerve_Tibial.txt.gz      ✓ MATCH      ok (2,062,148 B decompressed)
+cov_A.txt.gz                 ✓ MATCH      ok (950,571,203 B decompressed)
+cov_B.txt.gz                 ✓ MATCH      ok (494,568,128 B decompressed)
+cov_C.txt.gz                 ✓ MATCH      ok (599,107,351 B decompressed)
+db_A.db                      ✓ MATCH      ok
+db_B.db                      ✓ MATCH      ok
+db_C.db                      ✓ MATCH      ok
+gwas_DR.tsv                  ✓ MATCH      ok
+gwas_DN.tsv                  ✓ MATCH      ok
+gwas_DPN.tsv                 ✓ MATCH      ok
+gwas_DR_aligned.tsv          ✓ MATCH      ok
+gwas_DN_aligned.tsv          ✓ MATCH      ok
+gwas_DPN_aligned.tsv         ✓ MATCH      ok
+official_Whole_Blood_DR.csv  ✓ MATCH      ok
+official_Whole_Blood_DN.csv  ✓ MATCH      ok
+official_Whole_Blood_DPN.csv ✓ MATCH      ok
+official_Nerve_Tibial_DR.csv ✓ MATCH      ok
+official_Nerve_Tibial_DN.csv ✓ MATCH      ok
+official_Nerve_Tibial_DPN.csv ✓ MATCH      ok
+official_eq_A_DR.csv         ✓ MATCH      ok
+official_eq_A_DN.csv         ✓ MATCH      ok
+official_eq_A_DPN.csv        ✓ MATCH      ok
+official_eq_B_DR.csv         ✓ MATCH      ok
+official_eq_B_DN.csv         ✓ MATCH      ok
+official_eq_B_DPN.csv        ✓ MATCH      ok
+official_eq_C_DR.csv         ✓ MATCH      ok
+official_eq_C_DN.csv         ✓ MATCH      ok
+official_eq_C_DPN.csv        ✓ MATCH      ok
+--------------------------------------------------------------------------------------------
+matched 30   mismatched 0   pending 0   (of 30)
+ledger written: E:/workbuddy/_upstream_20261004/evidence/upstream_chain_closure_20261004/ledger/middleware_ledger.tsv

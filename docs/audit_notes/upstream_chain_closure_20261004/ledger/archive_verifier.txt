@@ -1,0 +1,33 @@
+  [   ok    ] eqtlgen/eQTLGen_Whole_Blood.db         eQTLGen weight database
+  [   ok    ] eqtlgen/db_A.db                        eQTLGen band A model database
+  [   ok    ] eqtlgen/db_B.db                        eQTLGen band B model database
+  [   ok    ] eqtlgen/db_C.db                        eQTLGen band C model database
+  [   ok    ] cov/cov_Whole_Blood.txt.gz             GTEx Whole_Blood gene covariance
+  [   ok    ] cov/cov_Nerve_Tibial.txt.gz            GTEx Nerve_Tibial gene covariance
+  [   ok    ] eqtlgen/cov_A.txt.gz                   eQTLGen band A covariance
+  [   ok    ] eqtlgen/cov_B.txt.gz                   eQTLGen band B covariance
+  [   ok    ] eqtlgen/cov_C.txt.gz                   eQTLGen band C covariance
+  [   ok    ] gwas/gwas_DR.tsv                       FinnGen DR -> harmonised GWAS
+  [   ok    ] gwas/gwas_DN.tsv                       FinnGen DN -> harmonised GWAS
+  [   ok    ] gwas/gwas_DPN.tsv                      FinnGen DPN -> harmonised GWAS
+  [   ok    ] eqtlgen/gwas_DR_aligned.tsv            allele-aligned GWAS DR
+  [   ok    ] eqtlgen/gwas_DN_aligned.tsv            allele-aligned GWAS DN
+  [   ok    ] eqtlgen/gwas_DPN_aligned.tsv           allele-aligned GWAS DPN
+  [   ok    ] official_Whole_Blood_DR.csv            S-PrediXcan GTEx Whole_Blood x DR
+  [   ok    ] official_Whole_Blood_DN.csv            S-PrediXcan GTEx Whole_Blood x DN
+  [   ok    ] official_Whole_Blood_DPN.csv           S-PrediXcan GTEx Whole_Blood x DPN
+  [   ok    ] official_Nerve_Tibial_DR.csv           S-PrediXcan GTEx Nerve_Tibial x DR
+  [   ok    ] official_Nerve_Tibial_DN.csv           S-PrediXcan GTEx Nerve_Tibial x DN
+  [   ok    ] official_Nerve_Tibial_DPN.csv          S-PrediXcan GTEx Nerve_Tibial x DPN
+  [   ok    ] eqtlgen/official_eq_A_DR.csv           S-PrediXcan eQTLGen band A x DR
+  [   ok    ] eqtlgen/official_eq_A_DN.csv           S-PrediXcan eQTLGen band A x DN
+  [   ok    ] eqtlgen/official_eq_A_DPN.csv          S-PrediXcan eQTLGen band A x DPN
+  [   ok    ] eqtlgen/official_eq_B_DR.csv           S-PrediXcan eQTLGen band B x DR
+  [   ok    ] eqtlgen/official_eq_B_DN.csv           S-PrediXcan eQTLGen band B x DN
+  [   ok    ] eqtlgen/official_eq_B_DPN.csv          S-PrediXcan eQTLGen band B x DPN
+  [   ok    ] eqtlgen/official_eq_C_DR.csv           S-PrediXcan eQTLGen band C x DR
+  [   ok    ] eqtlgen/official_eq_C_DN.csv           S-PrediXcan eQTLGen band C x DN
+  [   ok    ] eqtlgen/official_eq_C_DPN.csv          S-PrediXcan eQTLGen band C x DPN
+
+identical 30 | differing 0 | missing 0   (of 30)
+RESULT: the whole upstream chain reproduces the archived middleware.

@@ -23,6 +23,53 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-04 (twentieth pass) — the upstream chain is executed by someone else, and the record ships with it
+
+Numbers: **no reported number changed.** No file in `data/derived/` or `data/upstream/` changed,
+no reproducing script was edited, no gate was changed and neither submitted document was touched.
+This pass adds an audit-notes directory and one index row; it changes no artefact the archive
+already shipped.
+
+`code/run_upstream.sh` is the one part of this archive whose claim rested on code rather than on
+an execution: the middleware is registered by hash, the build scripts were recovered on 2026-10-03,
+and the whole chain was re-run that day — **by its author**. Nothing here let a reader check that
+the raw inputs in fact produce the registered bytes.
+
+They do, and this pass records the run that shows it. All fifteen external inputs were verified
+present and hash-matching with the archive's own `verify_external_inputs.py --strict`, including
+its gzip-completeness pass (`incomplete 0`) — the check that exists because
+`gtex_v8_mashr_snp_covariance.txt.gz` had once been registered from a download that stopped after
+6.8 % of its source file. The chain was then run three times, `EQ_TAG=A`, `B`, `C`, under the
+**unmodified official MetaXcan v0.8.1** and Python 3.12.15 / numpy 1.26.4. All three invocations
+exited 0; step 8 reported `identical 30 | differing 0 | missing 0`; an independently written
+ledger — expected values transcribed from `data/external/README.md`, observed values hashed off
+the run directory — reported `matched 30  mismatched 0  pending 0`. Both readings agree, which is
+the point: the archive's own verifier shares the archive's expected-hash table, so agreement
+between the two is what rules out a table that is wrong in the same direction as the check.
+
+Added
+
+- `docs/audit_notes/upstream_chain_closure_20261004/` — the record, organised so each doubt can be
+  attacked on its own: `inputs/` (the 15 inputs' verified bytes), `toolchain/` (versions, and the
+  MetaXcan source-archive and executed-entry-point hashes), `driver/` (the three-band driver),
+  `ledger/` (the ledger, its generator, and the archive verifier's own output), `logs/` (unedited
+  stdout of all three invocations, plus warning-stripped reading copies) and a
+  `MANIFEST.sha256` covering the twenty files so the directory is checkable on arrival.
+  `README.md` §3 gives the six-step decision procedure and the falsifier each step would have
+  caught; `RUNBOOK.md` gives the replay and the re-check commands.
+
+Stated, not glossed
+
+- The record's §5 carries the boundary explicitly: **this closes the 104-gene-testbed arm only.**
+  `run_upstream.sh` does not cover the GTEx v8 elastic-net arm that underwrites Table S16's
+  `framework WB (EN_WB vs MASHR_WB)` and `tissue EN` rows, nor the production of the five
+  genome-wide layers under `data/derived/genomewide/` — step 1 of this chain filters FinnGen to
+  the models' SNPs (37,192 rows) and therefore cannot yield a genome-wide scan. Both remain
+  script-less in this archive, and folding them into "the upstream chain is closed" would be wrong.
+- Line endings in the new directory are LF, as `.gitattributes` requires, and `MANIFEST.sha256`
+  was computed over those bytes so it verifies from a fresh clone. The logs were produced on
+  Windows and carried CRLF before normalisation; no line was added, removed or edited.
+
 ### 2026-10-04 (nineteenth pass) — one verdict for a missing dependency: gate 7 stops crying wolf
 
 Numbers: no reported number changed. No file in `data/derived/` changed, no middleware artefact

@@ -1,0 +1,20 @@
+manifest : C:\Users\Administrator\AppData\Local\Temp\repoaudit\eqtl-source-discordance\data\external\SHA256SUMS (15 entries)
+directory: E:/workbuddy/_ext_stage_20261004
+------------------------------------------------------------------------------
+  [ ok ] mashr_Whole_Blood.db                                       4.4 MB
+  [ ok ] mashr_Nerve_Tibial.db                                      5.6 MB
+  [ ok ] gtex_v8_mashr_snp_covariance.txt.gz                        33.2 MB
+  [ ok ] 2019-12-11-cis-eQTLsFDR0.05-ProbeLevel-CohortInfoRemoved-B 307.8 MB
+  [ ok ] finngen_R13_DM_RETINOPATHY_EXMORE.gz                       762.1 MB
+  [ ok ] finngen_R13_DM_NEPHROPATHY.gz                              764.2 MB
+  [ ok ] finngen_R13_DM_NEUROPATHY.gz                               763.9 MB
+  [ ok ] finngen_R13_manifest.tsv                                   801.6 KB
+  [ ok ] GCST90043640.h.tsv.gz                                      503.7 MB
+  [ ok ] GCST90043640_buildGRCh37.tsv.gz                            424.7 MB
+  [ ok ] PGC3_SCZ_wave3.european.autosome.public.v3.vcf.tsv.gz      228.6 MB
+  [ ok ] g1000_eur.zip                                              487.9 MB
+  [ ok ] meta_egfr_dmstrat_stage1plus2.txt.gz                       170.1 MB
+  [ ok ] RNApull_down_MS_results.zip                                20.5 MB
+  [ ok ] MetaXcan-v0.8.1.tar.gz                                     6.2 MB
+------------------------------------------------------------------------------
+ok 15   mismatched 0   incomplete 0   missing 0   (of 15)

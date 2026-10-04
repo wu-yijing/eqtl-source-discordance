@@ -1,0 +1,386 @@
+=====================================================================
+ upstream rebuild — raw GWAS + eQTL weights -> Z layer
+ repo         : /tmp/repoaudit/eqtl-source-discordance
+ externals    : E:/workbuddy/_ext_stage_20261004
+ output       : E:/workbuddy/_upstream_20261004/run
+ MetaXcan     : E:/workbuddy/_upstream_20261004/MetaXcan-0.8.1/software
+ python       : E:/workbuddy/_py312_psa/python/python.exe
+ started      : Sun Oct  4 13:27:53     2026
+=====================================================================
+
+== 0. Preflight ==
+manifest : C:\Users\ADMINI~1\AppData\Local\Temp\repoaudit\eqtl-source-discordance\data\external\SHA256SUMS (15 entries)
+directory: E:/workbuddy/_ext_stage_20261004
+------------------------------------------------------------------------------
+  [ ok ] mashr_Whole_Blood.db                                       4.4 MB
+  [ ok ] mashr_Nerve_Tibial.db                                      5.6 MB
+  [ ok ] gtex_v8_mashr_snp_covariance.txt.gz                        33.2 MB
+  [ ok ] 2019-12-11-cis-eQTLsFDR0.05-ProbeLevel-CohortInfoRemoved-B 307.8 MB
+  [ ok ] finngen_R13_DM_RETINOPATHY_EXMORE.gz                       762.1 MB
+  [ ok ] finngen_R13_DM_NEPHROPATHY.gz                              764.2 MB
+  [ ok ] finngen_R13_DM_NEUROPATHY.gz                               763.9 MB
+  [ ok ] finngen_R13_manifest.tsv                                   801.6 KB
+  [ ok ] GCST90043640.h.tsv.gz                                      503.7 MB
+  [ ok ] GCST90043640_buildGRCh37.tsv.gz                            424.7 MB
+  [ ok ] PGC3_SCZ_wave3.european.autosome.public.v3.vcf.tsv.gz      228.6 MB
+  [ ok ] g1000_eur.zip                                              487.9 MB
+  [ ok ] meta_egfr_dmstrat_stage1plus2.txt.gz                       170.1 MB
+  [ ok ] RNApull_down_MS_results.zip                                20.5 MB
+  [ ok ] MetaXcan-v0.8.1.tar.gz                                     6.2 MB
+------------------------------------------------------------------------------
+ok 15   mismatched 0   incomplete 0   missing 0   (of 15)
+  [ ok ] toolchain present (MetaXcan 0.8.1 + numpy 1.x)
+
+== 1. FinnGen R13 -> harmonised GWAS input ==
+      finngen_R13_DM_RETINOPATHY_EXMORE.gz -> 37192 rows
+  [ ok ] harmonised DR
+      finngen_R13_DM_NEPHROPATHY.gz -> 37192 rows
+  [ ok ] harmonised DN
+      finngen_R13_DM_NEUROPATHY.gz -> 37192 rows
+  [ ok ] harmonised DPN
+
+== 2. GTEx arm — build the gene-level covariance from g1000_eur ==
+  [skip] cov_Whole_Blood.txt.gz exists
+  [skip] cov_Nerve_Tibial.txt.gz exists
+
+== 3. GTEx arm — S-PrediXcan (official MetaXcan v0.8.1) ==
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWAS.py:102: SyntaxWarning: invalid escape sequence '\s'
+  separator = '\s+'
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:41: SyntaxWarning: invalid escape sequence '\s'
+  split_r = re.compile(separator) if separator is not None else re.compile("\s")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:76: SyntaxWarning: invalid escape sequence '\+'
+  non_en_number = re.compile("^[-\+]?[0-9]*,{1}[0-9]+([eE]{1}[-\+]?[0-9]+)?$")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\MatrixManager.py:31: SyntaxWarning: invalid escape sequence '\s'
+  d = pandas.read_table(path, sep="\s+")
+WARNING - [91mMissing --gwas_h2 and --gwas_N are required to calibrate the pvalue and zscore.[0m
+INFO - Processing GWAS command line parameters
+INFO - Building beta for E:/workbuddy/_upstream_20261004/run/gwas/gwas_DR.tsv and E:/workbuddy/_ext_stage_20261004/mashr_Whole_Blood.db
+INFO - Reading input gwas with special handling: E:/workbuddy/_upstream_20261004/run/gwas/gwas_DR.tsv
+INFO - Processing input gwas
+INFO - Calculating zscore from se and beta
+INFO - Aligning GWAS to models
+INFO - Trimming output
+INFO - Successfully parsed input gwas in 0.3781566000034218 seconds
+INFO - Started metaxcan process
+INFO - Loading model from: E:/workbuddy/_ext_stage_20261004/mashr_Whole_Blood.db
+INFO - Loading covariance data from: E:/workbuddy/_upstream_20261004/run/cov/cov_Whole_Blood.txt.gz
+INFO - Processing loaded gwas
+INFO - Started metaxcan association
+INFO - 10 % of model's snps found so far in the gwas study
+INFO - 20 % of model's snps found so far in the gwas study
+INFO - 30 % of model's snps found so far in the gwas study
+INFO - 40 % of model's snps found so far in the gwas study
+INFO - 50 % of model's snps found so far in the gwas study
+INFO - 60 % of model's snps found so far in the gwas study
+INFO - 70 % of model's snps found so far in the gwas study
+INFO - 78 % of model's snps used
+WARNING - [91mIMPORTANT: The pvalue and zscore are uncalibrated for inflation[0m
+INFO - Sucessfully processed metaxcan association in 4.618122399999265 seconds
+  [ ok ] S-PrediXcan Whole_Blood x DR
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWAS.py:102: SyntaxWarning: invalid escape sequence '\s'
+  separator = '\s+'
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:41: SyntaxWarning: invalid escape sequence '\s'
+  split_r = re.compile(separator) if separator is not None else re.compile("\s")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:76: SyntaxWarning: invalid escape sequence '\+'
+  non_en_number = re.compile("^[-\+]?[0-9]*,{1}[0-9]+([eE]{1}[-\+]?[0-9]+)?$")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\MatrixManager.py:31: SyntaxWarning: invalid escape sequence '\s'
+  d = pandas.read_table(path, sep="\s+")
+WARNING - [91mMissing --gwas_h2 and --gwas_N are required to calibrate the pvalue and zscore.[0m
+INFO - Processing GWAS command line parameters
+INFO - Building beta for E:/workbuddy/_upstream_20261004/run/gwas/gwas_DN.tsv and E:/workbuddy/_ext_stage_20261004/mashr_Whole_Blood.db
+INFO - Reading input gwas with special handling: E:/workbuddy/_upstream_20261004/run/gwas/gwas_DN.tsv
+INFO - Processing input gwas
+INFO - Calculating zscore from se and beta
+INFO - Aligning GWAS to models
+INFO - Trimming output
+INFO - Successfully parsed input gwas in 0.22943500000110362 seconds
+INFO - Started metaxcan process
+INFO - Loading model from: E:/workbuddy/_ext_stage_20261004/mashr_Whole_Blood.db
+INFO - Loading covariance data from: E:/workbuddy/_upstream_20261004/run/cov/cov_Whole_Blood.txt.gz
+INFO - Processing loaded gwas
+INFO - Started metaxcan association
+INFO - 10 % of model's snps found so far in the gwas study
+INFO - 20 % of model's snps found so far in the gwas study
+INFO - 30 % of model's snps found so far in the gwas study
+INFO - 40 % of model's snps found so far in the gwas study
+INFO - 50 % of model's snps found so far in the gwas study
+INFO - 60 % of model's snps found so far in the gwas study
+INFO - 70 % of model's snps found so far in the gwas study
+INFO - 78 % of model's snps used
+WARNING - [91mIMPORTANT: The pvalue and zscore are uncalibrated for inflation[0m
+INFO - Sucessfully processed metaxcan association in 4.602082900000823 seconds
+  [ ok ] S-PrediXcan Whole_Blood x DN
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWAS.py:102: SyntaxWarning: invalid escape sequence '\s'
+  separator = '\s+'
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:41: SyntaxWarning: invalid escape sequence '\s'
+  split_r = re.compile(separator) if separator is not None else re.compile("\s")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:76: SyntaxWarning: invalid escape sequence '\+'
+  non_en_number = re.compile("^[-\+]?[0-9]*,{1}[0-9]+([eE]{1}[-\+]?[0-9]+)?$")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\MatrixManager.py:31: SyntaxWarning: invalid escape sequence '\s'
+  d = pandas.read_table(path, sep="\s+")
+WARNING - [91mMissing --gwas_h2 and --gwas_N are required to calibrate the pvalue and zscore.[0m
+INFO - Processing GWAS command line parameters
+INFO - Building beta for E:/workbuddy/_upstream_20261004/run/gwas/gwas_DPN.tsv and E:/workbuddy/_ext_stage_20261004/mashr_Whole_Blood.db
+INFO - Reading input gwas with special handling: E:/workbuddy/_upstream_20261004/run/gwas/gwas_DPN.tsv
+INFO - Processing input gwas
+INFO - Calculating zscore from se and beta
+INFO - Aligning GWAS to models
+INFO - Trimming output
+INFO - Successfully parsed input gwas in 0.239763599998696 seconds
+INFO - Started metaxcan process
+INFO - Loading model from: E:/workbuddy/_ext_stage_20261004/mashr_Whole_Blood.db
+INFO - Loading covariance data from: E:/workbuddy/_upstream_20261004/run/cov/cov_Whole_Blood.txt.gz
+INFO - Processing loaded gwas
+INFO - Started metaxcan association
+INFO - 10 % of model's snps found so far in the gwas study
+INFO - 20 % of model's snps found so far in the gwas study
+INFO - 30 % of model's snps found so far in the gwas study
+INFO - 40 % of model's snps found so far in the gwas study
+INFO - 50 % of model's snps found so far in the gwas study
+INFO - 60 % of model's snps found so far in the gwas study
+INFO - 70 % of model's snps found so far in the gwas study
+INFO - 78 % of model's snps used
+WARNING - [91mIMPORTANT: The pvalue and zscore are uncalibrated for inflation[0m
+INFO - Sucessfully processed metaxcan association in 4.549974599998677 seconds
+  [ ok ] S-PrediXcan Whole_Blood x DPN
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWAS.py:102: SyntaxWarning: invalid escape sequence '\s'
+  separator = '\s+'
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:41: SyntaxWarning: invalid escape sequence '\s'
+  split_r = re.compile(separator) if separator is not None else re.compile("\s")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:76: SyntaxWarning: invalid escape sequence '\+'
+  non_en_number = re.compile("^[-\+]?[0-9]*,{1}[0-9]+([eE]{1}[-\+]?[0-9]+)?$")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\MatrixManager.py:31: SyntaxWarning: invalid escape sequence '\s'
+  d = pandas.read_table(path, sep="\s+")
+WARNING - [91mMissing --gwas_h2 and --gwas_N are required to calibrate the pvalue and zscore.[0m
+INFO - Processing GWAS command line parameters
+INFO - Building beta for E:/workbuddy/_upstream_20261004/run/gwas/gwas_DR.tsv and E:/workbuddy/_ext_stage_20261004/mashr_Nerve_Tibial.db
+INFO - Reading input gwas with special handling: E:/workbuddy/_upstream_20261004/run/gwas/gwas_DR.tsv
+INFO - Processing input gwas
+INFO - Calculating zscore from se and beta
+INFO - Aligning GWAS to models
+INFO - Trimming output
+INFO - Successfully parsed input gwas in 0.3436419999998179 seconds
+INFO - Started metaxcan process
+INFO - Loading model from: E:/workbuddy/_ext_stage_20261004/mashr_Nerve_Tibial.db
+INFO - Loading covariance data from: E:/workbuddy/_upstream_20261004/run/cov/cov_Nerve_Tibial.txt.gz
+INFO - Processing loaded gwas
+INFO - Started metaxcan association
+INFO - 10 % of model's snps found so far in the gwas study
+INFO - 20 % of model's snps found so far in the gwas study
+INFO - 30 % of model's snps found so far in the gwas study
+INFO - 40 % of model's snps found so far in the gwas study
+INFO - 50 % of model's snps found so far in the gwas study
+INFO - 60 % of model's snps found so far in the gwas study
+INFO - 70 % of model's snps found so far in the gwas study
+INFO - 78 % of model's snps used
+WARNING - [91mIMPORTANT: The pvalue and zscore are uncalibrated for inflation[0m
+INFO - Sucessfully processed metaxcan association in 6.537442500000907 seconds
+  [ ok ] S-PrediXcan Nerve_Tibial x DR
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWAS.py:102: SyntaxWarning: invalid escape sequence '\s'
+  separator = '\s+'
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:41: SyntaxWarning: invalid escape sequence '\s'
+  split_r = re.compile(separator) if separator is not None else re.compile("\s")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:76: SyntaxWarning: invalid escape sequence '\+'
+  non_en_number = re.compile("^[-\+]?[0-9]*,{1}[0-9]+([eE]{1}[-\+]?[0-9]+)?$")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\MatrixManager.py:31: SyntaxWarning: invalid escape sequence '\s'
+  d = pandas.read_table(path, sep="\s+")
+WARNING - [91mMissing --gwas_h2 and --gwas_N are required to calibrate the pvalue and zscore.[0m
+INFO - Processing GWAS command line parameters
+INFO - Building beta for E:/workbuddy/_upstream_20261004/run/gwas/gwas_DN.tsv and E:/workbuddy/_ext_stage_20261004/mashr_Nerve_Tibial.db
+INFO - Reading input gwas with special handling: E:/workbuddy/_upstream_20261004/run/gwas/gwas_DN.tsv
+INFO - Processing input gwas
+INFO - Calculating zscore from se and beta
+INFO - Aligning GWAS to models
+INFO - Trimming output
+INFO - Successfully parsed input gwas in 0.2871788000011293 seconds
+INFO - Started metaxcan process
+INFO - Loading model from: E:/workbuddy/_ext_stage_20261004/mashr_Nerve_Tibial.db
+INFO - Loading covariance data from: E:/workbuddy/_upstream_20261004/run/cov/cov_Nerve_Tibial.txt.gz
+INFO - Processing loaded gwas
+INFO - Started metaxcan association
+INFO - 10 % of model's snps found so far in the gwas study
+INFO - 20 % of model's snps found so far in the gwas study
+INFO - 30 % of model's snps found so far in the gwas study
+INFO - 40 % of model's snps found so far in the gwas study
+INFO - 50 % of model's snps found so far in the gwas study
+INFO - 60 % of model's snps found so far in the gwas study
+INFO - 70 % of model's snps found so far in the gwas study
+INFO - 78 % of model's snps used
+WARNING - [91mIMPORTANT: The pvalue and zscore are uncalibrated for inflation[0m
+INFO - Sucessfully processed metaxcan association in 6.473327699997753 seconds
+  [ ok ] S-PrediXcan Nerve_Tibial x DN
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWAS.py:102: SyntaxWarning: invalid escape sequence '\s'
+  separator = '\s+'
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:41: SyntaxWarning: invalid escape sequence '\s'
+  split_r = re.compile(separator) if separator is not None else re.compile("\s")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:76: SyntaxWarning: invalid escape sequence '\+'
+  non_en_number = re.compile("^[-\+]?[0-9]*,{1}[0-9]+([eE]{1}[-\+]?[0-9]+)?$")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\MatrixManager.py:31: SyntaxWarning: invalid escape sequence '\s'
+  d = pandas.read_table(path, sep="\s+")
+WARNING - [91mMissing --gwas_h2 and --gwas_N are required to calibrate the pvalue and zscore.[0m
+INFO - Processing GWAS command line parameters
+INFO - Building beta for E:/workbuddy/_upstream_20261004/run/gwas/gwas_DPN.tsv and E:/workbuddy/_ext_stage_20261004/mashr_Nerve_Tibial.db
+INFO - Reading input gwas with special handling: E:/workbuddy/_upstream_20261004/run/gwas/gwas_DPN.tsv
+INFO - Processing input gwas
+INFO - Calculating zscore from se and beta
+INFO - Aligning GWAS to models
+INFO - Trimming output
+INFO - Successfully parsed input gwas in 0.2968810999991547 seconds
+INFO - Started metaxcan process
+INFO - Loading model from: E:/workbuddy/_ext_stage_20261004/mashr_Nerve_Tibial.db
+INFO - Loading covariance data from: E:/workbuddy/_upstream_20261004/run/cov/cov_Nerve_Tibial.txt.gz
+INFO - Processing loaded gwas
+INFO - Started metaxcan association
+INFO - 10 % of model's snps found so far in the gwas study
+INFO - 20 % of model's snps found so far in the gwas study
+INFO - 30 % of model's snps found so far in the gwas study
+INFO - 40 % of model's snps found so far in the gwas study
+INFO - 50 % of model's snps found so far in the gwas study
+INFO - 60 % of model's snps found so far in the gwas study
+INFO - 70 % of model's snps found so far in the gwas study
+INFO - 78 % of model's snps used
+WARNING - [91mIMPORTANT: The pvalue and zscore are uncalibrated for inflation[0m
+INFO - Sucessfully processed metaxcan association in 6.52637759999925 seconds
+  [ ok ] S-PrediXcan Nerve_Tibial x DPN
+
+== 4. eQTLGen arm — build the weight database ==
+  [skip] eQTLGen_Whole_Blood.db exists
+
+== 5. eQTLGen arm — split by gene size, then build each band's covariance ==
+genes 1, distinct model SNPs 5,032
+bim rows 22,665,064, matched 4,783 (95.1%)  (8.3 s)
+dosages ready: 4,783 SNPs x 503 samples  (10.2 s)
+wrote 1 genes / 11,440,936 rows  (14.1 s)
+file: E:/workbuddy/_upstream_20261004/run/eqtlgen/cov_C.txt.gz  (111,535,391 B)
+  [ ok ] covariance C
+
+== 6. eQTLGen arm — align the GWAS onto the model alleles ==
+  [skip] gwas_DR_aligned.tsv exists
+  [skip] gwas_DN_aligned.tsv exists
+  [skip] gwas_DPN_aligned.tsv exists
+
+== 7. eQTLGen arm — S-PrediXcan (streamed covariance) ==
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWAS.py:102: SyntaxWarning: invalid escape sequence '\s'
+  separator = '\s+'
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:41: SyntaxWarning: invalid escape sequence '\s'
+  split_r = re.compile(separator) if separator is not None else re.compile("\s")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:76: SyntaxWarning: invalid escape sequence '\+'
+  non_en_number = re.compile("^[-\+]?[0-9]*,{1}[0-9]+([eE]{1}[-\+]?[0-9]+)?$")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\MatrixManager.py:31: SyntaxWarning: invalid escape sequence '\s'
+  d = pandas.read_table(path, sep="\s+")
+WARNING - [91mMissing --gwas_h2 and --gwas_N are required to calibrate the pvalue and zscore.[0m
+INFO - Processing GWAS command line parameters
+INFO - Building beta for E:/workbuddy/_upstream_20261004/run/eqtlgen/gwas_DR_aligned.tsv and E:/workbuddy/_upstream_20261004/run/eqtlgen/db_C.db
+INFO - Reading input gwas with special handling: E:/workbuddy/_upstream_20261004/run/eqtlgen/gwas_DR_aligned.tsv
+INFO - Processing input gwas
+INFO - Calculating zscore from se and beta
+INFO - Aligning GWAS to models
+INFO - Trimming output
+INFO - Successfully parsed input gwas in 0.10495169999921927 seconds
+INFO - Started metaxcan process
+INFO - Loading model from: E:/workbuddy/_upstream_20261004/run/eqtlgen/db_C.db
+INFO - Using streamed covariance from: E:/workbuddy/_upstream_20261004/run/eqtlgen/cov_C.txt.gz
+WARNING - [91mThis version is more lenient with input covariances, as many potential errors can't be checked for the whole input covariance in advance. Pay extra care to your covariances![0m
+INFO - Processing loaded gwas
+INFO - Started metaxcan association
+INFO - 92 % of model's snps found so far in the gwas study
+INFO - 92 % of model's snps used
+WARNING - [91mIMPORTANT: The pvalue and zscore are uncalibrated for inflation[0m
+INFO - Sucessfully processed metaxcan association in 720.9777276999994 seconds
+  [ ok ] S-PrediXcan eQTLGen C x DR
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWAS.py:102: SyntaxWarning: invalid escape sequence '\s'
+  separator = '\s+'
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:41: SyntaxWarning: invalid escape sequence '\s'
+  split_r = re.compile(separator) if separator is not None else re.compile("\s")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:76: SyntaxWarning: invalid escape sequence '\+'
+  non_en_number = re.compile("^[-\+]?[0-9]*,{1}[0-9]+([eE]{1}[-\+]?[0-9]+)?$")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\MatrixManager.py:31: SyntaxWarning: invalid escape sequence '\s'
+  d = pandas.read_table(path, sep="\s+")
+WARNING - [91mMissing --gwas_h2 and --gwas_N are required to calibrate the pvalue and zscore.[0m
+INFO - Processing GWAS command line parameters
+INFO - Building beta for E:/workbuddy/_upstream_20261004/run/eqtlgen/gwas_DN_aligned.tsv and E:/workbuddy/_upstream_20261004/run/eqtlgen/db_C.db
+INFO - Reading input gwas with special handling: E:/workbuddy/_upstream_20261004/run/eqtlgen/gwas_DN_aligned.tsv
+INFO - Processing input gwas
+INFO - Calculating zscore from se and beta
+INFO - Aligning GWAS to models
+INFO - Trimming output
+INFO - Successfully parsed input gwas in 0.10220960000151535 seconds
+INFO - Started metaxcan process
+INFO - Loading model from: E:/workbuddy/_upstream_20261004/run/eqtlgen/db_C.db
+INFO - Using streamed covariance from: E:/workbuddy/_upstream_20261004/run/eqtlgen/cov_C.txt.gz
+WARNING - [91mThis version is more lenient with input covariances, as many potential errors can't be checked for the whole input covariance in advance. Pay extra care to your covariances![0m
+INFO - Processing loaded gwas
+INFO - Started metaxcan association
+INFO - 92 % of model's snps found so far in the gwas study
+INFO - 92 % of model's snps used
+WARNING - [91mIMPORTANT: The pvalue and zscore are uncalibrated for inflation[0m
+INFO - Sucessfully processed metaxcan association in 635.4717375 seconds
+  [ ok ] S-PrediXcan eQTLGen C x DN
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWAS.py:102: SyntaxWarning: invalid escape sequence '\s'
+  separator = '\s+'
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:41: SyntaxWarning: invalid escape sequence '\s'
+  split_r = re.compile(separator) if separator is not None else re.compile("\s")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\gwas\GWASSpecialHandling.py:76: SyntaxWarning: invalid escape sequence '\+'
+  non_en_number = re.compile("^[-\+]?[0-9]*,{1}[0-9]+([eE]{1}[-\+]?[0-9]+)?$")
+E:\workbuddy\_upstream_20261004\MetaXcan-0.8.1\software\metax\MatrixManager.py:31: SyntaxWarning: invalid escape sequence '\s'
+  d = pandas.read_table(path, sep="\s+")
+WARNING - [91mMissing --gwas_h2 and --gwas_N are required to calibrate the pvalue and zscore.[0m
+INFO - Processing GWAS command line parameters
+INFO - Building beta for E:/workbuddy/_upstream_20261004/run/eqtlgen/gwas_DPN_aligned.tsv and E:/workbuddy/_upstream_20261004/run/eqtlgen/db_C.db
+INFO - Reading input gwas with special handling: E:/workbuddy/_upstream_20261004/run/eqtlgen/gwas_DPN_aligned.tsv
+INFO - Processing input gwas
+INFO - Calculating zscore from se and beta
+INFO - Aligning GWAS to models
+INFO - Trimming output
+INFO - Successfully parsed input gwas in 0.07806340000024647 seconds
+INFO - Started metaxcan process
+INFO - Loading model from: E:/workbuddy/_upstream_20261004/run/eqtlgen/db_C.db
+INFO - Using streamed covariance from: E:/workbuddy/_upstream_20261004/run/eqtlgen/cov_C.txt.gz
+WARNING - [91mThis version is more lenient with input covariances, as many potential errors can't be checked for the whole input covariance in advance. Pay extra care to your covariances![0m
+INFO - Processing loaded gwas
+INFO - Started metaxcan association
+INFO - 92 % of model's snps found so far in the gwas study
+INFO - 92 % of model's snps used
+WARNING - [91mIMPORTANT: The pvalue and zscore are uncalibrated for inflation[0m
+INFO - Sucessfully processed metaxcan association in 636.1580805000012 seconds
+  [ ok ] S-PrediXcan eQTLGen C x DPN
+
+== 8. Middleware hash check ==
+  [   ok    ] eqtlgen/eQTLGen_Whole_Blood.db         eQTLGen weight database
+  [   ok    ] eqtlgen/db_A.db                        eQTLGen band A model database
+  [   ok    ] eqtlgen/db_B.db                        eQTLGen band B model database
+  [   ok    ] eqtlgen/db_C.db                        eQTLGen band C model database
+  [   ok    ] cov/cov_Whole_Blood.txt.gz             GTEx Whole_Blood gene covariance
+  [   ok    ] cov/cov_Nerve_Tibial.txt.gz            GTEx Nerve_Tibial gene covariance
+  [   ok    ] eqtlgen/cov_A.txt.gz                   eQTLGen band A covariance
+  [   ok    ] eqtlgen/cov_B.txt.gz                   eQTLGen band B covariance
+  [   ok    ] eqtlgen/cov_C.txt.gz                   eQTLGen band C covariance
+  [   ok    ] gwas/gwas_DR.tsv                       FinnGen DR -> harmonised GWAS
+  [   ok    ] gwas/gwas_DN.tsv                       FinnGen DN -> harmonised GWAS
+  [   ok    ] gwas/gwas_DPN.tsv                      FinnGen DPN -> harmonised GWAS
+  [   ok    ] eqtlgen/gwas_DR_aligned.tsv            allele-aligned GWAS DR
+  [   ok    ] eqtlgen/gwas_DN_aligned.tsv            allele-aligned GWAS DN
+  [   ok    ] eqtlgen/gwas_DPN_aligned.tsv           allele-aligned GWAS DPN
+  [   ok    ] official_Whole_Blood_DR.csv            S-PrediXcan GTEx Whole_Blood x DR
+  [   ok    ] official_Whole_Blood_DN.csv            S-PrediXcan GTEx Whole_Blood x DN
+  [   ok    ] official_Whole_Blood_DPN.csv           S-PrediXcan GTEx Whole_Blood x DPN
+  [   ok    ] official_Nerve_Tibial_DR.csv           S-PrediXcan GTEx Nerve_Tibial x DR
+  [   ok    ] official_Nerve_Tibial_DN.csv           S-PrediXcan GTEx Nerve_Tibial x DN
+  [   ok    ] official_Nerve_Tibial_DPN.csv          S-PrediXcan GTEx Nerve_Tibial x DPN
+  [   ok    ] eqtlgen/official_eq_A_DR.csv           S-PrediXcan eQTLGen band A x DR
+  [   ok    ] eqtlgen/official_eq_A_DN.csv           S-PrediXcan eQTLGen band A x DN
+  [   ok    ] eqtlgen/official_eq_A_DPN.csv          S-PrediXcan eQTLGen band A x DPN
+  [   ok    ] eqtlgen/official_eq_B_DR.csv           S-PrediXcan eQTLGen band B x DR
+  [   ok    ] eqtlgen/official_eq_B_DN.csv           S-PrediXcan eQTLGen band B x DN
+  [   ok    ] eqtlgen/official_eq_B_DPN.csv          S-PrediXcan eQTLGen band B x DPN
+  [   ok    ] eqtlgen/official_eq_C_DR.csv           S-PrediXcan eQTLGen band C x DR
+  [   ok    ] eqtlgen/official_eq_C_DN.csv           S-PrediXcan eQTLGen band C x DN
+  [   ok    ] eqtlgen/official_eq_C_DPN.csv          S-PrediXcan eQTLGen band C x DPN
+
+identical 30 | differing 0 | missing 0   (of 30)
+RESULT: the whole upstream chain reproduces the archived middleware.
+  [ ok ] middleware matches the archived hashes
+
+=====================================================================
+ RESULT: upstream chain completed. Outputs in E:/workbuddy/_upstream_20261004/run
+=====================================================================

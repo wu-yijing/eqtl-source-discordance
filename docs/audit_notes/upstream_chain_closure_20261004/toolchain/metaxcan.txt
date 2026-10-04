@@ -1,0 +1,16 @@
+MetaXcan toolchain record
+=========================
+
+Source archive: MetaXcan-v0.8.1.tar.gz
+  sha256  3a6e1ceefef8961e10b4096e6768577ee46c67a8273087eb2d88e17be2d9f1d3
+  (must equal the SHA256SUMS row for MetaXcan-v0.8.1.tar.gz)
+
+Entry point actually executed (unmodified):
+  path    MetaXcan-0.8.1/software/SPrediXcan.py
+  bytes   3711
+  sha256  94e79ae2eb42b8875f1696e8d7b371385f680f8d1dbb3fb44b8818f250fd2fcd
+
+No file under MetaXcan-0.8.1/ was edited for this run. code/run_upstream.sh
+invokes it with the flags the archive documents (--model_db_path /
+--covariance / --gwas_file / --additional_output, plus --stream_covariance
+for the eQTLGen bands).

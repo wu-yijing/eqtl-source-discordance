@@ -1,0 +1,7 @@
+################ EQ_TAG=A ################
+EQ_TAG=A exit=0  (log: E:/workbuddy/_upstream_20261004/logs/upstream_A.log)
+################ EQ_TAG=B ################
+EQ_TAG=B exit=0  (log: E:/workbuddy/_upstream_20261004/logs/upstream_B.log)
+################ EQ_TAG=C ################
+EQ_TAG=C exit=0  (log: E:/workbuddy/_upstream_20261004/logs/upstream_C.log)
+ALL_BANDS_DONE
