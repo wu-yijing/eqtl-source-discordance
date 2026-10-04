@@ -1011,7 +1011,10 @@ So several gaps are **not** "the script got lost". The number was pasted in from
 
 ### Migration notes
 - History imported from `wu-yijing/twas-eqtl-source-discordance`; predecessor tags were **not** imported, so `v1.0.0`–`v3.0.0` remain only in the archived repositories.
-- Cite this study as concept DOI `10.5281/zenodo.23129112`; for the analysed snapshot cite `10.5281/zenodo.23129113`.
+- Cite this study as concept DOI `10.5281/zenodo.23129112`; to refer to one analysed snapshot, cite that
+  release's version DOI. It is not fixed at this entry: as of the v4.0.1 deposit it was
+  `10.5281/zenodo.23129113`, and the value in force is the one recorded in
+  [`metadata/zenodo_release.json`](metadata/zenodo_release.json).
 
 ---
 

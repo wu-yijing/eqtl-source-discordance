@@ -15,9 +15,9 @@
   "one more place for the three of them to disagree. Read it from .zenodo.json."
  ],
  "release_date": "2026-10-04",
- "zenodo_record_url": "https://zenodo.org/records/23129113",
+ "zenodo_record_url": "https://zenodo.org/records/23129431",
  "concept_doi": "10.5281/zenodo.23129112",
- "version_doi": "10.5281/zenodo.23129113",
+ "version_doi": "10.5281/zenodo.23129431",
  "placeholder_tokens": {
   "concept": "10.5281/zenodo.<CONCEPT>",
   "version": "10.5281/zenodo.<VER>"

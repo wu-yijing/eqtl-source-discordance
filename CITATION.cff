@@ -24,7 +24,7 @@ identifiers:
     description: "Concept DOI — always resolves to the latest archived version"
 #DOI_VERSION_IDENTIFIER_BEGIN
   - type: doi
-    value: 10.5281/zenodo.23129113
+    value: 10.5281/zenodo.23129431
     description: "Version DOI — pins this exact archived snapshot"
 #DOI_VERSION_IDENTIFIER_END
 keywords:
