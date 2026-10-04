@@ -184,10 +184,12 @@ python scripts/s26_recompute.py .                             # contrasts reprod
    reconstruction that fits all 30 pairs rather than a recovered line of code. The
    submitted *candidate order* is likewise inherited, not derived: the emitting
    script reads it from the submitted table and says so.
-3. **A third matched set.** `Table_S2_Matched_Controls.csv` (2026-06-25) differs from
-   the archived one on six controls. Nothing here explains that either, and any
-   closure of S4 in the manuscript should name which run is reported — the re-emitted
-   table is what the Methods describe, not necessarily what produced the submission.
+3. **A third matched set — resolved 2026-10-04.** `Table_S2_Matched_Controls.csv`
+   (2026-06-25) differs from the archived one on six controls, and a 2026-06-29
+   genome-scale set shares none. Which one the manuscript reports is now settled by the
+   manuscript's own numbers rather than by attribution: see
+   [`../s4_reported_run_20261004/`](../s4_reported_run_20261004/README.md). The re-emitted
+   table's claim is unchanged — it is what the documented specification produces.
 4. **One honest residual.** The 30/30 control-set result depends on the submitted
    candidate order, and the tie-break inside `PullDown_Unused` is not recoverable
    from the shipped matrix. The file names what it reads and asserts the ordering is

@@ -23,6 +23,46 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-04 (twenty-eighth pass) — the third matched set is identified, and it is by the manuscript's own numbers
+
+Numbers: **no reported number changed.** Files added under `docs/audit_notes/`; no data file, no
+shipped generator and neither submitted document was touched.
+
+The previous pass closed SI Table S4 down to one open item: three matched sets for the same 30
+genes exist on disk, and *which* one the manuscript reports had never been recorded. It is
+answered here by measurement rather than by attribution. The manuscript states the GTEx arm of
+the covariate-matched contrast as **2.4% versus 1.7%, P = 1.00** (the sentence is in the
+manuscript; the three figures are public in Supporting Information Table S26), so Table S26's
+contingency was recomputed under each candidate control set:
+
+| set | candidate | matched control | Fisher P | reproduces the sentence? |
+|---|---|---|---|---|
+| **A** shipped as SI Table S4 | 2/84 = 2.4% | 1/60 = **1.7%** | **1.00** | **yes, all three figures** |
+| B 2026-06-25 run, 54-gene pool | 2/84 = 2.4% | 0/48 = **0.0%** | **0.53** | no |
+| C 2026-06-29 run, genome-scale pool | 2/84 = 2.4% | — | — | no — **no GTEx endpoint on any of its 30 controls**, so the contrast cannot exist |
+
+Three further findings recorded with it:
+
+- **A's lineage is the 2026-06-27 predecessor repository** — A is byte-identical to its
+  `data/processed/mahalanobis_matched_pairs.csv` (md5 `e047ec426303a98bc939c270ecd5e44f`).
+- **The provenance prose filed beside A describes C.** `analyses/logs/04_mahalanobis_matching_log.txt`
+  and `00_master_provenance.txt` both say the controls came from a ~3,500-gene genome-wide pool
+  that *excluded* the non-candidate group; A's 30 controls are all `44 Non-Candidate` genes, which
+  such a pool cannot select. So the two documents that look like A's provenance are C's.
+- **The shipped generator cannot produce A.** `code/analyses/run_mahalanobis_matching.R` selects
+  the treated arm with `Group == "Candidate"`, a label the 104-row matrix does not contain — 0
+  treated — and builds its pool as `Group != "Candidate"` = 74 genes. The same defect is in its
+  2026-06-27 ancestor, so it is inherited rather than introduced.
+
+What remains open is now **one column**: how A's `subclass` came to be sorted. A real matching
+chose the 30 controls — the documented specification reproduces 30 of 30 — and a
+`PullDown_Unused`-descending rank-zip wrote the pairing. No artefact records that step.
+
+Both rival sets ship as data beside the script (`results/matched_set_20260625_pool54.csv`,
+`results/matched_set_20260629_genomescale.csv`, each with its source path and md5 in a header), so
+`scripts/identify_reported_matching.py` re-runs the identification from a clone.
+Record: [`docs/audit_notes/s4_reported_run_20261004/`](docs/audit_notes/s4_reported_run_20261004/README.md).
+
 ### 2026-10-04 (twenty-seventh pass) — the account name leaves the archive; the machine paths are parameters
 
 Numbers: **no reported number changed.** Four scripts were edited, twelve evidence files had a
