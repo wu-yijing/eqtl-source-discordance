@@ -639,28 +639,151 @@ R['top10_overlap'] = dict(gtex_top10=sorted(t10_g), eqtlgen_top10=sorted(t10_e),
 log('\n' + '=' * 78)
 log('3.12 跨队列复现核验（Table S5a 合并统计量 / Table S5b 方向一致率）')
 log('=' * 78)
-z_fin, z_ukb = 2.31, 0.72            # eQTLGen 权重下 FinnGen R13 / UKB 的 Z（表注所载取值）
-pooled = (z_fin + z_ukb) / 2
-Q  = (z_fin - pooled) ** 2 + (z_ukb - pooled) ** 2
-I2 = 100 * (Q - 1) / Q
-se_iv  = 1 / np.sqrt(2)                                  # 单位方差, 2 队列
-tau_dl = np.sqrt(max(0.0, (Q - 1) / 2))                  # DL: (Q-df)/Σw, Σw=2
-se_dl  = 1 / np.sqrt(2 / (1 + tau_dl ** 2))
-tau_df = np.sqrt(max(0.0, (Q - 1) / 1))                  # (Q-df)/df 变体
-se_df  = 1 / np.sqrt(2 / (1 + tau_df ** 2))
-pi_dl  = (pooled - 1.96 * np.sqrt(se_dl ** 2 + tau_dl ** 2),
-          pooled + 1.96 * np.sqrt(se_dl ** 2 + tau_dl ** 2))
-pi_df  = (pooled - 1.96 * np.sqrt(se_df ** 2 + tau_df ** 2),
-          pooled + 1.96 * np.sqrt(se_df ** 2 + tau_df ** 2))
-log(f'  合并 Z (未加权均值) = {pooled:+.4f}    (报告 +1.51)')
-log(f'  Cochran Q = {Q:.4f},  I² = {I2:.1f}%    (报告 Q = 1.26, I² = 20.6%)')
-log(f'  P = {2*(1-stats.norm.cdf(pooled/se_df)):.4f} (对应 Z/SE={pooled/se_df:.2f})   (报告 Z/SE = 1.91, P = 0.056)')
-log(f'  [DL 约定 τ²=(Q-df)/Σw=2] τ={tau_dl:.3f}, SE={se_dl:.3f}, 预测区间 {pi_dl[0]:+.2f} to {pi_dl[1]:+.2f}')
-log(f'  [表中约定 τ²=(Q-df)/df=1] τ={tau_df:.3f}, SE={se_df:.3f}, 预测区间 {pi_df[0]:+.2f} to {pi_df[1]:+.2f}'
-    f'   (报告 τ=0.51, SE=0.79, 预测区间 −0.33 to +3.36)')
-R['s5a'] = dict(pooled_z=float(pooled), Q=float(Q), I2_pct=float(I2),
-                tau_DL=float(tau_dl), SE_DL=float(se_dl), PI_DL=[float(x) for x in pi_dl],
-                tau_table=float(tau_df), SE_table=float(se_df), PI_table=[float(x) for x in pi_df])
+
+# 两套 Z 口径都算、都打印。理由与 m6_ne_weighted_sensitivity.py 处理 √N_e 行相同：
+#   (1) 表中引用的两位小数——SI 表 S5a 首行印的就是 +2.31 / +0.72 / +0.55；
+#   (2) 随库分发的官方 MetaXcan v0.8.1 全精度 Z（data/derived/ukb_dr/）。
+#
+# 2026-10-04 之前这里只有 (1)，且写成字面量 `z_fin, z_ukb = 2.31, 0.72`。
+# 后果不是"数字错"，而是**打印出来的比对读起来像通过**：
+#      Cochran Q = 1.2641,  I² = 20.9%    (报告 Q = 1.26, I² = 20.6%)
+# 同一行左边 20.9、右边 20.6，却排成核对通过的格式。I² 对 Z 的第 4 位小数极端敏感
+# （|Z| 相差 0.001 ⇒ I² 约差 0.15 pp），所以两套口径给出的 I² 相差 0.34 pp，
+# 而报告值与其中任何一套都不在最后一位上重合。两套都打印、逐项判定，才看得见这一点。
+_CC = pd.read_csv(os.path.join(PC.DERIVED, 'ukb_dr', 'RNH1_official_metaxcan_Z.csv'),
+                  encoding='utf-8')
+
+
+def _exact_z(gwas, weights):
+    r = _CC[(_CC.GWAS == gwas) & (_CC['Weight source'] == weights)]
+    if len(r) != 1:
+        raise RuntimeError('精确 Z 未唯一命中：%r / %r（%d 行）' % (gwas, weights, len(r)))
+    return float(r.S_PrediXcan_Z.values[0])
+
+
+Z_FIN     = _exact_z('FinnGen R13 DR', 'eQTLGen whole blood')             # +2.3091
+Z_UKB    = _exact_z('UKB GCST90043640', 'eQTLGen whole blood')           # +0.7225
+Z_UKB_NT = _exact_z('UKB GCST90043640', 'GTEx v8 MASHR Nerve_Tibial')    # +0.5451
+log(f'  随库精确 Z：FinnGen R13 DR = {Z_FIN:+.4f}；UKB GCST90043640 = {Z_UKB:+.4f}'
+    f'（eQTLGen 权重）与 {Z_UKB_NT:+.4f}（GTEx MASHR 胫神经）')
+
+
+def _meta2(z1, z2):
+    """等权单位方差 k=2 随机效应合并。
+
+    DerSimonian–Laird(1986) 的 τ² = (Q − df) / C，其中 C = Σw − Σw²/Σw。
+    本题每队列 v_i = 1 ⇒ w_i = 1/(1+τ²)，C = k − k/k = k − 1 = df，故 C 与 df 数值相等。
+    此前本脚本把 τ²=(Q−df)/Σw 标成「DL 约定」、把 τ²=(Q−df)/df 标成「表中约定」，
+    两处标签都不对（前者不是 DL；后者恰是本题的 DL）。见
+    repo_crosscheck/verify_crosscohort_exact.py 的撤回说明。
+    """
+    k = 2
+    df = k - 1
+    pooled = (z1 + z2) / 2
+    Q = (z1 - pooled) ** 2 + (z2 - pooled) ** 2
+    I2 = 100 * (Q - df) / Q if Q > 0 else 0.0
+    tau = np.sqrt(max(0.0, (Q - df) / df))        # τ² = (Q − df)/C，此处 C = df = 1
+    se = np.sqrt((1.0 + tau ** 2) / k)            # Σw = k/(1+τ²) ⇒ SE = sqrt(1/Σw)
+    half = 1.96 * np.sqrt(se ** 2 + tau ** 2)
+    return dict(pooled=float(pooled), Q=float(Q), I2=float(I2), tau=float(tau),
+                se=float(se), p=float(2 * (1 - stats.norm.cdf(pooled / se))),
+                pi=(float(pooled - half), float(pooled + half)))
+
+
+#: (字段, 显示名, 报告的小数位数)。PI 是区间，单独判。
+S5A_FIELDS = (('pooled', 'pooled Z',  2), ('se', 'SE',       2), ('p', 'P',   3),
+              ('Q',      'Cochran Q', 2), ('I2', 'I² (%)',    1), ('tau', 'τ', 2))
+
+
+def _borderline(x, nd):
+    """x 是否恰好落在 nd 位小数的舍入半格上（浮点容差 1e-9）。"""
+    s = x * (10 ** nd)
+    return abs(s - float(np.floor(s)) - 0.5) < 1e-9
+
+
+#: SI 表 S5a 的表注口径（段落 52）："RNH1 values … were recomputed from the quoted
+#: Z-scores (FinnGen R13 +2.31; UK Biobank GCST90043640 +0.72…)"。所以口径 A 不只是
+#: "两套里的一套"，而是表格自己声明的算法。下方逐项判定即按这条声明对账。
+S5A = (
+    ('第 1 行｜两队列同为 eQTLGen 权重（primary）',
+     (2.31, 0.72), (Z_FIN, Z_UKB),
+     dict(pooled=1.51, se=0.79, p=0.056, Q=1.26, I2=20.6, tau=0.51, pi=(-0.33, 3.36))),
+    ('第 3 行｜跨权重敏感性（FinnGen×eQTLGen + UKB×GTEx MASHR 胫神经）',
+     (2.31, 0.55), (Z_FIN, Z_UKB_NT),
+     dict(pooled=1.43, se=0.88, p=0.106, Q=1.56, I2=35.7, tau=0.75, pi=(-0.84, 3.69))),
+)
+
+R['s5a'] = dict(z_exact=dict(finngen_dr_eqtlgen=Z_FIN, ukb_dr_eqtlgen=Z_UKB,
+                             ukb_dr_gtex_nerve_tibial=Z_UKB_NT),
+                source='data/derived/ukb_dr/RNH1_official_metaxcan_Z.csv',
+                si_note_convention='quoted two-decimal Z-scores (SI para. 52)',
+                rows=[])
+unresolved_genuine = []
+for lab, z_quoted, z_exact, rep in S5A:
+    m_q, m_e = _meta2(*z_quoted), _meta2(*z_exact)
+    log('\n  ' + '-' * 96)
+    log('  ' + lab)
+    log('    口径 A（SI 表注声明）= 表中引用的两位小数 Z = (%+.2f, %+.2f)；'
+        '口径 B = 随库精确 Z = (%+.4f, %+.4f)' % (z_quoted + z_exact))
+    log('  ' + '-' * 96)
+    log('    %-11s %12s %12s %12s   %s' % ('量', '口径A', '口径B', '报告值', '判定'))
+    verdict, bad_genuine, bad_boundary = {}, [], []
+    for key, name, nd in S5A_FIELDS:
+        want = rep[key]
+        a, b = round(m_q[key], nd), round(m_e[key], nd)
+        ok_a, ok_b = (a == round(want, nd)), (b == round(want, nd))
+        edge = _borderline(m_q[key], nd) or _borderline(m_e[key], nd)
+        if ok_a and ok_b:
+            tag = '两口径均一致 ✓'
+        elif ok_a:
+            tag = '仅口径A一致 ✓（口径B %.*f ✗）' % (nd, b)
+        elif ok_b:
+            tag = '仅口径B一致 ✓（口径A %.*f ✗）' % (nd, a)
+        else:
+            tag = '两口径均不符 ✗' + ('（贴舍入半格）' if edge else '')
+            (bad_boundary if edge else bad_genuine).append(name)
+        log('    %-11s %+12.*f %+12.*f %+12.*f   %s' % (name, nd, a, nd, b, nd, want, tag))
+        verdict[key] = dict(quoted=a, exact=b, reported=want, ok_quoted=bool(ok_a),
+                            ok_exact=bool(ok_b), borderline=bool(edge))
+    a_lo, a_hi = (round(x, 2) for x in m_q['pi'])
+    b_lo, b_hi = (round(x, 2) for x in m_e['pi'])
+    ok_pi_a = (a_lo, a_hi) == tuple(rep['pi'])
+    ok_pi_b = (b_lo, b_hi) == tuple(rep['pi'])
+    log('    %-11s %+12s %+12s %+12s   %s'
+        % ('95% PI', '%.2f~%.2f' % (a_lo, a_hi), '%.2f~%.2f' % (b_lo, b_hi),
+           '%.2f~%.2f' % rep['pi'],
+           '两口径均一致 ✓' if (ok_pi_a and ok_pi_b) else
+           ('仅口径A一致 ✓' if ok_pi_a else ('仅口径B一致 ✓' if ok_pi_b else '两口径均不符 ✗'))))
+    verdict['pi'] = dict(quoted=[a_lo, a_hi], exact=[b_lo, b_hi], reported=list(rep['pi']),
+                         ok_quoted=bool(ok_pi_a), ok_exact=bool(ok_pi_b))
+    if not (ok_pi_a or ok_pi_b):
+        bad_genuine.append('95% PI')
+    log('    → 真不符：%s' % ('、'.join(bad_genuine) if bad_genuine else '无'))
+    if bad_boundary:
+        log('    → 贴舍入半格：%s（末位由舍入规则决定，非数值差）' % '、'.join(bad_boundary))
+    R['s5a']['rows'].append(dict(label=lab, z_quoted=list(z_quoted), z_exact=list(z_exact),
+                                 meta_quoted={k: round(v, 6) for k, v in m_q.items()
+                                              if k != 'pi'},
+                                 meta_exact={k: round(v, 6) for k, v in m_e.items()
+                                             if k != 'pi'},
+                                 pi_quoted=[round(x, 4) for x in m_q['pi']],
+                                 pi_exact=[round(x, 4) for x in m_e['pi']],
+                                 reported=rep, verdict=verdict,
+                                 unresolved_genuine=bad_genuine,
+                                 unresolved_at_rounding_boundary=bad_boundary))
+    unresolved_genuine += ['%s · %s' % (lab.split('｜')[0], x) for x in bad_genuine]
+
+R['s5a']['unresolved_genuine'] = unresolved_genuine
+_i2q, _i2e, _i2r = _meta2(*S5A[0][1])['I2'], _meta2(*S5A[0][2])['I2'], S5A[0][3]['I2']
+log('\n  S5a 小结：按表格自己声明的口径 A（表注：recomputed from the quoted Z-scores），'
+    '真不符项为 %s；\n'
+    '  第 3 行则由口径 B（随库精确 Z）逐项命中 —— 而表注写的却是口径 A。'
+    % ('、'.join(unresolved_genuine) if unresolved_genuine else '无'))
+log('  I² 一项：口径 A = %.4f%%（印为 %.1f），口径 B = %.4f%%（印为 %.1f），报表印 %.1f%% —— '
+    '距 B 仅 %.4f pp，而该量对 |Z| 的第 4 位小数敏感（差 0.001 ⇒ 约 0.15 pp）。'
+    % (_i2q, round(_i2q, 1), _i2e, round(_i2e, 1), _i2r, abs(_i2e - _i2r)))
+log('  即：I² 的差不是算术错误，但也不属于"表注声明的口径"；两项都打印，读者可自行复现任一，'
+    '并见 docs/audit_notes/ 中对 S5a 行的记录。')
 
 S5b = pd.DataFrame(rowsof(st[5])[1:], columns=rowsof(st[5])[0])
 c = (S5b['Direction'].str.strip().str.lower() == 'consistent').sum()

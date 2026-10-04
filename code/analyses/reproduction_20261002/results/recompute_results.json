@@ -415,20 +415,251 @@
   ]
  },
  "s5a": {
-  "pooled_z": 1.5150000000000001,
-  "Q": 1.2640500000000001,
-  "I2_pct": 20.88920533206757,
-  "tau_DL": 0.36335244598048333,
-  "SE_DL": 0.7523380224340652,
-  "PI_DL": [
-   -0.12255331516259349,
-   3.152553315162594
+  "z_exact": {
+   "finngen_dr_eqtlgen": 2.3091,
+   "ukb_dr_eqtlgen": 0.7225,
+   "ukb_dr_gtex_nerve_tibial": 0.5451
+  },
+  "source": "data/derived/ukb_dr/RNH1_official_metaxcan_Z.csv",
+  "si_note_convention": "quoted two-decimal Z-scores (SI para. 52)",
+  "rows": [
+   {
+    "label": "第 1 行｜两队列同为 eQTLGen 权重（primary）",
+    "z_quoted": [
+     2.31,
+     0.72
+    ],
+    "z_exact": [
+     2.3091,
+     0.7225
+    ],
+    "meta_quoted": {
+     "pooled": 1.515,
+     "Q": 1.26405,
+     "I2": 20.889205,
+     "tau": 0.513858,
+     "se": 0.795,
+     "p": 0.056694
+    },
+    "meta_exact": {
+     "pooled": 1.5158,
+     "Q": 1.25865,
+     "I2": 20.549782,
+     "tau": 0.508576,
+     "se": 0.7933,
+     "p": 0.056036
+    },
+    "pi_quoted": [
+     -0.3404,
+     3.3704
+    ],
+    "pi_exact": [
+     -0.3312,
+     3.3628
+    ],
+    "reported": {
+     "pooled": 1.51,
+     "se": 0.79,
+     "p": 0.056,
+     "Q": 1.26,
+     "I2": 20.6,
+     "tau": 0.51,
+     "pi": [
+      -0.33,
+      3.36
+     ]
+    },
+    "verdict": {
+     "pooled": {
+      "quoted": 1.52,
+      "exact": 1.52,
+      "reported": 1.51,
+      "ok_quoted": false,
+      "ok_exact": false,
+      "borderline": true
+     },
+     "se": {
+      "quoted": 0.8,
+      "exact": 0.79,
+      "reported": 0.79,
+      "ok_quoted": false,
+      "ok_exact": true,
+      "borderline": true
+     },
+     "p": {
+      "quoted": 0.057,
+      "exact": 0.056,
+      "reported": 0.056,
+      "ok_quoted": false,
+      "ok_exact": true,
+      "borderline": false
+     },
+     "Q": {
+      "quoted": 1.26,
+      "exact": 1.26,
+      "reported": 1.26,
+      "ok_quoted": true,
+      "ok_exact": true,
+      "borderline": false
+     },
+     "I2": {
+      "quoted": 20.9,
+      "exact": 20.5,
+      "reported": 20.6,
+      "ok_quoted": false,
+      "ok_exact": false,
+      "borderline": false
+     },
+     "tau": {
+      "quoted": 0.51,
+      "exact": 0.51,
+      "reported": 0.51,
+      "ok_quoted": true,
+      "ok_exact": true,
+      "borderline": false
+     },
+     "pi": {
+      "quoted": [
+       -0.34,
+       3.37
+      ],
+      "exact": [
+       -0.33,
+       3.36
+      ],
+      "reported": [
+       -0.33,
+       3.36
+      ],
+      "ok_quoted": false,
+      "ok_exact": true
+     }
+    },
+    "unresolved_genuine": [
+     "I² (%)"
+    ],
+    "unresolved_at_rounding_boundary": [
+     "pooled Z"
+    ]
+   },
+   {
+    "label": "第 3 行｜跨权重敏感性（FinnGen×eQTLGen + UKB×GTEx MASHR 胫神经）",
+    "z_quoted": [
+     2.31,
+     0.55
+    ],
+    "z_exact": [
+     2.3091,
+     0.5451
+    ],
+    "meta_quoted": {
+     "pooled": 1.43,
+     "Q": 1.5488,
+     "I2": 35.433884,
+     "tau": 0.74081,
+     "se": 0.88,
+     "p": 0.104163
+    },
+    "meta_exact": {
+     "pooled": 1.4271,
+     "Q": 1.555848,
+     "I2": 35.726369,
+     "tau": 0.745552,
+     "se": 0.882,
+     "p": 0.105657
+    },
+    "pi_quoted": [
+     -0.8246,
+     3.6846
+    ],
+    "pi_exact": [
+     -0.8365,
+     3.6907
+    ],
+    "reported": {
+     "pooled": 1.43,
+     "se": 0.88,
+     "p": 0.106,
+     "Q": 1.56,
+     "I2": 35.7,
+     "tau": 0.75,
+     "pi": [
+      -0.84,
+      3.69
+     ]
+    },
+    "verdict": {
+     "pooled": {
+      "quoted": 1.43,
+      "exact": 1.43,
+      "reported": 1.43,
+      "ok_quoted": true,
+      "ok_exact": true,
+      "borderline": false
+     },
+     "se": {
+      "quoted": 0.88,
+      "exact": 0.88,
+      "reported": 0.88,
+      "ok_quoted": true,
+      "ok_exact": true,
+      "borderline": false
+     },
+     "p": {
+      "quoted": 0.104,
+      "exact": 0.106,
+      "reported": 0.106,
+      "ok_quoted": false,
+      "ok_exact": true,
+      "borderline": false
+     },
+     "Q": {
+      "quoted": 1.55,
+      "exact": 1.56,
+      "reported": 1.56,
+      "ok_quoted": false,
+      "ok_exact": true,
+      "borderline": false
+     },
+     "I2": {
+      "quoted": 35.4,
+      "exact": 35.7,
+      "reported": 35.7,
+      "ok_quoted": false,
+      "ok_exact": true,
+      "borderline": false
+     },
+     "tau": {
+      "quoted": 0.74,
+      "exact": 0.75,
+      "reported": 0.75,
+      "ok_quoted": false,
+      "ok_exact": true,
+      "borderline": false
+     },
+     "pi": {
+      "quoted": [
+       -0.82,
+       3.68
+      ],
+      "exact": [
+       -0.84,
+       3.69
+      ],
+      "reported": [
+       -0.84,
+       3.69
+      ],
+      "ok_quoted": false,
+      "ok_exact": true
+     }
+    },
+    "unresolved_genuine": [],
+    "unresolved_at_rounding_boundary": []
+   }
   ],
-  "tau_table": 0.513857957027037,
-  "SE_table": 0.795,
-  "PI_table": [
-   -0.3403602669023609,
-   3.3703602669023613
+  "unresolved_genuine": [
+   "第 1 行 · I² (%)"
   ]
  },
  "s5b": {

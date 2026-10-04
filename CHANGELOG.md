@@ -23,6 +23,87 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-04 (twenty-third pass) — the hard-coded Z pair in `recompute.py`, and what removing it exposed
+
+Numbers: **no reported number changed.** No file in `data/` changed, and neither submitted document
+was touched. `results/merged_pairs.csv` is **byte-identical** before and after. The two tracked
+outputs that *do* change are `recompute_log.txt` and `recompute_results.json`, because the script
+now prints more than it did — that is the point of the pass.
+
+**The defect was not a wrong number. It was a comparison that printed like a pass.**
+
+`scripts/recompute.py` §3.12 hard-coded the two cohort Z-scores as literals:
+
+```python
+z_fin, z_ukb = 2.31, 0.72            # eQTLGen 权重下 FinnGen R13 / UKB 的 Z（表注所载取值）
+```
+
+and then printed its result beside the report's:
+
+```
+Cochran Q = 1.2641,  I² = 20.9%    (报告 Q = 1.26, I² = 20.6%)
+```
+
+20.9 on the left, 20.6 on the right, laid out as a verification. A reader — or a future maintainer,
+or a third party checking the archive — sees a matched line. It is not matched, and nothing in the
+output says so. The same line also mislabelled the two τ denominators: `(Q−df)/Σw` was called
+"DL 约定" (it is not DL) and `(Q−df)/df` was called "表中约定" (it is, in fact, DL here, since
+C = Σw − Σw²/Σw = k − 1 = df). Both mislabels were retracted in
+`repo_crosscheck/verify_crosscohort_exact.py` on 2026-10-03 and the script was never brought into
+line with that retraction.
+
+Fixed
+
+- **The literals are gone.** The Z-scores are read from the shipped
+  `data/derived/ukb_dr/RNH1_official_metaxcan_Z.csv` (+2.3091, +0.7225, +0.5451), which the
+  `ukb_dr_dir` entry already registers as an input — the same file the archive's own
+  `data/derived/ukb_dr/README.md` documents.
+- **Two conventions, both computed and both printed.** This is the treatment
+  `m6_ne_weighted_sensitivity.py` already gives the √N_e row, and it is now the treatment S5a gets:
+  **A** = the quoted two-decimal Z-scores — which is what the **SI's own Table S5a note declares**
+  ("recomputed from the quoted Z-scores") — and **B** = the archived full-precision official Z.
+- **A per-quantity verdict instead of a juxtaposition.** Each of the eight printed quantities now
+  carries `口径A / 口径B / 报告值 / 判定`, and the two failure modes are separated: a genuine
+  disagreement, and a value sitting exactly on a rounding half-step (where the last digit is decided
+  by the rounding rule and not by the data).
+- **Both S5a rows, not just the first.** Row 3 was equally hard-coded in spirit and is now computed
+  from the same shipped file.
+- The τ labels now match `verify_crosscohort_exact.py`.
+
+What the honest version shows
+
+| Row 1 (primary) | A (quoted, as the SI note declares) | B (archived exact) | printed | verdict |
+|---|---|---|---|---|
+| pooled Z | 1.52 | 1.52 | 1.51 | fails both — **and is exactly on the 1.515 half-step** |
+| SE | 0.80 | 0.79 | 0.79 | B only |
+| P | 0.057 | 0.056 | 0.056 | B only |
+| Cochran Q | 1.26 | 1.26 | 1.26 | both ✓ |
+| **I² (%)** | **20.9** | **20.5** | **20.6** | **neither** |
+| τ | 0.51 | 0.51 | 0.51 | both ✓ |
+| 95 % PI | −0.34~3.37 | −0.33~3.36 | −0.33~3.36 | B only |
+
+and **row 3 is reproduced only by B — while the SI note declares A.**
+
+So the finding is sharper than "a rounding difference". Row 1's I² is 0.0502 pp from the archived
+exact value and 0.2892 pp from the quoted one; the quantity moves ~0.15 pp per 0.001 of |Z|, so it is
+an input-precision residual of the same class as row 3's documented 76.6 / 76.27 — but it is *not*
+in the class of "consistent with the convention the note states". `metadata/ARCHIVE_MAP.md` row S5a
+previously said of this row **"— all match SI row 1"**; that was an eyeball check and it was wrong.
+It now says what was measured.
+
+Not done
+
+- **Which Z pair actually produced row 1 is still unrecorded.** A narrow diagonal band of
+  (Z_FinnGen, Z_UKB) pairs does reproduce the whole printed row — e.g. (2.3064, 0.7197) — and the
+  band's lower FinnGen edge is exactly the pre-alignment value **+2.3064** that
+  `data/derived/ukb_dr/README.md` documents ("the pre-aligned input used for the arm-level recompute
+  returns Z = +2.3064, 728/898"). That is suggestive and it is **not** established, so it is recorded
+  as a hypothesis and not as the explanation. Closing it needs the original analysis log, not a
+  search.
+- The rectification itself: three manuscript-side edits would close the residue — the SI note should
+  say which Z-scores row 1 used, or the I² should be printed to the precision the inputs support.
+  This archive cannot edit the paper.
+
 ### 2026-10-04 (twenty-second pass) — the map is corrected: S4 goes ✅ → ❌, S26 goes 🟡 → 🔴
 
 Numbers: **no reported number changed.** No file in `data/` changed, neither submitted document
