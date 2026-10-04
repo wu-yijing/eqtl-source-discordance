@@ -13,18 +13,20 @@ license: MIT
 license-url: "https://opensource.org/license/mit"
 repository-code: "https://github.com/wu-yijing/eqtl-source-discordance"
 url: "https://github.com/wu-yijing/eqtl-source-discordance"
-version: 4.0.1
+version: 4.0.2
 date-released: "2026-10-04"
 identifiers:
   # Managed by scripts/set_doi.py from metadata/zenodo_release.json.
-  # While that registry reports status "pending", the values below are unregistered
-  # placeholders and must not be cited — see DOI_PENDING.md.
+  # Both values below were minted by Zenodo when this release was published, and
+  # metadata/zenodo_release.json remains their single source of truth.
   - type: doi
     value: 10.5281/zenodo.23129112
     description: "Concept DOI — always resolves to the latest archived version"
+#DOI_VERSION_IDENTIFIER_BEGIN
   - type: doi
     value: 10.5281/zenodo.23129113
     description: "Version DOI — pins this exact archived snapshot"
+#DOI_VERSION_IDENTIFIER_END
 keywords:
   - transcriptome-wide association study
   - TWAS

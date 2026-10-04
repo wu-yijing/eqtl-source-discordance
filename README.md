@@ -11,6 +11,12 @@ Analysis code, processed data and a containerized reproducibility environment fo
 > this exact analysed snapshot. Machine-readable form: [`CITATION.cff`](CITATION.cff). The registry
 > of record is [`metadata/zenodo_release.json`](metadata/zenodo_release.json); the steps that
 > produced it are in [`DOI_PENDING.md`](DOI_PENDING.md).
+>
+> *If you are reading this inside a Zenodo archive* of the repository, the two values above are the
+> ones known when the tag was cut. The concept DOI is permanent; the version DOI may name the
+> **previous** release, because a version DOI only comes into existence once its own deposit has been
+> published — a tag cannot contain the DOI that its own publication mints. For the version DOI of the
+> release you are reading, resolve the concept DOI, or read the registry on the current `main`.
 <!-- DOI_STATUS_END -->
 
 ---
@@ -110,9 +116,9 @@ Earlier repositories of this project are retained read-only for provenance:
 | Repository | Zenodo concept DOI | Status |
 |---|---|---|
 | `wu-yijing/twas-eqtl-source-discordance` (formerly `TWAS-eQTL-source-confounding`) | `10.5281/zenodo.21238202` | Archived — full pre-2026-09-24 development history |
-| `wu-yijing/eqtl-source-discordance-audit` | `10.5281/zenodo.22910500` | Archived — release-only snapshot. **This is the object the associated manuscript's Data availability statement currently resolves to**; see [`DOI_PENDING.md`](DOI_PENDING.md) |
+| `wu-yijing/eqtl-source-discordance-audit` | `10.5281/zenodo.22910500` | Archived — release-only snapshot. This is the object the associated manuscript's Data availability statement **used to** resolve to; as of 2026-10-04 that statement cites this repository's DOI instead. See [`DOI_PENDING.md`](DOI_PENDING.md) |
 
-**This repository is the canonical archive from v4.0.0 onward.** The version line continues across the predecessor repositories rather than restarting, so that no two releases in this project ever share a version number.
+**This repository is the canonical archive from v4.0.1 onward** — the version line continues from `v4.0.0` (declared in earlier drafts but never tagged) rather than restarting, so that no two releases in this project ever share a version number.
 
 **Their contents no longer need to be fetched.** Every tracked file in both predecessors has been
 compared against this tree by blob hash and given a disposition — identical here already, superseded

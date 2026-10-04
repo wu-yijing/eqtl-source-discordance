@@ -1,19 +1,23 @@
-# DOI_PENDING — this repository has no published DOI yet
+# DOI_PENDING — closed on 2026-10-04, when v4.0.1 was deposited
 
-**Status: `pending`.** The canonical repository has not been published to Zenodo, so every DOI in
-this tree is an explicitly unresolved placeholder. `metadata/zenodo_release.json` is the single
-source of truth; [`scripts/set_doi.py`](scripts/set_doi.py) fills the carriers from it.
+**Status: closed.** This repository is published. The deposit was triggered by the GitHub release of
+tag `v4.0.1` on 2026-10-04, and the DOIs were filled in by [`scripts/set_doi.py`](scripts/set_doi.py)
+in the same session. Nothing here needs doing before a further release.
 
 | Field | Value |
 |---|---|
-| Status | pending |
-| Version to be released | whatever `.zenodo.json` declares — not duplicated here, so the two cannot disagree |
-| Concept DOI | `10.5281/zenodo.23129112` |
-| Version DOI | `10.5281/zenodo.23129113` |
-| Zenodo record | _not yet created_ |
+| Status | **published** |
+| Released as | `v4.0.1`, tag `71b038dc`, 2026-10-04 |
+| Concept DOI | `10.5281/zenodo.23129112` — permanent, always resolves to the latest version |
+| Version DOI | v4.0.1's is `10.5281/zenodo.23129113`; the current value is owned by [`metadata/zenodo_release.json`](metadata/zenodo_release.json) |
+| Zenodo record | <https://zenodo.org/records/23129113> (v4.0.1) |
 
-> **Do not cite the placeholders.** They are not registered, resolve to nothing, and the README
-> badge is deliberately a static "pending" shield rather than a Zenodo badge that would 404.
+> **The body below is this file as it stood on 2026-10-03**, before the deposit. It is retained
+> verbatim as the record of how the release was made and of what was still unresolved at the time —
+> in particular the mismatch between the DOI the manuscript's Data availability statement then cited
+> (the predecessor's `10.5281/zenodo.22910500`) and the repository that statement's GitHub URL named.
+> The v4.0.1 deposit closed that mismatch. Where the text below is in the present tense — "has not
+> been published", "currently", "_not yet created_" — it describes 2026-10-03, not the current state.
 
 ---
 

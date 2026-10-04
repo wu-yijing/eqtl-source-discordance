@@ -1,11 +1,11 @@
 {
  "_comment": [
   "Single source of truth for this repository's Zenodo identifiers.",
-  "Until the canonical repository is published to Zenodo, every DOI in the tree is a",
-  "placeholder token and this file says so. Fill it with scripts/set_doi.py — do not",
-  "hand-edit the DOI strings in README.md / CITATION.cff / CHANGELOG.md, because four",
-  "carriers have to stay in step and hand-editing is how they drift apart.",
-  "See DOI_PENDING.md for the publication steps."
+  "The repository is published and the status and DOI values below are live. Update them by",
+  "running scripts/set_doi.py — do not hand-edit the DOI strings in README.md / CITATION.cff /",
+  "CHANGELOG.md / DOI_PENDING.md / docs/predecessors/README.md, because the carriers have to stay",
+  "in step and hand-editing is how they drift apart.",
+  "See DOI_PENDING.md for how the v4.0.1 deposit was made."
  ],
  "status": "published",
  "version_owned_by": ".zenodo.json",
@@ -35,5 +35,5 @@
   "wu-yijing/twas-eqtl-source-discordance": "10.5281/zenodo.21238202",
   "wu-yijing/eqtl-source-discordance-audit": "10.5281/zenodo.22910500"
  },
- "note_on_predecessor_doi": "The associated manuscript's Data availability statement currently cites 10.5281/zenodo.22910500 / .22910501, which resolve to wu-yijing/eqtl-source-discordance-audit v1.0.0 (2026-09-23) — a 2.34 MB snapshot that predates every gap closure in metadata/ARCHIVE_MAP.md, the committed figure build outputs, and the SI ACAT-O rule. Publishing this repository and citing the resulting DOI is what closes that mismatch."
+ "note_on_predecessor_doi": "Until 2026-10-04 the associated manuscript's Data availability statement cited 10.5281/zenodo.22910500 / .22910501, which resolve to wu-yijing/eqtl-source-discordance-audit v1.0.0 (2026-09-23) — a 2.34 MB snapshot that predates every gap closure in metadata/ARCHIVE_MAP.md, the committed figure build outputs and the SI ACAT-O rule. The v4.0.1 deposit of this repository closed that mismatch: the statement now cites this repository's own DOIs."
 }

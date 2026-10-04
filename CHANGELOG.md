@@ -15,7 +15,7 @@ This project has been re-archived three times. Version numbers **do not restart*
 |---|---|---|---|
 | v1.0.0 – v3.0.0 | `wu-yijing/twas-eqtl-source-discordance` (formerly `TWAS-eQTL-source-confounding`) | concept `10.5281/zenodo.21238202` | Full pre-2026-09-24 development history. **GitHub tags and Zenodo version labels for this period are not identical — see "Open item" below.** |
 | v1.0.0 – v1.0.1 | `wu-yijing/eqtl-source-discordance-audit` | concept `10.5281/zenodo.22910500` | Release-only snapshot; **its v1.0.0 tag sits two commits behind that repository's final state** |
-| **v4.0.0** → | **this repository** | new concept DOI `10.5281/zenodo.23129112` | Canonical from here on |
+| **v4.0.1** → | **this repository** | concept DOI `10.5281/zenodo.23129112` | Canonical from here on. **v4.0.0 was declared in earlier drafts but never tagged, so v4.0.1 (2026-10-04) is the first released version of this repository.** |
 
 > **Open item — do not close this by assumption.** The predecessor README declares Zenodo version **v2.7.0** as current, while its GitHub tags stop at **v3.0.0**. GitHub tags and Zenodo version labels for the predecessor repository are therefore out of step. Record the true mapping here once verified, because a reader comparing the two will otherwise conclude that a release is missing.
 
@@ -24,6 +24,61 @@ This project has been re-archived three times. Version numbers **do not restart*
 ## [Unreleased]
 
 Nothing yet.
+
+## [4.0.2] — 2026-10-04
+
+### 2026-10-04 (eighteenth pass) — the archive states its own DOI, and the status prose catches up
+
+Numbers: no reported number changed. No file in `data/derived/` changed, no middleware artefact
+changed, no reproducing script was edited and neither submitted document was touched. This pass edits
+release metadata, one container label and the release tooling.
+
+The v4.0.1 deposit exposed a class of drift that the DOI backfill cannot close by itself.
+`scripts/set_doi.py` substitutes DOI *tokens* and rewrites two regions whole — the README status
+block and `CITATION.cff`'s version-identifier block — but it does not rewrite prose that states the
+*status*. Three consequences were found by inspection of the tree after the backfill, and all are
+fixed here:
+
+- `DOI_PENDING.md` still read "this repository has no published DOI yet", `Status: pending` and
+  `Zenodo record: _not yet created_` after the record existed and the DOI had been filled in.
+- `CITATION.cff` kept the comment "While that registry reports status \"pending\", the values below
+  are unregistered placeholders and must not be cited" sitting directly above two live, citable DOIs,
+  because that comment lies outside the managed block.
+- `env/Dockerfile` still carried `LABEL version="4.0.0"`. The project version had never been
+  propagated into the image label, and `cut_release.sh` checks the base-image digest but not this
+  label, so nothing in the gate set could catch the drift.
+
+The tooling fault behind the first two is fixed at the source, so that it cannot recur:
+
+- `CFF_BLOCK_PUBLISHED` now **retains** its `#DOI_VERSION_IDENTIFIER_BEGIN` / `_END` markers. The
+  first backfill consumed them, after which the block no longer matched: a second release would have
+  moved `README.md` forward and left `CITATION.cff` frozen on v4.0.1's version DOI. The markers are
+  the contract that makes the backfill repeatable.
+- The two comment lines that introduce `CITATION.cff`'s identifier list are now managed as well, so a
+  "pending / must not be cited" note cannot outlive the deposit.
+
+Documentation corrected or dated in the same pass:
+
+- `README.md` continues to name `eqtl-source-discordance-audit` (`10.5281/zenodo.22910500`) as the
+  object the manuscript's Data availability statement *used* to resolve to, rather than the object it
+  resolves to now; the published statement cites this repository's DOI. The same correction is made
+  in `docs/predecessors/README.md`, which also no longer calls the canonical repository "v4.0.0".
+- `metadata/zenodo_release.json`'s header comment no longer opens with "Until the canonical
+  repository is published to Zenodo…", and its `note_on_predecessor_doi` records the mismatch as
+  closed rather than current.
+- `DOI_PENDING.md` keeps its filename — five carriers link to it and it is still the place a reader
+  looks for how the deposit was made — but its status header is closed and its body is retained
+  verbatim as the dated record it is (see the note at the top of that file).
+
+Why a new version rather than an in-place edit of the record: the Zenodo archive of v4.0.1 is the tag
+`71b038dc`, and the README inside it says "No published DOI yet" — a reader who downloads the archive
+is told the deposit does not exist. A DOI can only be minted once its tag has been published, so no
+tag can ever contain its *own* version DOI; what a tag *can* contain is the permanent concept DOI. The
+README status block now says exactly that, so publishing v4.0.2 makes the archived README
+self-describing instead of self-contradicting.
+
+Checks: `verify_from_clone.sh` — 10 gates, 0 failures. `cut_release.sh` — 0 failures.
+`set_doi.py --check` — every carrier resolves to a real DOI, no placeholder tokens.
 
 ## [4.0.1] — 2026-10-04
 
@@ -960,6 +1015,8 @@ So several gaps are **not** "the script got lost". The number was pasted in from
 
 ---
 
-[Unreleased]: https://github.com/wu-yijing/eqtl-source-discordance/compare/v4.0.1...HEAD
+[Unreleased]: https://github.com/wu-yijing/eqtl-source-discordance/compare/v4.0.2...HEAD
+[4.0.2]: https://github.com/wu-yijing/eqtl-source-discordance/releases/tag/v4.0.2
 [4.0.1]: https://github.com/wu-yijing/eqtl-source-discordance/releases/tag/v4.0.1
 [4.0.0]: https://github.com/wu-yijing/eqtl-source-discordance/releases/tag/v4.0.0
+<!-- v4.0.0 was declared but never tagged; the link above is kept as history and is deliberately dead. -->

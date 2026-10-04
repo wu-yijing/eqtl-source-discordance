@@ -1,7 +1,7 @@
 # ARCHIVE_MAP — which file reproduces which manuscript item
 
 **Manuscript:** "Expression quantitative trait locus weight-source dependence in transcriptome-wide association studies: a two-axis diagnostic partition with disease-agnostic calibration" — submitted to *Genetic Epidemiology*.
-**Archive version:** v4.0.1.
+**Archive version:** v4.0.2.
 **Keyed to:** the **current** Supporting Information numbering (Tables S1–S30, Notes S1–S5, Figs. S1–S4).
 **Verified against:** `Supporting_Information_GenetEpidemiol_20260930.docx`, 2026-10-02. Every status below was set by comparing table titles, header row, logical/physical column count and data row count against the file named — and, where a value could settle it, by comparing actual cell values.
 

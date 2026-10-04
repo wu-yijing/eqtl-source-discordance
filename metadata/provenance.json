@@ -305,22 +305,22 @@
   {
    "path": ".zenodo.json",
    "bytes": 4468,
-   "sha256": "6833a4a4d8de9c5bf15f2a97610b2fe341685813d4450f0a029a120d62ef92e3"
+   "sha256": "9e8e34004575ae3e27fdcaefc1ced460abef5fc1c4ed2fa3fec26570a9310233"
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 76537,
-   "sha256": "23d1d79f1785a0b0eb289d755a3a3ecee69857f2160a05e1bca4119713fd4696"
+   "bytes": 80628,
+   "sha256": "2af639ccfcd32999ea1cfa5b765dec18239475b9e789b1677c784498533f3241"
   },
   {
    "path": "CITATION.cff",
-   "bytes": 3221,
-   "sha256": "b987994d1bf59bedfe4f06b6e833fe7e227c666ee6dc0e9ec5d809271a2f4625"
+   "bytes": 3284,
+   "sha256": "9d7629668f57802e0c284330f4a2333b887e6ef99b45630d270ab55298864d11"
   },
   {
    "path": "DOI_PENDING.md",
-   "bytes": 5821,
-   "sha256": "0c525b28f32d64e2f5f1e74ff813ea483ee3557877fa4a13982048960b3059b8"
+   "bytes": 6373,
+   "sha256": "e395e361814bba08d5792e24d92324fca34c16d7e416aaa8ba36e4b05fe2f107"
   },
   {
    "path": "LICENSE",
@@ -329,8 +329,8 @@
   },
   {
    "path": "README.md",
-   "bytes": 11158,
-   "sha256": "e735d912590fe6c78788c966b7cd52a916b3e0d453c6d5e7889da808939380bd"
+   "bytes": 11749,
+   "sha256": "28ce70ace8a63e6272a8fcd9be9e185ebd77155812ef05c676e6409266091303"
   },
   {
    "path": "code/README.md",
@@ -2099,8 +2099,8 @@
   },
   {
    "path": "docs/predecessors/README.md",
-   "bytes": 7400,
-   "sha256": "2e14f1347445a0b32183f0d02c1780f4562c7953c37349ca60ace8c440abbe49"
+   "bytes": 7778,
+   "sha256": "6d0fd4f6d284bff903e2e5b1e84b1932f543de801f28e139f43b9d4d64b6144e"
   },
   {
    "path": "docs/predecessors/eqtl-source-discordance-audit/ARCHIVE_NOTE.md",
@@ -2170,7 +2170,7 @@
   {
    "path": "env/Dockerfile",
    "bytes": 6056,
-   "sha256": "c26778b560df2a8267b8ba651294dae4d4e3b163000e4c92ea66770435fbe6b3"
+   "sha256": "a214fae67c7dd34f56d90f378526ed086216d4e08b052e3e0bfbab283f936bf4"
   },
   {
    "path": "env/README.md",
@@ -2275,7 +2275,7 @@
   {
    "path": "metadata/ARCHIVE_MAP.md",
    "bytes": 55813,
-   "sha256": "3d6bfecabbe38435e7bbadbaee02aa0b398c3d79a4493337dad0db2f213b5143"
+   "sha256": "70007170bf2ae4a7eef3c0b70f4266e625c79b25a3da1dff0960aed892b2a46c"
   },
   {
    "path": "metadata/PRE_REGISTRATION.md",
@@ -2294,8 +2294,8 @@
   },
   {
    "path": "metadata/zenodo_release.json",
-   "bytes": 2113,
-   "sha256": "4bd0986631b79e2bdb7fc74c1ccee55186b5b6a705a237b6650cc4928f28f065"
+   "bytes": 2162,
+   "sha256": "a6a4bae381d11b7024d708f51f208e34fc06dd2c10993ef932ab173f321f6fb0"
   },
   {
    "path": "scripts/audit_documents_vs_repo.py",
@@ -2324,8 +2324,8 @@
   },
   {
    "path": "scripts/set_doi.py",
-   "bytes": 12812,
-   "sha256": "158e4ce21dffcdf2bd6a1bfa23f44a8e39cc8d16c31585676a180fee46f13707"
+   "bytes": 15110,
+   "sha256": "39fa3d221fe73a08aa510aa3f786480588f4363d5a133001adb0ed4beebbf7f8"
   },
   {
    "path": "scripts/verify_external_inputs.py",

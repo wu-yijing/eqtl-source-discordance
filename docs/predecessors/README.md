@@ -1,6 +1,7 @@
 # `docs/predecessors/` — what the predecessor repositories hold, and what was migrated here
 
-This repository is the **canonical archive from v4.0.0 onward**. Two earlier repositories of the
+This repository is the **canonical archive from v4.0.1 onward** — the version line continues from
+`v4.0.0`, which was declared in earlier drafts but never tagged. Two earlier repositories of the
 same project are retained read-only for provenance, and several files in this tree still refer to
 them. This directory exists so that a reader does not have to clone them to find out what they
 contain, and so that every reference is traceable to a file rather than to a repository name.
@@ -14,18 +15,21 @@ of **every tracked file in both predecessors** (355 files), one record each.
 
 | Repository | Snapshot read for this migration | Tracked files | What it is |
 |---|---|---|---|
-| [`wu-yijing/eqtl-source-discordance-audit`](https://github.com/wu-yijing/eqtl-source-discordance-audit) | HEAD `7e70f3d`, 2026-09-24 | 165 | Release-only snapshot of the BMC Genomics submission. **This is the object the manuscript's Data availability statement currently resolves to** (concept DOI `10.5281/zenodo.22910500`). |
+| [`wu-yijing/eqtl-source-discordance-audit`](https://github.com/wu-yijing/eqtl-source-discordance-audit) | HEAD `7e70f3d`, 2026-09-24 | 165 | Release-only snapshot of the BMC Genomics submission. This is the object the manuscript's Data availability statement **used to** resolve to (concept DOI `10.5281/zenodo.22910500`), until the v4.0.1 deposit of this repository replaced it on 2026-10-04. |
 | [`wu-yijing/twas-eqtl-source-discordance`](https://github.com/wu-yijing/twas-eqtl-source-discordance) | HEAD `162e113`, 2026-09-23 | 190 | Full pre-2026-09-24 development history, including the retired in-house SCZ pipeline. |
 
 Both were verified on 2026-10-03 to be **public, not archived and not disabled** while this migration
 was prepared, so no permission change was needed to read them.
 
-> **Why this matters for a reader.** The manuscript's Data availability statement pairs a Zenodo DOI
-> with a GitHub URL, and the two do not point at the same object: the DOI resolves to
-> `eqtl-source-discordance-audit` **v1.0.0 (2026-09-23, a single 2.34 MB zip)**, while the URL names
-> this canonical repository (v4.0.0). The Zenodo snapshot predates every gap closure recorded in
+> **Why this mattered.** The manuscript's Data availability statement pairs a Zenodo DOI with a
+> GitHub URL, and at the time this migration was prepared the two did not point at the same object:
+> the DOI resolved to `eqtl-source-discordance-audit` **v1.0.0 (2026-09-23, a single 2.34 MB zip)**,
+> while the URL named this canonical repository (v4.0.0 in draft; v4.0.1 as first released). The Zenodo
+> snapshot predates every gap closure recorded in
 > [`../../metadata/ARCHIVE_MAP.md`](../../metadata/ARCHIVE_MAP.md), the seven committed figure build
-> outputs, and the SI ACAT-O combination rule. See [`../../DOI_PENDING.md`](../../DOI_PENDING.md).
+> outputs, and the SI ACAT-O combination rule. **That mismatch was closed on 2026-10-04**, when this
+> repository was deposited to Zenodo and its own DOI was backfilled into the statement. See
+> [`../../DOI_PENDING.md`](../../DOI_PENDING.md).
 
 ---
 

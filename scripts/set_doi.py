@@ -10,14 +10,21 @@ Four carriers have to agree on the DOI: `README.md` (badge and status block), `C
 drifted DOI is worse than an obvious placeholder: it looks resolved and is not.
 
 `metadata/zenodo_release.json` is the single source of truth. This script writes it and
-propagates from it. Two regions are *managed whole* rather than token-replaced, because a
+propagates from it. Three regions are *managed whole* rather than token-replaced, because a
 half-updated status sentence is a lie:
 
   * `README.md`, between `<!-- DOI_STATUS_BEGIN ...` and `<!-- DOI_STATUS_END -->`
   * `CITATION.cff`, between `#DOI_VERSION_IDENTIFIER_BEGIN` and `#DOI_VERSION_IDENTIFIER_END`
+  * the comment lines that introduce `CITATION.cff`'s identifiers list, which sit outside both
+    managed blocks and so are swapped by literal match
 
 Everything else is a straight token substitution of `10.5281/zenodo.<CONCEPT>` and
 `10.5281/zenodo.<VER>` (and their bare, backticked forms in `CHANGELOG.md`).
+
+Both managed blocks keep their BEGIN/END markers *after* substitution, so a later release can run
+this script a second time and move the version DOI forward — the markers are the contract that makes
+the backfill repeatable. A block that lost its markers would silently stop being updated, which is
+how the first backfill left `CITATION.cff` frozen while `README.md` moved on.
 
 USAGE
 -----
@@ -36,6 +43,10 @@ WHAT IS DELIBERATELY NOT REWRITTEN
 Historical records under `docs/audit_notes/` quote the placeholder because that is what was
 true on the date they were written, and this repository does not rewrite historical records
 (see `docs/audit_notes/INDEX.md`). `--check` therefore inspects the carriers only.
+
+Prose *outside* the managed regions is not rewritten either — including `DOI_PENDING.md`, which
+records how the release was produced. That file is dated evidence rather than a status flag; its
+status line was closed by hand when the deposit went out, and only its DOI tokens are substituted.
 """
 from __future__ import annotations
 
@@ -80,6 +91,12 @@ README_BLOCK_PUBLISHED = """<!-- DOI_STATUS_BEGIN — managed by scripts/set_doi
 > this exact analysed snapshot. Machine-readable form: [`CITATION.cff`](CITATION.cff). The registry
 > of record is [`metadata/zenodo_release.json`](metadata/zenodo_release.json); the steps that
 > produced it are in [`DOI_PENDING.md`](DOI_PENDING.md).
+>
+> *If you are reading this inside a Zenodo archive* of the repository, the two values above are the
+> ones known when the tag was cut. The concept DOI is permanent; the version DOI may name the
+> **previous** release, because a version DOI only comes into existence once its own deposit has been
+> published — a tag cannot contain the DOI that its own publication mints. For the version DOI of the
+> release you are reading, resolve the concept DOI, or read the registry on the current `main`.
 <!-- DOI_STATUS_END -->"""
 
 CFF_BLOCK_PENDING = """#DOI_VERSION_IDENTIFIER_BEGIN
@@ -88,9 +105,24 @@ CFF_BLOCK_PENDING = """#DOI_VERSION_IDENTIFIER_BEGIN
   #   description: "Version DOI — pins this exact archived snapshot"
 #DOI_VERSION_IDENTIFIER_END"""
 
-CFF_BLOCK_PUBLISHED = """  - type: doi
+CFF_BLOCK_PUBLISHED = """#DOI_VERSION_IDENTIFIER_BEGIN
+  - type: doi
     value: {version}
-    description: "Version DOI — pins this exact archived snapshot\""""
+    description: "Version DOI — pins this exact archived snapshot"
+#DOI_VERSION_IDENTIFIER_END"""
+
+# The two comment lines that introduce the identifiers list. They are not inside
+# either managed block, so they have to be swapped explicitly — otherwise a later
+# release leaves a "status pending, must not be cited" note sitting directly above
+# two live DOIs, which is exactly the half-updated sentence this script exists to
+# prevent.
+CFF_NOTE_PENDING = """  # Managed by scripts/set_doi.py from metadata/zenodo_release.json.
+  # While that registry reports status "pending", the values below are unregistered
+  # placeholders and must not be cited — see DOI_PENDING.md."""
+
+CFF_NOTE_PUBLISHED = """  # Managed by scripts/set_doi.py from metadata/zenodo_release.json.
+  # Both values below were minted by Zenodo when this release was published, and
+  # metadata/zenodo_release.json remains their single source of truth."""
 
 
 def repo_root() -> str:
@@ -219,13 +251,15 @@ def apply_doi(reg: dict, concept: str, version: str, record: str | None,
         print("  [warn] README.md has no DOI_STATUS_BEGIN/END block — badge handled, prose not.")
 
     cff = read("CITATION.cff")
-    if CFF_BLOCK_RE.search(cff):
-        new = CFF_BLOCK_RE.sub(lambda _m: CFF_BLOCK_PUBLISHED.format(version=version), cff, count=1)
-        if new != cff:
-            write("CITATION.cff", new)
-            changed.append("CITATION.cff (version DOI identifier activated)")
+    cff_new = cff.replace(CFF_NOTE_PENDING, CFF_NOTE_PUBLISHED)
+    if CFF_BLOCK_RE.search(cff_new):
+        cff_new = CFF_BLOCK_RE.sub(
+            lambda _m: CFF_BLOCK_PUBLISHED.format(version=version), cff_new, count=1)
     else:
         print("  [warn] CITATION.cff has no DOI_VERSION_IDENTIFIER block — version DOI not added.")
+    if cff_new != cff:
+        write("CITATION.cff", cff_new)
+        changed.append("CITATION.cff (version DOI identifier activated)")
 
     # 2. Token substitution across the remaining carriers.
     for rel in reg["carriers"]:
