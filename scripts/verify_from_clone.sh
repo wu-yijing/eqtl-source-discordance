@@ -15,6 +15,11 @@
 #
 # Exit code 0 = the clone verifies. Non-zero = do not publish it.
 #
+# Exit 0 does not always mean every check ran. A check whose runtime dependency the
+# interpreter lacks (NumPy, Pillow) reports [skip] and is counted in the summary: a run
+# with skips is "nothing that ran failed", which is weaker than "everything ran". Read the
+# skipped count before quoting a green result.
+#
 # Note: `git clone --no-hardlinks`, not `git archive`. On a machine with
 # core.autocrlf=true, `git archive` exports CRLF whatever `.gitattributes` says about the
 # checked-out form, so it is not an equivalent checkout and must not be used to prove one.
@@ -27,9 +32,17 @@ KEEP=0
 
 pass=0
 fail=0
-ok()  { printf '  [ ok ] %s\n' "$*"; }
-bad() { printf '  [FAIL] %s\n' "$*"; fail=$((fail + 1)); }
+skip=0
+ok()   { printf '  [ ok ] %s\n' "$*"; }
+bad()  { printf '  [FAIL] %s\n' "$*"; fail=$((fail + 1)); }
 warn() { printf '  [warn] %s\n' "$*"; }
+# A check that could not be run is neither a pass nor a failure. Folding it into the pass
+# count is how a green board grows over an unverified claim; folding it into the failure
+# count turns a property of the reader's interpreter into a defect in the archive. It gets
+# its own category here, and the summary prints the count, so "verified" never silently
+# means "partly verified". This is the same [skip] the pipeline itself prints
+# (code/run_all.sh), and the same verdict cut_release.sh gives a missing dependency.
+skip() { printf '  [skip] %s\n' "$*"; skip=$((skip + 1)); }
 
 # ---- the interpreter the reader is likely to have
 PY="${PY:-}"
@@ -141,8 +154,22 @@ fi
 
 echo
 echo "== 5. the reported numbers reproduce from the clone alone =="
-if "$PY" -c "import numpy" >/dev/null 2>&1; then
-  if "$PY" code/analyses/reproduction_min/reproduce_headline.py > "$CLONE/repro.txt" 2>&1; then
+# NumPy is the one runtime dependency the data layer has, and gates 5 and 7 both start code
+# that imports it. Where the interpreter the reader has cannot import NumPy, that code
+# cannot start — a property of the interpreter, not a defect in the archive — so both gates
+# *skip* rather than fail. Each prefers $PY, then any other interpreter on PATH, so a reader
+# who has NumPy anywhere still gets the real check instead of a skip.
+NUMPY_PY=""
+for c in "${PY:-}" python3 python; do
+  [ -n "$c" ] || continue
+  command -v "$c" >/dev/null 2>&1 || continue
+  if "$c" -c "import numpy" >/dev/null 2>&1; then NUMPY_PY="$c"; break; fi
+done
+if [ -n "$NUMPY_PY" ]; then
+  if [ "$NUMPY_PY" != "$PY" ]; then
+    ok "reproducing with $NUMPY_PY (it has NumPy; \$PY does not)"
+  fi
+  if "$NUMPY_PY" code/analyses/reproduction_min/reproduce_headline.py > "$CLONE/repro.txt" 2>&1; then
     ok "$(grep -iE 'mismatch|assert' "$CLONE/repro.txt" | tail -1 | sed 's/^ *//')"
   else
     bad "reproduce_headline.py FAILED — a reported value no longer reproduces:"
@@ -157,7 +184,7 @@ if "$PY" -c "import numpy" >/dev/null 2>&1; then
   # data/derived/hk_official_Z.csv and exits non-zero if a single one disagrees with the
   # published three-significant-figure value, so the gate carries the claim.
   if [ -f code/analyses/reproduction_20261002/scripts/recompute_acat_o.py ]; then
-    if "$PY" code/analyses/reproduction_20261002/scripts/recompute_acat_o.py > "$CLONE/acat.txt" 2>&1; then
+    if "$NUMPY_PY" code/analyses/reproduction_20261002/scripts/recompute_acat_o.py > "$CLONE/acat.txt" 2>&1; then
       ok "$(grep -i 'reproduced' "$CLONE/acat.txt" | tail -1 | sed 's/^ *//')"
     else
       bad "recompute_acat_o.py FAILED — the SI Table S6 ACAT-O column no longer reproduces:"
@@ -165,7 +192,7 @@ if "$PY" -c "import numpy" >/dev/null 2>&1; then
     fi
   fi
 else
-  ok "reproduction_min skipped: $PY has no numpy (interpreter limitation, not an archive fault)"
+  skip "reproduction_min and the ACAT-O re-derivation were not run: no interpreter on PATH can import NumPy (interpreter limitation, not an archive fault)"
 fi
 
 echo
@@ -225,11 +252,37 @@ else
   RUNALL_ARGS="--verify-only"
   ok "AF1_DOCX is unset — running --verify-only, so the figure scripts are not exercised"
 fi
-if ( PYTHON="$PY" bash code/run_all.sh $RUNALL_ARGS ) > "$CLONE/runall.txt" 2>&1; then
-  ok "$(grep 'RESULT:' "$CLONE/runall.txt" | tail -1 | sed 's/^ *//')"
+if [ -n "$NUMPY_PY" ]; then
+  if ( PYTHON="$NUMPY_PY" bash code/run_all.sh $RUNALL_ARGS ) > "$CLONE/runall.txt" 2>&1; then
+    ok "$(grep 'RESULT:' "$CLONE/runall.txt" | tail -1 | sed 's/^ *//')"
+  else
+    bad "code/run_all.sh FAILED — the entry point README.md advertises does not run:"
+    grep -E '\[FAIL\]|RESULT:' "$CLONE/runall.txt" | head -8 | sed 's/^/         /'
+  fi
 else
-  bad "code/run_all.sh FAILED — the entry point README.md advertises does not run:"
-  grep -E '\[FAIL\]|RESULT:' "$CLONE/runall.txt" | head -8 | sed 's/^/         /'
+  # run_all.sh cannot start without NumPy: its headline half imports it. Skipping is the
+  # right verdict — the same one gate 5 reaches on the same missing dependency — but a gate
+  # that only skips is a gate that cannot fail, and this repository has already shipped one
+  # defect behind exactly that. So it still does the two things that need no interpreter:
+  # the advertised entry point must parse, and every script it names must be in the tree.
+  if bash -n code/run_all.sh 2> "$CLONE/runall_syn.txt"; then
+    ok "code/run_all.sh parses under bash -n (execution skipped: no NumPy on PATH)"
+  else
+    bad "code/run_all.sh does not parse — the advertised entry point is syntactically broken:"
+    head -5 "$CLONE/runall_syn.txt" | sed 's/^/         /'
+  fi
+  RUNALL_REFS=$(grep -v '^[[:space:]]*#' code/run_all.sh | grep -oE '[A-Za-z0-9_]+\.py' | sort -u)
+  RUNALL_NREFS=$(printf '%s\n' $RUNALL_REFS | sed '/^$/d' | wc -l | tr -d ' ')
+  REF_MISSING=""
+  for b in $RUNALL_REFS; do
+    git ls-files | grep -qE "(^|/)$b$" || REF_MISSING="$REF_MISSING $b"
+  done
+  if [ -z "$REF_MISSING" ]; then
+    ok "code/run_all.sh names $RUNALL_NREFS script(s), all present in the tree"
+  else
+    bad "code/run_all.sh names script(s) absent from the tree:$REF_MISSING"
+  fi
+  skip "code/run_all.sh was not executed: no interpreter on PATH can import NumPy (interpreter limitation, not an archive fault)"
 fi
 
 echo
@@ -256,7 +309,7 @@ for c in "$PY" python3 python; do
   if "$c" -c "import numpy, PIL" >/dev/null 2>&1; then PUB_PY="$c"; break; fi
 done
 if [ -z "$PUB_PY" ]; then
-  warn "no interpreter with Pillow + NumPy on PATH (tried \$PY, python3, python) — the published-raster check was not run"
+  skip "no interpreter with Pillow + NumPy on PATH (tried \$PY, python3, python) — the published-raster check was not run"
 else
   ok "published-raster check: $PUB_PY"
   if ( cd code/figures/ge_si/published && "$PUB_PY" verify_published.py ) > "$CLONE/pub.txt" 2>&1; then
@@ -311,7 +364,13 @@ fi
 
 echo
 echo "=================================================="
-printf ' verified from a clone: %d failure(s)\n' "$fail"
+printf ' verified from a clone: %d failure(s), %d check(s) skipped\n' "$fail" "$skip"
+if [ "$skip" -gt 0 ]; then
+  echo " A skipped check is not a passed check: it needs a runtime dependency this"
+  echo " interpreter lacks (NumPy, Pillow). Install it, or point \$PY at an interpreter"
+  echo " that has it, and re-run — until then the claims those checks carry are"
+  echo " unverified for you, whatever the failure count says."
+fi
 if [ "$KEEP" = "1" ]; then
   echo " clone kept at: $RMDIR"
 else
@@ -321,5 +380,9 @@ if [ "$fail" -gt 0 ]; then
   echo " RESULT: a reader does not get what this repository claims. Do not publish."
   exit 1
 fi
-echo " RESULT: a fresh clone reproduces and verifies. Safe to publish."
+if [ "$skip" -gt 0 ]; then
+  echo " RESULT: every check that could run passed; $skip could not run here. Not a full verification."
+else
+  echo " RESULT: a fresh clone reproduces and verifies. Safe to publish."
+fi
 exit 0

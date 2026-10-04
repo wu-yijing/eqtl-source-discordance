@@ -309,8 +309,8 @@
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 80844,
-   "sha256": "99f1f49e1f4d1d70a3849fcdb6ee6363ae2e8aa2a0cb4d2dae54b68856ddac95"
+   "bytes": 83907,
+   "sha256": "26277ee7ff8489472cd235a238dfab93e1f0bcb1a022b9d842fe847deb6dac1f"
   },
   {
    "path": "CITATION.cff",
@@ -2314,8 +2314,8 @@
   },
   {
    "path": "scripts/cut_release.sh",
-   "bytes": 16096,
-   "sha256": "a5afe28ce6ab58c7f1bf427274eae3be108e97da5e865b15bdcbc6dc768b8c5f"
+   "bytes": 16675,
+   "sha256": "d2409b310d73d6e4f1c9a4a340dcf756b29efba3c039fd001b12a68599cae8d6"
   },
   {
    "path": "scripts/fetch_external_inputs.py",
@@ -2334,8 +2334,8 @@
   },
   {
    "path": "scripts/verify_from_clone.sh",
-   "bytes": 16088,
-   "sha256": "680fa0d990d12d3019c8e7ce0bd0eaed691b2224a3e171b14046d12c72273d0d"
+   "bytes": 19764,
+   "sha256": "87e68fdeb55cf356f7e84b3ea8216bf1a1a3b5829338dc55cd0b364d78821c3d"
   },
   {
    "path": "scripts/verify_provenance.py",

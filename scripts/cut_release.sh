@@ -21,9 +21,14 @@ set -uo pipefail
 
 FAIL=0
 WARN=0
+SKIP=0
 ok()   { printf '  [ ok ] %s\n' "$1"; }
 warn() { printf '  [warn] %s\n' "$1"; WARN=$((WARN+1)); }
 bad()  { printf '  [FAIL] %s\n' "$1"; FAIL=$((FAIL+1)); }
+# A check that could not be run is not a pass and not a failure — it is a skip, and it is
+# counted, so a pre-flight that only partly ran cannot read as a clean one. Same category
+# as [skip] in code/run_all.sh and scripts/verify_from_clone.sh.
+skip() { printf '  [skip] %s\n' "$1"; SKIP=$((SKIP+1)); }
 
 need() { command -v "$1" >/dev/null 2>&1 || { bad "required tool not found: $1"; return 1; }; }
 
@@ -244,7 +249,7 @@ if [ -f code/analyses/reproduction_min/reproduce_headline.py ]; then
       bad "reproduction_min FAILED under $PY — a reported value no longer reproduces"
     fi
   else
-    ok "reproduction_min: skipped, $PY has no numpy (interpreter limitation, not an archive fault)"
+    skip "reproduction_min was not run: $PY has no numpy (interpreter limitation, not an archive fault)"
   fi
 fi
 
@@ -261,7 +266,7 @@ if [ "${PH_TRACKED}" -eq 0 ]; then
   # to look. Observed on 2026-10-03 when this script was run from a source
   # directory with no `.git`: four carriers hold <CONCEPT>/<VER> and the sweep
   # reported clean anyway. A check that cannot fail is not a check.
-  warn "could not list tracked files — is git available? placeholder sweep SKIPPED (not passed)"
+  skip "could not list tracked files — is git available? placeholder sweep not run (not passed)"
 else
   PH=$(git ls-files -z 2>/dev/null \
        | xargs -0 grep -l '<CONCEPT>\|<VER>\|PLACEHOLDER' 2>/dev/null \
@@ -318,7 +323,12 @@ esac
 
 echo
 echo "=================================================="
-printf ' failures: %d   warnings: %d\n' "$FAIL" "$WARN"
+printf ' failures: %d   warnings: %d   skipped: %d\n' "$FAIL" "$WARN" "$SKIP"
+if [ "$SKIP" -gt 0 ]; then
+  echo " 'skipped' is neither pass nor failure: a check whose runtime dependency this"
+  echo " interpreter lacks. Re-run with an interpreter that has it before treating this"
+  echo " pre-flight as complete."
+fi
 if [ "$FAIL" -gt 0 ]; then
   echo " RESULT: DO NOT CUT THIS RELEASE until the failures above are resolved."
   exit 1

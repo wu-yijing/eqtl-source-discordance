@@ -23,7 +23,45 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
-Nothing yet.
+### 2026-10-04 (nineteenth pass) — one verdict for a missing dependency: gate 7 stops crying wolf
+
+Numbers: no reported number changed. No file in `data/derived/` changed, no middleware artefact
+changed, no reproducing script was edited and neither submitted document was touched. This pass
+edits two gate scripts only, so the archive is the same archive; what changes is how a gate
+reports a check it could not run.
+
+`scripts/verify_from_clone.sh` gate 7 exists because `code/run_all.sh` — the one command
+`README.md` tells a reader to run — was once broken from a fresh clone while every other gate
+stayed green (see the seventh pass). It ended that way with `bad`, which is right when
+`run_all.sh` fails for an archive reason and wrong when it fails because the interpreter cannot
+`import numpy` and the run never starts. The same missing dependency was a **skip** everywhere
+else: gate 5 said so, gate 8 said so, and `scripts/cut_release.sh` said so in as many words —
+"Only a missing numpy is a skip, because that is a property of the interpreter, not of the
+archive." One condition, three verdicts, and on an interpreter without NumPy the odd one out was
+the false alarm: the reader sees a red FAIL for something the archive did not do wrong.
+
+- **`[skip]` is now a first-class verdict in both gate scripts.** It is the same word
+  `code/run_all.sh` already prints. A skip is neither a pass nor a failure: it is counted
+  separately from both, and the summary prints the count. A run that skipped anything now ends
+  with "every check that could run passed; N could not run here. Not a full verification"
+  instead of borrowing the language of a clean pass — so a green board can no longer quietly
+  mean a partly-verified one.
+- **Gate 7 no longer reports a pass it did not earn, nor a failure it did not find.** With no
+  NumPy on PATH it skips the *execution*, as gates 5 and 8 do — but a gate that can only skip is
+  a gate that cannot fail, which is the very failure mode this script was written to end. So it
+  still does the two checks that need no interpreter: `bash -n` on the entry point, and a sweep
+  that every `.py` the entry point names is present in the tree.
+- **Gates 5 and 7 now prefer an interpreter that can actually run the code.** Each tries `$PY`,
+  then any other interpreter on PATH, so a reader who has NumPy anywhere gets the real check
+  rather than a skip. Where the substitute differs from `$PY`, the gate says which one it used.
+- **`scripts/cut_release.sh` adopts the same `[skip]`.** Its missing-NumPy line and its
+  git-absent placeholder sweep were reported as `[ ok ]` and `[warn]`; both are `[skip]` now,
+  and its summary prints a `skipped:` count alongside failures and warnings.
+
+No claim in this archive changed and no number moved. Verified both ways: with an interpreter
+that has NumPy the clone verifies 0 failure(s) / 0 skipped (all ten gates run, gate 5 at 15
+checks / 0 mismatches and 87/87 ACAT-O, gate 8 at zero differing pixels); with a bare
+interpreter it reports 0 failure(s) / 3 skipped, and names them.
 
 ## [4.0.2] — 2026-10-04
 
