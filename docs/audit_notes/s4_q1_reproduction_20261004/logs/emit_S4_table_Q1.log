@@ -1,0 +1,25 @@
+During startup - Warning messages:
+1: Setting LC_COLLATE=C.UTF-8 failed 
+2: Setting LC_CTYPE=C.UTF-8 failed 
+3: Setting LC_MONETARY=C.UTF-8 failed 
+4: Setting LC_TIME=C.UTF-8 failed 
+MatchIt : 4.5.5 from E:/workbuddy/_s4_pinned/rlib455/MatchIt 
+R       : R version 4.5.2 (2025-10-31 ucrt) 
+
+imputation reproduces the disclosed counts: 3 / 17 / 11
+candidates 30 | pool (44 Non-Candidate) 44
+matched pairs: 30 / 30 candidates
+
+candidate SET vs submitted : TRUE
+control   SET vs submitted : 30 / 30
+  submitted control not selected : 
+PAIRING agreement with submitted : 2 / 30
+
+wrote C:/Users/ADMINI~1/AppData/Local/Temp/q1_out/mahalanobis_matched_pairs.csv (60 rows, LF, no quoting) -- 3623 bytes
+
+-- Table S26 under the re-emitted pairing --
+source     endpoint     candidate    matched-control  Fisher P
+GTEx       BH q<0.05     2/84         1/60            1.000
+GTEx       nominal p<0.05  8/84         7/60            0.784
+eQTLGen    BH q<0.05     5/81         0/57            0.077
+eQTLGen    nominal p<0.05  8/81         4/57            0.761

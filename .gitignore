@@ -33,7 +33,7 @@ renv/cellar/
 /scratch/
 *.log
 
-# Scoped exceptions: in these two directories the run logs ARE the artefact.
+# Scoped exceptions: in these directories the run logs ARE the artefact.
 # `*.log` above is meant to keep working logs out of the archive; there, the log files are
 # the primary evidence, so they are re-included here and hashed in that directory's
 # MANIFEST.sha256. This does not re-include anything anywhere else.
@@ -41,6 +41,7 @@ renv/cellar/
 !docs/audit_notes/upstream_chain_closure_20261004/logs/*.log
 !docs/audit_notes/s4_matchit_version_test_20261004/logs/*.log
 !docs/audit_notes/s4_specification_sweep_20261004/logs/*.log
+!docs/audit_notes/s4_q1_reproduction_20261004/logs/*.log
 
 # ---------------------------------------------------------------------------
 # OS / editor
