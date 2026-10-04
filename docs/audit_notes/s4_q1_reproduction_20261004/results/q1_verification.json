@@ -1,0 +1,51 @@
+{
+ "candidate_block_byte_identical": true,
+ "candidate_count": [
+  30,
+  30
+ ],
+ "candidate_set_identical": true,
+ "checks": {
+  "control_set_30_of_30": true,
+  "difference_is_the_pairing_only": true,
+  "hashes_match_B": true
+ },
+ "column_layout_identical": true,
+ "columns_A": [
+  "Gene",
+  "Group",
+  "log10_Length",
+  "Length_bp",
+  "n_eQTL_SNPs",
+  "GC_pct",
+  "subclass",
+  "treated"
+ ],
+ "columns_B": [
+  "Gene",
+  "Group",
+  "log10_Length",
+  "Length_bp",
+  "n_eQTL_SNPs",
+  "GC_pct",
+  "subclass",
+  "treated"
+ ],
+ "control_set_overlap": 30,
+ "control_set_size": 30,
+ "differing_lines": 28,
+ "differing_lines_expected": 28,
+ "hash_archive_shipped": "38e49d56b3a919e7ec563b7ae22b068e",
+ "hash_control_set_A": "e047ec426303a98bc939c270ecd5e44f",
+ "hash_re_emitted_B": "38e49d56b3a919e7ec563b7ae22b068e",
+ "hash_this_run": "38e49d56b3a919e7ec563b7ae22b068e",
+ "lines": [
+  61,
+  61
+ ],
+ "md5_A_matches_pinned_constant": true,
+ "md5_matches_pinned_constant": true,
+ "pairing_agreement_note": "low by design: A's pairing is a rank-zip, B's is a nearest-neighbour matching. Q1 is the SET; Q2 is the PAIRING. See docs/audit_notes/s4_pairing_provenance_20261004/",
+ "pairing_agreement_with_A": 2,
+ "verdict": "Q1 REPRODUCED"
+}
