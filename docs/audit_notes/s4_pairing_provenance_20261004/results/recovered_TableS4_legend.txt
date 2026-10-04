@@ -1,0 +1,2 @@
+Supplementary Table S5. Mahalanobis Matched Pairs.
+Details of 30 nearest-neighbor Mahalanobis matched pairs. Each pair contains one candidate gene and one matched control from the non-candidate pool. Columns: Pair ID, Candidate gene and its covariates (log10 Length, Length_bp, n_eQTL_SNPs), matched Control gene and its covariates. Matching was based on log10(gene length), GC%, and eQTL SNP count.
