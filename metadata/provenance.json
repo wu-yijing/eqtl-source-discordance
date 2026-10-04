@@ -309,8 +309,8 @@
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 126461,
-   "sha256": "30d52b90c393db299f89fcefd6a813d3b51c38ce17b167f281ec59d38f74d937"
+   "bytes": 127135,
+   "sha256": "970e4be201d6baaeb84a2dc7fa9457bad83fd41723cec49d00f7ca25ba487194"
   },
   {
    "path": "CITATION.cff",
@@ -2764,8 +2764,8 @@
   },
   {
    "path": "scripts/verify_from_clone.sh",
-   "bytes": 20846,
-   "sha256": "68e76a3714e836323a7a3d0f2477dd33f0a5583f225eb1593f81fa475f9398c5"
+   "bytes": 21189,
+   "sha256": "8023ee38a4feb7cd706d8a747aa412234ca2e216de65b9ccf9ea783d25be1355"
   },
   {
    "path": "scripts/verify_provenance.py",

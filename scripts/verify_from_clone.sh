@@ -370,9 +370,13 @@ echo "== 11. no tracked file is empty =="
 # over the emptied results and reported a clean board. A hash proves a file is *unchanged*; it
 # cannot prove the file says anything. This gate can only fail in one direction, which is the
 # point. No tracked path is a placeholder today, so there is no allowlist.
-EMPTY="$(cd "$CLONE" && git ls-files -z | while IFS= read -r -d '' f; do [ -s "$f" ] || printf '%s\n' "$f"; done)"
+# NB: the clone lives at $RMDIR (= $CLONE/repo), not at $CLONE. The first version of this
+# gate wrote `cd "$CLONE"`, which is the temp parent and not a repository — `git ls-files`
+# returned nothing and the gate passed over an empty file set. Found by printing the file
+# count: a checker that reports "(0 files)" is not checking anything.
+EMPTY="$(cd "$RMDIR" && git ls-files -z | while IFS= read -r -d '' f; do [ -s "$f" ] || printf '%s\n' "$f"; done)"
 if [ -z "$EMPTY" ]; then
-  ok "every tracked file has content ($(cd "$CLONE" && git ls-files | wc -l | tr -d ' ') files)"
+  ok "every tracked file has content ($(cd "$RMDIR" && git ls-files | wc -l | tr -d ' ') files)"
 else
   bad "tracked file(s) with zero bytes — a hash cannot tell an empty file from a full one:"
   printf '%s\n' "$EMPTY" | head -8 | sed 's/^/         /'

@@ -54,13 +54,21 @@ rather than an error.
    `identify_reported_matching.py` in place, so the shipped output is the script's own. Verified by
    parsing them: 60 rows and 30 rows respectively, and the transcript carries its `VERDICT` line.
 2. **`verify_from_clone.sh` gains gate 11: no tracked file may be empty.** It self-tests both ways
-   — the checker was run against a scratch repository containing an empty file and against one
-   without, and reports `[FAIL]` and `[ ok ]` respectively. There is no allowlist because no
-   tracked path is a placeholder; if one is ever needed, it will have to be argued for here.
+   — run against a scratch repository containing an empty file and against one without, it reports
+   `[FAIL]` and `[ ok ]` respectively. There is no allowlist because no tracked path is a
+   placeholder; if one is ever needed, it will have to be argued for here.
+
+   **The first version of this gate was itself vacuous, and the tell was in its own output.** It
+   wrote `cd "$CLONE"`, but the clone lives at `$RMDIR` = `$CLONE/repo`; `$CLONE` is the temp
+   parent, is not a repository, and `git ls-files` there returns nothing — so the gate passed over
+   an *empty file set*. It printed `every tracked file has content (0 files)`. A count of zero where
+   the tree has 498 is the one thing that could not be mistaken, which is why the count is printed:
+   the fix is `cd "$RMDIR"`, and the run now reads `(498 files)`.
 
 The lesson is the one this repository keeps relearning from the other direction: a check that
 cannot fail is not a check. Every existing gate asked whether the bytes on disk matched the bytes
-recorded; none asked whether there were any.
+recorded; none asked whether there were any. Gate 11 cost two attempts to become a check rather
+than a formality, which is a fair estimate of how easy that mistake is to make.
 
 ### 2026-10-04 (twenty-eighth pass) — the third matched set is identified, and it is by the manuscript's own numbers
 
