@@ -23,6 +23,80 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-04 (twenty-second pass) — the map is corrected: S4 goes ✅ → ❌, S26 goes 🟡 → 🔴
+
+Numbers: **no reported number changed.** No file in `data/` changed, neither submitted document
+was touched, and no reproducing script was edited. This pass edits **one status column, four
+prose carriers and two gates**, and its whole subject is that the previous pass found something
+and left the map still saying otherwise.
+
+**`metadata/ARCHIVE_MAP.md` was over-claiming two rows.** The twenty-first pass measured that
+SI Table S4 does not reproduce. It recorded that in `docs/audit_notes/` and left
+`metadata/ARCHIVE_MAP.md` untouched, so the document a reviewer actually reads still carried
+`✅` and "a fresh clone re-runs it end to end" for a row whose re-run returns a different table.
+A finding that is not written where the claim lives is not a correction.
+
+The status column, machine-counted before and after:
+
+| | ✅ | 🟡 | 🔴 | ❌ | ➖ | total |
+|---|---|---|---|---|---|---|
+| before | 26 | 12 | 0 | — | 9 | 47 |
+| after | **25** | **11** | **1** | **1** | 9 | 47 |
+
+Changed
+
+- **`metadata/ARCHIVE_MAP.md` §3, row S4: ✅ → ❌, locality `clone` → `clone ≠ result`.** The old
+  cell reasoned that every input ships, which was true and beside the point — the *script* ships
+  too, and running it returns a different matched set. The row now carries the six conventions
+  tried, the best result (**2 of 30** control assignments), the three measured defects, the one
+  measured agreement (covariates 0 discrepancies over 60 rows) and the surviving unmeasured
+  explanation (`MatchIt` 4.7.2 installed vs 4.5.5 in `env/renv.lock`). It also records the
+  **third matched set** on disk (`Table_S2_Matched_Controls.csv`, six controls different), so any
+  closure has to say which run the manuscript reports.
+- **`metadata/ARCHIVE_MAP.md` §3, row S26: 🟡 → 🔴.** Its 🟡 rested on inputs being present. They
+  are — but the producing script was never shipped *and* the matched-control denominators (60 and
+  57) cannot be derived from the 30 archived pairs, so this is a construction that was never
+  captured rather than a join waiting to be written. It also inherits S4.
+- **A `❌ NOT REPRODUCED` mark, added to the Status key and its obligation.** The vocabulary had
+  no way to say "the script runs and disagrees" — which is exactly why S4 kept a ✅ it had not
+  earned. 🔴 and ❌ are kept apart on purpose: *we lost the script* and *we have the script and it
+  disagrees* have different remedies, and reporting the second as the first is a misdescription.
+- **A `clone ≠ result` locality label**, defined in §"Two axes, not one". The old vocabulary could
+  say "the chain does not run here" (`none`) but not "the chain runs and returns something else".
+- **§5 GAP register: GAP-11 opens** for S4 + S26, and says plainly that it is the first entry on
+  that register which is a *finding* rather than a bookkeeping item. The closing paragraph now
+  states the DOI placeholder **is resolved** (v4.0.1 / v4.0.2 are minted) and replaces it with
+  the actual residue and its closure path.
+- **`README.md`** — the locality list is corrected (`clone (outcome)` was removed on 2026-10-03
+  and the list still carried it) and a paragraph now presents the ❌ row *before* the rest, since
+  a reader deciding what to trust should meet it early.
+- **`code/README.md`** — `analyses/run_mahalanobis_matching.R` was listed as reproducing "Table S4
+  — the 30-gene Mahalanobis matching". It does not. The cell now says so.
+
+Changed — the gates, because the vocabulary is part of them
+
+- **`scripts/check_archive_map.py`**: `STATUS_MARKS` and `LOCALITY` now carry the two additions,
+  the summary-line regex expects the five counts, and `--counts` returns six fields
+  (`total ✅ 🟡 🔴 ❌ ➖`). The gate was not asserting anything false — it simply could not express
+  the state, and neither could the map it checks. A vocabulary gap in the checker is what let the
+  vocabulary gap in the map survive.
+- **`scripts/cut_release.sh`**: reads fields 4 and 5 and reports 🔴 and ❌ **separately**, since
+  they oblige different things. It previously read field 4 alone.
+
+Verified
+
+- `scripts/check_archive_map.py` → `13 tables, 47 item rows, 5 locality labels`; summary counts,
+  column declaration and vocabulary all agree.
+- `scripts/verify_provenance.py`, `metadata/provenance.json` regenerated over the new tree.
+
+Not done, and deliberately
+
+- **The Supporting Information still carries whatever it carries about S4.** This archive cannot
+  edit the paper. The map is now honest and the paper is the remaining carrier of the old claim;
+  that is stated in §5 rather than left for a reader to discover.
+- **The `MatchIt 4.5.5` measurement.** Still narrowed, not measured — a source install needs
+  Rtools. Until it runs, ❌ stands.
+
 ### 2026-10-04 (twenty-first pass) — the open items, closed or answered; S4 does not reproduce
 
 Numbers: **no reported number changed.** No file in `data/` changed, no gate was changed, and

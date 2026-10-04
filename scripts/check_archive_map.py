@@ -41,13 +41,21 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
 MAP = os.path.join(REPO, 'metadata', 'ARCHIVE_MAP.md')
 
-STATUS_MARKS = ('✅', '🟡', '🔴', '➖')
+STATUS_MARKS = ('✅', '🟡', '🔴', '❌', '➖')
 
 #: The vocabulary of the `Input locality` column. Every data row of the three item
 #: tables must begin its last cell with one of these, in bold backticks, followed by
 #: an em dash and a reason. Keep in step with the Status key in the map itself.
+#:
+#: `clone ≠ result` was added on 2026-10-04, together with the `❌` status, because the
+#: two columns could say "the chain does not run here" and could say "the chain runs",
+#: but had no way to say "the chain runs and returns a different table". SI Table S4 was
+#: in exactly that state while marked ✅ / `clone`, and the vocabulary is what let it stay
+#: there. A vocabulary that cannot express a finding hides it.
 LOCALITY = {
     'clone': 'every input ships; a fresh clone re-runs it end to end',
+    'clone ≠ result': 'every input ships and the chain re-runs, but it does not return '
+                      'the archived table',
     'clone + SI': 're-runs once you supply a document published with the paper',
     'none': 'nothing in this archive produces it',
     '—': 'no data artefact',
@@ -153,24 +161,28 @@ def main():
     counts = Counter(r[2] for r in item_rows)
 
     if counts_only:
-        # Consumed by cut_release.sh, which needs the number of GAP rows. Counting the
+        # Consumed by cut_release.sh, which needs the number of blocking rows. Counting the
         # emoji in the whole file — the obvious way, and what that script used to do —
         # also counts the status key that defines the mark and the summary line that
         # reports it, so it over-reports. Only the item tables are a count of items.
-        print('%d %d %d %d %d' % (len(item_rows), counts['✅'], counts['🟡'],
-                                  counts['🔴'], counts['➖']))
+        #
+        # Four statuses can block a release and they are reported separately so the caller
+        # can say which it is: 🔴 (nothing produces it) and ❌ (something produces it and
+        # disagrees) are both blocking and mean different things.
+        print('%d %d %d %d %d %d' % (len(item_rows), counts['✅'], counts['🟡'],
+                                     counts['🔴'], counts['❌'], counts['➖']))
         return 0
 
     m = re.search(r'Of (\d+) items checked[^:]*:\s*\*\*(\d+) ✅, (\d+) 🟡, (\d+) 🔴, '
-                  r'(\d+) ➖\*\*', text)
+                  r'(\d+) ❌, (\d+) ➖\*\*', text)
     if not m:
         problems.append('the summary line ("Of N items checked ... **a ✅, b 🟡, ...") '
                         'is missing or no longer matches the pattern this check expects')
     else:
         declared = dict(total=int(m.group(1)), ok=int(m.group(2)), deriv=int(m.group(3)),
-                        gap=int(m.group(4)), na=int(m.group(5)))
+                        gap=int(m.group(4)), notrep=int(m.group(5)), na=int(m.group(6)))
         actual = dict(total=len(item_rows), ok=counts['✅'], deriv=counts['🟡'],
-                      gap=counts['🔴'], na=counts['➖'])
+                      gap=counts['🔴'], notrep=counts['❌'], na=counts['➖'])
         if declared != actual:
             problems.append('the summary counts disagree with the table: line says %s, '
                             'the status column holds %s' % (declared, actual))

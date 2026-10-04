@@ -144,11 +144,18 @@ else
 fi
 
 if [ -f metadata/ARCHIVE_MAP.md ]; then
-  # The GAP count comes from scripts/check_archive_map.py (--counts), which reads the
-  # status column of the item tables. Counting 🔴 in the whole file — the obvious way,
+  # The blocking-row count comes from scripts/check_archive_map.py (--counts), which reads
+  # the status column of the item tables. Counting 🔴 in the whole file — the obvious way,
   # used here before — also counts the status key that defines the mark and the summary
   # line that reports it, and so over-report. A count taken from the wrong universe is
   # the same defect class as the drifted summary line this map has already had once.
+  #
+  # Two marks block a release and they are NOT the same thing:
+  #   🔴 GAP          nothing in the archive produces the item (the script was never archived)
+  #   ❌ NOT REPRODUCED  the script ships, is run, and returns a different table
+  # Keeping them apart is the point: "we lost the script" and "we have the script and it
+  # disagrees" have different remedies, and a release note that says "GAP" for the second
+  # would be describing it as a missing file. Fields 4 and 5 of --counts are the two.
   #
   # Note also why this is not grep: under Git Bash on Windows, grep fails to match the
   # 4-byte emoji and silently returns 0, which would report "no GAP rows" on a file
@@ -156,18 +163,28 @@ if [ -f metadata/ARCHIVE_MAP.md ]; then
   if [ -f scripts/check_archive_map.py ]; then
     # NOT `set -- $(...)`: that would clobber $1, which holds the target version.
     AMC=$("$PY" scripts/check_archive_map.py --counts 2>/dev/null)
-    N=$(printf '%s' "$AMC" | awk '{print $4}')
+    NG=$(printf '%s' "$AMC" | awk '{print $4}')
+    NN=$(printf '%s' "$AMC" | awk '{print $5}')
   else
-    N=$("${PY}" -c "
+    NG=$("${PY}" -c "
 t = open('metadata/ARCHIVE_MAP.md', encoding='utf-8').read()
 print(t.count('\U0001F534'))
-" 2>/dev/null) || N=0
+" 2>/dev/null) || NG=0
+    NN=0
   fi
-  N=${N:-0}
-  if [ "$N" -eq 0 ]; then
-    ok "ARCHIVE_MAP.md has no GAP rows"
-  else
-    warn "ARCHIVE_MAP.md has $N row(s) marked GAP — each must be fixed or explicitly declared in README before release"
+  NG=${NG:-0}
+  NN=${NN:-0}
+  if [ "$NG" -eq 0 ] && [ "$NN" -eq 0 ]; then
+    ok "ARCHIVE_MAP.md has no GAP and no NOT-REPRODUCED rows"
+  fi
+  if [ "$NG" -ne 0 ]; then
+    warn "ARCHIVE_MAP.md has $NG row(s) marked 🔴 GAP — nothing here produces them"
+  fi
+  if [ "$NN" -ne 0 ]; then
+    warn "ARCHIVE_MAP.md has $NN row(s) marked ❌ NOT REPRODUCED — the script ships and returns a different table; the reported value must not be described as verified"
+  fi
+  if [ "$NG" -ne 0 ] || [ "$NN" -ne 0 ]; then
+    warn "each of the above must be fixed or explicitly declared in README before release"
   fi
   # --- the map must be checkable, not just present ---------------------------
   # The GAP count above reads the status column. It cannot see the markdown
