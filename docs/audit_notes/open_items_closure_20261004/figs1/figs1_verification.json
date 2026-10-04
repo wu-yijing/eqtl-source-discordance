@@ -1,0 +1,81 @@
+{
+ "candidates": {
+  "rerun_legacy_greentext.png": {
+   "amplitude_1_to_8": 687176,
+   "amplitude_gt_64": 161295,
+   "amplitude_gt_8": 269192,
+   "best_offset": [
+    1,
+    0
+   ],
+   "candidate_size": [
+    3188,
+    3076
+   ],
+   "cols_with_a_difference": 2941,
+   "differing_pixels": 956368,
+   "max_channel_difference": 255,
+   "overlap_pixels": 9806288,
+   "pct": 9.7526,
+   "reference_size": [
+    3189,
+    3077
+   ],
+   "rows_with_a_difference": 2857
+  },
+  "rerun_published_greentext.png": {
+   "amplitude_1_to_8": 687672,
+   "amplitude_gt_64": 123924,
+   "amplitude_gt_8": 232084,
+   "best_offset": [
+    1,
+    0
+   ],
+   "candidate_size": [
+    3188,
+    3076
+   ],
+   "cols_with_a_difference": 2941,
+   "differing_pixels": 919756,
+   "max_channel_difference": 255,
+   "overlap_pixels": 9806288,
+   "pct": 9.3792,
+   "reference_size": [
+    3189,
+    3077
+   ],
+   "rows_with_a_difference": 2857
+  }
+ },
+ "pre_patch_size": [
+  3189,
+  3077
+ ],
+ "published_size": [
+  3189,
+  3077
+ ],
+ "published_vs_pre_patch": {
+  "amplitude_1_to_8": 557,
+  "amplitude_gt_64": 15298,
+  "amplitude_gt_8": 17763,
+  "best_offset": [
+   0,
+   0
+  ],
+  "candidate_size": [
+   3189,
+   3077
+  ],
+  "cols_with_a_difference": 663,
+  "differing_pixels": 18320,
+  "max_channel_difference": 255,
+  "overlap_pixels": 9812553,
+  "pct": 0.1867,
+  "reference_size": [
+   3189,
+   3077
+  ],
+  "rows_with_a_difference": 109
+ }
+}

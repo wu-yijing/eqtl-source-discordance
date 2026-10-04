@@ -141,26 +141,42 @@ That string is a **parameter, not a different program** — `redraw_figS1_guard.
 (2026-09-23) already carries it as a `GREEN_TEXT` variant, with the `baseline` value being
 exactly the published sentence.
 
-### 2.3 Why it still does not land, quantified
+### 2.3 Why it still does not land, and what was ruled out
+
+The generator is now reusable — `figs1/gen_figS1.py` is the drawing code, verbatim from the
+recovered generator, with the two strings the audit found to vary promoted to parameters and
+the working-directory dependencies removed. Every axis that could plausibly explain the
+residual was then tested and **eliminated**:
 
 | Test | Result |
 |---|---|
-| Re-run vs published, cropped to the smaller size | **9.42 %** of pixels differ |
-| ±3 px translation search, best offset (dy = +1, dx = 0) | **9.38 %** — no offset helps |
-| Difference amplitude | `687,672` px differ by only **1–8** grey levels; `123,924` by more than 64 |
+| Candidate vs `FigS1_pre_patch.png`, cropped to the smaller size | **9.42 %** of pixels differ |
+| ±3 px translation search (49 offsets), best = (dy = +1, dx = 0) | **9.3792 %** — no offset helps |
+| `font.sans-serif = Arial` (the recovered style file's first choice) | **9.3792 %** |
+| `font.sans-serif = DejaVu Sans` | 11.2880 % — **worse**, so the published run resolved Arial |
+| matplotlib **3.10.8** (this archive's pin) | **9.3792 %** |
+| matplotlib **3.10.9** (the version the submitted GE figures were drawn with) | **9.3792 % — identical to the byte** |
+| Resampling to 3189 × 3077, 6 filters (NEAREST / BILINEAR / BICUBIC / LANCZOS / BOX / HAMMING) | 9.71 – 12.51 %, none an improvement |
+| 1-px white pad on each of the four corners | 9.42 – 10.25 %, none an improvement |
+| Difference amplitude (best offset) | **687,672** px differ by only **1–8** grey levels; 232,084 by more than 8; 123,924 by more than 64 |
 | Spread | 2,857 of 3,076 rows and 2,941 of 3,188 columns contain at least one differing pixel |
-| 1-px white pad on each of the four corners | no corner improves on the un-padded comparison |
 
-Differences covering essentially the whole canvas at **low amplitude** are the signature of
-**font rasterisation** — a different FreeType or font-file build — not of different geometry.
-This is the same wall `ARCHIVE_MAP.md` hit ("12 rasterisation settings, 6 filters, none
-aligns"), and it is now localised rather than merely reported.
+Two alternative renderings of the **same** drawing code are emitted by `figs1/gen_figS1.py`
+and shipped here — `rerun_published_greentext.png` (the published box wording) and
+`rerun_legacy_greentext.png` (the wording both recovered generators contain). The published
+wording lowers the difference from 9.7526 % to 9.3792 %, which is consistent with it being
+the right string, but does not close the gap.
 
-**Conclusion.** The published Fig. S1 is the **same figure** produced by the **same code
-family**, differing by (i) one parameterised string and (ii) a text-rasterisation build. That
-is a materially stronger statement than "a different raster family", and it means a script-level
-reproduction is a **font-pinning problem**, not a lost-generator problem. The artefact-level
-path (`ge_si/published/` + `verify_published.py`, 0 px differ) remains the operative closure.
+**Conclusion, at the boundary of what was measured.** The published Fig. S1 is the **same
+figure** produced by the **same code family**, and the generator is no longer missing — it is
+one file, parameterised, in this directory. What is *not* reproduced is a whole-canvas,
+low-amplitude text-rasterisation difference (three quarters of the differing pixels differ by
+1–8 grey levels) which is invariant across matplotlib version, font family, resampling filter
+and translation. Since every in-session axis is exhausted, the surviving explanation is a
+**different text-rasterisation build** on the machine that produced the published raster
+(FreeType or Arial version). This is a font-pinning problem, not a lost-generator problem, and
+it does not disturb the artefact-level closure (`ge_si/published/` + `verify_published.py`,
+0 px differ), which remains the operative path.
 
 ---
 
@@ -226,23 +242,53 @@ Word or WPS automation is permitted.
 
 ---
 
-## 5. What this directory contains
+## 5. File inventory — what is here, which stage it belongs to, and whether it was verified
+
+Every file below was produced **in this environment**, and every verification claim is
+re-runnable from this directory. `MANIFEST.sha256` covers all of them.
+
+| File | Analysis stage | What it is | Verification status |
+|---|---|---|---|
+| `README.md` | — | This report | — |
+| `MANIFEST.sha256` | — | SHA-256 of every file here | Self-check by `sha256sum -c` |
+| **`figs1/gen_figS1.py`** | ② Fig. S1 render | Self-contained generator: the recovered `figure2()` verbatim, both varying strings promoted to parameters, working-directory dependencies removed | ✅ **Runs**; emits 3188 × 3076 under matplotlib 3.10.8 **and** 3.10.9 (identical bytes) |
+| `figs1/verify_figs1.py` | ② verification | Reproduces every number in §2.3: sizes, best-offset difference, amplitude histogram, row/column spread | ✅ **Runs** (Pillow + numpy; finds `ge_si/published/` by walking up) |
+| `figs1/figs1_verification.json` | ② verification | Those numbers, machine-readable | ✅ Recorded output |
+| `figs1/rerun_published_greentext.png` | ② intermediate | The generator run with the published `> 75 %` box wording — 3188 × 3076 | ✅ 9.3792 % vs published |
+| `figs1/rerun_legacy_greentext.png` | ② intermediate | The generator run with the wording both recovered generators contain — 3188 × 3076 | ✅ 9.7526 % vs published |
+| `figs1/design_comparison.png` | ② evidence image | Three-way: re-run ‖ published pre-patch ‖ published — shows the *same* flowchart | ✅ Visual |
+| `figs1/pixel_difference_map.png` | ② evidence image | Re-run ‖ difference map — shows whole-canvas, low-amplitude | ✅ Visual |
+| **`si_structure/rebuild_SI_rev5_structure.py`** | ④ SI structure | Re-applies the later revision's **two text edits** to the earlier revision's **package** | ✅ Runs; anchors asserted unique |
+| `si_structure/verify_SI_structure.py` | ④ verification | Part count, `tblPrEx` / `tblCellMar` / `tblBorders` / `insideH`, `styles.xml` unchanged, and text equality | ✅ **Runs** (stdlib + python-docx) |
+| `si_structure/si_structure_verification.json` | ④ verification | The recorded measurements and the three pass/fail checks | ✅ All three `True` |
+| **`registry/check_doc_revision.py`** | ③ registry | Read-only: ask the reproduction package which revision a given `.docx` is | ✅ **Runs**; prints `[ok]` + the revision name |
+| `registry/registry_verification.txt` | ③ verification | Before/after transcript, plus a control pair and one caveat found while writing it | ✅ Recorded transcript |
+| `s4/reproduce_S4_pool44.R` | ① S4 | Pool = 44 (what the archived table implies) × both imputation rules × the shipped script's 74-gene pool | ✅ **Runs**; best 2/30 |
+| `s4/reproduce_S4_pool54.R` | ① S4 | The producer's 54-gene pool, with and without a seed | ✅ **Runs**; best 1/30 |
+| `s4/reproduce_S4_pool74.R` | ① S4 | Pool = 74 with group-median imputation | ✅ **Runs**; 1/30 |
+
+**Deliberately not here.** `Supporting_Information_GenetEpidemiol_20260930_rev6.docx` — the
+output of the rebuild in `si_structure/` — is **not** pushed. `docs/audit_notes/INDEX.md`
+states as a standing rule that *no `.docx` manuscript or supplementary file is distributed
+with this repository*, and a revision of a document under submission is exactly the kind of
+file that rule exists for. The rebuild is fully reproducible without it: the script plus the
+two prior revisions the author holds give a byte-identical result, and
+`si_structure/si_structure_verification.json` records the checks. If it is ever wanted here,
+say so and it is one `git add`.
+
+## 6. Directory layout after the push
 
 ```
-open_items_closure_20261004/
-├── README.md                          this report
-├── s4/
-│   ├── reproduce_S4_pool44.R          pool = 44, both imputation rules, + the shipped script's 74-gene pool
-│   ├── reproduce_S4_pool54.R          the producer's 54-gene pool (10 genes absent from the shipped matrix)
-│   └── reproduce_S4_pool74.R          pool = 74, group-median imputation
-├── figs1/
-│   ├── design_comparison.png          three-way: re-run | published pre-patch | published
-│   └── pixel_difference_map.png       re-run | difference map (9.4 % of pixels, mostly 1–8 grey levels)
-└── tools/
-    └── rebuild_SI_rev5_structure.py   rev4 package + rev5 text -> rev6
+docs/audit_notes/open_items_closure_20261004/
+├── README.md                            report + the file/status inventory above
+├── MANIFEST.sha256                      SHA-256 of all 16 files
+├── figs1/      (item ②)  generator + verifier + JSON + 4 PNGs
+├── si_structure/ (item ④)  rebuild tool + verifier + JSON
+├── registry/   (item ③)  revision checker + before/after transcript
+└── s4/         (item ①)  3 reproduction scripts
 ```
 
-## 6. Honest summary
+## 7. Honest summary
 
 Two of the five open items were **closed** (registry; SI structure), two were **closed in the
 negative** (S4/S26 does not reproduce and `ARCHIVE_MAP.md` over-claims it; Fig. S1's residual

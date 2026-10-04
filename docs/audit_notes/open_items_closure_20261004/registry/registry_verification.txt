@@ -1,0 +1,44 @@
+======================================================================
+SI/manuscript revision registry — before and after, 2026-10-04
+======================================================================
+
+BEFORE — commit 5c41293 recorded 7 revisions, ending at manuscript rev4 / SI rev2:
+
+    - 'pre-[39]-repoint'
+    - 'as submitted 2026-09-30'
+    - 'revision 2026-10-03 (rev2)'
+    - 'revision 2026-10-03 (rev3)'
+    - 'revision 2026-10-03 (rev4)'
+    - 'as submitted 2026-09-30'
+    - 'revision 2026-10-03 (rev2)'
+
+  On disk at that time, and reported [UNRECOGNISED]:
+    - Manuscript_GenetEpidemiol_20260930_rev5 / rev6 / rev7 .docx
+    - Supporting_Information_..._rev1_dates / _rev1_dates_minimal / _rev3 / _rev4 / _rev5 .docx
+
+AFTER — the registry in this commit (manuscript 8, si 7):
+----------------------------------------------------------------------
+repo: E:\workbuddy\eqtl-source-discordance
+recorded revisions: manuscript 8, si 7
+--------------------------------------------------------------------------------------------
+[ok]             Manuscript_GenetEpidemiol_20260930_rev7.docx
+                 revision 2026-10-04 (rev7: [39] carrier -> Zenodo) [md5 27e9bf5cbf37…, 31,190 bytes]
+[ok]             Supporting_Information_GenetEpidemiol_20260930_rev5.docx
+                 revision 2026-10-04 (rev5: Note S4 Z value + S24 convention) [md5 393d2399a8be…, 1,561,171 bytes]
+
+CONTROL — an earlier revision must still be recognised, and the two copies that
+produced the archived results/ must keep saying so:
+----------------------------------------------------------------------
+repo: E:\workbuddy\eqtl-source-discordance
+recorded revisions: manuscript 8, si 7
+--------------------------------------------------------------------------------------------
+[ok]             Manuscript_GenetEpidemiol_20260930.docx
+                 as submitted 2026-09-30 [md5 a6f7521b98ef…, 30,523 bytes] — the copy that produced the archived results/
+[ok]             Supporting_Information_GenetEpidemiol_20260930_rev2.docx
+                 revision 2026-10-03 (rev2) [md5 72f955c9294d…, 1,463,194 bytes]
+
+----------------------------------------------------------------------
+NOTE, found while writing this: doc_status() only hashes when it is given a
+LOGICAL name ('manuscript' / 'si'). Given a raw path it returns 'unchecked'
+WITHOUT hashing, which reads as 'nothing recorded' rather than 'not checked'.
+This wrapper therefore sets the package's environment variable and asks by name.

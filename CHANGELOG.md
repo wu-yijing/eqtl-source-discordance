@@ -93,6 +93,37 @@ Not done
   build was started and did not complete within the session. Until it does, "S4 does not
   reproduce" stands and "the `MatchIt` version is why" is a narrowing, not a measurement.
 
+Added after the first draft of this entry — the reproducible artefacts
+
+`docs/audit_notes/open_items_closure_20261004/` now carries the machinery, not just the
+findings, so none of it has to be recomputed:
+
+- **`figs1/gen_figS1.py`** — the SI Fig. S1 generator, self-contained: the recovered
+  `figure2()` verbatim, its three working-directory dependencies removed (an unused
+  `prep_out.json` lookup, `pandas`/`scipy` imports needed only by sibling figures), and the
+  two strings the audit found to vary promoted to `--green-text {published,legacy}`. Verified
+  to emit 3188 × 3076 under **both** matplotlib 3.10.8 and 3.10.9, byte-identically.
+- **`figs1/verify_figs1.py`** + `figs1_verification.json` — reproduces every number in the
+  note's §2.3, including the ±3 px translation search and the difference-amplitude histogram.
+- **`figs1/rerun_published_greentext.png`** and **`rerun_legacy_greentext.png`** — the two
+  re-runs, so the size and family claims are checkable without running matplotlib.
+- **`si_structure/rebuild_SI_rev5_structure.py`** + **`verify_SI_structure.py`** +
+  `si_structure_verification.json` — the rebuild and a verifier that recomputes the part count,
+  the four `word/document.xml` markers, `styles.xml`'s invariance, and text equality. The three
+  checks are recorded as `True`. **The rebuilt `.docx` is deliberately not shipped**, per this
+  repository's standing rule that no manuscript or supplementary file is distributed from it.
+- **`registry/check_doc_revision.py`** + `registry_verification.txt` — a read-only wrapper that
+  asks the reproduction package which revision a `.docx` is, plus the before/after transcript
+  and a control pair. Writing it surfaced one more thing worth recording: `doc_status()` only
+  hashes when given a **logical** name; handed a raw path it returns `unchecked` **without
+  hashing**, which reads as "nothing recorded" rather than "not checked".
+- `MANIFEST.sha256` over all 16 files.
+
+The Fig. S1 residual was also probed further and **narrowed to a single surviving cause**: the
+difference is invariant across matplotlib 3.10.8 vs 3.10.9 (byte-identical), Arial vs DejaVu
+Sans (Arial is closer, 9.3792 % vs 11.2880 %), six resampling filters and 49 translations — so
+it is a text-rasterisation build, not a geometry, version, font-family or scaling effect.
+
 ### 2026-10-04 (twentieth pass) — the upstream chain is executed by someone else, and the record ships with it
 
 Numbers: **no reported number changed.** No file in `data/derived/` or `data/upstream/` changed,

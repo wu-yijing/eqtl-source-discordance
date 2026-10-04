@@ -1,0 +1,49 @@
+{
+ "base": "E:/workbuddy/GE\u6295\u7a3f\u8d44\u6599/_\u4fee\u8ba2_20260930/Supporting_Information_GenetEpidemiol_20260930_rev4.docx",
+ "checks": {
+  "markers_restored": true,
+  "package_restored": true,
+  "styles_unchanged": true,
+  "text_is_target": true
+ },
+ "rebuilt": "E:/workbuddy/GE\u6295\u7a3f\u8d44\u6599/_\u4fee\u8ba2_20260930/Supporting_Information_GenetEpidemiol_20260930_rev6.docx",
+ "rebuilt_record": {
+  "bytes": 1463543,
+  "document_xml_bytes": 5130769,
+  "markers": {
+   "insideH": 8722,
+   "tblBorders": 2222,
+   "tblCellMar": 2220,
+   "tblPrEx": 2160
+  },
+  "parts": 19,
+  "styles_xml_bytes": 359911,
+  "text_units": 1195
+ },
+ "regression": {
+  "marker_from_to": {
+   "insideH": [
+    8722,
+    7642
+   ],
+   "tblBorders": [
+    2222,
+    62
+   ],
+   "tblCellMar": [
+    2220,
+    62
+   ],
+   "tblPrEx": [
+    2160,
+    0
+   ]
+  },
+  "parts_from_to": [
+   19,
+   25
+  ]
+ },
+ "styles_unchanged": true,
+ "target": "E:/workbuddy/GE\u6295\u7a3f\u8d44\u6599/_\u4fee\u8ba2_20260930/Supporting_Information_GenetEpidemiol_20260930_rev5.docx"
+}
