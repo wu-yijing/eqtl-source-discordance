@@ -23,6 +23,45 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-04 (twenty-ninth pass) — three evidence files were emptied by my own normaliser, and a hash could not tell
+
+Numbers: **no reported number changed.** Three evidence files were rebuilt and one gate was added.
+
+**The defect.** The twenty-eighth pass normalised line endings in its new directory with
+
+```python
+open(p, "wb").write(open(p, "rb").read().replace(b"\r\n", b"\n"))
+```
+
+`open(p, "wb")` truncates before the read, so every file the expression touched came back empty.
+Three did: `results/matched_set_20260625_pool54.csv`,
+`results/matched_set_20260629_genomescale.csv` and `results/reported_run_identification.txt`.
+
+**What makes it worth a CHANGELOG entry rather than a quiet fix** is that nothing in this archive
+noticed. `MANIFEST.sha256` was regenerated *after* the truncation and hashed the empty files;
+`metadata/provenance.json` was regenerated in the same order; `verify_provenance.py` reported
+`[ ok ] every registered hash and byte count matches the index`; and `verify_from_clone.sh`
+returned **0 failures / 0 skipped** on a commit whose three data files contained zero bytes. A
+hash proves a file is *unchanged*; it cannot prove the file says anything, and a byte count
+computed from the same index cannot either. The published commit `e6a01f6` therefore shipped
+empty evidence, and a reader following its README would have found the script reproducing nothing
+rather than an error.
+
+**The fix, in two parts.**
+
+1. The three files are rebuilt from their sources rather than retyped — the two matched sets from
+   the working copies named in their own headers, and the transcript by re-running
+   `identify_reported_matching.py` in place, so the shipped output is the script's own. Verified by
+   parsing them: 60 rows and 30 rows respectively, and the transcript carries its `VERDICT` line.
+2. **`verify_from_clone.sh` gains gate 11: no tracked file may be empty.** It self-tests both ways
+   — the checker was run against a scratch repository containing an empty file and against one
+   without, and reports `[FAIL]` and `[ ok ]` respectively. There is no allowlist because no
+   tracked path is a placeholder; if one is ever needed, it will have to be argued for here.
+
+The lesson is the one this repository keeps relearning from the other direction: a check that
+cannot fail is not a check. Every existing gate asked whether the bytes on disk matched the bytes
+recorded; none asked whether there were any.
+
 ### 2026-10-04 (twenty-eighth pass) — the third matched set is identified, and it is by the manuscript's own numbers
 
 Numbers: **no reported number changed.** Files added under `docs/audit_notes/`; no data file, no

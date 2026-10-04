@@ -1,0 +1,22 @@
+The manuscript reports, for the GTEx arm: 2.4% vs 1.7%, P = 1.00
+
+== A  archived / shipped as SI Table S4
+   source: ..\data\superseded\mahalanobis_matched_pairs.csv
+   candidates 30 | controls 30 | shared with A: 30/30
+   GTEx v8 multi-tissue ACAT-O    cand 2/84 =  2.4%  ctrl 1/60 =  1.7%  P = 1.00
+   eQTLGen whole blood            cand 5/81 =  6.2%  ctrl 0/57 =  0.0%  P = 0.08
+
+== B  2026-06-25 run, 54-gene pool
+   source: audit_notes\s4_reported_run_20261004\results\matched_set_20260625_pool54.csv
+   candidates 30 | controls 30 | shared with A: 24/30
+   GTEx v8 multi-tissue ACAT-O    cand 2/84 =  2.4%  ctrl 0/48 =  0.0%  P = 0.53
+   eQTLGen whole blood            cand 5/81 =  6.2%  ctrl 0/42 =  0.0%  P = 0.16
+
+== C  2026-06-29 run, genome-scale pool
+   source: audit_notes\s4_reported_run_20261004\results\matched_set_20260629_genomescale.csv
+   candidates 30 | controls 30 | shared with A: 0/30
+   GTEx v8 multi-tissue ACAT-O    no testable pairs at all (cand 2/84, ctrl 0/0) -- cannot produce the sentence
+   eQTLGen whole blood            no testable pairs at all (cand 5/81, ctrl 0/0) -- cannot produce the sentence
+
+VERDICT: the manuscript's numbers are A  archived / shipped as SI Table S4's
+         (the other sets either give a different percentage/p-value, or have no GTEx endpoint at all)

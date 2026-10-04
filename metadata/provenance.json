@@ -309,8 +309,8 @@
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 124013,
-   "sha256": "10fa1837966cf3469d2a5d866f6227e104cf7e3774a1e15597ca4c03e465aa4a"
+   "bytes": 126461,
+   "sha256": "30d52b90c393db299f89fcefd6a813d3b51c38ce17b167f281ec59d38f74d937"
   },
   {
    "path": "CITATION.cff",
@@ -2240,7 +2240,7 @@
   {
    "path": "docs/audit_notes/s4_reported_run_20261004/MANIFEST.sha256",
    "bytes": 503,
-   "sha256": "e2b34026a21c8fe775db2a517d5437ec0e1e0cf9e4bd4107b214ec27f1aa9c05"
+   "sha256": "d1ea3242ac6fc7baea4352edbf431dbb82af62e8167acf441f0ecaa88cf3ab98"
   },
   {
    "path": "docs/audit_notes/s4_reported_run_20261004/README.md",
@@ -2249,18 +2249,18 @@
   },
   {
    "path": "docs/audit_notes/s4_reported_run_20261004/results/matched_set_20260625_pool54.csv",
-   "bytes": 0,
-   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   "bytes": 3645,
+   "sha256": "7f9f7f7da3076b0c2596cf467b8ab55d49f83cda7c204cf5fb6284bc22ee0f9f"
   },
   {
    "path": "docs/audit_notes/s4_reported_run_20261004/results/matched_set_20260629_genomescale.csv",
-   "bytes": 0,
-   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   "bytes": 3423,
+   "sha256": "490302aaca591098e54a52873f00bf38dc9b9b131be34c0d8c907a6682e8602c"
   },
   {
    "path": "docs/audit_notes/s4_reported_run_20261004/results/reported_run_identification.txt",
-   "bytes": 0,
-   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+   "bytes": 1313,
+   "sha256": "768d856c370985abd7a80942ec55f6a246f9bf58993afa7ed02d6e94cbfc5305"
   },
   {
    "path": "docs/audit_notes/s4_reported_run_20261004/scripts/identify_reported_matching.py",
@@ -2764,8 +2764,8 @@
   },
   {
    "path": "scripts/verify_from_clone.sh",
-   "bytes": 19764,
-   "sha256": "87e68fdeb55cf356f7e84b3ea8216bf1a1a3b5829338dc55cd0b364d78821c3d"
+   "bytes": 20846,
+   "sha256": "68e76a3714e836323a7a3d0f2477dd33f0a5583f225eb1593f81fa475f9398c5"
   },
   {
    "path": "scripts/verify_provenance.py",

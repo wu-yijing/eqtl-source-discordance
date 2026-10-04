@@ -362,6 +362,22 @@ else
   bad "scripts/fetch_external_inputs.py or data/external/SOURCES.tsv is missing"
 fi
 
+echo "== 11. no tracked file is empty =="
+# WHY THIS GATE EXISTS. A zero-byte file passes every check this archive had: it hashes, it
+# verifies, its byte count matches the manifest, and the path bootstrap never opens it. That is
+# not hypothetical — on 2026-10-04 a normaliser opened three evidence files with "wb" before
+# reading them, which truncates, and MANIFEST.sha256 and provenance.json were then regenerated
+# over the emptied results and reported a clean board. A hash proves a file is *unchanged*; it
+# cannot prove the file says anything. This gate can only fail in one direction, which is the
+# point. No tracked path is a placeholder today, so there is no allowlist.
+EMPTY="$(cd "$CLONE" && git ls-files -z | while IFS= read -r -d '' f; do [ -s "$f" ] || printf '%s\n' "$f"; done)"
+if [ -z "$EMPTY" ]; then
+  ok "every tracked file has content ($(cd "$CLONE" && git ls-files | wc -l | tr -d ' ') files)"
+else
+  bad "tracked file(s) with zero bytes — a hash cannot tell an empty file from a full one:"
+  printf '%s\n' "$EMPTY" | head -8 | sed 's/^/         /'
+fi
+
 echo
 echo "=================================================="
 printf ' verified from a clone: %d failure(s), %d check(s) skipped\n' "$fail" "$skip"
