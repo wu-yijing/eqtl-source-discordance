@@ -1,0 +1,36 @@
+Warning message:
+MatchIt: 4.7.2 from <user-library>/MatchIt 
+subclass by candidate order  : 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ...
+subclass monotone in that order: TRUE 
+subclass == pair index         : FALSE 
+
+ 1 CKAP4      EEF1A1P5
+ 2 HSP90AB1   ANXA1
+ 3 HSPA8      RPS15
+ 4 TUBB       RPS8
+ 5 GAPDH      SERPINB9
+ 6 RPL5       RPL7
+ 7 HSP90B1    ENO1
+ 8 VCP        EEF2
+ 9 RPSA       NCL
+10 RNH1       ANXA5
+11 RPL8       HSPD1
+12 EIF4A1     RPN1
+13 RPS14      RPL18
+14 RPLP0      RPL27A
+15 RPS16      RPL14
+16 XRCC5      MYH9
+17 H2AFV      PABPC1
+18 RPS13      CCT3
+19 XRCC6      SEPTIN2
+20 ACTB       H2BC13
+21 RPS3       RPS3A
+22 DDX5       GNA13
+23 EIF4H      PDIA3
+24 ILF2       MFAP1
+25 RPL23A     C1QBP
+26 HNRNPA3    PDIA6
+27 YWHAQ      DHX9
+28 RPL13A     MSN
+29 RPS18      UBA52
+30 RPS25      HNRNPK

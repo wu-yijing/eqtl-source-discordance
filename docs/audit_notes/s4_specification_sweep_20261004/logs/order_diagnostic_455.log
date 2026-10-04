@@ -1,0 +1,33 @@
+MatchIt: 4.5.5 from <isolated-library>/MatchIt 
+
+archived candidates (first 8): CKAP4 HSP90AB1 HSPA8 TUBB GAPDH RPL5 HSP90B1 VCP 
+archived candidate order is PullDown-descending?  TRUE 
+archived candidate order is the matrix order?     FALSE 
+archived candidate order is the PullDown file order (NA last)?  TRUE 
+
+---- m.order = data ----
+  archived        control SET overlap 30/30
+  matrix          control SET overlap 29/30
+  alphabetical    control SET overlap 29/30
+  pullDown_desc   control SET overlap 28/30
+  pullDown_asc    control SET overlap 28/30
+  reverse_matrix  control SET overlap 27/30
+  length_asc      control SET overlap 27/30
+  random          control SET overlap 27/30
+---- m.order = closest ----
+  archived        control SET overlap 29/30
+  matrix          control SET overlap 29/30
+  alphabetical    control SET overlap 29/30
+  pullDown_desc   control SET overlap 29/30
+  pullDown_asc    control SET overlap 29/30
+  reverse_matrix  control SET overlap 29/30
+  length_asc      control SET overlap 29/30
+  random          control SET overlap 29/30
+
+---- 30 random orders (m.order = data) ----
+  overlaps: 28 29 29 27 29 28 28 28 29 28 29 29 29 28 29 28 27 28 29 27 29 29 28 28 29 28 28 28 29 28 
+  n = 30 | max = 29 | 30/30 count = 0
+
+---- archived order, the OTHER pool and both versions ----
+  archived order control set == archived control set:  TRUE 
+  pairing agreement with archive under archived order:  0  / 30

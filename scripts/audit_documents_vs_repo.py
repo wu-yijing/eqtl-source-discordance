@@ -252,7 +252,7 @@ def class_a(si, ms, verbose):
                   'FDR_q_Stouffer': 'FDR_q_Stouffer', 'P_ACAT_O': 'P_ACAT_O',
                   'FDR_q_ACAT_O': 'FDR_q_ACAT_O'}))
     jobs.append(('S4  Mahalanobis matched pairs', by.get('S4'),
-                 load_csv(os.path.join(S, 'mahalanobis_matched_pairs.csv')), ['Gene'], ['Gene'],
+                 load_csv(os.path.join(G, 'mahalanobis_matched_pairs.csv')), ['Gene'], ['Gene'],
                  {'Group': ('Group', 'soften'), 'log10_Length': 'log10_Length',
                   'Length_bp': 'Length_bp', 'n_eQTL_SNPs': 'n_eQTL_SNPs', 'GC_pct': 'GC_pct',
                   'subclass': 'subclass', 'treated': 'treated'}, 0))
@@ -322,7 +322,8 @@ SCRIPT_BACKED = {
     'S22': 're-count over eqtlgen_Z.csv with TUBB dropped',
     'S24': 'recompute_scz.py (three SCZ arms)',
     'S25': 'hand-curated',
-    'S26': "Fisher tests over data/superseded/mahalanobis_matched_pairs.csv",
+    'S26': "Fisher tests over data/derived/mahalanobis_matched_pairs.csv "
+           "(docs/audit_notes/s4_specification_sweep_20261004/scripts/s26_recompute.py)",
     'S27': 'r3/simulation_validation.py',
     'S28': 'r3/simulation_validation.py',
     'S29': 'r3/simulation_validation.py',

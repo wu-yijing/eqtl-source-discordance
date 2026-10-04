@@ -1,0 +1,321 @@
+diff -u -r -x '*.o' -x '*.so' -x '*.dll' -x '*.log' orig/optmatch/src/map.cc new/optmatch/src/map.cc
+--- orig/optmatch/src/map.cc	2023-01-27 02:46:16.000000000 +0800
++++ new/optmatch/src/map.cc	2026-10-04 21:08:55.627461500 +0800
+@@ -44,12 +44,12 @@
+     n_map = ceil((4.0 * (double) n_strs) / 3.0);
+   // hash must be >= 20% empty for efficient look up
+ 
+-  MAP * strpos = Calloc(1, MAP);
+-  strpos->hash_tab = Calloc(1, struct hsearch_data);
++  MAP * strpos = R_Calloc(1, MAP);
++  strpos->hash_tab = R_Calloc(1, struct hsearch_data);
+   if( 0 == hcreate_r(n_map, strpos->hash_tab) )
+     error("In create_strpos: Failed to create hash table. Out of memory?");
+ 
+-  strpos->entries = Calloc(n_strs, ENTRY);
++  strpos->entries = R_Calloc(n_strs, ENTRY);
+   strpos->n_entries = n_strs;
+ 
+   ENTRY * inserted;
+@@ -72,9 +72,9 @@
+   // TODO: check for NULL pointers (strpos members too)
+ 
+   hdestroy_r(strpos->hash_tab);
+-  Free(strpos->entries);
+-  Free(strpos->hash_tab);
+-  Free(strpos);
++  R_Free(strpos->entries);
++  R_Free(strpos->hash_tab);
++  R_Free(strpos);
+ }
+ 
+ /* function: get_pos
+@@ -161,7 +161,7 @@
+   htab->filled = 0;
+ 
+   /* allocate memory and zero out */
+-  htab->table = (_ENTRY *) Calloc (htab->size + 1, _ENTRY);
++  htab->table = (_ENTRY *) R_Calloc(htab->size + 1, _ENTRY);
+   if (htab->table == NULL)
+     return 0;
+ 
+@@ -178,7 +178,7 @@
+       return;
+ 
+   /* Free used memory.  */
+-  Free(htab->table);
++  R_Free(htab->table);
+ 
+   /* the sign for an existing table is an value != NULL in htable */
+   htab->table = NULL;
+diff -u -r -x '*.o' -x '*.so' -x '*.dll' -x '*.log' orig/optmatch/src/r_smahal.cc new/optmatch/src/r_smahal.cc
+--- orig/optmatch/src/r_smahal.cc	2022-09-09 09:12:03.000000000 +0800
++++ new/optmatch/src/r_smahal.cc	2026-10-04 21:08:55.638464600 +0800
+@@ -15,8 +15,8 @@
+   Rf_protect(out = Rf_allocMatrix(REALSXP, ans->nr, ans->nc));
+   memcpy(REAL(out), ans->data, ans->nr * ans->nc * sizeof(double));
+ 
+-  Free(ans->data);
+-  Free(ans);
++  R_Free(ans->data);
++  R_Free(ans);
+   Rf_unprotect(1);
+ 
+   return out;
+diff -u -r -x '*.o' -x '*.so' -x '*.dll' -x '*.log' orig/optmatch/src/smahal.cc new/optmatch/src/smahal.cc
+--- orig/optmatch/src/smahal.cc	2022-09-09 09:12:03.000000000 +0800
++++ new/optmatch/src/smahal.cc	2026-10-04 21:08:55.657461000 +0800
+@@ -2,9 +2,9 @@
+ 
+ void rank(int n, const double * data, double * ranks) {
+   double
+-    * sorted = Calloc(n, double);
++    * sorted = R_Calloc(n, double);
+   int
+-    * order = Calloc(n, int);
++    * order = R_Calloc(n, int);
+ 
+   memcpy(sorted, data, n * sizeof(double));
+   for(int i = 0; i < n; i++)
+@@ -15,15 +15,15 @@
+   for(int i = 0; i < n; i++)
+     ranks[order[i]] = i + 1.0;
+ 
+-  Free(order);
+-  Free(sorted);
++  R_Free(order);
++  R_Free(sorted);
+ }
+ 
+ bool rerank_dups(int n, const double * data, double * ranks) {
+     int
+       j, ndups,
+-      * dup_idx = Calloc(n, int),
+-      * visited = Calloc(n, int);
++      * dup_idx = R_Calloc(n, int),
++      * visited = R_Calloc(n, int);
+     double mean_rank;
+     bool any_ties = false;
+ 
+@@ -46,8 +46,8 @@
+         for(j = 0; j < ndups; j++)
+             ranks[dup_idx[j]] = mean_rank;
+     }
+-    Free(dup_idx);
+-    Free(visited);
++    R_Free(dup_idx);
++    R_Free(visited);
+     return any_ties;
+ }
+ 
+@@ -79,14 +79,14 @@
+     cv <- diag(rat) %*% cv %*% diag(rat)
+ */
+ void adjust_ties(int nr, int nc, double * covs) {
+-  double * seq = Calloc(nr, double);
++  double * seq = R_Calloc(nr, double);
+   for(int i = 0; i < nr; i++)
+     seq[i] = i + 1.0;
+ 
+   double vuntied = var(nr, seq);
+-  Free(seq);
++  R_Free(seq);
+ 
+-  double * rat = Calloc(nc, double);
++  double * rat = R_Calloc(nc, double);
+   for(int i = 0; i < nc; i++)
+     rat[i] = sqrt(vuntied / covs[i * nc + i]);
+ 
+@@ -96,7 +96,7 @@
+       covs[i * nc + j] = covs[j * nc + i] = elt;
+     }
+   }
+-  Free(rat);
++  R_Free(rat);
+ }
+ 
+ void transpose_sq(int n, double * mat) {
+@@ -132,22 +132,22 @@
+     int
+       info,
+       work_size = 4 * n * n + 7 * n,
+-      * iwork = Calloc(8 * n, int);
++      * iwork = R_Calloc(8 * n, int);
+     double
+-      * s = Calloc(n, double),
+-      * u = Calloc(n * n, double),
+-      * vt = Calloc(n * n, double),
+-      * work = Calloc(work_size, double);
++      * s = R_Calloc(n, double),
++      * u = R_Calloc(n * n, double),
++      * vt = R_Calloc(n * n, double),
++      * work = R_Calloc(work_size, double);
+ 
+     F77_CALL(dgesdd)(&jobz, &n, &n, square_mat, &n, s, u, &n, vt, &n,
+ 		     work, &work_size, iwork, &info FCONE);
+-    Free(work);
+-    Free(iwork);
++    R_Free(work);
++    R_Free(iwork);
+ 
+     if(info != 0) {
+-      Free(u);
+-      Free(vt);
+-      Free(s);
++      R_Free(u);
++      R_Free(vt);
++      R_Free(s);
+     }
+ 
+     if(info < 0)
+@@ -177,15 +177,15 @@
+     F77_CALL(dgemm)(&transa, &transb, &n, &n, &n,
+ 		    &alpha, vt, &n, u, &n,
+ 		    &beta, square_mat, &n FCONE FCONE);
+-    Free(u);
+-    Free(vt);
+-    Free(s);
++    R_Free(u);
++    R_Free(vt);
++    R_Free(s);
+ }
+ 
+ void mahalanobis(int nr, int nc, const double * x, const double * center,
+ 		 const double * icov, double * distances)
+ {
+-  double * recentered = Calloc(nr * nc, double);
++  double * recentered = R_Calloc(nr * nc, double);
+   for(int i = 0; i < nr; i++) {
+     for(int j = 0; j < nc; j++)
+       recentered[j * nr + i] = x[j * nr + i] - center[j];
+@@ -195,7 +195,7 @@
+     transa = 'N', transb = 'N';
+   double
+     alpha = 1.0, beta = 0.0,
+-    * mat_mult = Calloc(nr * nc, double);
++    * mat_mult = R_Calloc(nr * nc, double);
+ 
+   F77_CALL(dgemm)(&transa, &transb, &nr, &nc, &nc,
+ 		  &alpha, recentered, &nr, icov, &nc,
+@@ -204,7 +204,7 @@
+   for(int i = 0; i < nr * nc; i++)
+     mat_mult[i] *= recentered[i];
+ 
+-  Free(recentered);
++  R_Free(recentered);
+ 
+   // compute row sums of mat_mult for answer
+   for(int i = 0; i < nr; i++) {
+@@ -214,14 +214,14 @@
+     }
+     distances[i] = sum;
+   }
+-  Free(mat_mult);
++  R_Free(mat_mult);
+ }
+ 
+ DMAT * smahal(int nr, int nc, double * data, int * z) {
+     double
+       * col_i,
+-      * ranks = Calloc(nr * nc, double),
+-      * ranks_i = Calloc(nr, double);
++      * ranks = R_Calloc(nr * nc, double),
++      * ranks_i = R_Calloc(nr, double);
+ 
+     bool
+       tie,
+@@ -235,9 +235,9 @@
+       any_ties = tie || any_ties;
+       memcpy(col_i, ranks_i, nr * sizeof(double));
+     }
+-    Free(ranks_i);
++    R_Free(ranks_i);
+ 
+-    double * covs_inv = Calloc(nc * nc, double);
++    double * covs_inv = R_Calloc(nc * nc, double);
+     for(int i = 0; i < nc; i++) {
+       for(int j = i; j < nc; j++) {
+ 	  covs_inv[i * nc + j] = covs_inv[j * nc + i] =
+@@ -255,8 +255,8 @@
+     ncontrol = nr - ntreat;
+ 
+     double
+-      * ranks_control = Calloc(ncontrol * nc, double),
+-      * ranks_treat = Calloc(ntreat * nc, double);
++      * ranks_control = R_Calloc(ncontrol * nc, double),
++      * ranks_treat = R_Calloc(ntreat * nc, double);
+ 
+     int
+       c_treat_row = 0, c_control_row = 0;
+@@ -272,16 +272,16 @@
+       }
+     }
+ 
+-    DMAT * out_distances = Calloc(1, DMAT);
++    DMAT * out_distances = R_Calloc(1, DMAT);
+     if(out_distances == NULL)
+       error("smahal:out_distances:NULL Calloc\n");
+ 
+-    out_distances->data = Calloc(ntreat * ncontrol, double);
++    out_distances->data = R_Calloc(ntreat * ncontrol, double);
+     out_distances->nr = ntreat;
+     out_distances->nc = ncontrol;
+ 
+-    double * out_row_i = Calloc(ncontrol, double);
+-    double * treat_row_i = Calloc(nc, double);
++    double * out_row_i = R_Calloc(ncontrol, double);
++    double * treat_row_i = R_Calloc(nc, double);
+ 
+     for(int i = 0; i < ntreat; i++) {
+       for(int j = 0; j < nc; j++)
+@@ -293,12 +293,12 @@
+ 	out_distances->data[i + j * ntreat] = out_row_i[j];
+     }
+ 
+-    Free(treat_row_i);
+-    Free(ranks_control);
+-    Free(ranks_treat);
+-    Free(out_row_i);
+-    Free(covs_inv);
+-    Free(ranks);
++    R_Free(treat_row_i);
++    R_Free(ranks_control);
++    R_Free(ranks_treat);
++    R_Free(out_row_i);
++    R_Free(covs_inv);
++    R_Free(ranks);
+ 
+     return out_distances;
+ }
+diff -u -r -x '*.o' -x '*.so' -x '*.dll' -x '*.log' orig/optmatch/src/subsetInfSparseMatrix.cc new/optmatch/src/subsetInfSparseMatrix.cc
+--- orig/optmatch/src/subsetInfSparseMatrix.cc	2022-09-09 09:12:03.000000000 +0800
++++ new/optmatch/src/subsetInfSparseMatrix.cc	2026-10-04 21:08:55.654464500 +0800
+@@ -21,7 +21,7 @@
+         * iWhichRows = INTEGER(whichRows),
+         * iWhichCols = INTEGER(whichCols);
+ 
+-    int * newRowNumbers = Calloc(nRows, int);
++    int * newRowNumbers = R_Calloc(nRows, int);
+     for(int i = 0; i < nRows; i++) {
+         if(iWhichRows[i] == 1) {
+             nNewRows++;
+@@ -29,7 +29,7 @@
+         }
+     }
+ 
+-    int * newColNumbers = Calloc(nCols, int);
++    int * newColNumbers = R_Calloc(nCols, int);
+     for(int i = 0; i < nCols; i++) {
+         if(iWhichCols[i] == 1) {
+             nNewCols++;
+@@ -58,8 +58,8 @@
+         }
+     }
+ 
+-    Free(newRowNumbers);
+-    Free(newColNumbers);
++    R_Free(newRowNumbers);
++    R_Free(newColNumbers);
+ 
+     UNPROTECT(1);
+     return(ans);

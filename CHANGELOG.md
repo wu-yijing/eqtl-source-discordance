@@ -23,6 +23,62 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-04 (twenty-sixth pass) — SI Table S4 is re-emitted; the control set reproduces and the pairing is a sort signature
+
+Numbers: **no reported number changed.** One file was added to `data/derived/`; no reported value,
+no denominator and no Fisher p-value moved, and the main-text sentence about Table S26 is
+unchanged. Neither submitted document is distributed here.
+
+The twenty-fifth pass removed the MatchIt version from the list of explanations for SI Table S4
+and left the residue as "what produced the pairing is still unrecorded" — a reading, explicitly
+not written down as a measurement. This pass measures it, and the answer is narrower and more
+useful than either of the two earlier positions.
+
+- **The submitted control SET is reproduced exactly — 30 of 30.** Nearest-neighbour matching on the
+  Mahalanobis distance, 1:1, without replacement, pool = the 44 `Non-Candidate` genes, group-median
+  imputation, `m.order = "data"`, under the pinned MatchIt 4.5.5, with the candidates processed **in
+  the order the submitted table lists them**. Every other order tested reaches 27–29 of 30 and 30
+  random permutations never reach 30. So the earlier ❌ was right that the shipped `.R` does not
+  return the submitted file, and wrong to treat the input or the algorithm as the defect: the
+  *selection* was never the problem.
+- **What does not reproduce is the PAIRING, and it is identified.** The submitted `subclass` column
+  is the rank order of two lists each sorted by `PullDown_Unused` descending — sorting both arms that
+  way and zipping reproduces the submitted pairing **30 of 30** — which is exactly consistent with
+  the previous pass's finding that the submitted control is the candidate's nearest neighbour in
+  only **3 of 30** pairs (median rank 14 of 44). A real matching chose the controls; a sort
+  signature wrote the pairs.
+- **`data/derived/mahalanobis_matched_pairs.csv` is added**: Table S4 re-emitted from the documented
+  specification under the pinned environment. It differs from the superseded file in exactly one
+  respect — the candidate block is **byte-identical**, the same 30 controls appear reordered into
+  pair order, and 28 of 60 lines differ. Supporting Information `_rev8` (not distributed here)
+  carries it: pages 48 → 48, lines 8,955 → 8,955, only pages 16–17 of the text layer change, and the
+  four `<w:tbl*>` counts that the editor channel destroyed in `_rev5` are unchanged.
+- **Table S26 is unchanged, and the reason it was red does not hold.** S26 reproduces **4 of 4**
+  contrasts from the three inputs its row names — denominators 84 / 60 / 81 / 57 included — and it
+  reproduces identically under the re-emitted pairing, because both pairings select the same 30
+  controls. The claim that the denominators "cannot be derived from the 30 archived pairs" was a
+  join that had not been written down, not a construction that was never captured.
+  `scripts/s26_recompute.py` now ships.
+- **A trap is recorded for anyone who repeats this A/B:** `subclass` is numbered in the order
+  matches are formed and is *not* the candidate order — non-monotone under 4.5.5
+  (`1, 12, 23, 25, …`), monotone under 4.7.2 — so aligning two runs on `subclass` reports 1/30
+  agreement where `match.matrix` shows the pairings are identical. Every script here reads the
+  pairing from `match.matrix`.
+- **`env/` now carries the one patch the pinned stack needs.** `optmatch 0.10.6` — the version
+  `renv.lock` pins — does not compile against R ≥ 4.5 as published, because R 4.5 removed the
+  un-prefixed `Calloc` / `Free` macros. `env/patches/optmatch-0.10.6-R4.5-calloc.patch` renames 63
+  call sites across four files and changes nothing else; `env/README.md` documents it and its scope
+  (`optimal` / `full` only — the reported matching is `nearest` and does not reach `optmatch`).
+- **`metadata/ARCHIVE_MAP.md`:** S4 and S26 both leave the red mark and the ❌, both on measurement.
+  S4's residual is stated rather than closed: the 30/30 depends on the *submitted candidate order*,
+  which is inherited from the submitted file rather than derived, and which of the (at least two)
+  matched sets on disk the manuscript reports is still unrecorded. §5 GAP-11 is closed with that
+  attribution left open on purpose.
+
+Evidence, scripts, both A/B arms and a `MANIFEST.sha256`:
+[`docs/audit_notes/s4_specification_sweep_20261004/`](docs/audit_notes/s4_specification_sweep_20261004/README.md);
+runbook: [`docs/audit_notes/s4_specification_sweep_20261004/RUNBOOK.md`](docs/audit_notes/s4_specification_sweep_20261004/RUNBOOK.md).
+
 ### 2026-10-04 (twenty-fifth pass) — the MatchIt-version explanation for S4 is tested and falsified
 
 Numbers: **no reported number changed.** No file in `data/` changed, no reproducing script was

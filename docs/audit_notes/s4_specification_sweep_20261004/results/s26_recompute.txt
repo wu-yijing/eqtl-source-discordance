@@ -1,0 +1,29 @@
+
+================ A. submitted S4 pairing (data\superseded\mahalanobis_matched_pairs.csv) ================
+candidates=30  matched controls=30
+weight source                  endpoint          candidate      matched-control  Fisher P  per-phenotype (DR / DN / DPN)
+GTEx v8 multi-tissue ACAT-O    BH q < 0.05       2/84           1/60             1.000     0.417 / 1.000 / 1.000
+                               published      2/84           1/60             1.0       0.417 / 1.000 / 1.000   == MATCH
+GTEx v8 multi-tissue ACAT-O    nominal p < 0.05  8/84           7/60             0.784     0.636 / 0.385 / 0.636
+                               published      8/84           7/60             0.78      0.636 / 0.385 / 0.636   == MATCH
+eQTLGen whole blood            BH q < 0.05       5/81           0/57             0.077     0.504 / 1.000 / 0.504
+                               published      5/81           0/57             0.077     0.504 / 1.000 / 0.504   == MATCH
+eQTLGen whole blood            nominal p < 0.05  8/81           4/57             0.761     0.632 / 1.000 / 0.632
+                               published      8/81           4/57             0.76      0.632 / 1.000 / 0.632   == MATCH
+contrasts reproduced exactly: 4 / 4
+
+[note] the two pairings select the SAME 30 controls, so every
+       denominator and every contrast is identical by construction.
+
+================ B. re-emitted S4 pairing (data\derived\mahalanobis_matched_pairs.csv) ================
+candidates=30  matched controls=30
+weight source                  endpoint          candidate      matched-control  Fisher P  per-phenotype (DR / DN / DPN)
+GTEx v8 multi-tissue ACAT-O    BH q < 0.05       2/84           1/60             1.000     0.417 / 1.000 / 1.000
+                               published      2/84           1/60             1.0       0.417 / 1.000 / 1.000   == MATCH
+GTEx v8 multi-tissue ACAT-O    nominal p < 0.05  8/84           7/60             0.784     0.636 / 0.385 / 0.636
+                               published      8/84           7/60             0.78      0.636 / 0.385 / 0.636   == MATCH
+eQTLGen whole blood            BH q < 0.05       5/81           0/57             0.077     0.504 / 1.000 / 0.504
+                               published      5/81           0/57             0.077     0.504 / 1.000 / 0.504   == MATCH
+eQTLGen whole blood            nominal p < 0.05  8/81           4/57             0.761     0.632 / 1.000 / 0.632
+                               published      8/81           4/57             0.76      0.632 / 1.000 / 0.632   == MATCH
+contrasts reproduced exactly: 4 / 4

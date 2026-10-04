@@ -40,6 +40,7 @@ renv/cellar/
 !docs/audit_notes/upstream_chain_closure_20261004/inputs/*.log
 !docs/audit_notes/upstream_chain_closure_20261004/logs/*.log
 !docs/audit_notes/s4_matchit_version_test_20261004/logs/*.log
+!docs/audit_notes/s4_specification_sweep_20261004/logs/*.log
 
 # ---------------------------------------------------------------------------
 # OS / editor

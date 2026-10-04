@@ -299,8 +299,8 @@
   },
   {
    "path": ".gitignore",
-   "bytes": 3490,
-   "sha256": "e1944d99eb29ffd94cf02a134a0c4f07e7c73d762e4ac9a53a17a10578b4fae5"
+   "bytes": 3551,
+   "sha256": "73df21c05c332cd9765e6140e3467f455a035f3e484f8773fe40b575d02a0899"
   },
   {
    "path": ".zenodo.json",
@@ -309,8 +309,8 @@
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 113424,
-   "sha256": "81543433ed941a15b4b6da6af3d4af1590027d27a17b4a6399bb7c14f5fbb3d7"
+   "bytes": 118035,
+   "sha256": "08acf07cc34264290af368b09b82ca780303c851955aee2dd3dfba4470408952"
   },
   {
    "path": "CITATION.cff",
@@ -1493,6 +1493,11 @@
    "sha256": "3095fda43a5c4db1882ff22a409b592fb56e83a718f77631a00a742b4419a74c"
   },
   {
+   "path": "data/derived/mahalanobis_matched_pairs.csv",
+   "bytes": 3623,
+   "sha256": "b8758687e5822292fcb8d337440afa3d18ac82ab827f98a0a95f58bbe9cfd1f2"
+  },
+  {
    "path": "data/derived/mashr_nsnps.csv.gz",
    "bytes": 62725,
    "sha256": "2596f850653cb87bdf2536893caf01c65f78f540abbac263764f45da0b7dc60c"
@@ -1584,8 +1589,8 @@
   },
   {
    "path": "data/superseded/README.md",
-   "bytes": 5308,
-   "sha256": "aa3f298f746c0bca8c10da70c4845b1cafad2b3de1e368f7ce8ed6a9db9b0ebf"
+   "bytes": 5978,
+   "sha256": "51f557350d4ce476a2dfe127dc4e48b2061913ebc1c45f5f1c5eabd589d1ef4e"
   },
   {
    "path": "data/superseded/_DEPRECATED_勿用_修正前数据_20260917.md",
@@ -2054,8 +2059,8 @@
   },
   {
    "path": "docs/audit_notes/INDEX.md",
-   "bytes": 11605,
-   "sha256": "6a405afbd165de015f039b5fb8a43ff62edcd5f5e1126c6999bdee5a878a2e01"
+   "bytes": 13991,
+   "sha256": "7c53df27ad67c1b003fbd4906d904e4c12e778d5ef968412d9ceb7208d0cde4e"
   },
   {
    "path": "docs/audit_notes/R2残余差异消除方案_20261002.md",
@@ -2231,6 +2236,126 @@
    "path": "docs/audit_notes/s4_matchit_version_test_20261004/scripts/reproduce_S4_matchit455.R",
    "bytes": 7932,
    "sha256": "acc0c00be66fdcc3277930794e4c5ecb5f1d53e6c5c108b29c2f9605a5934a79"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/MANIFEST.sha256",
+   "bytes": 2140,
+   "sha256": "47f825e6d8a53a266e93e0b40d4fbed307bc33875e4fbcea60dd6b44dc90f5e8"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/README.md",
+   "bytes": 11371,
+   "sha256": "3baef7813701a524d40e4a7b9cccfe0200116a1417c1a24bd5437f664e7155f6"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/RUNBOOK.md",
+   "bytes": 6401,
+   "sha256": "42cb955af4ad37ba2edf5505744d8893e5bab42906088eb357b4f04b8f9553dc"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/logs/compare_pairings_455.log",
+   "bytes": 801,
+   "sha256": "de63909f89ccf52059efcfbb68ff61d683f4c8bfca99953df610c79fd341f06e"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/logs/compare_pairings_472.log",
+   "bytes": 806,
+   "sha256": "643678ba0ebdb532e3cc5f17c549f037443dc1a505764d729e5b9f1bb3254e30"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/logs/emit_S4_table.log",
+   "bytes": 865,
+   "sha256": "cae45a49c856800631fb852d950dc2692bd5d02d2516cd3178fb41e05e078788"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/logs/order_diagnostic_455.log",
+   "bytes": 1442,
+   "sha256": "ab768747dd59f352b94cf225921c132194a2e7e960f881d89e93f74cb57f7541"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/logs/order_diagnostic_472.log",
+   "bytes": 1455,
+   "sha256": "0beffc45c8dea5a9a595d9119f9aacae00f1e852958a580710022c97e60fbaaf"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/logs/sweep_matchit455.log",
+   "bytes": 1433,
+   "sha256": "18dae6577e10d1b5702af996d9cd002b852ac02e40e8dfd43186b838835b3f8d"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/logs/sweep_matchit472.log",
+   "bytes": 1383,
+   "sha256": "b9bc04af1486450c5454ecf39d845eaf36997b48cfd526e46276840b542705ad"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/logs/verify_pinned_env.log",
+   "bytes": 433,
+   "sha256": "5d8092381123ff8cdfee819d676c18ddbe7a002f4f760b47e50e2c11177d317c"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/results/S4_pairs_1to1.csv",
+   "bytes": 589,
+   "sha256": "5a18526ee7d892c80a111ad8e2725d2a87f94c13c02fe39d5d5e620b82a1cbb8"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/results/mahalanobis_matched_pairs.csv",
+   "bytes": 3623,
+   "sha256": "b8758687e5822292fcb8d337440afa3d18ac82ab827f98a0a95f58bbe9cfd1f2"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/results/pairing_matchit455.csv",
+   "bytes": 666,
+   "sha256": "0467179a2f2fafc3e3dd52c621745bdad0f42b23ecfe35b16faaea8689762550"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/results/pairing_matchit472.csv",
+   "bytes": 666,
+   "sha256": "c2f80ab922bb460b175be255fcb717ded43c0a383c76280616247578b81a7ac7"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/results/s26_recompute.txt",
+   "bytes": 2599,
+   "sha256": "9d43a24a7e1e9267c8d6e5c971e95fe2c8bad34d6b54fe762ab4551a733a71e0"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/results/s4_sweep_matchit455.csv",
+   "bytes": 94152,
+   "sha256": "51305a1742854bb94e99b7b1e12c64b0d190401753e9570e74d4765e3c69f9b9"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/results/s4_sweep_matchit472.csv",
+   "bytes": 82150,
+   "sha256": "0a06b8a7392fb39e0d3848112487df335fecf2562204d232452225c11894b5c9"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/scripts/compare_pairings.R",
+   "bytes": 3205,
+   "sha256": "b418216ff25a8015683d4200543f87cb0f1e769359be3d467637a93130ae08a2"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/scripts/diagnose_S4_order.R",
+   "bytes": 4760,
+   "sha256": "0ea5bc4ce4ca96d8bf1af28125b85a60d500062e88fb74a29dac2684f7a45bae"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/scripts/emit_S4_table.R",
+   "bytes": 9349,
+   "sha256": "96b32c87e6914aeb288d7fcae9cf661440bc032cc34cd05bc0c968b247cc9bff"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/scripts/s26_recompute.py",
+   "bytes": 5910,
+   "sha256": "0ed41fb743cf765d3c3b57beceb73294e92a697529bb6e3a6ab2f11808434d1b"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/scripts/sweep_specifications.R",
+   "bytes": 6877,
+   "sha256": "86a53618dec339005d26b0fe31aca333ba6968f4f39957e8db7f5608bdce0f34"
+  },
+  {
+   "path": "docs/audit_notes/s4_specification_sweep_20261004/scripts/verify_pinned_env.R",
+   "bytes": 1832,
+   "sha256": "c295ca179b98f88ec71dfc5a7d26acc43042c84a037c261d4ae3a69cd54a4322"
   },
   {
    "path": "docs/audit_notes/upstream_chain_closure_20261004/MANIFEST.sha256",
@@ -2444,8 +2569,8 @@
   },
   {
    "path": "env/README.md",
-   "bytes": 2349,
-   "sha256": "15d5b61e2ad3c699b7ac1a4334e6b55d3a4ae5003c203f89f4324fc4db502257"
+   "bytes": 4609,
+   "sha256": "87ff913fbc686c25379c009d82441fb85aba1736cd4e7db45f25e2305fc0544a"
   },
   {
    "path": "env/environment-upstream.yml",
@@ -2456,6 +2581,11 @@
    "path": "env/environment.yml",
    "bytes": 1564,
    "sha256": "9231990ac940d3afb0e5eacff0e2ad8e3c7ede66d960956b1dc0b78cb203ae91"
+  },
+  {
+   "path": "env/patches/optmatch-0.10.6-R4.5-calloc.patch",
+   "bytes": 9018,
+   "sha256": "b9f5740aab7a1c570615b13103021f6907bf292baf9eeaaa5b43f167f629f98c"
   },
   {
    "path": "env/renv.lock",
@@ -2544,8 +2674,8 @@
   },
   {
    "path": "metadata/ARCHIVE_MAP.md",
-   "bytes": 67025,
-   "sha256": "d1a4bee2f0452a96f71f7e93d840ee8edbaecfe0afa598e938feb93571be50ff"
+   "bytes": 71046,
+   "sha256": "6ea2d7cbf99e3c22c569e98d82d6de40c695857f0374b24a78f076d4f35d60fa"
   },
   {
    "path": "metadata/PRE_REGISTRATION.md",
@@ -2569,8 +2699,8 @@
   },
   {
    "path": "scripts/audit_documents_vs_repo.py",
-   "bytes": 21217,
-   "sha256": "a5c43e84602001e0a66402210a4b55747c46aeeac837e593508c3019def8ccf3"
+   "bytes": 21304,
+   "sha256": "1feaf9d5e765a495f76715bd519bf5c6e63efb28d423bcaaba3e11339c0a5ecb"
   },
   {
    "path": "scripts/check_archive_map.py",
@@ -2613,12 +2743,12 @@
    "sha256": "25410afb8d1a34599f3cc87015f2fbd4bd59d211376f20bae1813bb196c6734d"
   }
  ],
- "file_count": 465,
+ "file_count": 491,
  "excluded": [
   {
    "path": "metadata/provenance.json",
    "reason": "the manifest cannot hash itself; its own content is regenerated by this script"
   }
  ],
- "tracked_file_count": 466
+ "tracked_file_count": 492
 }

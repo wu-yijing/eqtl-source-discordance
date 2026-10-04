@@ -1,0 +1,13 @@
+R        : R version 4.5.2 (2025-10-31 ucrt) 
+MatchIt  : 4.5.5    (renv.lock pins 4.5.5  ) ==  <isolated-library>/MatchIt
+cobalt   : 4.5.2    (renv.lock pins 4.5.2  ) ==  <isolated-library>/cobalt
+optmatch : 0.10.6   (renv.lock pins 0.10.6 ) ==  <isolated-library>/optmatch
+
+matchit() defaults in the loaded MatchIt:
+  method    = "nearest"
+  distance  = "glm"
+  ratio     = 1
+  replace   = FALSE
+  m.order   = NULL
+
+PINNED STACK OK

@@ -1,0 +1,32 @@
+MatchIt : 4.5.5 from <isolated-library>/MatchIt 
+cobalt  : 4.5.2 
+R       : R version 4.5.2 (2025-10-31 ucrt) 
+tag     : matchit455 
+archive: 30 pairs; candidates CKAP4,HSP90AB1,HSPA8,TUBB ...
+
+specifications fitted 882 (errors 168) | 1:1 714
+max control SET overlap (1:1) : 29 / 30
+max PAIR agreement      (1:1) : 5 / 30
+specs with agreement >= 8     : 0
+
+Top 8 by pair agreement:
+                      label  method    distance   m.order
+    pool44_asis_mahalanobis optimal mahalanobis <default>
+    pool44_gene_mahalanobis optimal mahalanobis <default>
+ pool44_pd_desc_mahalanobis optimal mahalanobis <default>
+ pool44_pd_desc_mahalanobis nearest mahalanobis <default>
+ pool44_pd_desc_mahalanobis nearest mahalanobis      data
+    pool74_asis_mahalanobis nearest mahalanobis    random
+    pool74_gene_mahalanobis nearest mahalanobis    random
+    pool44_asis_mahalanobis nearest mahalanobis    random
+                             covset agree set_ov
+              GC_pct+eQTL_SNPs_Mean     5     27
+              GC_pct+eQTL_SNPs_Mean     5     27
+              GC_pct+eQTL_SNPs_Mean     5     27
+              GC_pct+eQTL_SNPs_Mean     4     25
+              GC_pct+eQTL_SNPs_Mean     4     25
+              GC_pct+eQTL_SNPs_Mean     4     19
+              GC_pct+eQTL_SNPs_Mean     4     19
+ log10_Length+GC_pct+eQTL_SNPs_Mean     3     27
+
+wrote docs/audit_notes/s4_specification_sweep_20261004/results/s4_sweep_matchit455.csv
