@@ -196,6 +196,11 @@ DOCS = {
                         label='revision 2026-10-04 (rev7: R2 P1/P2 notes added to the '
                               'Table S17 note — RNG, sorted-vector, permutation unit, '
                               'sandwich/jackknife estimators; no number changed)'),
+                   dict(md5='08ca0b851bccad27161599db805c2222', bytes=1464180,
+                        label='revision 2026-10-04 (rev8: Table S4 re-emitted — the 30 '
+                              'matched-control rows carry the pairing the documented '
+                              'specification produces, same 30 controls, same covariate '
+                              'values; no number changed)'),
                ]),
     'af1': dict(env='REPRO_AF1_DOCX',
                 default=os.path.join(REPO, 'manuscript', 'Additional_file_1.docx'),
