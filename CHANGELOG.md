@@ -23,6 +23,76 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-04 (twenty-first pass) — the open items, closed or answered; S4 does not reproduce
+
+Numbers: **no reported number changed.** No file in `data/` changed, no gate was changed, and
+neither submitted document was touched. This pass registers the document revisions that were
+on disk but unrecognised, restores the SI revision's package structure, and adds an audit note
+recording what was and was not closed. **One of its findings is a negative one about this
+archive's own status column, and it is the headline:**
+
+**SI Table S4 does not reproduce, and `metadata/ARCHIVE_MAP.md` says it does.** The earlier
+audit recorded S4 as blocked because "R 4.5.2 + MatchIt" were unavailable. A full-disk search
+found them: R 4.5.2 at `D:\R\R-4.5.2`, and `MatchIt` / `cobalt` / `optmatch` in the user
+library — but at **4.7.2 / 5.0.0 / 0.10.8** where `env/renv.lock` pins **4.5.5 / 4.5.2 /
+0.10.6**. Six conventions were run against `data/superseded/mahalanobis_matched_pairs.csv`
+(pool 74 as the shipped script builds it, pool 44 as the archived table implies, the producer's
+pool 54, both `na.omit` and group-median imputation, and `m.order` variants). The best result
+is **2 of 30** control assignments matching. Three defects were measured, not suspected:
+
+- `code/analyses/run_mahalanobis_matching.R` builds its pool as `covar$Group != "Candidate"`,
+  which adds the 30 T2DM controls. The archived table uses **only** the `44 Non-Candidate`
+  group — all 30 archived controls carry that label and none of the T2DM controls appears.
+- `data/derived/covariate_matrix.csv` has **44** non-candidates; the producer's own
+  `Table_S1_Covariate_Matrix_FINAL_v2.csv` has **54**. The 10 absent genes are named in the note.
+- The covariates agree **exactly**: every archived `log10_Length`, `Length_bp` and `GC_pct`
+  matches the shipped matrix, 0 discrepancies over 60 rows. So the input is right and the
+  algorithm differs — the surviving explanation is the `MatchIt` version, which is narrowed
+  here but **not yet measured** (a source install of 4.5.5 needs Rtools and did not finish).
+
+The group-median imputation *is* confirmed: it reproduces this archive's own disclosed counts
+(3 of 30 candidates at median 1.5, 17 of 44 pool genes, 11 of 30 T2DM controls at 1.0).
+
+Added
+
+- `docs/audit_notes/open_items_closure_20261004/` — the record: the five items, the six-convention
+  test matrix, three reproduction scripts so the negative result is checkable rather than
+  asserted, and the two figures behind the Fig. S1 finding.
+- **Docs revision registry.** `paths_config.py` now registers manuscript rev5/rev6/rev7 and SI
+  rev1_dates / rev1_dates_minimal / rev3 / rev4 / rev5, with the two that produced the archived
+  `results/` still marked `outcome=True`. Verified: `[UNRECOGNISED]` → `[ok]`, revision named.
+- **`tools/rebuild_SI_rev5_structure.py`** and the rebuilt
+  `Supporting_Information_GenetEpidemiol_20260930_rev6.docx`: the SI revision's two content
+  edits re-applied to the **previous** revision's package. The regression being repaired is
+  measured — package parts 19 → 25, `word/document.xml` −593 KB, `w:tblPrEx` 2,160 → 0,
+  `w:tblCellMar` 2,220 → 62, `w:tblBorders` 2,222 → 62, with `styles.xml` unchanged, i.e.
+  cell-level property exceptions dropped rather than moved into styles. The rebuild restores
+  19 parts and all three counts to the previous revision's values while keeping the text
+  **identical to the later revision**; only `word/document.xml` is rewritten.
+
+Answered, in the negative
+
+- **SI Fig. S1.** Both surviving generators (the in-tree `rebuild_fig1_2_9.py` and the
+  2026-08-31 `make_main_figures.py`) were run here under the pinned matplotlib 3.10.8 and both
+  emit **3188 × 3076**; the published raster is **3189 × 3077**. A three-way visual comparison
+  shows the **same flowchart, box for box** — the difference is one parameterised string in the
+  `> 75 %` box plus ~9 % of pixels differing at **1–8 grey levels** spread across the whole
+  canvas, which is the signature of a font-rasterisation build rather than of different
+  geometry. A translational search (±3 px) does not improve it, and neither does a 1-px pad on
+  any corner. So this is a **font-pinning problem, not a lost generator** — a stronger and more
+  actionable statement than "a different raster family", and it does not disturb the
+  artefact-level closure (`ge_si/published/` + `verify_published.py`, 0 px differ).
+
+Not done
+
+- **The SI PDF.** WPS Office is installed but COM automation is refused by this machine's
+  security policy, and no LibreOffice / Word / pandoc exists. The render, and the page-count
+  and per-page character comparison that would follow it, need an environment that permits
+  Word or WPS automation.
+- **S4's version effect.** Installing `MatchIt 4.5.5` from the CRAN archive needs Rtools; the
+  build was started and did not complete within the session. Until it does, "S4 does not
+  reproduce" stands and "the `MatchIt` version is why" is a narrowing, not a measurement.
+
 ### 2026-10-04 (twentieth pass) — the upstream chain is executed by someone else, and the record ships with it
 
 Numbers: **no reported number changed.** No file in `data/derived/` or `data/upstream/` changed,

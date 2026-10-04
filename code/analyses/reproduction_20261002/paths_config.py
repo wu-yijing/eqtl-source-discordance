@@ -134,7 +134,7 @@ DOCS = {
     'manuscript': dict(env='REPRO_MS_DOCX',
                        default=os.path.join(REPO, 'manuscript', 'Manuscript.docx'),
                        expect='Manuscript_GenetEpidemiol_20260930.docx',
-                       md5='a6f7521b98efa0e2ef247664e2f0db3a', bytes=30523,
+                       md5='27e9bf5cbf3785d930f27ee6f165c49f', bytes=31190,
                        what='the submitted manuscript',
                        revisions=[
                            dict(md5='dbbe4f81a6fe9433b6a28019c6538eab', bytes=30524,
@@ -147,17 +147,45 @@ DOCS = {
                                 label='revision 2026-10-03 (rev3)'),
                            dict(md5='709fca349e56d9361030c9e36ddf2548', bytes=31174,
                                 label='revision 2026-10-03 (rev4)'),
+                           # --- added 2026-10-04: the identifier-carrier revisions ---
+                           # Each is a text-only edit; none changes a reported value or a
+                           # figure. EN translation 2026-10-04 (rev5) is the only one whose
+                           # change is NOT an identifier, and it too is text-only.
+                           dict(md5='3449d5e01467f08e09094f9b85c94367', bytes=31167,
+                                label='revision 2026-10-04 (rev5)'),
+                           dict(md5='ca7e22a9a2e10f091b061a72fa175c95', bytes=31168,
+                                label='revision 2026-10-04 (rev6: v4.0.2 identifiers)'),
+                           dict(md5='27e9bf5cbf3785d930f27ee6f165c49f', bytes=31190,
+                                label='revision 2026-10-04 (rev7: [39] carrier -> Zenodo)'),
                        ]),
     'si': dict(env='REPRO_SI_DOCX',
                default=os.path.join(REPO, 'manuscript', 'Supporting_Information.docx'),
                expect='Supporting_Information_GenetEpidemiol_20260930.docx',
-               md5='bd50b7f819db7851c50ddfa76ae336eb', bytes=1462835,
+               md5='393d2399a8be2442c3be47ba548625ef', bytes=1561171,
                what='the submitted Supporting Information',
                revisions=[
                    dict(md5='bd50b7f819db7851c50ddfa76ae336eb', bytes=1462835,
                         label='as submitted 2026-09-30', outcome=True),
                    dict(md5='72f955c9294d5228c57288ba93617f1e', bytes=1463194,
                         label='revision 2026-10-03 (rev2)'),
+                   # --- added 2026-10-04 ---
+                   # rev1_dates / rev1_dates_minimal were two alternative takes on the
+                   # Note S4 retrieval-date fix; rev1_dates_minimal is the one that was
+                   # carried forward. rev3/rev4 are the v4.0.2 identifier edits.
+                   # rev5 changes CONTENT, not only identifiers: Note S4's
+                   # `median minimum absolute Z` 1.24 -> 0.672, and Table S24 gains the
+                   # numpy.sign zero-value convention. Both are corrections of text the
+                   # archive had flagged; neither alters a reported value's source data.
+                   dict(md5='0525627164458b587f0997180d9e63d9', bytes=1560626,
+                        label='revision 2026-10-03 (rev1_dates, alternative take)'),
+                   dict(md5='a73ed9c8242254430b2dba142cb3de38', bytes=1463041,
+                        label='revision 2026-10-03 (rev1_dates_minimal)'),
+                   dict(md5='5446e5e0d42831009ee4a519a5703815', bytes=1463257,
+                        label='revision 2026-10-03 (rev3)'),
+                   dict(md5='4fa20cde6614230a11afc1ca13529ed5', bytes=1463254,
+                        label='revision 2026-10-04 (rev4: v4.0.2 identifiers)'),
+                   dict(md5='393d2399a8be2442c3be47ba548625ef', bytes=1561171,
+                        label='revision 2026-10-04 (rev5: Note S4 Z value + S24 convention)'),
                ]),
     'af1': dict(env='REPRO_AF1_DOCX',
                 default=os.path.join(REPO, 'manuscript', 'Additional_file_1.docx'),

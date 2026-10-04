@@ -106,9 +106,17 @@ Every revision of the two submission documents that is known to exist is listed 
 | `manuscript` | **produced `results/`** (submitted 2026-09-30) | `Manuscript_GenetEpidemiol_20260930.docx` | `a6f7521b98efa0e2ef247664e2f0db3a` | `ce48e337bb37a9724ec2039413d795da6ae3662c5fc4c85f52b168e83370f9a6` | 30,523 |
 | `manuscript` | revision 2026-10-03 (rev2) | `Manuscript_GenetEpidemiol_20260930_rev2.docx` | `ee64dfde3903585c3dadfd8b3b257f50` | `69045bb6bd600850a32cc0e674313cca9407e37f1d1dfed79b6ece118f71c76c` | 30,524 |
 | `manuscript` | revision 2026-10-03 (rev3) | `Manuscript_GenetEpidemiol_20260930_rev3.docx` | `bb9ce271dfddad5ab24cd06012298ab6` | `42dbfa1fcf8e8089069980c1730e8e75872e3569624b70d29062c7deb82446c3` | 30,720 |
-| `manuscript` | **revision 2026-10-03 (rev4)** — newest, on disk | `Manuscript_GenetEpidemiol_20260930_rev4.docx` | `709fca349e56d9361030c9e36ddf2548` | `793249b8f863890d43fc9ccdb1375fa21c06591a4e98a04987612fda7e890312` | 31,174 |
+| `manuscript` | **revision 2026-10-03 (rev4)** | `Manuscript_GenetEpidemiol_20260930_rev4.docx` | `709fca349e56d9361030c9e36ddf2548` | `793249b8f863890d43fc9ccdb1375fa21c06591a4e98a04987612fda7e890312` | 31,174 |
+| `manuscript` | revision 2026-10-04 (rev5) | `Manuscript_GenetEpidemiol_20260930_rev5.docx` | `3449d5e01467f08e09094f9b85c94367` | `74925ccffc329f21…` | 31,167 |
+| `manuscript` | revision 2026-10-04 (rev6: v4.0.2 identifiers) | `Manuscript_GenetEpidemiol_20260930_rev6.docx` | `ca7e22a9a2e10f091b061a72fa175c95` | `389c0c2adf2fbed8…` | 31,168 |
+| `manuscript` | **revision 2026-10-04 (rev7: `[39]` carrier → Zenodo)** — newest, on disk | `Manuscript_GenetEpidemiol_20260930_rev7.docx` | `27e9bf5cbf3785d930f27ee6f165c49f` | `ddf27dbb8f37d887…` | 31,190 |
 | `si` | **produced `results/`** (submitted 2026-09-30) | `Supporting_Information_GenetEpidemiol_20260930.docx` | `bd50b7f819db7851c50ddfa76ae336eb` | `132d5eb080f0021e6ee180c4b7736ada27e35a5d8e457d29815992945d17ac73` | 1,462,835 |
-| `si` | **revision 2026-10-03 (rev2)** — newest, on disk | `Supporting_Information_GenetEpidemiol_20260930_rev2.docx` | `72f955c9294d5228c57288ba93617f1e` | `81692586c4164286096f6c48fd289fa7ec32d6be9c2d7fbb4d32c09c02484dd8` | 1,463,194 |
+| `si` | revision 2026-10-03 (rev2) | `Supporting_Information_GenetEpidemiol_20260930_rev2.docx` | `72f955c9294d5228c57288ba93617f1e` | `81692586c4164286096f6c48fd289fa7ec32d6be9c2d7fbb4d32c09c02484dd8` | 1,463,194 |
+| `si` | revision 2026-10-03 (rev1_dates, alternative take — not carried forward) | `Supporting_Information_…_rev1_dates.docx` | `0525627164458b587f0997180d9e63d9` | `3e468019c5457e1d…` | 1,560,626 |
+| `si` | revision 2026-10-03 (rev1_dates_minimal — the take carried forward) | `Supporting_Information_…_rev1_dates_minimal.docx` | `a73ed9c8242254430b2dba142cb3de38` | `eb8bfe60cfd58d50…` | 1,463,041 |
+| `si` | revision 2026-10-03 (rev3) | `Supporting_Information_…_rev3.docx` | `5446e5e0d42831009ee4a519a5703815` | `323cfa81543309ff…` | 1,463,257 |
+| `si` | revision 2026-10-04 (rev4: v4.0.2 identifiers) | `Supporting_Information_…_rev4.docx` | `4fa20cde6614230a11afc1ca13529ed5` | `e69d7d324f54bf1e…` | 1,463,254 |
+| `si` | **revision 2026-10-04 (rev5: Note S4 Z value + S24 zero convention)** — newest, on disk | `Supporting_Information_…_rev5.docx` | `393d2399a8be2442c3be47ba548625ef` | `9109733b4e1b1bed…` | 1,561,171 |
 | `af1` | — | `Additional file 1_审稿意见修订_20260917.docx` | — | — | — |
 
 `af1` is read by `r3/m15/m15_pc.py` and is **optional since 2026-10-03**: the four tables S20's generator reads (S1, S2, S15, S18) also ship as `data/derived/{gene_groups,gtex_Z,eqtlgen_Z}.csv`, verified row for row identical to the document (104/104, 222/222, 90→81/81, 207/207, zero differing cells). Supply the document and it is used instead.
