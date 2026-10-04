@@ -23,6 +23,74 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-04 (twenty-fifth pass) — the MatchIt-version explanation for S4 is tested and falsified
+
+Numbers: **no reported number changed.** No file in `data/` changed, no reproducing script was
+edited, and neither submitted document was touched.
+
+The twenty-first pass left SI Table S4 with one surviving explanation: `MatchIt` 4.7.2 was
+installed, `env/renv.lock` pins 4.5.5, and `distance = "mahalanobis"` handling changed in the 4.6
+line. The source install "did not complete inside this session's budget", so the version effect was
+recorded as **narrowed, not measured**. It is now measured.
+
+**It is nil. 18 of 18 conventions agree between the two versions — down to the per-pair mismatch
+strings — and both best-match the archive at 2 of 30.**
+
+| | MatchIt 4.5.5 | MatchIt 4.7.2 |
+|---|---|---|
+| Best agreement with the archived 30 pairs | 2 / 30 | 2 / 30 |
+| Identical results out of 18 conventions | 18 / 18 | |
+| Identical per-pair mismatch strings | 18 / 18 | |
+
+The A/B is designed so the library is the only variable: **one script, run twice**, with
+`lib = <isolated>` and `lib = ""`, each printing the version it loaded *and the directory it came
+from*. That second half earned its keep immediately — a leftover `00LOCK-MatchIt` in the isolated
+library made R silently fall back to 4.7.2 while the run had been *asked* for 4.5.5, and the printed
+directory is what caught it. (`Rscript -e '…'` with a multi-line argument also segfaulted under Git
+Bash, so everything is a file run with `--vanilla`.)
+
+The divergence was then localised without invoking MatchIt at all. `diagnose_S4_distance.R` computes
+the Mahalanobis distance from each candidate to every control in the 44-gene pool and asks where the
+archived control ranks:
+
+- **the archived control is the nearest neighbour in 3 of 30 pairs; median rank 14 out of 44, worst 39**
+- across 7 covariate subsets × 3 covariance conventions, the best is 11/30 (the eQTL-SNP count alone)
+
+So this is not an assignment-order problem. With 30 candidates drawn from 44 controls, no greedy
+ordering or tie-breaking rule selects a rank-14 partner while a closer control is available and
+unused. **The pairing the archive ships is not what this metric selects** under any of the 18 A/B
+conventions or 21 distance specifications. What produced it is still unrecorded; that question now
+needs the original analysis log, not a search.
+
+Added
+
+- **`docs/audit_notes/s4_matchit_version_test_20261004/`** — 13 files: the build recipe
+  (`install_matchit455.R`), the A/B runner (`reproduce_S4_matchit455.R`), the distance diagnostic
+  (`diagnose_S4_distance.R`), both convention CSVs, the distance table, the side-by-side summary,
+  four run logs and a `MANIFEST.sha256`. A scoped `.gitignore` exception re-includes this
+  directory's logs for the same reason the upstream-chain record has one: here the logs are the
+  artefact.
+
+Changed
+
+- **`metadata/ARCHIVE_MAP.md`** — row S4 and GAP-11 no longer carry "narrowed, not measured"; they
+  carry the measurement, the falsification, and the localisation. The status stays **❌ NOT
+  REPRODUCED** and `clone ≠ result`.
+- **`docs/audit_notes/open_items_closure_20261004/README.md`** §1.3 now marks its own surviving
+  explanation as falsified rather than leaving the earlier text to be read as current.
+- **One correction to the earlier pass's wording.** `m.order` accepts `"data"`, `"random"` and
+  `"closest"` — nothing else, in either version. That pass also *attempted* `"largest"` and
+  `"smallest"`; those calls raised errors and contributed nothing, so the tested space was smaller
+  than the phrase "m.order variants" implied. The count now stated is the count that ran.
+
+Not done
+
+- **`MASS`-based `matchit(distance = …)` variants** remain untried. The distance diagnostic covers
+  the covariate-subset and covariance-convention space instead, which is where the evidence points.
+- **The manuscript-side question** is unchanged and now sharper: which matched set does the paper
+  report, and what produced it? `Table_S2_Matched_Controls.csv` and the archived file disagree on
+  six controls and neither is reproduced.
+
 ### 2026-10-04 (twenty-fourth pass) — the R2 residual is closed: the P1/P2 notes are in the paper
 
 Numbers: **no reported number changed.** No file in `data/` changed, and no reproducing script was

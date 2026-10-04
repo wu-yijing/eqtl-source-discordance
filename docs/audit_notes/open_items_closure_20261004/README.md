@@ -77,12 +77,22 @@ discloses. That part of the recipe is right; the match still does not land.
    the shipped matrix and 1.5 in the archive — i.e. the imputation, as expected. **So the
    inputs are right and the algorithm is what differs.**
 
-The remaining single explanation consistent with all of the above is the `MatchIt` version
+The remaining single explanation consistent with all of the above was the `MatchIt` version
 (4.7.2 installed vs 4.5.5 locked): `distance = "mahalanobis"` handling changed in the 4.6
 line. Installing 4.5.5 from the CRAN archive requires compiling against Rtools; a source
-install was started here and did not complete inside this session's budget, so the version
-effect is **narrowed, not yet measured**. `MASS`-based `matchit(distance = …)` variants were
-not exhausted either.
+install was started here and did not complete inside this session's budget, so at the time
+this note was written the version effect was **narrowed, not yet measured**.
+
+> ✅ **Measured the same day, and it is nil — this explanation is falsified.** MatchIt 4.5.5 was
+> compiled from the CRAN archive (Rtools 45 / GCC 14.3.0) and the same script, inputs and 18
+> conventions were run under both versions. **18 of 18 conventions give an identical result,
+> down to the per-pair mismatch strings**, and both best-match the archive at **2 of 30**. The
+> divergence was then localised: the archived control is the candidate's Mahalanobis nearest
+> neighbour in only **3 of 30** pairs (median rank **14 of 44**; best across 7 covariate subsets
+> × 3 covariance conventions is 11/30 on the eQTL-SNP count alone). See
+> [`../s4_matchit_version_test_20261004/`](../s4_matchit_version_test_20261004/README.md).
+> `MASS`-based `matchit(distance = …)` variants were not exhausted; the distance diagnostic
+> covers the specification space that was.
 
 ### 1.4 A second, independent discrepancy
 

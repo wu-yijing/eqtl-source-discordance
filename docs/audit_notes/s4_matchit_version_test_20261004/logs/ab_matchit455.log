@@ -1,0 +1,33 @@
+During startup - Warning messages:
+1: Setting LC_COLLATE=C.UTF-8 failed 
+2: Setting LC_CTYPE=C.UTF-8 failed 
+3: Setting LC_MONETARY=C.UTF-8 failed 
+4: Setting LC_TIME=C.UTF-8 failed 
+MatchIt 4.5.5   (loaded from E:/workbuddy/_s4_repro)
+R 4.5.2
+归档配对：30 对
+随库矩阵：候选 30，非候选 44，T2DM 30
+生产者矩阵：候选 30，非候选 54，T2DM 30
+
+=== 逐约定：与归档 30 对逐对比较 ===
+  shipped pool=nca imp=TRUE order=data           pairs=30  命中  1/30
+  shipped pool=nca imp=TRUE order=random         pairs=30  命中  2/30
+  shipped pool=nca imp=TRUE order=closest        pairs=30  命中  2/30
+  shipped pool=nca imp=FALSE order=data          pairs=27  命中  0/30
+  shipped pool=nca imp=FALSE order=random        pairs=27  命中  0/30
+  shipped pool=nca imp=FALSE order=closest       pairs=27  命中  1/30
+  shipped pool=nca+t2dm imp=TRUE order=data      pairs=30  命中  1/30
+  shipped pool=nca+t2dm imp=TRUE order=random    pairs=30  命中  1/30
+  shipped pool=nca+t2dm imp=TRUE order=closest   pairs=30  命中  2/30
+  shipped pool=nca+t2dm imp=FALSE order=data     pairs=27  命中  1/30
+  shipped pool=nca+t2dm imp=FALSE order=random   pairs=27  命中  1/30
+  shipped pool=nca+t2dm imp=FALSE order=closest  pairs=27  命中  2/30
+  producer pool=nca imp=TRUE order=data          pairs=30  命中  2/30
+  producer pool=nca imp=TRUE order=random        pairs=30  命中  2/30
+  producer pool=nca imp=TRUE order=closest       pairs=30  命中  2/30
+  producer pool=nca imp=FALSE order=data         pairs=27  命中  2/30
+  producer pool=nca imp=FALSE order=random       pairs=27  命中  2/30
+  producer pool=nca imp=FALSE order=closest      pairs=27  命中  2/30
+
+最佳命中：2 / 30（MatchIt 4.5.5, m455）
+写入 E:/workbuddy/_s4_repro/ab/m455_conventions.csv

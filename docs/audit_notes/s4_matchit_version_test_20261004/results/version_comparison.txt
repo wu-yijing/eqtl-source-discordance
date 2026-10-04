@@ -1,0 +1,40 @@
+SI Table S4 — MatchIt version A/B, 2026-10-04
+==============================================================================
+
+A arm: MatchIt 4.5.5  (compiled from the CRAN archive; env/renv.lock pins 4.5.5)
+B arm: MatchIt 4.7.2  (the version that was installed on this machine)
+Everything else identical: same R 4.5.2, same script, same inputs,
+same 18 conventions (pool x imputation x m.order).
+
+convention                                        4.5.5    4.7.2 verdict
+------------------------------------------------------------------------------
+shipped pool=nca imp=TRUE order=data                  1        1 identical
+shipped pool=nca imp=TRUE order=random                2        2 identical
+shipped pool=nca imp=TRUE order=closest               2        2 identical
+shipped pool=nca imp=FALSE order=data                 0        0 identical
+shipped pool=nca imp=FALSE order=random               0        0 identical
+shipped pool=nca imp=FALSE order=closest              1        1 identical
+shipped pool=nca+t2dm imp=TRUE order=data             1        1 identical
+shipped pool=nca+t2dm imp=TRUE order=random           1        1 identical
+shipped pool=nca+t2dm imp=TRUE order=closest          2        2 identical
+shipped pool=nca+t2dm imp=FALSE order=data            1        1 identical
+shipped pool=nca+t2dm imp=FALSE order=random          1        1 identical
+shipped pool=nca+t2dm imp=FALSE order=closest         2        2 identical
+producer pool=nca imp=TRUE order=data                 2        2 identical
+producer pool=nca imp=TRUE order=random               2        2 identical
+producer pool=nca imp=TRUE order=closest              2        2 identical
+producer pool=nca imp=FALSE order=data                2        2 identical
+producer pool=nca imp=FALSE order=random              2        2 identical
+producer pool=nca imp=FALSE order=closest             2        2 identical
+------------------------------------------------------------------------------
+
+conventions with an identical result: 18 / 18
+conventions with an identical per-pair mismatch string: 18 / 18
+
+best agreement with the archived 30 pairs:
+  MatchIt 4.5.5 : 2 / 30
+  MatchIt 4.7.2 : 2 / 30
+
+CONCLUSION: the MatchIt version has NO effect on this computation.
+The surviving explanation recorded on 2026-10-04 ("the MatchIt version is why")
+is FALSIFIED. SI Table S4 remains not reproducible, and the ❌ stands.
