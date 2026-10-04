@@ -157,6 +157,9 @@ DOCS = {
                                 label='revision 2026-10-04 (rev6: v4.0.2 identifiers)'),
                            dict(md5='27e9bf5cbf3785d930f27ee6f165c49f', bytes=31190,
                                 label='revision 2026-10-04 (rev7: [39] carrier -> Zenodo)'),
+                           dict(md5='7fed1b504c452e16333a59d1aef6510e', bytes=31223,
+                                label='revision 2026-10-04 (rev8: R2 §一 unrounded-value '
+                                      'parenthetical; no number changed)'),
                        ]),
     'si': dict(env='REPRO_SI_DOCX',
                default=os.path.join(REPO, 'manuscript', 'Supporting_Information.docx'),
@@ -186,6 +189,13 @@ DOCS = {
                         label='revision 2026-10-04 (rev4: v4.0.2 identifiers)'),
                    dict(md5='393d2399a8be2442c3be47ba548625ef', bytes=1561171,
                         label='revision 2026-10-04 (rev5: Note S4 Z value + S24 convention)'),
+                   dict(md5='5baf40f0fbba2fb1d50367bdc7fecb85', bytes=1463543,
+                        label='revision 2026-10-04 (rev6: rev5 text rebuilt on rev4 '
+                              'structure — the layout regression repaired, no text change)'),
+                   dict(md5='d4ad6e348d577f55706a5d65af7ed37b', bytes=1464167,
+                        label='revision 2026-10-04 (rev7: R2 P1/P2 notes added to the '
+                              'Table S17 note — RNG, sorted-vector, permutation unit, '
+                              'sandwich/jackknife estimators; no number changed)'),
                ]),
     'af1': dict(env='REPRO_AF1_DOCX',
                 default=os.path.join(REPO, 'manuscript', 'Additional_file_1.docx'),

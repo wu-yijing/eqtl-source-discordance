@@ -23,6 +23,80 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-04 (twenty-fourth pass) — the R2 residual is closed: the P1/P2 notes are in the paper
+
+Numbers: **no reported number changed.** No file in `data/` changed, and no reproducing script was
+edited. This pass applies the paste-ready text that `docs/audit_notes/R2残余差异消除方案_20261002.md`
+wrote on 2026-10-02, whose own closing line was "*做完 P1+P2 后，R2 = 0*". **R2 = 0 now holds.**
+
+The three R2 items were never wrong numbers. Each was a report that had not written down what a
+reproducer needs — the estimator, the RNG, the permutation unit, the input precision. The archive
+had already established all four by measurement and said so in an audit note; the paper had not.
+That gap is what this closes.
+
+Applied
+
+| Document | In | Out | Bytes | MD5 |
+|---|---|---|---|---|
+| SI | `…_rev6.docx` | **`…_rev7.docx`** | 1,463,543 → **1,464,167** | `d4ad6e348d577f55706a5d65af7ed37b` |
+| Manuscript | `…_rev7.docx` | **`…_rev8.docx`** | 31,190 → **31,223** | `7fed1b504c452e16333a59d1aef6510e` |
+
+- **SI, after the Table S17 note: two new paragraphs.** (i) The *Resampling details* disclosure
+  (`numpy.random.RandomState`, legacy MT19937; seeds 20260915 / 20260726 / 20260914; B = 10,000,
+  5,000 for the paired Δρ bootstrap) together with the resampling unit — genes drawn from a
+  **lexicographically sorted** vector — and the permutation unit — gene labels permuted as **whole
+  genes**, one permutation applied to all three phenotypes at once. That one paragraph closes three
+  items at once: the endpoint drift under row reordering (item 3), the primary arm's ρ interval
+  `0.12–0.62` (the MT19937 convention), and the permutation null `−0.22 ~ +0.23` (which the previous
+  wording, "permuted within each phenotype", reproduces as −0.199/+0.199 instead). (ii) The
+  **sandwich and delete-one-gene jackknife estimator definitions** (item 2). The reported
+  `SE = 0.125` is **not** changed: the triple (SE 0.125, one-sided 0.002, two-sided 0.004, df 31) is
+  internally consistent for any SE in [0.12326, 0.12719], so the estimator was the missing item.
+- **Manuscript, paragraph 37, one parenthetical** (item 1): "exceeds that by 6.1 points **(6.01
+  points when evaluated at the unrounded ρ = 0.3896 and rate = 68.75%)**". Both numbers are
+  unchanged; the parenthetical names where the 0.04 pp difference between the manuscript's 6.1 and
+  the SI's 6.05 comes from.
+
+Added
+
+- **`docs/audit_notes/r2_notes_closure_20261004/`** — `apply_r2_notes.py`, `verify_r2_notes.py` and
+  the record.
+  - `apply_r2_notes.py` **hard-codes no prose**: it extracts the four text blocks from the R2 note
+    on every run and fails if it cannot find them, so editing the note breaks the tool rather than
+    letting it drift. It rewrites only `word/document.xml`, cloning the adjacent note paragraph's
+    `<w:pPr>` so the new paragraphs inherit the existing style instead of inventing one.
+  - `verify_r2_notes.py` checks seven things independently: identical part tables with only
+    `word/document.xml` rewritten; **exactly one contiguous insertion** in `document.xml`
+    (SI `[3635677, 3635677)`, 2,736 chars; manuscript `[29182, 29182)`, 75 chars); run-for-run
+    equality with the note's text; SI paragraph count 115 → 117 with two new paragraphs following
+    paragraph 81 and **all 115 originals unchanged**; SI paragraph count and the four table markers
+    (`tblPrEx` / `tblCellMar` / `tblBorders` / `insideH`) invariant — i.e. the rev5 layout
+    regression is **not** reintroduced; Times New Roman glyph coverage; and every pre-existing
+    numeric token preserved.
+- **Docs revision registry** extended: manuscript rev8 and SI rev6/rev7 are registered by MD5 and
+  byte count, so all seven on-disk pairs now report `[ok]` with the revision named rather than
+  `[UNRECOGNISED]`.
+
+One glyph substitution, measured rather than assumed
+
+The estimator text needs `∈` (U+2208). fontTools against `times.ttf`, `timesbd.ttf` and
+`timesi.ttf` shows Times New Roman covers **14 of the 15** code points the inserted text uses and
+lacks exactly that one, so `Σ_{i∈g}` is written `Σ_{i in g}`. The applier asserts the source form is
+present and the target form absent, and the verifier prints the substitution. The other four new
+characters (`̃ ̄ Σ φ ỹ`) are new *to the document* but covered by the font, so no font embedding is
+needed.
+
+Not done
+
+- **The PDF.** Both documents changed, so the page count and the per-page character comparison need
+  a re-render on a machine that permits Office automation; this one does not (item 5 of the
+  open-items record).
+- **§五's P3 table notes.** Two of the seven were fixed on 2026-10-04 (Table S21's `median minimum
+  absolute Z`, Table S24's zero convention); five remain.
+- **Nothing is distributed.** Neither document ships with this repository — the standing rule — so
+  the record carries their MD5/SHA-256 and the two scripts that reproduce them from the prior
+  revisions.
+
 ### 2026-10-04 (twenty-third pass) — the hard-coded Z pair in `recompute.py`, and what removing it exposed
 
 Numbers: **no reported number changed.** No file in `data/` changed, and neither submitted document
