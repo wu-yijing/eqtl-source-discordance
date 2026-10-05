@@ -2590,12 +2590,12 @@
   {
    "path": "docs/audit_notes/upstream_recheck_20261005/MANIFEST.sha256",
    "bytes": 559,
-   "sha256": "18139bc972fba7b4970ad5d9d32dcd7c4e7bf026d3527caabd43f65215f253a0"
+   "sha256": "83c95e7f2c7d5e74f2b1b969cfa7ad2de7aea442824850797cc31a176524313f"
   },
   {
    "path": "docs/audit_notes/upstream_recheck_20261005/README.md",
-   "bytes": 11459,
-   "sha256": "a70fe3acd47fafdd5c0028db558f9d0199660fdb8cc7589ed98871b96c8a2b15"
+   "bytes": 12255,
+   "sha256": "3b350a6721d7bd554ded4af38d87c25574696f8803738e0b400b05bacc6f947e"
   },
   {
    "path": "docs/audit_notes/upstream_recheck_20261005/evidence/db_content_compare.txt",

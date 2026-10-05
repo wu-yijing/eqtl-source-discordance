@@ -159,10 +159,26 @@ GH_TOKEN=<a PAT that can write to this repository> PYBIN=python3 \
 # --dry-run verifies the local files and stops
 ```
 
-**Status: executed and blocked on token scope — the release still carries 0 assets.** The
-attempt of 2026-10-05 reached the uploads and every one returned **HTTP 404** from
-`uploads.github.com`, while the read calls (repo, release, asset list) all succeeded. The
-diagnosis is not a missing release: it is a token with **no scopes at all** —
+**Status: DONE — the three covariances are on the release.** Carried by the existing release
+`v4.0.2` (id `402753097`); **no tag was created**.
+
+| Asset | Bytes | sha256, as GitHub reports it in the asset `digest` | Download |
+|---|---|---|---|
+| `cov_A.txt.gz` | 183,659,809 | `b9c690a8afe8395a2f06ce763fd70cb0a872df5136cba93ecb8c298755a71d73` | `https://github.com/wu-yijing/eqtl-source-discordance/releases/download/v4.0.2/cov_A.txt.gz` |
+| `cov_B.txt.gz` | 99,159,225 | `4a8f2a55ab7d39e4b0eba026b359fa85f4637281e39add8ffd9b5d58e3587021` | `.../releases/download/v4.0.2/cov_B.txt.gz` |
+| `cov_C.txt.gz` | 111,535,391 | `8827b67ac47eec3f9f9293078438e5bd1856ef276349aa4401270f573129e3b2` | `.../releases/download/v4.0.2/cov_C.txt.gz` |
+
+Every sha256 in that column was **read back from the API after the upload**, not taken from
+the upload response: each asset returns `state=uploaded`, a byte count equal to the ledger's,
+and a `digest` equal to the sha256 of the local file. The deferral the maintainer asked for is
+intact — `GET /tags` still returns only `v4.0.1` and `v4.0.2`, and `GET /releases` still
+returns two releases, with `v4.0.2` now carrying three assets.
+
+### The first attempt failed, and the diagnosis is the reusable part
+
+On 2026-10-05 the upload was tried first with a **classic** token and every attempt returned
+**HTTP 404** from `uploads.github.com`, while the read calls (repo, release, asset list) all
+succeeded. The cause was not a missing release: the token had **no scopes at all** —
 
 ```
 $ curl -sS -D - -o /dev/null -H "Authorization: Bearer $GH_TOKEN" https://api.github.com/user | grep -i x-oauth-scopes
@@ -172,22 +188,15 @@ X-OAuth-Scopes:                 # empty
 GitHub answers 404 rather than 403 for a write an unscoped token may not perform, so a
 permission failure is indistinguishable from a missing resource until the scope header is
 read. Both `Authorization: Bearer` and `Authorization: token` were tried, with a 1-byte probe
-file, and both returned 404 — the request format is not the problem.
+file, and both returned 404 — the request format was not the problem. The script now prints
+that diagnosis itself on 404.
 
-**What unblocks it**, in order of least privilege:
-
-1. **A fine-grained PAT** — Resource owner `wu-yijing`; Repository access → only
-   `eqtl-source-discordance`; Repository permissions → **Contents: Read and write** (Releases
-   and their assets fall under Contents). Then re-run the command above.
-2. **A classic PAT with `public_repo`** (the repository is public, so `public_repo` is
-   sufficient; `repo` also works). A classic token's scopes are not editable after creation,
-   so this means generating a new one.
-3. **No credential at all** — the three files are on the machine that did the rebuild; on the
-   release page, `Edit`/`Draft` → attach `cov_A.txt.gz`, `cov_B.txt.gz`, `cov_C.txt.gz` →
-   update. Verification afterwards needs only read access, which works today.
-
-The script now prints the scope diagnosis itself when it sees 404, so the next attempt names
-the cause instead of showing a bare "Not Found".
+**What fixed it:** a **fine-grained PAT** with Repository access limited to this repository and
+**Contents: Read and write** (fine-grained release and asset calls are governed by `Contents`,
+per the REST reference for `Update a release asset`). The classic route would have needed a new
+token with `public_repo`, because classic scopes cannot be edited after creation. The token was
+held only in the shell that ran the upload — it is **not** in any file, not in this repository,
+and not in its history.
 
 **Recorded for the unified release, when it comes.** `docs/RELEASE_PROCESS.md` requires the
 tag to equal `.zenodo.json`'s `version` (currently **4.0.2**), so a version release means
