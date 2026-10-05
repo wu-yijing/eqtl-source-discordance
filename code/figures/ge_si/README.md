@@ -51,7 +51,7 @@ does not make the script reproduce the published raster — see below.
 | Family | Size | Example | Produced by |
 |---|---|---|---|
 | A | 3188 × 3076 | `定稿补充图_FigS1-S5_20260915/.../_backup_before_600dpi_20260915_210047/FigS1.png` (441,493 B) | `rebuild_fig1_2_9.py` — this family |
-| B | 3189 × 3077 | the four rasters in `published/` | **no script in this archive** |
+| B | 3189 × 3077 | the four rasters in `published/` | **no script in this archive** — *(2026-10-05: family B is not a second drawing; it is family A's **PDF**, rasterised at 600 dpi — `pt / 72 * 600` = 3189.00 × 3076.80 → 3189 × 3077. Residual 2,044 px, 0.02 %. See `docs/audit_notes/gap4_figs1_render_path_20261005/`.)* |
 
 Measured 2026-10-03 (full detail in `published/README.md`):
 
