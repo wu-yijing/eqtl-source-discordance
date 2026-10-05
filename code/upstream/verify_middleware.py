@@ -29,6 +29,22 @@ normalising them to LF would change every byte and silently invalidate every has
 Every expectation below is also recorded in `data/external/README.md`
 (§"Files that are derived") so the two can be compared by eye.
 
+THE FOUR SQLite ARTEFACTS ARE CHECKED BY CONTENT, NOT BY BYTES (2026-10-05)
+--------------------------------------------------------------------------
+`eqtlgen/*.db` used to be pinned by `file-sha256`. A SQLite file's byte image
+depends on the writing library's version: the same schema and the same rows in the
+same order can be written to a different page layout with the same byte count, so a
+rebuild under a different `sqlite3.sqlite_version` reported DIFFERS with nothing
+different. That is exactly what happened on 2026-10-05 — a local re-run of the whole
+chain produced all four databases with identical size, identical schema, identical
+rows and identical `COUNT(*)` per table, and still failed this check.
+
+They are now pinned by a `content_sha256_db`: SHA-256 over the schema plus every row
+of every table in a deterministic (all-columns) order — the same canonical form
+`docs/audit_notes/upstream_recheck_20261005/scripts/compare_db_content.py` uses, and
+the `.db` analogue of the `content_md5` the `.txt.gz` covariances already use. The
+writer version is reported on every run, because it is what the byte image depends on.
+
 Exit status: 0 if every artefact that is present matches; 1 if any differs.
 Absent artefacts are reported as MISSING and do not by themselves fail the run,
 because a partial rebuild (say, only the GTEx arm) is a legitimate thing to
@@ -40,24 +56,28 @@ import argparse
 import gzip
 import hashlib
 import os
+import sqlite3
 import sys
 
 # (relative path from --run-dir, kind, expected, label)
 #   kind: 'sha256' file hash | 'md5' file hash | 'content_md5' md5 of the
 #         decompressed bytes (a gzip stream embeds an mtime, so the file hash of
-#         the same content differs run to run; the content hash does not).
+#         the same content differs run to run; the content hash does not) |
+#         'content_sha256_db' sha256 of a SQLite database's schema + every row
+#         (a SQLite file's byte image depends on the writer's library version, so
+#         the file hash of the same content differs run to run; this does not).
 EXPECTED = [
-    ("eqtlgen/eQTLGen_Whole_Blood.db", "sha256",
-     "413c4fff25c1820fd92f11f4370e25f3b82ea2ecd5a84ff0643d5f750312fa3c",
+    ("eqtlgen/eQTLGen_Whole_Blood.db", "content_sha256_db",
+     "7bfe1c08e14ed88837b0acf9c6eb5f601c73c1303384192f30d3c203b2e710ba",
      "eQTLGen weight database"),
-    ("eqtlgen/db_A.db", "sha256",
-     "f3a29eee9bf1aa4384de6b8627136c55988b077ff34af28431b3e2c9c2156d74",
+    ("eqtlgen/db_A.db", "content_sha256_db",
+     "54082ecddfe1ba848ff7dae24c01ec27c8792d8021e1370cac84d36961a9739e",
      "eQTLGen band A model database"),
-    ("eqtlgen/db_B.db", "sha256",
-     "51777828c3607b5b172264f380cc9928ef19dc6b9e382abc460db0b9c8e8b966",
+    ("eqtlgen/db_B.db", "content_sha256_db",
+     "d29895db795f66eb1ddc20df2fb988e7c3939a8ea3b1e924990e1521caddbbc6",
      "eQTLGen band B model database"),
-    ("eqtlgen/db_C.db", "sha256",
-     "1617c517e030394b62a33f0466bd9904ae81b7e0e3c7cf3a20db27e84e4e66d8",
+    ("eqtlgen/db_C.db", "content_sha256_db",
+     "60b910090e6de9f0f8321e471fc6810e8fa46957de330bd5cfc5ef433873a8e7",
      "eQTLGen band C model database"),
     ("cov/cov_Whole_Blood.txt.gz", "content_md5",
      "31137589fc9ca1a261df19fba7f14e08", "GTEx Whole_Blood gene covariance"),
@@ -124,11 +144,44 @@ def content_md5(path):
     return h.hexdigest()
 
 
+def content_sha256_db(path):
+    """SHA-256 over a SQLite database's schema and every row, in a fixed order.
+
+    Canonical form, shared with
+    docs/audit_notes/upstream_recheck_20261005/scripts/compare_db_content.py:
+    for each (type, name, sql) of sqlite_master, then for each table the rows
+    ordered by all of its columns. Page layout, free-list state and the writer's
+    library version do not enter the hash; the schema and the data do.
+    """
+    con = sqlite3.connect("file:%s?mode=ro" % path.replace("\\", "/"), uri=True)
+    try:
+        cur = con.cursor()
+        h = hashlib.sha256()
+        schema = cur.execute(
+            "SELECT type, name, sql FROM sqlite_master WHERE name NOT LIKE 'sqlite_%' "
+            "ORDER BY type, name").fetchall()
+        for t, n, s in schema:
+            h.update(("%s|%s|%s\n" % (t, n, s)).encode("utf-8"))
+        for t, n, _s in schema:
+            if t != "table":
+                continue
+            cols = [c[1] for c in cur.execute('PRAGMA table_info("%s")' % n).fetchall()]
+            order = ",".join('"%s"' % c for c in cols)
+            for r in cur.execute('SELECT * FROM "%s" ORDER BY %s' % (n, order)):
+                h.update(("%s|%s\n" % (n, "|".join("" if v is None else str(v)
+                                                   for v in r))).encode("utf-8"))
+        return h.hexdigest()
+    finally:
+        con.close()
+
+
 def actual(path, kind):
     if kind == "sha256":
         return file_digest(path, "sha256")
     if kind == "md5":
         return file_digest(path, "md5")
+    if kind == "content_sha256_db":
+        return content_sha256_db(path)
     return content_md5(path)
 
 
@@ -141,6 +194,12 @@ def main():
                     help="treat a MISSING artefact as a failure too")
     ap.add_argument("--quiet", action="store_true", help="print only failures")
     args = ap.parse_args()
+
+    if not args.quiet:
+        print("sqlite3 library : %s" % sqlite3.sqlite_version)
+        print("                  (the four .db artefacts are pinned by CONTENT, because their")
+        print("                   byte image depends on this version; see the module docstring)")
+        print()
 
     ok = bad = missing = 0
     for rel, kind, want, label in EXPECTED:
@@ -163,6 +222,10 @@ def main():
             if kind == "content_md5":
                 print("              a same-content file with a different row order "
                       "lands here: check --order on build_covariance.py")
+            if kind == "content_sha256_db":
+                print("              the schema or the rows differ — not the page layout. "
+                      "Compare by hand with "
+                      "docs/audit_notes/upstream_recheck_20261005/scripts/compare_db_content.py")
 
     print()
     print("identical %d | differing %d | missing %d   (of %d)"

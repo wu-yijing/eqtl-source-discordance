@@ -101,18 +101,29 @@ The file mattered to the manifest, not to the analysis.
 which `code/run_upstream.sh` step 8 now runs on every invocation — a rebuild that
 disagrees exits non-zero instead of being described in prose.
 
+**The four `.db` rows carry two hashes, and the content one is load-bearing** *(2026-10-05)*. A
+SQLite file's *byte image* depends on the writing library's version, so the file SHA-256 of a
+`.db` is a property of the writer as much as of the data: a rebuild can produce the same schema,
+the same rows in the same order and the same byte count, and still hash differently. `verify_middleware.py`
+therefore pins these four by **content SHA-256** (schema + every row, canonical order), exactly as the
+`.txt.gz` rows are pinned by content MD5; the file SHA-256 is retained here because it records what
+was archived. With that change a local re-run of the whole chain on SQLite 3.45.1 reports
+**30/30 identical** where it used to report 26 identical / 4 differing. The writer version is now
+recorded in [`../../docs/audit_notes/upstream_chain_closure_20261004/toolchain/versions.txt`](../../docs/audit_notes/upstream_chain_closure_20261004/toolchain/versions.txt);
+see [`../../docs/audit_notes/db_content_hashing_20261005/`](../../docs/audit_notes/db_content_hashing_20261005/README.md).
+
 | File | Built by | Hash of the archived copy |
 |---|---|---|
-| `eQTLGen_Whole_Blood.db` | [`build_eqtlgen_db.py`](../../code/upstream/build_eqtlgen_db.py) | file SHA-256 `413c4fff25c1820fd92f11f4370e25f3b82ea2ecd5a84ff0643d5f750312fa3c` · MD5 `aefbe7d485181145bd1e3ceffea2cfd6` (4,866,048 B) |
+| `eQTLGen_Whole_Blood.db` | [`build_eqtlgen_db.py`](../../code/upstream/build_eqtlgen_db.py) | file SHA-256 `413c4fff25c1820fd92f11f4370e25f3b82ea2ecd5a84ff0643d5f750312fa3c` · MD5 `aefbe7d485181145bd1e3ceffea2cfd6` (4,866,048 B) · **content SHA-256 `7bfe1c08e14ed88837b0acf9c6eb5f601c73c1303384192f30d3c203b2e710ba`** |
 | `cov_Whole_Blood.txt.gz` | `build_covariance.py --order bim` | content MD5 `31137589fc9ca1a261df19fba7f14e08` (1,498,762 B decompressed, 11,382 genes / 27,985 rows) |
 | `cov_Nerve_Tibial.txt.gz` | `build_covariance.py --order bim` | content MD5 `4ea16ad919cd0b90a693f54e8702eb59` (2,062,148 B decompressed, 14,007 genes / 38,519 rows) |
 | `cov_eQTLGen_Whole_Blood.txt.gz` | `build_covariance.py --order model` | content MD5 `7e07393d45c8927cf766425380d95b77` (39,366,329 rows, 2,044,246,636 B decompressed) |
 | `cov_A.txt.gz` | `build_covariance.py --order model` | content MD5 `ed58ccdfc590dc4498dd5ddc6c8b0ea2` (94 genes / 18,390,068 rows) |
 | `cov_B.txt.gz` | `build_covariance.py --order model` | content MD5 `2a532e74469a340feaf0b7a791740151` (8 genes / 9,535,325 rows) |
 | `cov_C.txt.gz` | `build_covariance.py --order model` | content MD5 `f30ebf0255d9eed610b6162a35be97c6` (1 gene / 11,440,936 rows) |
-| `db_A.db` | [`split_model_by_size.py`](../../code/upstream/split_model_by_size.py) | file SHA-256 `f3a29eee9bf1aa4384de6b8627136c55988b077ff34af28431b3e2c9c2156d74` (94 genes / 3,469,312 B) |
-| `db_B.db` | `split_model_by_size.py` | file SHA-256 `51777828c3607b5b172264f380cc9928ef19dc6b9e382abc460db0b9c8e8b966` (8 / 1,007,616 B) |
-| `db_C.db` | `split_model_by_size.py` | file SHA-256 `1617c517e030394b62a33f0466bd9904ae81b7e0e3c7cf3a20db27e84e4e66d8` (1 / 380,928 B) |
+| `db_A.db` | [`split_model_by_size.py`](../../code/upstream/split_model_by_size.py) | file SHA-256 `f3a29eee9bf1aa4384de6b8627136c55988b077ff34af28431b3e2c9c2156d74` (94 genes / 3,469,312 B) · **content SHA-256 `54082ecddfe1ba848ff7dae24c01ec27c8792d8021e1370cac84d36961a9739e`** |
+| `db_B.db` | `split_model_by_size.py` | file SHA-256 `51777828c3607b5b172264f380cc9928ef19dc6b9e382abc460db0b9c8e8b966` (8 / 1,007,616 B) · **content SHA-256 `d29895db795f66eb1ddc20df2fb988e7c3939a8ea3b1e924990e1521caddbbc6`** |
+| `db_C.db` | `split_model_by_size.py` | file SHA-256 `1617c517e030394b62a33f0466bd9904ae81b7e0e3c7cf3a20db27e84e4e66d8` (1 / 380,928 B) · **content SHA-256 `60b910090e6de9f0f8321e471fc6810e8fa46957de330bd5cfc5ef433873a8e7`** |
 | `gwas_DR.tsv` | `run_upstream.sh` step 1 | MD5 `390e4e9abaea0464e112008a39958511` |
 | `gwas_DN.tsv` | step 1 | MD5 `25c53a645397870098cbed30e17a0a1c` |
 | `gwas_DPN.tsv` | step 1 | MD5 `70c16fc9783f225b55cc7dbc033fc5df` |

@@ -44,3 +44,11 @@ dependencies:
 #     METAXCAN_SW=/opt/MetaXcan-0.8.1/software python3.12 code/run_upstream.sh
 #
 # The container path builds the same pin from the same tarball; see env/Dockerfile.
+
+# The SQLite writer the middleware was built with. `code/upstream/verify_middleware.py`
+# prints `sqlite3.sqlite_version` on every run, because the four `eqtlgen/*.db`
+# artefacts are pinned by CONTENT (schema + every row), not by file bytes: a SQLite
+# file's byte image depends on this version, so a same-content rebuild can hash
+# differently. Added 2026-10-05; record: docs/audit_notes/db_content_hashing_20261005/
+#
+#     sqlite3.sqlite_version = 3.45.1

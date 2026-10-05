@@ -435,6 +435,39 @@ else
 fi
 
 echo
+echo "== 13. every audit note's MANIFEST.sha256 describes the tree it ships with =="
+# WHY THIS GATE EXISTS. Every `docs/audit_notes/*/` note ships a `MANIFEST.sha256` hashing its own
+# files, and until 2026-10-05 **no gate read any of them**. Three had silently drifted (READMEs
+# edited after the manifest was generated; `.log` files hashed as CRLF before `.gitattributes`
+# normalised them), and a fourth was wrong from the moment it was written — a 2026-10-05 "repair"
+# edited its own note after computing that note's row and committed both together. Every one of
+# those was found by hand, during unrelated work; none by a check. A digest nobody verifies records
+# intent, not state.
+#
+# The directory must also *have* a manifest: an audit note whose contents are unregistered is not a
+# checkable record. That requirement is what surfaced `r2_notes_closure_20261004/`, the one note
+# that had never registered itself.
+#
+# The checker's own self-test runs first, for the reason gate 4 states: a gate that cannot fail is
+# not a gate, and this repository has already shipped one defect behind exactly that.
+if [ -f scripts/check_audit_manifests.py ]; then
+  if "$PY" scripts/check_audit_manifests.py --self-test > "$CLONE/man_st.txt" 2>&1; then
+    ok "check_audit_manifests --self-test: the checker both passes and fails as it should"
+  else
+    bad "check_audit_manifests --self-test failed — the release gate may be vacuous:"
+    tail -5 "$CLONE/man_st.txt" | sed 's/^/         /'
+  fi
+  if "$PY" scripts/check_audit_manifests.py > "$CLONE/man.txt" 2>&1; then
+    ok "$(grep '^checked' "$CLONE/man.txt" | sed 's/^ *//')"
+  else
+    bad "an audit note's MANIFEST.sha256 does not describe the tree that ships:"
+    grep 'FAIL' "$CLONE/man.txt" | head -6 | sed 's/^/         /'
+  fi
+else
+  bad "scripts/check_audit_manifests.py is missing — the audit manifests are unchecked"
+fi
+
+echo
 echo "=================================================="
 printf ' verified from a clone: %d failure(s), %d check(s) skipped\n' "$fail" "$skip"
 if [ "$skip" -gt 0 ]; then

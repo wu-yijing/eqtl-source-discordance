@@ -2,3 +2,5 @@ python  3.12.15
 numpy   1.26.4
 scipy   1.13.1
 pandas  2.2.3
+
+sqlite3 3.45.1   (sqlite3.sqlite_version of the run the middleware hashes were recorded from; the four eqtlgen/*.db artefacts are pinned by CONTENT, not by file bytes, because the byte image depends on this version -- added 2026-10-05, see docs/audit_notes/db_content_hashing_20261005/)
