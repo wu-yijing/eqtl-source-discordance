@@ -44,7 +44,7 @@ import sqlite3
 import sys
 import time
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace", line_buffering=True)
 
 PLINK_SAFE_FLUSH = 200000
 

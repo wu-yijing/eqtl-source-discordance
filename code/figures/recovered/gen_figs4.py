@@ -17,9 +17,38 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 plt.rcParams.update({'pdf.fonttype': 42, 'ps.fonttype': 42})   # 2026-09-20: 消除 Type3 字型
 
-DP = r'E:/workbuddy/TWAS-eQTL-source-confounding/data/processed'
-OUTDIR = r'E:/workbuddy/BMC Genomics投稿资料/定稿补充图_FigS1-S6_20260915'   # 2026-09-20: 指向现行补充图目录
-NUMDIR = r'E:\workbuddy\TWAS-eQTL-source-confounding\figure_scripts_officialZ_20260917'
+# ---- paths (2026-10-05) -----------------------------------------------------
+# Was: three hard-coded 2026-09 absolute paths into the predecessor build root and a
+# personal supplement-figure directory. Resolved now, so nothing personal ships
+# (code/README.md rule 3) and the figure can be produced from a clone.
+#
+# INPUT: the harmonized eQTLGen S-PrediXcan table, which ships here at
+#   data/superseded/eqtlgen_spredixcan_harmonized_results.csv
+# That layer is the pre-correction Z layer and is otherwise never an input. Fig. S2 uses
+# only its **model SNP counts** (`n_snps_model` — a property of the fitted model, not
+# changed by the sigma_i / PLINK corrections) and a valid Z as a **presence** filter for
+# the universe; it does not use the Z values. Override with $FIG_S2_INPUT.
+def _repo_root(start):
+    d = start
+    for _ in range(8):
+        if os.path.exists(os.path.join(d, '.zenodo.json')):
+            return d
+        p = os.path.dirname(d)
+        if p == d:
+            break
+        d = p
+    return os.path.dirname(os.path.dirname(start))
+
+_HERE = os.path.dirname(os.path.abspath(__file__))
+_REPO = _repo_root(_HERE)
+INPUT = os.environ.get('FIG_S2_INPUT') or os.path.join(
+    _REPO, 'data', 'superseded', 'eqtlgen_spredixcan_harmonized_results.csv')
+if not os.path.exists(INPUT):
+    raise SystemExit('missing input: %s\n  set FIG_S2_INPUT to the harmonized eQTLGen '
+                     'S-PrediXcan table (ships as data/superseded/'
+                     'eqtlgen_spredixcan_harmonized_results.csv).' % INPUT)
+OUTDIR = os.environ.get('FIG_S2_OUT') or os.path.join(_REPO, '..', '_figs2_out')
+NUMDIR = OUTDIR
 os.makedirs(OUTDIR, exist_ok=True)
 
 RED, BLUE, GREEN = '#C0392B', '#2471A3', '#27AE60'
@@ -43,8 +72,7 @@ def style(ax):
 
 
 # ---------------------------------------------------------------- inputs
-rows = list(csv.DictReader(open(os.path.join(DP, 'eqtlgen_spredixcan_harmonized_results.csv'),
-                               encoding='utf-8-sig')))
+rows = list(csv.DictReader(open(INPUT, encoding='utf-8-sig')))
 per = {}
 for r in rows:
     g = r['gene']

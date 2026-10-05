@@ -6,7 +6,16 @@ import pandas as pd
 from scipy import stats
 
 t0 = time.time()
-MODEL_DIR = r'E:\workbuddy\hotair\mashr_eqtl\eqtl\mashr'
+# 2026-10-05: was the author's mashr model directory; now an environment lookup, like
+# PLINK_PREFIX below, so no personal directory ships in code (code/README.md rule 3).
+# The two model databases are registered external inputs — see data/external/SOURCES.tsv
+# (`mashr_Whole_Blood.db`, `mashr_Nerve_Tibial.db`).
+MODEL_DIR = os.environ.get('REPRO_MASHR_DB_DIR')
+if not MODEL_DIR or not os.path.isdir(MODEL_DIR):
+    sys.exit("REPRO_MASHR_DB_DIR is unset or not a directory. Fetch the two mashr eQTL "
+             "model databases named in data/external/SOURCES.tsv and point "
+             "REPRO_MASHR_DB_DIR at the directory holding mashr_Whole_Blood.db and "
+             "mashr_Nerve_Tibial.db.")
 # 2026-10-04: the LD panel prefix used to be an absolute path into the author's machine.
 # It is the same file the archive already registers as an external input —
 # `g1000_eur.zip`, see data/external/SOURCES.tsv — so it is now named by an environment
@@ -16,7 +25,13 @@ if not PLINK_PREFIX:
     sys.exit("REPRO_G1000_EUR_PREFIX is unset. Fetch data/external/SOURCES.tsv row "
              "`g1000_eur.zip`, unpack it, and point REPRO_G1000_EUR_PREFIX at the "
              "PLINK prefix (without the .bed/.bim/.fam suffix).")
-GWAS_DIR = r'E:\workbuddy\hotair'
+# 2026-10-05: was the author's GWAS directory; now an environment lookup (rule 3). These
+# are the FinnGen R13 DR/DN/DPN summary statistics, registered in data/external/SOURCES.tsv.
+GWAS_DIR = os.environ.get('REPRO_FINNGEN_DIR')
+if not GWAS_DIR or not os.path.isdir(GWAS_DIR):
+    sys.exit("REPRO_FINNGEN_DIR is unset or not a directory. Fetch the FinnGen R13 DR / DN "
+             "/ DPN summary statistics named in data/external/SOURCES.tsv and point "
+             "REPRO_FINNGEN_DIR at the directory holding them.")
 
 HK_ONLY = ['B2M','UBC','TBP','HPRT1','GUSB','SDHA','HMBS','YWHAZ','PPIA','IPO8',
            'POLR2A','TFRC','ALDOA','PGK1','LDHA','TPI1','NONO','PUM1','PSMG2',
@@ -149,14 +164,20 @@ for tissue in ['Nerve_Tibial', 'Whole_Blood']:
         
         conn.close()
         
-        # Save - both possible output paths
-        out_paths = [
-            rf'data/raw/gtex_raw_output/gtex_{tissue}_{pheno}.csv',
-            rf'E:\workbuddy\2026-06-28-17-42-31\gtex_raw_output\gtex_{tissue}_{pheno}.csv'
-        ]
-        
+        # Save (2026-10-05). This step merges the recomputed HK rows into a previously
+        # produced full run's per-tissue/trait CSV, replacing that file's HK rows. Its two
+        # output paths used to be hard-coded — one of them the author's personal directory
+        # (code/README.md rule 3). The directory is now an environment lookup; where it is
+        # unset nothing is written, which is what already happened when the file was absent.
+        # This step never *creates* a full run's file; it only updates one that exists.
         df_new = pd.DataFrame(results)
-        for out in out_paths:
+        out_dir = os.environ.get('REPRO_HK_OUT')
+        if not out_dir:
+            print('  [skip] REPRO_HK_OUT unset — recomputed HK rows were not merged into a '
+                  'full run output (set it to the directory holding '
+                  'gtex_<tissue>_<pheno>.csv).', flush=True)
+        else:
+            out = os.path.join(out_dir, f'gtex_{tissue}_{pheno}.csv')
             if os.path.exists(out):
                 df_existing = pd.read_csv(out)
                 existing_hk_mask = df_existing['gene'].str.upper().isin([g.upper() for g in HK_ONLY])
@@ -164,6 +185,8 @@ for tissue in ['Nerve_Tibial', 'Whole_Blood']:
                 df_combined = pd.concat([df_remaining, df_new], ignore_index=True)
                 df_combined.to_csv(out, index=False)
                 print(f'  Saved to {out}: {len(df_combined)} rows', flush=True)
+            else:
+                print(f'  [skip] {out} does not exist — nothing to merge into.', flush=True)
 
 print(f'\nTotal time: {time.time()-t0:.1f}s', flush=True)
 print('ALL DONE!', flush=True)

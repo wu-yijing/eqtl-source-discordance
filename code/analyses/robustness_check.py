@@ -23,8 +23,23 @@ import csv, os, json, random
 from scipy import stats
 import numpy as np
 
-BASE   = r"E:/workbuddy/GigaScience投稿/投稿所需资料/additional_files/data"
-TABLES = r"E:/workbuddy/GigaScience投稿/2026-07-04_figures_supplement备份/tables"
+# Input/output directories (2026-10-05): were the author's paths, now environment lookups
+# so no personal directory ships in code (code/README.md rule 3). The inputs are not
+# redistributed; the script stops with a reason rather than read a path off someone's disk.
+BASE   = os.environ.get("TWAS_ROBUSTNESS_DATA")
+TABLES = os.environ.get("TWAS_ROBUSTNESS_TABLES")
+OUTJ   = os.environ.get("TWAS_ROBUSTNESS_OUT")
+_missing = [n for n, v in (("TWAS_ROBUSTNESS_DATA", BASE),
+                           ("TWAS_ROBUSTNESS_TABLES", TABLES),
+                           ("TWAS_ROBUSTNESS_OUT", OUTJ)) if not v]
+if _missing:
+    raise SystemExit(
+        "missing configuration: %s unset.\n"
+        "  This archived robustness check reads the 2026-07 GigaScience submission's data\n"
+        "  and supplement tables, neither redistributed here. Set TWAS_ROBUSTNESS_DATA and\n"
+        "  TWAS_ROBUSTNESS_TABLES to those directories and TWAS_ROBUSTNESS_OUT to the JSON\n"
+        "  output path; otherwise its findings are already reflected in the shipped tables."
+        % ", ".join(_missing))
 
 TRAITS = ["DR", "DN", "DPN"]
 random.seed(20260716)
@@ -162,6 +177,6 @@ out = {
                                        "ci_lo": lo, "ci_hi": hi},
     },
 }
-with open(r"E:/workbuddy/2026-07-15-20-17-22/robustness_results.json", "w", encoding="utf-8") as f:
+with open(OUTJ, "w", encoding="utf-8") as f:
     json.dump(out, f, indent=2, ensure_ascii=False)
 print("\nSaved -> robustness_results.json")

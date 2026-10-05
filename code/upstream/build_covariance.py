@@ -66,7 +66,7 @@ import zipfile
 
 import numpy as np
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace", line_buffering=True)
 
 # uncompressed bytes to pull from the .bed per read; kept modest so peak memory
 # stays O(N) per variant even for a 500-sample panel

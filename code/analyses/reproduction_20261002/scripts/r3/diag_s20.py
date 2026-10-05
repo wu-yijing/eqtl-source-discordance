@@ -4,7 +4,7 @@
 import numpy as np
 from scipy import stats
 import sys, io
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
 def sig_mask(n1, n2, alpha):
     """返回 dict: c1 -> set(a) 使双侧 Fisher P < alpha。"""

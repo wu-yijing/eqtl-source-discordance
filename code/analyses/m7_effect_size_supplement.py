@@ -23,7 +23,17 @@ from scipy import stats
 from math import sqrt, atanh, tanh
 import json, os
 
-REPO = r"E:/workbuddy/TWAS-eQTL-source-confounding"
+# Input root (2026-10-05): was the author's working copy, now an environment lookup, so no
+# personal directory ships in code (code/README.md rule 3). The inputs it names are not
+# redistributed, so the script stops with a reason instead of reading a path off someone's disk.
+REPO = os.environ.get("TWAS_M7_REPO")
+if not REPO or not os.path.isdir(REPO):
+    raise SystemExit(
+        "missing input: TWAS_M7_REPO is unset or is not a directory.\n"
+        "  This archived script reads the predecessor working copy's data/processed/ and\n"
+        "  _DEPRECATED_scz_self_implemented/results/, neither of which is redistributed.\n"
+        "  Set TWAS_M7_REPO to that working copy to re-run it; otherwise its supplement is\n"
+        "  already shipped under data/derived/.")
 DATA = os.path.join(REPO, "data", "processed")
 SCZ = os.path.join(REPO, "_DEPRECATED_scz_self_implemented", "results")
 

@@ -83,6 +83,15 @@ code/figures/ge_si/published/*_reapplied.png
 # but nothing enforced it, so they showed up as untracked files after any
 # `code/run_all.sh`. Stated and enforced are different things.
 figures/_backup_before_*/
+# SI Fig. S2's recovered generator (script-internal name FigS4). `code/run_all.sh`
+# regenerates it into figures/ from 2026-10-05; unlike Fig3-Fig8 its outputs are not part
+# of the tracked set (the submitted Fig. S2 raster is a re-draw of what it emits), so the
+# build products stay out of version control. The three published medians it must
+# reproduce (374 / 632 / 669) are asserted by run_all.sh.
+figures/FigS4.png
+figures/FigS4.pdf
+figures/_numbers_figs4.json
+figures/_gen_figs4.txt
 # Large archives and alignment/genotype formats belong in Zenodo / figshare /
 # iProX, not in git history.
 # NOTE: bare `*.gz` is deliberately NOT ignored — the predecessor repository

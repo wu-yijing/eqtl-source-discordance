@@ -67,7 +67,11 @@ SEED_FW,   B_FW   = 20260914, 10000     # 框架层自助法
 
 LOG = []
 def log(*a):
-    s = ' '.join(str(x) for x in a); LOG.append(s); print(s)
+    # flush=True: this script does not re-wrap stdout, so under a pipe (or a redirected
+    # log file) CPython block-buffers it and this multi-minute run prints nothing until it
+    # exits — which reads as "hung". Flush per line so progress is live. The bytes printed
+    # are unchanged; they are still accumulated in LOG and written to results/ at the end.
+    s = ' '.join(str(x) for x in a); LOG.append(s); print(s, flush=True)
 
 def md5(p):
     return hashlib.md5(open(p, 'rb').read()).hexdigest()

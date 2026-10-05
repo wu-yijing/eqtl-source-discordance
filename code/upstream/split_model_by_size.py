@@ -31,7 +31,7 @@ import os
 import sqlite3
 import sys
 
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace")
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding="utf-8", errors="replace", line_buffering=True)
 
 BANDS = (("A", 0, 1500), ("B", 1500, 3000), ("C", 3000, 10 ** 12))
 

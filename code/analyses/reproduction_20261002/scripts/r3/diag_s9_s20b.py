@@ -26,7 +26,7 @@ import os, sys, io, csv, math, re, random, sqlite3, zipfile
 import numpy as np
 from scipy import stats
 from xml.etree import ElementTree as ET
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
 # ---------------- 复用主脚本前段（池 / 官方 ACAT-O / 覆盖率） ----------------
 # __file__ 必须指向真正的兄弟脚本：被 exec 的前段里含路径前言，它按 __file__ 上溯找

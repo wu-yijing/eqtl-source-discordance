@@ -2,7 +2,17 @@
 """Split-half null simulation for the 96-pair primary arm (per-phenotype available SNP sets)."""
 import numpy as np, csv, io, os, sys, math, json, time, traceback
 
-BASE = u"E:\\workbuddy\\2026-09-13-06-39-47"
+# 2026-10-05: was the author's 2026-09-13 session directory; now an environment lookup so
+# no personal path ships in code (code/README.md rule 3). The LD panel it names is the
+# registered external input `g1000_eur.zip` (data/external/SOURCES.tsv) plus two derived
+# CSVs that are not redistributed.
+BASE = os.environ.get(u"TWAS_SPLITHALF_BASE")
+if not BASE or not os.path.isdir(BASE):
+    raise SystemExit(
+        "missing input: TWAS_SPLITHALF_BASE is unset or is not a directory.\n"
+        "  This simulation reads an LD panel (registered as g1000_eur.zip in\n"
+        "  data/external/SOURCES.tsv) plus _bim_map.csv and _eqtlgen_cis.csv, which are\n"
+        "  not redistributed. Set TWAS_SPLITHALF_BASE to the directory holding them.")
 BED = os.path.join(BASE, u"ld", u"g1000_eur.bed")
 BIM_MAP = os.path.join(BASE, u"_bim_map.csv")
 CIS = os.path.join(BASE, u"_eqtlgen_cis.csv")

@@ -26,7 +26,7 @@ from docx.oxml.ns import qn
 import matplotlib
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
 AF  = P.need(P.AF1, 'Additional file 1（从期刊补充材料下载后用 AF1_DOCX 指定）')
 OUT = P.OUT_MAIN

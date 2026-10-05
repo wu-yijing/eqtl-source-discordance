@@ -3,7 +3,11 @@
 # code/run_all.sh — the ONLY supported reproduction entry point
 # =============================================================================
 # Reproduces the manuscript's figures and verifies its headline values from the
-# authoritative data layer. It will NOT touch the superseded layer.
+# authoritative data layer. It will NOT touch the superseded layer, with ONE documented
+# exception: SI Fig. S2's recovered generator reads
+# `data/superseded/eqtlgen_spredixcan_harmonized_results.csv` for its model SNP counts
+# (a model property, unaffected by the corrections) and a valid-Z presence filter — see
+# the SI Fig. S2 step below and `code/figures/recovered/README.md`.
 #
 #   bash code/run_all.sh                 # figures + read-only verification
 #   bash code/run_all.sh --verify-only   # verification only, no figure output
@@ -66,7 +70,7 @@ ok "python: ${PYTHON}"
 ok "authoritative data and figure directories present"
 
 # Guard: the superseded layer must never be an input.
-[ -d "${REPO}/data/superseded" ] && skip "data/superseded/ present but NOT used (pre-correction layer)"
+[ -d "${REPO}/data/superseded" ] && skip "data/superseded/ present; not used as an input layer (the one exception is the SI Fig. S2 step, see below)"
 if grep -rqE 'data/processed[/"]' "${FIGDIR}"/*.py 2>/dev/null; then
   bad "a figure script still references data/processed/ — quarantined layer"
 else
@@ -129,6 +133,30 @@ else
   # 03_redraw_Fig6.py is deliberately NOT run: it is a hard-deprecation guard
   # that exits 1 by design (its only output, Fig. 6, is produced by 08).
   skip "03_redraw_Fig6.py (hard-deprecated by design; Fig. 6 comes from 08)"
+
+  # SI Fig. S2 — recovered 2026-10-02 as evidence only, made runnable from the archive on
+  # 2026-10-05 (its three hard-coded 2026-09 absolute paths were removed). It is the ONE
+  # figure step that reads the superseded layer, and only for fields the sigma_i / PLINK
+  # corrections do not touch: `n_snps_model` (a property of the fitted model) plus a
+  # valid Z used purely as a *presence* filter for the 61-gene universe. It reproduces
+  # the three published medians 374 / 632 / 669. See code/figures/recovered/README.md.
+  if [ -f "${FIGDIR}/recovered/gen_figs4.py" ]; then
+    if ( cd "${FIGDIR}" && FIG_S2_OUT="${FIG_OUT}" "${PYTHON}" recovered/gen_figs4.py ) \
+         > "${FIG_OUT}/_gen_figs4.txt" 2>&1; then
+      if grep -q '"median": 374.0' "${FIG_OUT}/_gen_figs4.txt" \
+         && grep -q '"median": 632.0' "${FIG_OUT}/_gen_figs4.txt" \
+         && grep -q '"median": 669.0' "${FIG_OUT}/_gen_figs4.txt"; then
+        ok "recovered/gen_figs4.py (SI Fig. S2): medians 374 / 632 / 669 reproduce"
+      else
+        bad "recovered/gen_figs4.py ran but the SI Fig. S2 medians are not 374 / 632 / 669"
+      fi
+    else
+      bad "recovered/gen_figs4.py (SI Fig. S2) failed:"
+      tail -6 "${FIG_OUT}/_gen_figs4.txt" | sed 's/^/         /'
+    fi
+  else
+    skip "recovered/gen_figs4.py not present (SI Fig. S2 not regenerated)"
+  fi
 fi
 
 # ---------------------------------------------------------------------------

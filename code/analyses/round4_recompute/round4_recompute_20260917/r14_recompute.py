@@ -8,11 +8,24 @@ R1 + R4 重算（官方 Z 官方 MetaXcan 化之后）
 import sys, io, os, csv, json, math, collections
 import numpy as np
 from scipy import stats
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace', line_buffering=True)
 
-BASE = r"E:\workbuddy\BMC Genomics投稿资料\定稿资料"
+# 2026-10-05: the two input roots were the author's directories; they are environment
+# lookups now, so no personal path ships in code (code/README.md rule 3). Neither the
+# official-Z rebuild package nor groups.json is redistributed with the archive.
+BASE = os.environ.get("TWAS_ROUND4_BASE")
+GRPJ = os.environ.get("TWAS_ROUND4_GROUPS")
+_missing = [n for n, v in (("TWAS_ROUND4_BASE", BASE),
+                           ("TWAS_ROUND4_GROUPS", GRPJ)) if not v]
+if _missing:
+    raise SystemExit(
+        "missing configuration: %s unset.\n"
+        "  This archived round-4 recompute reads the official-Z rebuild package and\n"
+        "  groups.json, neither redistributed here. Set TWAS_ROUND4_BASE to the directory\n"
+        "  holding 官方Z重建_数据包_20260916/ and TWAS_ROUND4_GROUPS to groups.json;\n"
+        "  otherwise its numbers are already shipped in the derived tables."
+        % ", ".join(_missing))
 PKG = os.path.join(BASE, "官方Z重建_数据包_20260916")
-GRPJ = r"E:\workbuddy\2026-09-16-20-45-42\rewrite\groups.json"
 OUT = os.path.join(BASE, "官方Z重建_数据包_20260916")
 TRAITS = ["DR", "DN", "DPN"]
 GROUP_ORDER = ["Candidate", "NonCandidate", "T2DMcontrol"]

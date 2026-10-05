@@ -6,8 +6,11 @@ script in this archive or either predecessor". Both were **recovered on 2026-10-
 working directories that are not archived, and are shipped here verbatim.
 
 They are shipped *verbatim* — absolute paths, `figstyle`/`prep_out.json` dependencies and all — because
-that is the evidence. They are **not** wired into `code/run_all.sh` and they do not run from a clone.
-Wiring is a separate decision; this directory records what was found.
+that is the evidence. **One exception, made on 2026-10-05:** `gen_figs4.py` had its three hard-coded
+2026-09 absolute paths replaced by a repository-relative lookup, so that **Fig. S2 is now runnable
+from a clone** and wired into `code/run_all.sh` (which asserts its three published medians). Its
+figure-producing logic is unchanged; the recovered copy is preserved by its SHA-256 in the provenance
+table below. `rebuild_fig1_2_9.py` remains verbatim and is **not** wired into `code/run_all.sh`.
 
 | File | Produces | Manuscript item |
 |---|---|---|
@@ -57,4 +60,3 @@ guessed:
 So: **Fig. S2 is reproduced by `gen_figs4.py`** (same universe, same three medians). **Fig. S1 is
 reproduced only structurally** — its published text carries an edit whose exact provenance is not on
 disk. `figures/README.md` states which of the two is which.
-</content>

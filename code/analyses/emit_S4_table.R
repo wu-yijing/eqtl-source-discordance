@@ -32,6 +32,10 @@ args <- commandArgs(trailingOnly = TRUE)
 REPO <- if (length(args) >= 1) args[1] else "."
 OUTD <- if (length(args) >= 2) args[2] else "."
 PRELIB <- Sys.getenv("PRELIB"); if (PRELIB != "") .libPaths(c(PRELIB, .libPaths()))
+# 2026-10-05: create the output directory if absent. write.csv() below does not make it,
+# so a reader (or the release gate) that passes a fresh path used to fail on the last
+# step with "cannot open the connection".
+dir.create(OUTD, showWarnings = FALSE, recursive = TRUE)
 
 suppressMessages(library(MatchIt))
 cat("MatchIt :", as.character(packageVersion("MatchIt")), "from", find.package("MatchIt"), "\n")

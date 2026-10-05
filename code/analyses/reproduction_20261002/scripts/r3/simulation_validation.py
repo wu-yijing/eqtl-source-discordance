@@ -22,7 +22,7 @@ def _repro_pkg():
 sys.path.insert(0, _repro_pkg())
 import paths_config as PC        # noqa: E402
 import numpy as np
-sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', line_buffering=True)
 
 _OUT = PC.RESULTS
 os.makedirs(_OUT, exist_ok=True)

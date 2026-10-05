@@ -383,6 +383,58 @@ else
 fi
 
 echo
+echo "== 12. the SI Table S4 / S26 R path runs from the clone =="
+# WHY THIS GATE EXISTS. Every gate above is Python. SI Table S4 — and Table S26, which
+# is a function of its pairing — is produced in R under env/renv.lock, and until
+# 2026-10-05 nothing here touched R: this script named R, Rscript, renv and MatchIt
+# zero times, so "the R side restores from renv.lock" was asserted in prose and checked
+# nowhere, and the shipped `code/analyses/run_mahalanobis_matching.R` did not run under
+# `Rscript` at all. This gate runs the supported generator
+# (`code/analyses/emit_S4_table.R`) and asserts the one load-bearing claim: it returns
+# the archived control set, 30 of 30.
+#
+# Verdict policy, the same as gates 5, 7 and 8: R and MatchIt belong to the reader, not
+# the archive. Where Rscript is absent, or MatchIt does not load, the gate *skips*.
+# Where it runs it must return 30/30 or it *fails*. The MatchIt version is printed but
+# not enforced — the archived control set is identical under 4.5.5 and 4.7.2 (30/30 rows
+# of match.matrix; see docs/audit_notes/s4_matchit_version_test_20261004/), so a reader
+# holding 4.7.2 is not holding a different result. Set $RSCRIPT to pick an interpreter;
+# set $PRELIB (read by the generator) to prepend the pinned library.
+RSCRIPT="${RSCRIPT:-}"
+if [ -z "$RSCRIPT" ]; then
+  for c in Rscript R; do
+    if command -v "$c" >/dev/null 2>&1; then RSCRIPT="$c"; break; fi
+  done
+fi
+if [ -z "$RSCRIPT" ]; then
+  skip "the SI Table S4 R path was not run: no Rscript on PATH (interpreter limitation, not an archive fault)"
+elif ! "$RSCRIPT" --vanilla -e 'suppressMessages(library(MatchIt))' >/dev/null 2>&1; then
+  skip "the SI Table S4 R path was not run: Rscript is present but MatchIt does not load (install it, or point \$RSCRIPT at an interpreter that has it)"
+else
+  PIN_MIT=$(awk '/"MatchIt"/{f=1} f&&/"Version"/{gsub(/[^0-9.]/,"");print;exit}' env/renv.lock)
+  GOT_MIT=$("$RSCRIPT" --vanilla -e 'cat(as.character(packageVersion("MatchIt")))' 2>/dev/null | tr -d '\r')
+  if [ -n "$PIN_MIT" ] && [ "$GOT_MIT" = "$PIN_MIT" ]; then
+    ok "MatchIt $GOT_MIT matches env/renv.lock"
+  else
+    warn "MatchIt $GOT_MIT differs from env/renv.lock's $PIN_MIT — informational: the S4 control set is measured identical under both, see s4_matchit_version_test_20261004/"
+  fi
+  mkdir -p "$CLONE/s4_r_out"
+  if "$RSCRIPT" --vanilla code/analyses/emit_S4_table.R "$RMDIR" "$CLONE/s4_r_out" > "$CLONE/s4_r.txt" 2>&1; then
+    if grep -q 'candidate SET vs submitted : TRUE' "$CLONE/s4_r.txt" \
+       && grep -q 'control   SET vs submitted : 30 / 30' "$CLONE/s4_r.txt"; then
+      ok "emit_S4_table.R returns the archived control set (30 / 30; candidate set TRUE)"
+      grep -E 'imputation reproduces|matched pairs:' "$CLONE/s4_r.txt" | sed 's/^ */         /'
+    else
+      bad "emit_S4_table.R ran but did not return the archived control set:"
+      grep -E 'control +SET vs submitted|candidate SET vs submitted|Error' "$CLONE/s4_r.txt" | head -6 | sed 's/^/         /'
+    fi
+  else
+    bad "emit_S4_table.R FAILED — the SI Table S4 R path does not run from a clone:"
+    tail -8 "$CLONE/s4_r.txt" | sed 's/^/         /'
+  fi
+fi
+
+echo
 echo "=================================================="
 printf ' verified from a clone: %d failure(s), %d check(s) skipped\n' "$fail" "$skip"
 if [ "$skip" -gt 0 ]; then

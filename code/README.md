@@ -61,12 +61,16 @@ is an **orphan** and must either be wired to a script or withdrawn.
 
 Manuscript figures **Fig. 1, 2, 3 and 4** regenerate from `data/derived/` alone via
 `code/figures/ge_main/reproduce.sh` (see `code/figures/ge_main/README.md`); their PNGs are
-byte-identical to the submitted figures. Of the Supporting Information figures, **Fig. S2** has a
-recovered producing script (`figures/recovered/gen_figs4.py`), **Fig. S1** is reproducible at
-*artefact* level only (`figures/ge_si/published/`, zero pixel difference on re-run), and **Fig. S4**
-is a gel photograph with no producing script by nature. Full status table: `figures/README.md`.
+byte-identical to the submitted figures. Of the Supporting Information figures, **Fig. S2** is
+**clone-level**: its recovered generator (`figures/recovered/gen_figs4.py`) had its three
+hard-coded 2026-09 absolute paths removed on 2026-10-05, reads the shipped harmonized eQTLGen
+table, and is run by `code/run_all.sh`, which asserts the three published medians **374 / 632 /
+669**. **Fig. S1** is reproducible at *artefact* level only (`figures/ge_si/published/`, zero pixel
+difference on re-run), and **Fig. S4** is a gel photograph with no producing script by nature.
+Full status table: `figures/README.md`.
 *(Until 2026-10-03 this line read that Fig. 1, S1, S2 and S4 "have no producing script here"; that
-stopped being true when the Fig. 1 generator shipped in `ge_main/` and S2 was recovered.)*
+stopped being true when the Fig. 1 generator shipped in `ge_main/` and S2 was recovered. Until
+2026-10-05 it read that S2 was "evidence, not runnable" — that too is no longer true.)*
 
 ### Other analyses
 
@@ -74,7 +78,8 @@ stopped being true when the Fig. 1 generator shipped in `ge_main/` and S2 was re
 |---|---|---|
 | `analyses/run_hk_control.py` | GTEx mashr model databases (not redistributed), `data/derived/hk_genes.txt` | the housekeeping S-PrediXcan layer (SI Table S6). **Its corrected output now ships** as `data/derived/hk_official_Z.csv`, extracted from the official MetaXcan v0.8.1 recompute of 2026-09-16; all 159 numeric Z cells reproduce (max diff 5.0 x 10^-5), and the ACAT-O combined-P column reproduces 87/87. See GAP-1 in `metadata/ARCHIVE_MAP.md` |
 | `analyses/reproduction_20261002/scripts/recompute_acat_o.py` | `data/derived/hk_official_Z.csv` | the ACAT-O combined-P column of SI Table S6 — **87/87 character-exact** under the sqrt(N)-weighted Cauchy combination (Nerve_Tibial 532, Whole_Blood 670). Exit 0 only if every one of the 87 matches |
-| `analyses/run_mahalanobis_matching.R` | `data/derived/covariate_matrix.csv` | ⚠️ **intended to reproduce SI Table S4 (the 30-gene Mahalanobis matching) — it does not.** It runs, and it returns a different matched set: best 2 of 30 control assignments over six conventions (2026-10-04). Two defects in this script are measured rather than suspected — it builds its pool as `Group != "Candidate"`, which admits the 30 T2DM controls where the archived table uses the `44 Non-Candidate` group alone, and it reads a matrix holding 44 non-candidates where the producer's input holds 54. The covariates themselves agree exactly, so the input is right and the algorithm differs. See GAP-11 in `metadata/ARCHIVE_MAP.md` and `docs/audit_notes/open_items_closure_20261004/` |
+| `analyses/emit_S4_table.R` | `data/derived/covariate_matrix.csv`, `data/superseded/mahalanobis_matched_pairs.csv`, `data/derived/{gtex,eqtlgen}_Z.csv` | **SI Table S4, re-emitted (and S26 recomputed)** — the authoritative generator. `Rscript code/analyses/emit_S4_table.R <repo-root> <out-dir>` re-emits the 30-pair Mahalanobis table under the documented specification and prints `control SET vs submitted : 30 / 30`. Moved here from `docs/audit_notes/s4_specification_sweep_20261004/scripts/` on 2026-10-05 so the R path has a formal home; gate 12 of `scripts/verify_from_clone.sh` runs it. Needs R + MatchIt (`env/renv.lock`); the control set is identical under MatchIt 4.5.5 and 4.7.2 |
+| `analyses/run_mahalanobis_matching.R` | `data/derived/covariate_matrix.csv` | ⚠️ **the predecessor generator, kept for provenance — it runs, and it returns a different matched set.** It did **not** run at all until 2026-10-05: its path bootstrap used `sys.frame(1)$ofile`, which is unset under `Rscript`, and its treated arm matched the literal group `"Candidate"`, a label the matrix does not contain. Both are fixed, and the script now exits 0 under `Rscript` and writes to a scratch directory (`$MAHALANOBIS_OUT`) — never over `data/derived/`. It still builds its pool as `Group != "30 HOTAIR Candidate"` (74 genes), which admits the 30 T2DM controls where the archived table uses the `44 Non-Candidate` group alone, so its matches differ from SI Table S4 — by design; see GAP-11 in `metadata/ARCHIVE_MAP.md`. The archived table's own generator is `analyses/emit_S4_table.R` (row above) |
 | `analyses/m6_ne_weighted_sensitivity.py` | `data/derived/` | M6(b)/M6(d) — N_e-weighted re-merge of the RNH1 cross-cohort meta-analysis |
 | `analyses/m7_effect_size_supplement.py` | `data/derived/` | M7 — Top-k overlap (GTEx vs eQTLGen by \|Z\|) |
 | `analyses/robustness_check.py` | `data/derived/` | the 2×2 decomposition robustness check (unequal gene × trait coverage) |
