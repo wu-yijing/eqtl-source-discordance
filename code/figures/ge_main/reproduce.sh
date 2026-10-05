@@ -101,7 +101,14 @@ for n in 1 2 3 4; do
   p="${WORK}/out/Figure_${n}.png"
   if [ ! -f "$p" ]; then bad "Figure_${n}.png not produced"; continue; fi
   if command -v sha256sum >/dev/null 2>&1; then
+    # GNU coreutils prefixes the whole line with a backslash when the file name needs
+    # escaping, and on Windows a path containing a backslash always does. That made
+    # `cut -d' ' -f1` return "\eb77483e…" and every figure compare as different while
+    # being identical — found by gate 14 of scripts/verify_from_clone.sh on 2026-10-06,
+    # which runs this script with its output inside a temp directory whose path has a
+    # backslash in it. Strip the escape marker before comparing.
     got="$(sha256sum "$p" | cut -d' ' -f1)"
+    got="${got#\\}"
   else
     got="$("${PY}" -c "import hashlib,sys;print(hashlib.sha256(open(sys.argv[1],'rb').read()).hexdigest())" "$p")"
   fi
