@@ -144,9 +144,10 @@ EXIT=0
 | `upstream_chain_closure_20261004` | `README.md` + 8 个 logs/toolchain |
 | 其余 4 个（含本次重建的 `s4_specification_sweep_20261004`） | 无 |
 
-- 成因有两类：README 在 MANIFEST 生成后又被编辑；`*.log` 未列入 `.gitattributes` 的显式类型，走 `* text=auto eol=lf`，于是 MANIFEST 记录的是**作者 CRLF 工作副本**的哈希，而 clone 拿到 LF——正是本仓库在 `data/external/SHA256SUMS` 上已被咬过一次的类别。
+- 成因有两类：README 在 MANIFEST 生成后又被编辑；`.log` 未被 `.gitattributes` 显式声明（只受兜底规则 `* text=auto eol=lf` 管，结果同为 LF），而 MANIFEST 记录的是**规范化之前的 CRLF 工作副本**哈希。
 - **git 侧干净**（`git status` 空），即漂移先于本次工作，非本次改动所致。
-- **未代改**：这 3 个目录属既有审计记录，重算其 MANIFEST 属独立决定；本次只重建了**自己触碰过的** `s4_specification_sweep_20261004`。**建议单开一轮处理**（§5 待办）。
+- **已修复（2026-10-05，应要求）**：3 个目录的 `MANIFEST.sha256` 均按**当前提交字节**重算，并在各目录留下日期戳说明 `MANIFEST_REPAIR_20261005.md`（载明漂移条目与成因）。重算后 `sha256sum -c` 分别 **17 / 13 / 21 条全通过**。**未改动任何被哈希文件的内容**。同时把 `*.log` 显式写入 `.gitattributes`（`text eol=lf`），消除该歧义。`upstream_chain_closure_20261004/ledger/`（含主证据 `middleware_ledger.tsv`）**未漂移**，其 30/30 结论不受影响。
+- 仍建议：给 `docs/audit_notes/*/MANIFEST.sha256` 补一道门禁（§5 待办 2），否则同类漂移仍会复现。
 
 ### 2.2 杂散 `</content>`（1 处）
 
@@ -244,7 +245,7 @@ eqtlgen/db_C.db                 归档=  380,928  本机=  380,928
 
 | # | 事项 |
 |---|---|
-| 1 | 3 个审计目录的 `MANIFEST.sha256` 重建（§2.1），并考虑给 `*.log` 加 `.gitattributes` 显式 `text eol=lf` 以根治该类别 |
+| 1 | ~~3 个审计目录的 `MANIFEST.sha256` 重建（§2.1）~~ **2026-10-05 已完成**；`.gitattributes` 已为 `*.log` 增补显式 `text eol=lf` |
 | 2 | 给 `docs/audit_notes/*/MANIFEST.sha256` 增一道门禁——当前**没有任何门禁校验它们**，这正是 §2.1 能长期存在的原因 |
 | 3 | 确认 `code/figures/README.md` 中文"未覆盖项"段的图号语义（§3.2） |
 | 4 | `run_mahalanobis_matching.R` 是否应彻底退役（移入 `deprecated/`）——鉴于其池约定与归档表不同，保留为"对照生成器"还是退役，属编辑决定 |

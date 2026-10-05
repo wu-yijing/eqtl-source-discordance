@@ -17,6 +17,12 @@
 *.csv  text eol=lf
 *.tsv  text eol=lf
 *.txt  text eol=lf
+# Added 2026-10-05. `*.log` was covered only by the `* text=auto eol=lf` fallback, which
+# gives the same result, but three audit-note MANIFESTs were found recording CRLF hashes
+# for `.log` files (see docs/audit_notes/upstream_chain_closure_20261004/
+# MANIFEST_REPAIR_20261005.md). Stating the rule explicitly costs nothing — no stored
+# blob changes — and removes the ambiguity that let the hash table drift.
+*.log  text eol=lf
 
 *.bat  text eol=crlf
 *.ps1  text eol=crlf
