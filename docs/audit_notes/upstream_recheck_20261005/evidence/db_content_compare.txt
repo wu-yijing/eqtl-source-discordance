@@ -1,0 +1,22 @@
+==============================================================================
+E:/workbuddy/eqtl-source-discordance/data/upstream/eqtlgen/eQTLGen_Whole_Blood.db  vs  E:/workbuddy/_upstream_run/eqtlgen/eQTLGen_Whole_Blood.db
+  bytes      : 4866048  vs  4866048  equal
+  tables     : {'extra': 103, 'weights': 65622}
+  content    : MATCH   sha256 7bfe1c08e14ed88837b0acf9c6eb5f601c73c1303384192f30d3c203b2e710ba
+==============================================================================
+E:/workbuddy/eqtl-source-discordance/data/upstream/eqtlgen/db_A.db  vs  E:/workbuddy/_upstream_run/eqtlgen/db_A.db
+  bytes      : 3469312  vs  3469312  equal
+  tables     : {'extra': 94, 'weights': 46919}
+  content    : MATCH   sha256 54082ecddfe1ba848ff7dae24c01ec27c8792d8021e1370cac84d36961a9739e
+==============================================================================
+E:/workbuddy/eqtl-source-discordance/data/upstream/eqtlgen/db_B.db  vs  E:/workbuddy/_upstream_run/eqtlgen/db_B.db
+  bytes      : 1007616  vs  1007616  equal
+  tables     : {'extra': 8, 'weights': 13671}
+  content    : MATCH   sha256 d29895db795f66eb1ddc20df2fb988e7c3939a8ea3b1e924990e1521caddbbc6
+==============================================================================
+E:/workbuddy/eqtl-source-discordance/data/upstream/eqtlgen/db_C.db  vs  E:/workbuddy/_upstream_run/eqtlgen/db_C.db
+  bytes      : 380928  vs  380928  equal
+  tables     : {'extra': 1, 'weights': 5032}
+  content    : MATCH   sha256 60b910090e6de9f0f8321e471fc6810e8fa46957de330bd5cfc5ef433873a8e7
+==============================================================================
+RESULT: all pairs are content-identical

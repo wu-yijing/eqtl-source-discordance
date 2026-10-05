@@ -1,0 +1,46 @@
+# Third-party fingerprints and interpreter versions — 2026-10-05 re-check
+
+Recorded on the machine that ran the B and C bands, so the run is addressable rather than
+anecdotal. Compare against `../../upstream_chain_closure_20261004/toolchain/`.
+
+## Toolchain
+
+| Item | Value |
+|---|---|
+| Official MetaXcan source archive | `MetaXcan-v0.8.1.tar.gz`, SHA-256 **`3a6e1ceefef8961e10b4096e6768577ee46c67a8273087eb2d88e17be2d9f1d3`** |
+| — equals `data/external/SHA256SUMS` row | yes (`MetaXcan-v0.8.1.tar.gz`, 6,484,124 B) |
+| Executed entry point | `MetaXcan-0.8.1/software/SPrediXcan.py`, SHA-256 **`94e79ae2eb42b8875f1696e8d7b371385f680f8d1dbb3fb44b8818f250fd2fcd`** |
+| MetaXcan modified? | **No.** Unpacked from the pinned tarball; no patch applied |
+
+## Interpreter (the second environment, `env/environment-upstream.yml`)
+
+| Library | This re-check | `env/environment-upstream.yml` pins | The 2026-10-04 closure used |
+|---|---|---|---|
+| python | **3.12.3** | 3.12.13 | 3.12.15 |
+| numpy | **1.26.4** | 1.26.4 | 1.26.4 |
+| scipy | **1.13.1** | 1.13.1 | 1.13.1 |
+| pandas | **2.2.3** | 2.2.3 | 2.2.3 |
+| **sqlite3** | **3.45.1** | *not pinned* | *not recorded* |
+
+**The sqlite3 row is the point of this table.** `sqlite3.sqlite_version` is not pinned by
+`env/environment-upstream.yml` and was not recorded in
+`../../upstream_chain_closure_20261004/toolchain/versions.txt`. It is the variable that
+decides whether the four `.db` artefacts reproduce *byte for byte* (see
+`../evidence/db_content_compare.txt` and the README §2).
+
+## Inputs
+
+All 15 external inputs were verified against `data/external/SHA256SUMS` before the run:
+`ok 15 / mismatched 0 / incomplete 0 / missing 0` (the archive's own verifier,
+`scripts/verify_external_inputs.py --dir <staging>`), from the same staged set the
+2026-10-04 closure used.
+
+## Environment variables
+
+| Variable | Value used |
+|---|---|
+| `EXT_DIR` | the 15-input staging directory (4.4 GB) |
+| `UPSTREAM_OUT` | the run directory the artefacts below were written to |
+| `METAXCAN_SW` | `<unpacked>/MetaXcan-0.8.1/software` |
+| `PYTHON` | the 3.12.3 interpreter of the table above |
+| `EQ_TAG` | `A` (re-run), then `B`, then `C` |

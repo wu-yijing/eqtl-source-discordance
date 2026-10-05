@@ -11,7 +11,7 @@
 
 ## 0. 一句话结论
 
-> **6 项全部闭合**：其中 5 项由本机改动 + 门禁坐实，第 6 项（上游全链）以**本机第一手 22/30 + 仓库归档的独立第三方 30/30** 两条腿闭环；过程中另发现 3 类既有缺陷（3 个审计目录的 `MANIFEST.sha256` 陈旧、1 处杂散 `</content>`、`.db` 哈希口径对 SQLite 版本敏感且版本未入档）。
+> **6 项全部闭合**：其中 5 项由本机改动 + 门禁坐实；第 6 项（上游全链）**已在本机把 A/B/C 三带全部跑完** —— `verify_middleware.py` 对 30 项给出 **byte-identical 26 / content-identical 4 / missing 0**，并与仓库归档的独立第三方 30/30 台账互相印证。过程中另发现 3 类既有缺陷（3 个审计目录的 `MANIFEST.sha256` 陈旧 **【已修】**、1 处杂散 `</content>` **【已修】**、`.db` 字节口径对 SQLite 版本敏感且版本未入档 **【已记录】**）。
 > **三项"绝对路径"属仓库明确声明逐字节保留的历史记录，未改写**，理由见 §3——这是判断，不是遗漏。
 > **核心判定不受影响**：数值级 / 图件级 / 门禁级三层未被触碰，且 12 道门禁在**全新克隆**中 **0 failure / 0 skip** 全绿。
 
@@ -125,7 +125,7 @@ EXIT=0
 
 **字节不变**（只改刷新时机；内容仍逐行入 `LOG` 并落 `results/`）。
 
-### 1.7 ✅ §2.5 上游全链（raw → Z）—— 闭环（本机第一手 22/30 + 独立第三方 30/30）
+### 1.7 ✅ §2.5 上游全链（raw → Z）—— 闭环（本机 A/B/C 三带全跑：26 字节级 + 4 内容级 = 30/30）
 
 见 §4。
 
@@ -198,7 +198,8 @@ ok 15   mismatched 0   incomplete 0   missing 0   (of 15)
 | 5 分带 | `db_A/B/C` = 3,469,312 / 1,007,616 / 380,928 B（**三者字节数均 = 归档**）+ `cov_A.txt.gz` 183,659,809 B（= 归档） |
 | 6 对齐 | `gwas_{DR,DN,DPN}_aligned.tsv` 生成 |
 | 7 eQTLGen S-PrediXcan | A 带 3/3 生成，字节数 14,261 / 14,260 / 14,256（**= 归档**） |
-| 8 中间件校验 | `python code/upstream/verify_middleware.py --run-dir <run>` → **`identical 18 | differing 4 | missing 8`（of 30）** |
+| 5–7 **B、C 两带（同日补跑）** | `cov_B.txt.gz` **99,159,225 B**、`cov_C.txt.gz` **111,535,391 B**（**均 = 归档台账字节数**）；B/C × DR/DN/DPN 六次 S-PrediXcan 全部 `exit=0`，字节数 1,408 / 1,398 / 1,399 与 315 / 318 / 315（**逐项 = 归档**） |
+| 8 中间件校验（**全量 30 项**） | `python code/upstream/verify_middleware.py --run-dir <run>` → **`identical 26 | differing 4 | missing 0`（of 30）** |
 
 **那 4 个 `differing` 全是 SQLite `.db`**，且尺寸与内容都相同：
 
@@ -217,7 +218,7 @@ eqtlgen/db_C.db                 归档=  380,928  本机=  380,928
 
 **成因**：仓库 `toolchain/versions.txt` 记录了 `python 3.12.15 / numpy 1.26.4 / scipy 1.13.1 / pandas 2.2.3`，**未记录 sqlite 库版本**；本机为 `python 3.12.3 + SQLite 3.45.1`。SQLite 的物理页布局随写入器版本变化，而 `middleware_ledger.tsv` 对 `.db` 用的是 `hash_kind = file-sha256`（`.gz` 用 `content-md5`）。**故这 4 项的"字节可复现性"依赖 Python/SQLite 版本，而该版本未入档。**
 
-**8 个 missing** = `cov_B.txt.gz` / `cov_C.txt.gz`（本机未构建，99 MB / 111 MB，构建耗时）+ 6 个 B/C 带 S-PrediXcan 输出。即 **B、C 两带未在本机重跑**。
+**`missing 0`**：B、C 两带已在本机补跑完成，30 项产物**全部到场**。详见 §4.3。
 
 #### (b) 调取仓库前期已归档的独立验证
 
@@ -233,11 +234,20 @@ eqtlgen/db_C.db                 归档=  380,928  本机=  380,928
 
 #### (c) 结论
 
-- **第一手**：GTEx 臂 6 项 + GWAS 归并 3 项 + 对齐 3 项 + GTEx 协方差 2 项 + eQTLGen A 带 4 项 —— **18 项字节级通过**；4 个 SQLite 库**内容级通过**；合计 **22/30 由本机独立坐实**。
-- **其余 8 项**（B、C 两带）：由 **2026-10-04 独立第三方的 30/30 归档台账**坐实。
-- **新发现（建议修）**：`.db` 的 `file-sha256` 口径对 SQLite 写入器版本敏感，而该版本未入档 → 建议 `toolchain/versions.txt` 增记 `sqlite3.sqlite_version`，并把 `.db` 也改为**内容级**比对（与 `.gz` 一致）。**不影响本次结论**（内容已验证相同），但会让"30/30"在将来更换 Python 补丁版本时仍可复现。
+- **第一手（A/B/C 三带全跑）**：**26 项字节级通过**（2 个 GTEx 协方差 + 3 个分带协方差 + 3 个归并 GWAS + 3 个对齐 GWAS + 6 个 GTEx S-PrediXcan + 9 个带内 S-PrediXcan）；4 个 SQLite 库**内容级通过**（尺寸相同、schema 与全表逐行相同）。即 **30/30 在内容级上由本机独立坐实**。
+- **旁证**：2026-10-04 独立第三方的 **30/30 归档台账**（`middleware_ledger.tsv`）与之互相印证。
+- **口径差异（必须讲清）**：归档自带门禁在**本机**仍打印 `RESULT: the rebuild does NOT reproduce the archived middleware.`，因为它按 `file-sha256` 钉那 4 个 `.db`。这不是数字问题，而是"**字节可复现性依赖一个未入档的依赖（SQLite 写入器版本）**"。
+- **新发现（建议修）**：`env/environment-upstream.yml` 与 `toolchain/versions.txt` 均未记录 `sqlite3.sqlite_version`；建议入档，并把 `.db` 改为**内容级**比对（与 `.gz` 的 `content-md5` 一致）。
 
-**第 5 项判定：闭环** —— "原始数据 → 中间件 → Z 层"这一段，现有**本机第一手 22/30** 与**独立第三方 30/30** 双重支撑，且两者差异点已定位到"SQLite 字节镜像"这一可解释、并附修补建议的具体项。
+**第 5 项判定：闭环** —— "原始数据 → 中间件 → Z 层"这一段，本机已把三带全部跑通，**30/30 内容级一致**（26 字节级），并与独立第三方的归档台账一致；唯一的字节级残差已定位到"SQLite 字节镜像"这一可解释、并附修补建议的具体项。
+
+### 4.3 B、C 两带补跑（同日）
+
+起因：任务要求先查"GitHub 是否已有本次验证所需数据"。结论：**没有** —— `data/upstream/` 不含 `cov_A/B/C`（超出 GitHub 100 MiB 硬限，见 `data/upstream/README.md`），两个 Release **无资产**，`main` 为唯一分支。故补跑。
+
+补跑后 `verify_middleware.py` 由 `identical 18 | differing 4 | missing 8` 变为 **`identical 26 | differing 4 | missing 0`**；4 个 `differing` 仍是内容相同的 SQLite 库。
+
+完整记录（含可复算脚本 `compare_db_content.py`、校验器原始输出、工具链指纹）：[`../upstream_recheck_20261005/`](../upstream_recheck_20261005/README.md)。
 
 ---
 
@@ -250,7 +260,7 @@ eqtlgen/db_C.db                 归档=  380,928  本机=  380,928
 | 3 | 确认 `code/figures/README.md` 中文"未覆盖项"段的图号语义（§3.2） |
 | 4 | `run_mahalanobis_matching.R` 是否应彻底退役（移入 `deprecated/`）——鉴于其池约定与归档表不同，保留为"对照生成器"还是退役，属编辑决定 |
 | 5 | **`.db` 哈希口径**（§2.3 / §4.2）：`toolchain/versions.txt` 增记 `sqlite3.sqlite_version`；`middleware_ledger.tsv` 与 `verify_middleware.py` 对 `.db` 改用内容级比对（与 `.gz` 的 `content-md5` 一致） |
-| 6 | 若要完全第一手：补跑上游链 B、C 两带（构建 `cov_B` / `cov_C` 约 99 / 111 MB，加 6 次 S-PrediXcan），即可把本机口径从 22/30 推到 26/30 字节级 + 4 内容级 |
+| 6 | ~~补跑上游链 B、C 两带~~ **2026-10-05 已完成**：本机口径达到 **26 字节级 + 4 内容级 = 30/30 内容级**（见 §4.3） |
 
 ---
 

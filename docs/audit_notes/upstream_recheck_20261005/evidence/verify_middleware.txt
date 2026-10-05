@@ -1,0 +1,41 @@
+  [ DIFFERS ] eqtlgen/eQTLGen_Whole_Blood.db         eQTLGen weight database
+              sha256 expected 413c4fff25c1820fd92f11f4370e25f3b82ea2ecd5a84ff0643d5f750312fa3c
+              sha256 got      43d5ddd84cba66b1fec01b6d30c90de52f9f8c3df038e99cb420e32278729062
+  [ DIFFERS ] eqtlgen/db_A.db                        eQTLGen band A model database
+              sha256 expected f3a29eee9bf1aa4384de6b8627136c55988b077ff34af28431b3e2c9c2156d74
+              sha256 got      5488c2c9d2dc8fc3826a22c814e72016ed63abee23a54b7f1a832cad49ea1ed3
+  [ DIFFERS ] eqtlgen/db_B.db                        eQTLGen band B model database
+              sha256 expected 51777828c3607b5b172264f380cc9928ef19dc6b9e382abc460db0b9c8e8b966
+              sha256 got      cba7ee03223f7e5dd23c742b5fd24ef8ca58f7605010def1abbe8d8123c46720
+  [ DIFFERS ] eqtlgen/db_C.db                        eQTLGen band C model database
+              sha256 expected 1617c517e030394b62a33f0466bd9904ae81b7e0e3c7cf3a20db27e84e4e66d8
+              sha256 got      55a2c856a2009f885e873a7de42411514e01cedca44685f7a56e8afd08db8f55
+  [   ok    ] cov/cov_Whole_Blood.txt.gz             GTEx Whole_Blood gene covariance
+  [   ok    ] cov/cov_Nerve_Tibial.txt.gz            GTEx Nerve_Tibial gene covariance
+  [   ok    ] eqtlgen/cov_A.txt.gz                   eQTLGen band A covariance
+  [   ok    ] eqtlgen/cov_B.txt.gz                   eQTLGen band B covariance
+  [   ok    ] eqtlgen/cov_C.txt.gz                   eQTLGen band C covariance
+  [   ok    ] gwas/gwas_DR.tsv                       FinnGen DR -> harmonised GWAS
+  [   ok    ] gwas/gwas_DN.tsv                       FinnGen DN -> harmonised GWAS
+  [   ok    ] gwas/gwas_DPN.tsv                      FinnGen DPN -> harmonised GWAS
+  [   ok    ] eqtlgen/gwas_DR_aligned.tsv            allele-aligned GWAS DR
+  [   ok    ] eqtlgen/gwas_DN_aligned.tsv            allele-aligned GWAS DN
+  [   ok    ] eqtlgen/gwas_DPN_aligned.tsv           allele-aligned GWAS DPN
+  [   ok    ] official_Whole_Blood_DR.csv            S-PrediXcan GTEx Whole_Blood x DR
+  [   ok    ] official_Whole_Blood_DN.csv            S-PrediXcan GTEx Whole_Blood x DN
+  [   ok    ] official_Whole_Blood_DPN.csv           S-PrediXcan GTEx Whole_Blood x DPN
+  [   ok    ] official_Nerve_Tibial_DR.csv           S-PrediXcan GTEx Nerve_Tibial x DR
+  [   ok    ] official_Nerve_Tibial_DN.csv           S-PrediXcan GTEx Nerve_Tibial x DN
+  [   ok    ] official_Nerve_Tibial_DPN.csv          S-PrediXcan GTEx Nerve_Tibial x DPN
+  [   ok    ] eqtlgen/official_eq_A_DR.csv           S-PrediXcan eQTLGen band A x DR
+  [   ok    ] eqtlgen/official_eq_A_DN.csv           S-PrediXcan eQTLGen band A x DN
+  [   ok    ] eqtlgen/official_eq_A_DPN.csv          S-PrediXcan eQTLGen band A x DPN
+  [   ok    ] eqtlgen/official_eq_B_DR.csv           S-PrediXcan eQTLGen band B x DR
+  [   ok    ] eqtlgen/official_eq_B_DN.csv           S-PrediXcan eQTLGen band B x DN
+  [   ok    ] eqtlgen/official_eq_B_DPN.csv          S-PrediXcan eQTLGen band B x DPN
+  [   ok    ] eqtlgen/official_eq_C_DR.csv           S-PrediXcan eQTLGen band C x DR
+  [   ok    ] eqtlgen/official_eq_C_DN.csv           S-PrediXcan eQTLGen band C x DN
+  [   ok    ] eqtlgen/official_eq_C_DPN.csv          S-PrediXcan eQTLGen band C x DPN
+
+identical 26 | differing 4 | missing 0   (of 30)
+RESULT: the rebuild does NOT reproduce the archived middleware.
