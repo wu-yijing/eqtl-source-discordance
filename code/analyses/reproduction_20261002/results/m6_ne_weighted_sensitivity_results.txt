@@ -1,0 +1,40 @@
+==============================================================================
+M6(b)  k=2 primary set, sqrt(N_e)-weighted re-merge
+  studies: Z=+2.309, N_e=49304; Z=+0.723, N_e=1231
+  N_e shares: 97.6%, 2.4%
+  [primary reference] unweighted mean Z = +1.52
+  [sqrt(N_e)-weighted] pooled Z = +2.39  (two-sided P = 0.017)
+  [sqrt(N_e)-weighted] b-scale FE pooled b = 0.01065
+  [heterogeneity] Cochran Q = 0.1 (df=1), I^2 = 0.0%
+  [random effects] DL tau^2 = 0 (b scale); pooled b = 0.0106 (SE 0.0044); test Z = 2.39, P = 0.017
+==============================================================================
+M6(c)  k=2 primary set, sqrt(N_e) weights applied DIRECTLY on the Z scale
+  studies: Z=+2.3091, N_e=49304; Z=+0.7225, N_e=1231
+  [published convention] from the Z-scores as SI Table S5a quotes them (2 dp):
+    Z = +2.31, +0.72  ->  sqrt(N_e)-weighted mean Z = +2.0930  (published +2.09)
+    [heterogeneity, Z scale] Cochran Q = 76.5968 -> 76.6  (published 76.6);  I^2 = 98.69% -> 98.7  (published 98.7)
+  [full precision] from the archived official Z-scores:
+    Z = +2.3091, +0.7225  ->  sqrt(N_e)-weighted mean Z = +2.0926  (published +2.09)
+    [heterogeneity, Z scale] Cochran Q = 76.2695 -> 76.27;  I^2 = 98.69%
+  EXPLAINED, not a residual: the two Q values differ by -0.3272 because the 2-dp Z-scores
+  differ from the 4-dp ones (0.001-0.003) while the weights span a 6-fold range
+  (sqrt(N_e) 222.05 vs 35.09). The SI's table note says these rows were recomputed from
+  the quoted Z-scores, so 76.6 is the value consistent with the table as printed, and
+  76.27 the value consistent with data/derived/. Both are printed, so a reader can
+  reproduce either without guessing which convention the table used.
+==============================================================================
+M6(d)  reference merge retaining the retracted ieu-b-4803 value (not an estimate)
+  studies: Z=+2.309, N_e=49304; Z=+0.723, N_e=1231; Z=+0.950, N_e=54209
+  N_e shares: 47.1%, 1.2%, 51.8%
+  [primary reference] unweighted mean Z = +1.33
+  [sqrt(N_e)-weighted] pooled Z = +2.35  (two-sided P = 0.019)
+  [sqrt(N_e)-weighted] b-scale FE pooled b = 0.00725
+  [heterogeneity] Cochran Q = 1.3 (df=2), I^2 = 0.0%
+  [random effects] DL tau^2 = 0 (b scale); pooled b = 0.0072 (SE 0.0031); test Z = 2.35, P = 0.019
+==============================================================================
+REFERENCE  k=3 unweighted mean (retains the retracted value): Z = +1.33 ; Q = 1.5 (df=2) ; I^2 = 0.0%
+
+The primary k = 2 set is FinnGen R13 DR + UKB GCST90043640, both analysed with eQTLGen weights
+using the unmodified official MetaXcan v0.8.1 binary (max|dZ| between the raw-allele and
+pre-aligned input protocols = 0.003, from duplicate-rsID handling).
+UKB ieu-b-4803 is withdrawn: the accession is not resolvable in IEU OpenGWAS.

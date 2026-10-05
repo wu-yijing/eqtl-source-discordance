@@ -41,6 +41,11 @@ FIG_OUT="${REPO}/figures"
 PYTHON="${PYTHON:-$(command -v python3 || command -v python)}"
 MODE="${1:-}"
 FAIL=0
+# Scratch space for step output that is parsed but not shipped. Created here and removed
+# on exit so a step can capture stdout without writing into a tracked directory.
+TMPD="$(mktemp -d 2>/dev/null || echo "${REPO}/../_runall_tmp")"
+mkdir -p "${TMPD}" 2>/dev/null
+trap 'rm -rf "${TMPD}" 2>/dev/null' EXIT
 ok()   { printf '  [ ok ] %s\n' "$1"; }
 bad()  { printf '  [FAIL] %s\n' "$1"; FAIL=$((FAIL+1)); }
 skip() { printf '  [skip] %s\n' "$1"; }
@@ -83,12 +88,18 @@ step "1. Figure pipeline (authoritative order)"
 # Order per code/figures/README.md. Step 00 is opt-in: it needs the
 # Supporting Information .docx, which is not redistributed.
 if [ "${MODE}" = "--rebuild-data" ]; then
-  [ -n "${AF1_DOCX:-}" ] || { bad "--rebuild-data requires AF1_DOCX=/path/to/Supporting_Information.docx"; exit 1; }
-  echo "  rebuilding data layer from ${AF1_DOCX}"
-  ( cd "${FIGDIR}" && AF1_DOCX="${AF1_DOCX}" "${PYTHON}" 00_build_officialZ_data_layer.py ) \
-    || bad "00_build_officialZ_data_layer.py failed"
-else
-  skip "00_build_officialZ_data_layer.py (use --rebuild-data with AF1_DOCX to re-derive data/derived/)"
+  # 2026-10-06 — this step is now REFUSED, not merely skipped.
+  # 00_build_officialZ_data_layer.py reads the Supporting Information .docx and writes
+  # data/derived/ from it. data/derived/ is what every reported value is reproduced
+  # FROM, so the step is a loop: run it and every downstream check becomes a tautology.
+  # It is retained in the tree (it documents how the layer was first assembled) but it
+  # now exits non-zero unless --allow-circular-write is passed, and even then writes to
+  # data/superseded/_from_docx_NOT_authoritative/, which feeds nothing.
+  # The authoritative inputs -> data/derived/ path is code/run_upstream.sh (gate 9).
+  skip "00_build_officialZ_data_layer.py — REFUSED as a build step: it derives"
+  skip "  data/derived/ from the Supporting Information, which is itself derived from"
+  skip "  data/derived/ (circular). Authoritative path: code/run_upstream.sh."
+  skip "  The script is retained for forensics and needs --allow-circular-write to run."
 fi
 
 if [ "${MODE}" = "--verify-only" ]; then
@@ -203,6 +214,49 @@ print('  max |Z| GTEx/eQTLGen : %.4f / %.4f' % (max(abs(x) for x in xs), max(abs
 raise SystemExit(0 if ok else 3)
 PYEOF
 [ $? -eq 0 ] && ok "headline values reproduce" || bad "headline values do NOT reproduce"
+
+# ---------------------------------------------------------------------------
+step "3b. SI Table S5a row 3 — the sqrt(N_e) direct-weighting row"
+# ---------------------------------------------------------------------------
+# Runs in every mode, including --verify-only. This row was the single numeric cell of
+# the two submitted documents that `scripts/audit_documents_vs_repo.py` could not find
+# in the archive (pooled +2.09, Cochran Q = 76.6, I^2 = 98.7%). It was never missing:
+# `code/analyses/m6_ne_weighted_sensitivity.py` computed it all along, but wrote its
+# report into data/superseded/ — the quarantined layer, which no corpus reader touches.
+# The script now writes into the reproduction package's results/ and --self-test asserts
+# the three published values, so the row is checked on every run. See
+# docs/audit_notes/s5a_row3_closure_20261006/.
+if [ -f "${REPO}/code/analyses/m6_ne_weighted_sensitivity.py" ]; then
+  if ( cd "${REPO}/code/analyses" && "${PYTHON}" m6_ne_weighted_sensitivity.py --self-test ) \
+       > "${TMPD}/_m6_s5a.txt" 2>&1; then
+    ok "m6_ne_weighted_sensitivity.py: SI Table S5a row 3 reproduces (+2.09 / Q 76.6 / I² 98.7%)"
+  else
+    bad "m6_ne_weighted_sensitivity.py (SI Table S5a row 3) did not reproduce:"
+    tail -8 "${TMPD}/_m6_s5a.txt" | sed 's/^/         /'
+  fi
+else
+  skip "m6_ne_weighted_sensitivity.py not present (SI Table S5a row 3 not checked)"
+fi
+
+# ---------------------------------------------------------------------------
+step "3c. SI Table S4 — the candidate processing order is an artefact"
+# ---------------------------------------------------------------------------
+# The control set reproduces 30/30 only in one candidate order, and that order used to
+# exist solely as the row order of mahalanobis_matched_pairs.csv — reproducible, but
+# unnameable. It is now a file (data/derived/s4_candidate_order.txt) and this checks it
+# against the shipped matched table on every run. It is a checker, not a matcher:
+# emit_S4_table.R still does the matching (verify_from_clone.sh gate 12).
+if [ -f "${REPO}/scripts/check_s4_order.py" ]; then
+  if "${PYTHON}" "${REPO}/scripts/check_s4_order.py" > "${TMPD}/_s4order.txt" 2>&1; then
+    ok "check_s4_order.py: the candidate order is explicit and agrees with Table S4"
+    grep -h '\[info\]' "${TMPD}/_s4order.txt" | sed 's/^/         /'
+  else
+    bad "check_s4_order.py (SI Table S4 candidate order):"
+    tail -8 "${TMPD}/_s4order.txt" | sed 's/^/         /'
+  fi
+else
+  skip "scripts/check_s4_order.py not present"
+fi
 
 # ---------------------------------------------------------------------------
 step "4. Figure format precheck"

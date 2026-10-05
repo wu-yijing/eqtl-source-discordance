@@ -1,0 +1,66 @@
+# s4_candidate_order.txt — the candidate processing order behind SI Table S4
+#
+# WHY THIS FILE EXISTS
+# --------------------
+# SI Table S4's control set reproduces 30/30 ONLY when the 30 candidates are processed in
+# a particular order. That order was never written down as an artefact: it survived only
+# as the row order of data/derived/mahalanobis_matched_pairs.csv. This file makes it
+# explicit, and scripts/check_s4_order.py verifies it on every pipeline run.
+#
+# WHAT IS DERIVABLE AND WHAT IS NOT
+# ---------------------------------
+#   * Positions 1-15  (CKAP4 ... RPS16): DERIVABLE. They are the 15 candidates with a
+#     non-zero PullDown_Unused score, sorted by that score non-increasing
+#     (14.64, 11.37, 9.70, 6.50, 6.18, 4.99, 4.63, 4.10, 4.01, 4.00, 3.79, 3.71, 2.32,
+#      2.13, 1.52).
+#   * Positions 16-30 (XRCC5 ... RPS25): NOT DERIVABLE. These 15 candidates all have
+#     PullDown_Unused = 0.0, a 15-way tie. Tested 2026-10-06 against every candidate
+#     key the archive carries — Gene (alphabetical), Length_bp, GC_pct, eQTL_SNPs_Mean,
+#     log10_Length, and the row order of gene_groups.csv / covariate_matrix.csv /
+#     eqtlgen_Z.csv / gtex_Z.csv — and none reproduces this sequence. It is therefore a
+#     carried-over input, not a computed one.
+#
+# HOW MUCH IT MATTERS — measured, not argued
+# ------------------------------------------
+#   * The 30 matched CONTROLS reproduce 30/30 in this order.
+#   * Over 500 random permutations of the order the control-set overlap is 26-30 of 30
+#     (median 28) and 12 permutations (2.4%) also reach 30/30, so this order is NOT unique.
+#   * With the matching specification held fixed and only the order varying, no Table S26
+#     contrast changes its significance call: P < 0.05 in 0% of permutations.
+#   So it is a specification-completeness gap, not a data-authenticity one. Do not describe
+#     this order as unique, and do not describe Table S4 as reproduced "by the covariates".
+#   Evidence: docs/audit_notes/s4_order_sensitivity_20261005/,
+#             docs/audit_notes/s4_specification_sweep_20261004/.
+#
+# FORMAT: one gene per line, in processing order. Lines beginning with '#' are comments.
+#
+CKAP4
+HSP90AB1
+HSPA8
+TUBB
+GAPDH
+RPL5
+HSP90B1
+VCP
+RPSA
+RNH1
+RPL8
+EIF4A1
+RPS14
+RPLP0
+RPS16
+XRCC5
+H2AFV
+RPS13
+XRCC6
+ACTB
+RPS3
+DDX5
+EIF4H
+ILF2
+RPL23A
+HNRNPA3
+YWHAQ
+RPL13A
+RPS18
+RPS25

@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 """
+⚠️ DEPRECATED AS A BUILD STEP (2026-10-06) — FORENSICS ONLY, AND IT NOW REFUSES BY DEFAULT.
+It reads the Supporting Information .docx and writes data/derived/ from it; data/derived/
+is the layer every reported value is reproduced from, so this is a loop. See the
+CIRCULARITY GUARD below and the authoritative path: code/run_upstream.sh.
+
 P0 收口 Step 1：建立官方 Z 单一数据源 + 隔离标记陈旧数据层
 - 从 Supporting Information 的官方表导出 data/derived/
 - 在 data/superseded/ 保留弃用说明（不删除任何文件）
@@ -11,7 +16,7 @@ P0 收口 Step 1：建立官方 Z 单一数据源 + 隔离标记陈旧数据层
     → 使用前必须逐表核对：先用 `AF1_DOCX` 指向现行 SI，打印各表首行确认对应关系，
       再把下面的 `grid(i)` 序号改正。**在核对完成前，不要把本脚本的输出当作权威数据层。**
 """
-import os, csv, json, shutil
+import os, csv, json, shutil, sys
 from docx import Document
 from docx.table import Table
 from docx.oxml.ns import qn
@@ -29,6 +34,39 @@ REPO = P.REPO
 PROC = os.path.join(REPO, 'data', 'superseded')
 NEW = os.path.join(REPO, 'data', 'derived')
 META = os.path.join(REPO, 'metadata')
+
+# ---------------------------------------------------------------------------
+# CIRCULARITY GUARD — added 2026-10-06
+# ---------------------------------------------------------------------------
+# This script reads the Supporting Information .docx and writes data/derived/ from it.
+# data/derived/ is the layer every reported value is reproduced FROM. Deriving it from a
+# document that reports those values means the chain is a loop: run this and every
+# downstream "reproduction" becomes a tautology — the numbers match because they were
+# copied out of the document that printed them.
+#
+# It is therefore not a build step and must never be one. It is kept because it documents
+# how the layer was first assembled, and because its table indices are a historical
+# record; but writing data/derived/ is refused unless --allow-circular-write is passed,
+# and even then the output goes to a directory whose name says what it is.
+#
+# The authoritative path from inputs to data/derived/ is code/run_upstream.sh (raw
+# third-party inputs -> data/upstream/ -> the Z layer), verified by gate 9 of
+# scripts/verify_from_clone.sh. Use that.
+if '--allow-circular-write' not in sys.argv:
+    print(__doc__.splitlines()[0] if __doc__ else '')
+    print('  REFUSED: this script derives data/derived/ FROM the Supporting Information,')
+    print('           which is itself derived from data/derived/. Running it would make')
+    print('           every downstream "reproduction" circular.')
+    print('')
+    print('  The authoritative path is:  raw inputs -> code/run_upstream.sh -> data/derived/')
+    print('  To run this anyway (forensics only), pass --allow-circular-write; the output')
+    print('  then goes to data/superseded/_from_docx_NOT_authoritative/ and is not an input')
+    print('  to anything.')
+    raise SystemExit(2)
+
+NEW = os.path.join(REPO, 'data', 'superseded', '_from_docx_NOT_authoritative')
+print('  --allow-circular-write given: writing to %s' % os.path.relpath(NEW, REPO))
+print('  This output is NOT an input to any pipeline step.')
 os.makedirs(NEW, exist_ok=True)
 
 d = Document(AF)

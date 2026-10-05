@@ -123,7 +123,7 @@ def report(label, zs, nes):
     return lines
 
 
-def main():
+def main(self_test=False):
     lines = []
     z_all = [s[1] for s in STUDIES]
     ne_all = [s[2] for s in STUDIES]
@@ -202,12 +202,62 @@ def main():
         if parent == root:
             break
         root = parent
-    out = os.path.join(root, "data", "superseded",
+    out = os.path.join(root, "code", "analyses", "reproduction_20261002", "results",
                        "m6_ne_weighted_sensitivity_results.txt")
+    # 2026-10-06 — moved out of data/superseded/ on purpose.
+    # The report was written into the quarantined layer, and the quarantine is also why
+    # this script's numbers were invisible to
+    # scripts/audit_documents_vs_repo.py: that corpus reads data/derived/, the
+    # reproduction package's results/ and code/figures/ — never data/superseded/.
+    # So SI Table S5a's third row (pooled +2.09, Q = 76.6, I^2 = 98.7%) was reported
+    # as "a value not present in the archive" while the script that produces it shipped
+    # the whole time. It now lands in results/, which is tracked and inside the corpus.
+    # data/superseded/ keeps nothing of this run.
+    os.makedirs(os.path.dirname(out), exist_ok=True)
     with open(out, "w", encoding="utf-8", newline="\n") as f:
         f.write(text)
     print("Saved:", os.path.normpath(out))
 
+    if not self_test:
+        return 0
+    return self_check()
+
+
+def self_check():
+    """Assert the three published values of SI Table S5a row 3, and fail loudly.
+
+    The row is the sqrt(N_e)-weighted mean on the Z scale with Cochran's Q on the
+    same scale, computed from the Z-scores *as the table quotes them* (2 dp):
+    pooled +2.09, Q = 76.6, I^2 = 98.7%. See the M6(c) block and the docstring of
+    ``direct_nsqrt_weighting``. Returns 0 or 1; never raises.
+    """
+    zs = [round(STUDIES[0][1], 2), round(STUDIES[1][1], 2)]
+    nes = [STUDIES[0][2], STUDIES[1][2]]
+    zw, Q = direct_nsqrt_weighting(zs, nes)
+    I2 = max(0.0, (Q - 1) / Q) * 100 if Q > 0 else 0.0
+    expect = [("pooled Z", zw, 2.09, 0.005),
+              ("Cochran Q", Q, 76.6, 0.05),
+              ("I^2 (%)", I2, 98.7, 0.05)]
+    bad = 0
+    print()
+    print("-- self-test: SI Table S5a row 3, published values --")
+    for name, got, want, tol in expect:
+        okv = abs(got - want) <= tol
+        if not okv:
+            bad += 1
+        print("  [%s] %-11s got %10.4f   published %8.2f   %s"
+              % (" ok " if okv else "FAIL", name, got, want, "" if okv else "<-- MISMATCH"))
+    print("  self-test: %d mismatch(es)" % bad)
+    return 1 if bad else 0
+
 
 if __name__ == "__main__":
-    main()
+    # --self-test asserts the three published values of SI Table S5a row 3 and exits
+    # non-zero if any of them fails. code/run_all.sh runs it that way, so the row is
+    # checked on every pipeline run instead of only being printable on request.
+    import argparse
+    ap = argparse.ArgumentParser(description=__doc__.splitlines()[1] if __doc__ else None)
+    ap.add_argument("--self-test", action="store_true",
+                    help="assert SI Table S5a row 3 (pooled +2.09, Q = 76.6, I^2 = 98.7%)")
+    a = ap.parse_args()
+    raise SystemExit(main(self_test=a.self_test))
