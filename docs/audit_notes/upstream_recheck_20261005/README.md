@@ -119,3 +119,48 @@ mismatched 0 / incomplete 0 / missing 0`.
 | [`../upstream_chain_closure_20261004/`](../upstream_chain_closure_20261004/README.md) | the independent end-to-end execution; **30/30 by file-sha256 on Python 3.12.15**. This note does not contradict it — it identifies the dependency that makes that 30/30 conditional |
 | [`../r_path_and_hygiene_closure_20261005/`](../r_path_and_hygiene_closure_20261005/README.md) | the six open items; its §4.2 is this note's summary |
 | `data/upstream/README.md` | the shipping policy that puts `cov_{A,B,C}` out of reach and records their content hashes |
+
+## 6. Publishing the three band covariances — route chosen, NOT yet executed
+
+Of the thirty artefacts, **27 already ship** in `data/upstream/` and are byte-identical to
+this rebuild. The three that do not are the band covariances, and they cannot live in the
+tree: GitHub rejects any file over 100 MiB, `cov_A` (175.2 MiB) and `cov_C` (106.4 MiB) are
+over it, and `cov_B` (94.6 MiB) ships alone for no benefit — the archive's own reasoning, in
+`data/upstream/README.md`.
+
+The carrier chosen on 2026-10-05 is a **GitHub Release asset** (2 GiB per file).
+
+| Asset | Bytes | sha256 of this rebuild | Content md5 (the archive's pin) |
+|---|---|---|---|
+| `cov_A.txt.gz` | 183,659,809 | `b9c690a8afe8395a2f06ce763fd70cb0a872df5136cba93ecb8c298755a71d73` | `ed58ccdfc590dc4498dd5ddc6c8b0ea2` |
+| `cov_B.txt.gz` | 99,159,225 | `4a8f2a55ab7d39e4b0eba026b359fa85f4637281e39add8ffd9b5d58e3587021` | `2a532e74469a340feaf0b7a791740151` |
+| `cov_C.txt.gz` | 111,535,391 | `8827b67ac47eec3f9f9293078438e5bd1856ef276349aa4401270f573129e3b2` | `f30ebf0255d9eed610b6162a35be97c6` |
+
+`scripts/release_covariance_assets.sh` performs it. It verifies each byte count against
+`../upstream_chain_closure_20261004/ledger/middleware_ledger.tsv` **before uploading
+anything**, so a wrong build cannot be published under the right name, then creates the
+release and attaches the three files:
+
+```bash
+GH_TOKEN=<a classic PAT with repo scope> \
+  bash scripts/release_covariance_assets.sh --file-dir <dir with cov_A/B/C.txt.gz> --tag v4.0.3
+# add --dry-run to verify and stop
+```
+
+**Status: prepared and dry-run verified; not executed.** The step needs the GitHub API, and
+the machine that did this rebuild has **no API credential** — an SSH key pushes commits and
+tags but cannot create a Release, and the GitHub connector bound to the session exposes no
+callable tools to it. Two ways to finish: supply `GH_TOKEN`, or run the command above in a
+terminal where `gh auth login` has been done (then `gh release create v4.0.3 <files>` works
+too).
+
+**Two consequences to decide before running it**, both the maintainer's call, not the
+tool's:
+
+1. `docs/RELEASE_PROCESS.md` requires the tag to equal `.zenodo.json`'s `version`, which is
+   currently **4.0.2** — so the next tag is **`v4.0.3`**, and cutting it means moving
+   `CHANGELOG.md`'s `[Unreleased]` section to `[4.0.3]` and bumping `.zenodo.json` and
+   `CITATION.cff`. The script does none of that; it only creates the tag-backed release.
+2. Publishing a Release **triggers the Zenodo webhook**, which archives a new version of the
+   repository at that tag. The covariances themselves live only as GitHub Release assets —
+   Zenodo archives the git tree, not release assets.
