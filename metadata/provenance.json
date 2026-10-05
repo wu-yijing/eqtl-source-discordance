@@ -2064,8 +2064,8 @@
   },
   {
    "path": "docs/audit_notes/INDEX.md",
-   "bytes": 20601,
-   "sha256": "97e14b9a9bac4da58829caa08b4aac923d8651a1db52d34c0c195b33d6bde704"
+   "bytes": 22777,
+   "sha256": "910c73defc20f7a4f421b19207a23fa46900cf9773ca040d10ee1b96c1c301c6"
   },
   {
    "path": "docs/audit_notes/R2残余差异消除方案_20261002.md",
@@ -2180,12 +2180,12 @@
   {
    "path": "docs/audit_notes/r_path_and_hygiene_closure_20261005/MANIFEST.sha256",
    "bytes": 76,
-   "sha256": "bc0eeba85881d9ed1e52d40b3d7a5b50614b8c42bd834813383c05283e22deaa"
+   "sha256": "9f2ce27524c28810e02dd1bac611e1b4f904f93d1835b49b147669a9006571fa"
   },
   {
    "path": "docs/audit_notes/r_path_and_hygiene_closure_20261005/README.md",
-   "bytes": 12340,
-   "sha256": "59b66827e341d0592573b0d371bbea1fb8c5ce3ef1f9429269deda0d6b72467d"
+   "bytes": 18281,
+   "sha256": "1f98df5f00ae095e7fafe94ae7a5d26a6315ffd01bfeedc429aade85c2950b3e"
   },
   {
    "path": "docs/audit_notes/s4_matchit_version_test_20261004/MANIFEST.sha256",
