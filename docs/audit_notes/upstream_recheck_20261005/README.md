@@ -147,20 +147,51 @@ GH_TOKEN=<a classic PAT with repo scope> \
 # add --dry-run to verify and stop
 ```
 
-**Status: prepared and dry-run verified; not executed.** The step needs the GitHub API, and
-the machine that did this rebuild has **no API credential** — an SSH key pushes commits and
-tags but cannot create a Release, and the GitHub connector bound to the session exposes no
-callable tools to it. Two ways to finish: supply `GH_TOKEN`, or run the command above in a
-terminal where `gh auth login` has been done (then `gh release create v4.0.3 <files>` works
-too).
+**Maintainer decision (2026-10-05): no new tag now.** The upstream rebuild is deliberately
+*not* being cut as its own version: other results are still to be folded in, and the version
+release will be done once, later. The covariances are therefore attached to the **existing**
+release — `v4.0.2`, release id **402753097**, which carried no assets — which is why the
+script takes `--release-id` and creates no tag in that mode:
 
-**Two consequences to decide before running it**, both the maintainer's call, not the
-tool's:
+```bash
+GH_TOKEN=<a PAT that can write to this repository> PYBIN=python3 \
+  bash scripts/release_covariance_assets.sh --file-dir <dir> --release-id 402753097
+# --dry-run verifies the local files and stops
+```
 
-1. `docs/RELEASE_PROCESS.md` requires the tag to equal `.zenodo.json`'s `version`, which is
-   currently **4.0.2** — so the next tag is **`v4.0.3`**, and cutting it means moving
-   `CHANGELOG.md`'s `[Unreleased]` section to `[4.0.3]` and bumping `.zenodo.json` and
-   `CITATION.cff`. The script does none of that; it only creates the tag-backed release.
-2. Publishing a Release **triggers the Zenodo webhook**, which archives a new version of the
-   repository at that tag. The covariances themselves live only as GitHub Release assets —
-   Zenodo archives the git tree, not release assets.
+**Status: executed and blocked on token scope — the release still carries 0 assets.** The
+attempt of 2026-10-05 reached the uploads and every one returned **HTTP 404** from
+`uploads.github.com`, while the read calls (repo, release, asset list) all succeeded. The
+diagnosis is not a missing release: it is a token with **no scopes at all** —
+
+```
+$ curl -sS -D - -o /dev/null -H "Authorization: Bearer $GH_TOKEN" https://api.github.com/user | grep -i x-oauth-scopes
+X-OAuth-Scopes:                 # empty
+```
+
+GitHub answers 404 rather than 403 for a write an unscoped token may not perform, so a
+permission failure is indistinguishable from a missing resource until the scope header is
+read. Both `Authorization: Bearer` and `Authorization: token` were tried, with a 1-byte probe
+file, and both returned 404 — the request format is not the problem.
+
+**What unblocks it**, in order of least privilege:
+
+1. **A fine-grained PAT** — Resource owner `wu-yijing`; Repository access → only
+   `eqtl-source-discordance`; Repository permissions → **Contents: Read and write** (Releases
+   and their assets fall under Contents). Then re-run the command above.
+2. **A classic PAT with `public_repo`** (the repository is public, so `public_repo` is
+   sufficient; `repo` also works). A classic token's scopes are not editable after creation,
+   so this means generating a new one.
+3. **No credential at all** — the three files are on the machine that did the rebuild; on the
+   release page, `Edit`/`Draft` → attach `cov_A.txt.gz`, `cov_B.txt.gz`, `cov_C.txt.gz` →
+   update. Verification afterwards needs only read access, which works today.
+
+The script now prints the scope diagnosis itself when it sees 404, so the next attempt names
+the cause instead of showing a bare "Not Found".
+
+**Recorded for the unified release, when it comes.** `docs/RELEASE_PROCESS.md` requires the
+tag to equal `.zenodo.json`'s `version` (currently **4.0.2**), so a version release means
+`v4.0.3` plus moving `CHANGELOG.md`'s `[Unreleased]` section to `[4.0.3]` and bumping
+`.zenodo.json` and `CITATION.cff`. Publishing a Release also **triggers the Zenodo webhook**,
+which archives a new version of the repository at that tag; the covariances themselves live
+only as GitHub Release assets, because Zenodo archives the git tree and not release assets.

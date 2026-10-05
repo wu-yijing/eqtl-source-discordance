@@ -2590,12 +2590,12 @@
   {
    "path": "docs/audit_notes/upstream_recheck_20261005/MANIFEST.sha256",
    "bytes": 559,
-   "sha256": "dec2a08e71da9610583be8e3ff9b6772d4b1c29915c67ff551452072bff005d5"
+   "sha256": "18139bc972fba7b4970ad5d9d32dcd7c4e7bf026d3527caabd43f65215f253a0"
   },
   {
    "path": "docs/audit_notes/upstream_recheck_20261005/README.md",
-   "bytes": 9633,
-   "sha256": "0ce6c308d797142ba46b62c3445323c4cf2164e0db12d58034008e3b81955caf"
+   "bytes": 11459,
+   "sha256": "a70fe3acd47fafdd5c0028db558f9d0199660fdb8cc7589ed98871b96c8a2b15"
   },
   {
    "path": "docs/audit_notes/upstream_recheck_20261005/evidence/db_content_compare.txt",
@@ -2619,8 +2619,8 @@
   },
   {
    "path": "docs/audit_notes/upstream_recheck_20261005/scripts/release_covariance_assets.sh",
-   "bytes": 6065,
-   "sha256": "72f7f602bc7d8d5082dbc6c3192a4ef3c448b00a214763821226daf6382d0740"
+   "bytes": 9704,
+   "sha256": "d9a7be31ff3693c9f391ecdb9520eee9514d869735864d7125cbca7f933b75e0"
   },
   {
    "path": "docs/audit_notes/上游eQTLGen臂闭环_20261003.md",
