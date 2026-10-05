@@ -468,6 +468,41 @@ else
 fi
 
 echo
+echo "== 14. the four manuscript main figures rebuild byte-identically =="
+# WHY THIS GATE EXISTS. Every gate above covers a number, a table, or a figure that
+# `code/run_all.sh` produces. The four figures submitted to *Genetic Epidemiology* are a
+# different set: they come from `code/figures/ge_main/`, they are not written by
+# `run_all.sh`, and — as gate 7 itself says when it runs `--verify-only` — the figure
+# step is not exercised there either. So the single most visible artefact in the paper,
+# and the only one a reviewer looks at before reading anything, sat outside every gate:
+# "Fig. 1-4 are byte-identical to the submitted PNGs" was a claim in
+# `code/figures/ge_main/README.md`, verified by hand on 2026-10-03 and by nothing since.
+#
+# This gate runs it. Verdict policy, the same as gates 5, 7, 8 and 12: matplotlib and
+# Pillow belong to the reader, not the archive. Where they are absent the gate *skips*;
+# where it runs, all four PNGs must match or it *fails*.
+FIG_PY="${NUMPY_PY:-$PY}"
+if [ -z "$FIG_PY" ] || ! "$FIG_PY" -c "import numpy, scipy, matplotlib, PIL" >/dev/null 2>&1; then
+  skip "the four main figures were not rebuilt: no interpreter with NumPy + SciPy + matplotlib + Pillow on PATH (set \$PY to one that has them)"
+else
+  mkdir -p "$CLONE/ge_main_out"
+  if ( cd "$CLONE/repo" && GE_MAIN_OUT="$CLONE/ge_main_out" PYTHON="$FIG_PY" \
+       bash code/figures/ge_main/reproduce.sh ) > "$CLONE/ge_main.txt" 2>&1; then
+    n=$(grep -c 'identical to the submitted figure' "$CLONE/ge_main.txt")
+    if [ "$n" -eq 4 ]; then
+      ok "ge_main/reproduce.sh: all four main figures (Fig. 1-4) reproduce byte-identically"
+      grep 'identical to the submitted figure' "$CLONE/ge_main.txt" | sed 's/^ */         /'
+    else
+      bad "ge_main/reproduce.sh exited 0 but only $n of 4 figures matched the submitted PNGs:"
+      grep -E 'FAIL|differ' "$CLONE/ge_main.txt" | head -6 | sed 's/^/         /'
+    fi
+  else
+    bad "ge_main/reproduce.sh FAILED — the four main figures do not rebuild from a clone:"
+    tail -10 "$CLONE/ge_main.txt" | sed 's/^/         /'
+  fi
+fi
+
+echo
 echo "=================================================="
 printf ' verified from a clone: %d failure(s), %d check(s) skipped\n' "$fail" "$skip"
 if [ "$skip" -gt 0 ]; then
