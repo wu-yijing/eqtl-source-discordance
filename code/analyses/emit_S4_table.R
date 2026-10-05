@@ -74,6 +74,11 @@ cat(sprintf("candidates %d | pool (44 Non-Candidate) %d\n", nrow(canddf), nrow(p
 # control SET is this one: over 30 random permutations the best overlap is 29 of
 # 30, and the seven deterministic alternatives tested (matrix, alphabetical,
 # PullDown, reverse, length, ...) reach 27-29. See the order diagnostic.
+# 2026-10-05: over 500 permutations, 12 (2.4%) also reach 30 of 30 and the overlap
+# runs 26-30 (median 28) -- the order is a free parameter, not a needle -- and no
+# Table S26 contrast changes its significance call under any order. The order is
+# therefore disclosed rather than claimed unique:
+#   docs/audit_notes/s4_order_sensitivity_20261005/
 ARCH <- file.path(REPO, "data/superseded/mahalanobis_matched_pairs.csv")
 arch <- read.csv(ARCH, stringsAsFactors = FALSE)
 ORDER <- arch$Gene[arch$treated == 1]
