@@ -44,7 +44,13 @@
 #    Re-verify with `scripts/cut_release.sh` section 7, which now checks this pin.
 # =============================================================================
 
-FROM continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1 AS base   # continuumio/miniconda3:26.7.1-1 (== :latest, resolved 2026-10-03)
+# The readable tag is recorded here rather than as a trailing comment on the FROM line:
+# BuildKit's parser reads a trailing `#` on an instruction line as further arguments and
+# refuses the file (`FROM requires either one or three arguments`). This was the first
+# thing that failed when the image was actually built for the first time, on 2026-10-06 —
+# it never reached the pull, let alone the reproduciblity claims below.
+#   pinned as  : continuumio/miniconda3:26.7.1-1  (== :latest, resolved 2026-10-03)
+FROM continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1 AS base
 
 LABEL maintainer="Yijing Wu <ellwyj1@outlook.com>"
 LABEL description="eQTL-source discordance in TWAS — reproducibility environment (eqtl-source-discordance)"
@@ -55,6 +61,8 @@ LABEL version="4.0.2"
 # =============================================================================
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    patch \
     libcurl4-openssl-dev \
     libssl-dev \
     libxml2-dev \
@@ -63,6 +71,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     ca-certificates \
     git \
     && rm -rf /var/lib/apt/lists/*
+# `build-essential` and `patch` were missing until 2026-10-06. renv installs Rcpp,
+# RcppArmadillo, cobalt, MatchIt and optmatch **from source**, so without a compiler the
+# R layer cannot complete at all; `patch` is what applies the optmatch fix below. Neither
+# had ever been needed because the image had never been built.
 
 # Fix 1: the manifest is at env/environment.yml, and the build context is the
 # repository root (`docker build -f env/Dockerfile .`).
@@ -72,8 +84,19 @@ RUN conda env create -f /tmp/environment.yml && \
     rm /tmp/environment.yml
 
 # =============================================================================
-# Stage 2: MetaXcan (S-PrediXcan), pinned to the version the manuscript used
+# Stage 2: MetaXcan (S-PrediXcan) — the SOURCE TREE, not a runnable S-PrediXcan
 # =============================================================================
+# 2026-10-06 — read this before promising anything with it. The image's Python is
+# 3.13.12 with numpy 2.4.4 (env/environment.yml), and official MetaXcan v0.8.1 predates
+# numpy 2: `code/run_upstream.sh` asserts `numpy.__version__[0] == "1"` and stops
+# otherwise, and `code/run_spredixcan.sh` calls whatever `python3` is first on PATH —
+# here, 3.13. So the upstream chain CANNOT run inside this image, by construction.
+# The correct environment for it is env/environment-upstream.yml (Python 3.12 +
+# numpy 1.x), which cannot coexist with this one.
+#
+# The tree is still fetched because it is what the archive's upstream stage is defined
+# against (release v0.8.1, unmodified), and having it present makes that verifiable
+# without a second download. Nothing in the ENTRYPOINT uses it.
 
 RUN git clone https://github.com/hakyimlab/MetaXcan.git /opt/MetaXcan && \
     cd /opt/MetaXcan && \
@@ -96,10 +119,38 @@ RUN conda install -y -n twas-eqtl -c conda-forge r-base=4.5.2 && \
 # Fix 4: restore the R package set from the lockfile that ships with the archive
 # (MatchIt 4.5.5, cobalt 4.5.2, optmatch 0.10.6 — see env/renv.lock). The previous
 # revision instead *wrote* /app/renv.lock at a point where /app did not exist.
+#
+# 2026-10-06 — this is TWO steps, not one, for the reason env/README.md has stated in
+# prose since 2026-10-04 and env/setup_r_env.sh performs: on R >= 4.5 `renv::restore()`
+# cannot finish, because optmatch 0.10.6 still calls the un-prefixed `Calloc` / `Free`
+# macros that R 4.5 removed. The single `R -e "renv::restore(...)"` line this replaces
+# would therefore have failed the whole build. `library = .libPaths()[1]` restores into
+# the conda R's own library, so `library(MatchIt)` resolves without $PRELIB — which is
+# how `code/analyses/emit_S4_table.R` looks for it.
 ENV PATH="/opt/conda/envs/twas-eqtl/bin:${PATH}"
 ENV CONDA_DEFAULT_ENV="twas-eqtl"
-RUN R -e "install.packages('renv', repos='https://cloud.r-project.org')" && \
-    R -e "renv::restore(lockfile='/app/env/renv.lock', prompt=FALSE)"
+
+RUN R -e "install.packages('renv', repos='https://cloud.r-project.org')"
+
+# Step 1 of 2 — everything except optmatch. Stopping at optmatch is expected and named
+# here rather than swallowed: `|| true` is what hid four earlier defects in this file,
+# so the step prints the reason it is allowed to stop.
+RUN R -e "renv::restore(lockfile='/app/env/renv.lock', library=.libPaths()[1], prompt=FALSE)" \
+    || echo "renv::restore() stopped before finishing — expected on R >= 4.5 (optmatch); the patched build is the next step"
+
+# Step 2 of 2 — the same official optmatch 0.10.6 source, with the four Calloc/Free call
+# sites renamed by env/patches/optmatch-0.10.6-R4.5-calloc.patch (63 sites, names only;
+# no algorithm, argument, tolerance or data structure is touched).
+RUN cd /tmp && \
+    wget -q https://cloud.r-project.org/src/contrib/Archive/optmatch/optmatch_0.10.6.tar.gz && \
+    tar -xzf optmatch_0.10.6.tar.gz && \
+    patch -p1 --forward -i /app/env/patches/optmatch-0.10.6-R4.5-calloc.patch && \
+    R CMD INSTALL --no-multiarch optmatch && \
+    rm -rf /tmp/optmatch*
+
+# The build fails here if the pinned stack is not actually loadable — the check the
+# one-line version never made. MatchIt is what SI Table S4 runs on.
+RUN R -e "stopifnot(as.character(packageVersion('MatchIt')) == '4.5.5', as.character(packageVersion('optmatch')) == '0.10.6'); cat('R stack OK: MatchIt', as.character(packageVersion('MatchIt')), '+ optmatch', as.character(packageVersion('optmatch')), '\n')"
 
 # Fix 2: the entry points live under code/
 RUN chmod +x /app/code/run_all.sh /app/code/run_spredixcan.sh
