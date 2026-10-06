@@ -42,6 +42,36 @@
 #        26.3.2-2 -> a297bed7…, 26.1.1-1 -> b0024730…, v25.11.1 -> 5df7c31c…), which is
 #        the sanity check that the tag-to-digest mapping is genuine rather than constant.
 #    Re-verify with `scripts/cut_release.sh` section 7, which now checks this pin.
+#
+# ✅ 2026-10-06 — THE IMAGE HAS NOW BEEN BUILT, and this is what that first build found
+#    and what it proved. Before this date the file had never been built; it could not be.
+#
+#    Build-fatal:   (a) the pinned tag was a trailing comment on the FROM line — BuildKit
+#                   refuses the file at parse time, so the build never reached the pull;
+#                   (b) no C/C++ toolchain, although renv compiles Rcpp, RcppArmadillo,
+#                   cobalt, MatchIt and optmatch from source.
+#    Also fixed:    (c) renv's transactional install rolled back the twenty packages that
+#                   HAD built when restore() stopped at optmatch, leaving the patched
+#                   optmatch build with no dependencies — the two-step remedy was
+#                   collapsing back into a one-step failure; (d) *.log excluded, which
+#                   broke scripts/check_audit_manifests.py (gate 13) inside the image;
+#                   (e) a Stage-2 header that implied S-PrediXcan runs here, which it
+#                   cannot (Python 3.13 + numpy 2.4.4 vs MetaXcan 0.8.1's numpy 1.x).
+#
+#    MEASURED, on Docker Desktop 29.8.2 (linux/amd64), after those fixes:
+#      * `docker build -t eqtl-discordance -f env/Dockerfile .`   ->  EXIT=0, image 3.74 GB;
+#      * the Calloc/Free failure was reproduced for the first time —
+#            map.cc:181:3: error: 'Free' was not declared in this scope; did you mean 'free'?
+#            ERROR: compilation failed for package 'optmatch'
+#        — and then the patch step reports `* DONE (optmatch)`;
+#      * the version assertion prints `R stack OK: MatchIt 4.5.5 + optmatch 0.10.6`;
+#      * `docker run --rm eqtl-discordance` -> EXIT=0, "pipeline completed with no
+#        failures", headline values reproduced inside the container (96 pairs, 68.8 %,
+#        rho = 0.3898), and steps 3b/3c both [ ok ];
+#      * inside the image: R 4.5.2, `library(MatchIt)` loads, numpy 2.4.4 + matplotlib
+#        3.10.8 import, and gate 13 reports "checked 15 audit-note directories".
+#    (Gate 3, verify_provenance.py, does not run in a container: it compares the manifest
+#     against `git ls-files` and .git/ is excluded from the image by design.)
 # =============================================================================
 
 # The readable tag is recorded here rather than as a trailing comment on the FROM line:
@@ -132,13 +162,22 @@ ENV CONDA_DEFAULT_ENV="twas-eqtl"
 
 RUN R -e "install.packages('renv', repos='https://cloud.r-project.org')"
 
-# Step 1 of 2 — everything except optmatch. Stopping at optmatch is expected and named
-# here rather than swallowed: `|| true` is what hid four earlier defects in this file,
-# so the step prints the reason it is allowed to stop.
-RUN R -e "renv::restore(lockfile='/app/env/renv.lock', library=.libPaths()[1], prompt=FALSE)" \
+# Step 1 of 3 — everything except optmatch, with renv's transactional rollback OFF.
+#
+# That last clause is not decoration; it is the defect the first real build of this
+# two-step remedy exposed on 2026-10-06. restore() stops at optmatch exactly as predicted
+# ("dependencies 'Rcpp', 'dplyr', 'tibble', 'rlemon' are not available"), but renv's
+# default transactional install then REVERTED the twenty packages that had already built
+# — so the patched optmatch next door had nothing to link against and step 2 failed too.
+# The rollback was collapsing the two-step remedy back into a one-step failure.
+RUN R -e "options(renv.config.install.transactional = FALSE); renv::restore(lockfile='/app/env/renv.lock', library=.libPaths()[1], prompt=FALSE)" \
     || echo "renv::restore() stopped before finishing — expected on R >= 4.5 (optmatch); the patched build is the next step"
 
-# Step 2 of 2 — the same official optmatch 0.10.6 source, with the four Calloc/Free call
+# Step 2 of 3 — a safety net that does not depend on the option above having worked: if
+# optmatch's own dependencies are still missing, install them before trying to build it.
+RUN R -e "need <- c('Rcpp', 'dplyr', 'tibble', 'rlemon'); have <- rownames(installed.packages()); miss <- need[!need %in% have]; if (length(miss)) { cat('installing missing optmatch dependencies:', paste(miss, collapse=', '), '\n'); renv::install(miss, library=.libPaths()[1], prompt=FALSE) } else cat('optmatch dependencies already present:', paste(need, collapse=', '), '\n')"
+
+# Step 3 of 3 — the same official optmatch 0.10.6 source, with the four Calloc/Free call
 # sites renamed by env/patches/optmatch-0.10.6-R4.5-calloc.patch (63 sites, names only;
 # no algorithm, argument, tolerance or data structure is touched).
 RUN cd /tmp && \
@@ -147,6 +186,11 @@ RUN cd /tmp && \
     patch -p1 --forward -i /app/env/patches/optmatch-0.10.6-R4.5-calloc.patch && \
     R CMD INSTALL --no-multiarch optmatch && \
     rm -rf /tmp/optmatch*
+
+# Now that optmatch 0.10.6 is present, the rest of the lockfile (RcppArmadillo, cobalt,
+# MatchIt) can finish. Without this second restore the build would ship an environment
+# where `library(MatchIt)` fails — which is the only R package any script here needs.
+RUN R -e "options(renv.config.install.transactional = FALSE); renv::restore(lockfile='/app/env/renv.lock', library=.libPaths()[1], prompt=FALSE)"
 
 # The build fails here if the pinned stack is not actually loadable — the check the
 # one-line version never made. MatchIt is what SI Table S4 runs on.

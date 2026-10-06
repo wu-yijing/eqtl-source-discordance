@@ -41,10 +41,9 @@ git clone https://github.com/wu-yijing/eqtl-source-discordance.git
 cd eqtl-source-discordance
 
 # 1. Build the environment (choose one)
-conda env create -f env/environment.yml                    # conda — the path the gates run against
+docker build -t eqtl-discordance -f env/Dockerfile .      # containerised — built and run 2026-10-06
+conda env create -f env/environment.yml                    # conda — the path the offline gates exercise
 bash env/setup_r_env.sh                                    # R side (two steps; see env/README.md)
-# docker build -t eqtl-discordance -f env/Dockerfile .     # containerised — provided, but not yet
-#                                                          # built end-to-end; see env/README.md
 
 # 2. Reproduce every reported value (and the figures)
 bash code/run_all.sh

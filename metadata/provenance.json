@@ -289,8 +289,8 @@
  "files": [
   {
    "path": ".dockerignore",
-   "bytes": 973,
-   "sha256": "68a51b90a6897f0ab27834918c07f89961a71ea600cddf89899b3c91ba0cf87f"
+   "bytes": 1206,
+   "sha256": "90107e20f8fd521e660af775377c1fb47685570062fbba8ab468fd658bf61ec6"
   },
   {
    "path": ".gitattributes",
@@ -329,8 +329,8 @@
   },
   {
    "path": "README.md",
-   "bytes": 14697,
-   "sha256": "9fd58a725aa2b6f2648edc95ddb26c38bd7aecb44c744a3fefe88aa888a8d63e"
+   "bytes": 14607,
+   "sha256": "3954e4672f1d8986c732e8b02f96a67636373a05507aa6e8ab39a201b5f00688"
   },
   {
    "path": "code/README.md",
@@ -2809,13 +2809,13 @@
   },
   {
    "path": "env/Dockerfile",
-   "bytes": 9587,
-   "sha256": "b978324903478cd0aea2266326ec4ebb2fb4bb42858e4a36c0c16773fb1e134a"
+   "bytes": 13212,
+   "sha256": "d1c9453ad287bfd4d14f800995a49d3571eaea901868bd50d7c75ed18b34f28c"
   },
   {
    "path": "env/README.md",
-   "bytes": 6503,
-   "sha256": "b5ac5eb05e18b0ff694b6afd4e3ac82afc8f6982292214177d74ff38d1ab497b"
+   "bytes": 6469,
+   "sha256": "d68c90fcbafe00a5e33d12fab13e774c0ca03c7a65105fb60801910c4d75d55e"
   },
   {
    "path": "env/environment-upstream.yml",

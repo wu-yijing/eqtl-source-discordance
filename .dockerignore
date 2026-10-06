@@ -16,12 +16,14 @@ figs/*.svg
 # 临时文件
 #
 # `*.log` is deliberately NOT excluded any more (2026-10-06). The repository tracks
-# 18 `.log` files under docs/audit_notes/, and `metadata/provenance.json` — the manifest
-# that `scripts/verify_provenance.py` (gate 3) and `scripts/check_audit_manifests.py`
-# (gate 13) check against — hashes every one of them. Excluding them from the build
-# context therefore produced an image in which two of the archive's own gates cannot pass,
-# while nothing in the image's ENTRYPOINT ever said so. The files are small; the gates
-# matter more.
+# 18 `.log` files under docs/audit_notes/, and `scripts/check_audit_manifests.py` (gate 13)
+# hashes them against the MANIFEST.sha256 shipped beside them. Excluding them from the
+# build context produced an image in which that gate fails, while nothing in the image's
+# ENTRYPOINT said so. Verified after the fix: inside the built image,
+#     checked 15 audit-note directories: every manifest is present and matches
+# (Gate 3, verify_provenance.py, is a different case and is NOT claimed here: it compares
+# the manifest against `git ls-files`, and `.git/` is excluded from the image below, so it
+# cannot run in a container by design — that is a scope statement, not a second defect.)
 *.tmp
 __pycache__/
 *.pyc
