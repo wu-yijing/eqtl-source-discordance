@@ -58,6 +58,14 @@ Arial made available to the container, all four figures come out **pixel-identic
 submitted ones (`scripts/compare_figures_pixels.py`, 0 differing pixels); the bytes still
 differ, for the zlib reason in `figures/README.md`.
 
+**Why `fonts-liberation` is not simply added to the image.** Liberation Sans is metric
+compatible with Arial, so it is the obvious candidate. Measured on 2026-10-07 by installing it
+in the shipped image: the difference falls from 4.5 / 9.9 / 7.3 / 4.3 % to
+1.6 / 8.0 / 6.4 / 3.6 % of pixels for Fig. 1-4 — a large gain on Fig. 1, almost none on the
+others, and **no figure matches the recorded hash**. It buys a better-looking failure in
+exchange for a full image rebuild, so the image keeps the honest fallback and the recipe
+above, and `reproduce.sh` reports a substitute as a substitute.
+
 ## The Supporting Information used to be required, and is not any more
 
 `unified_fig4.py`'s housekeeping panel was read out of the submitted SI's Table S6, through

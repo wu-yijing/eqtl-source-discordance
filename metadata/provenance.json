@@ -1199,8 +1199,8 @@
   },
   {
    "path": "code/figures/ge_main/README.md",
-   "bytes": 4752,
-   "sha256": "8be1357a85eefc266a195d8e771ec964606162005b675ea853b4fea1660ec161"
+   "bytes": 5346,
+   "sha256": "7d9f409a6667c0a10fed31c521dd62c1a83c1a272c16afc851e29b9e7c55a648"
   },
   {
    "path": "code/figures/ge_main/figstyle_ge.py",
