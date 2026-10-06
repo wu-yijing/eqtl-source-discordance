@@ -514,10 +514,12 @@ echo
 echo "=================================================="
 printf ' verified from a clone: %d failure(s), %d check(s) skipped\n' "$fail" "$skip"
 if [ "$skip" -gt 0 ]; then
-  echo " A skipped check is not a passed check: it needs a runtime dependency this"
-  echo " interpreter lacks (NumPy, Pillow). Install it, or point \$PY at an interpreter"
-  echo " that has it, and re-run — until then the claims those checks carry are"
-  echo " unverified for you, whatever the failure count says."
+  echo " A skipped check is not a passed check: it needs something this environment does"
+  echo " not have — a Python dependency (NumPy, Pillow, matplotlib), or the journal's"
+  echo " Supporting Information, which Figure 4 reads two numbers from and which this"
+  echo " archive does not redistribute. Each skip above names its own cause and its fix."
+  echo " Until you supply it, the claims those checks carry are unverified for you,"
+  echo " whatever the failure count says."
 fi
 if [ "$KEEP" = "1" ]; then
   echo " clone kept at: $RMDIR"
