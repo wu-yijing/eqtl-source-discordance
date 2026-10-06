@@ -134,7 +134,7 @@ DOCS = {
     'manuscript': dict(env='REPRO_MS_DOCX',
                        default=os.path.join(REPO, 'manuscript', 'Manuscript.docx'),
                        expect='Manuscript_GenetEpidemiol_20260930.docx',
-                       md5='27e9bf5cbf3785d930f27ee6f165c49f', bytes=31190,
+                       md5='2c13e37093d86e364b8933fe32ff8afd', bytes=31258,
                        what='the submitted manuscript',
                        revisions=[
                            dict(md5='dbbe4f81a6fe9433b6a28019c6538eab', bytes=30524,
@@ -160,11 +160,21 @@ DOCS = {
                            dict(md5='7fed1b504c452e16333a59d1aef6510e', bytes=31223,
                                 label='revision 2026-10-04 (rev8: R2 §一 unrounded-value '
                                       'parenthetical; no number changed)'),
+                           # --- added 2026-10-06: the commit-citation revision ---
+                           # rev9 appends "; current main commit 1a9ebc6, 6 October 2026,
+                           # which changes no reported value" to both places the archive's
+                           # commit is named (Data availability, and reference [39]) — the
+                           # cited commit had fallen 31 commits behind main. Text only, in
+                           # two runs; the file was rebuilt part-by-part so word/document.xml
+                           # is the only part that differs from rev8.
+                           dict(md5='2c13e37093d86e364b8933fe32ff8afd', bytes=31258,
+                                label='revision 2026-10-06 (rev9: current main commit '
+                                      '1a9ebc6 added; no number changed)'),
                        ]),
     'si': dict(env='REPRO_SI_DOCX',
                default=os.path.join(REPO, 'manuscript', 'Supporting_Information.docx'),
                expect='Supporting_Information_GenetEpidemiol_20260930.docx',
-               md5='393d2399a8be2442c3be47ba548625ef', bytes=1561171,
+               md5='502f79eb565ae648a6ada03041964b9c', bytes=1464207,
                what='the submitted Supporting Information',
                revisions=[
                    dict(md5='bd50b7f819db7851c50ddfa76ae336eb', bytes=1462835,
@@ -201,6 +211,14 @@ DOCS = {
                               'matched-control rows carry the pairing the documented '
                               'specification produces, same 30 controls, same covariate '
                               'values; no number changed)'),
+                   # --- added 2026-10-06 ---
+                   # rev9 makes Note S4's archive identifier agree with the manuscript's:
+                   # both now name the current main commit (1a9ebc6) beside release v4.0.2.
+                   # Rebuilt part-by-part, so word/document.xml is the only part that
+                   # differs from rev8; 31 tables, 4 embedded figures and 48 pages unchanged.
+                   dict(md5='502f79eb565ae648a6ada03041964b9c', bytes=1464207,
+                        label='revision 2026-10-06 (rev9: Note S4 carries the current main '
+                              'commit, matching the manuscript; no number changed)'),
                ]),
     'af1': dict(env='REPRO_AF1_DOCX',
                 default=os.path.join(REPO, 'manuscript', 'Additional_file_1.docx'),
