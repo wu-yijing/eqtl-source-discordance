@@ -65,7 +65,30 @@ Background, and the measurement that motivated writing this down:
 
 ```bash
 docker build -t eqtl-discordance -f env/Dockerfile .
-docker run --rm -v "$PWD:/work" -w /work eqtl-discordance bash code/run_all.sh
+
+# 1. Run the image's own copy of the code, and get the figures out on the host.
+docker run --rm -v "$PWD/figures:/app/figures" eqtl-discordance
+
+# 2. To run the checkout on your disk instead (e.g. you changed something), you MUST
+#    override the entrypoint. See the warning below for why.
+docker run --rm --entrypoint /bin/bash -v "$PWD:/work" -w /work \
+    -e AF1_DOCX=/work/Supporting_Information.docx eqtl-discordance -c 'bash code/run_all.sh'
 ```
 
+> ⚠️ **`docker run … eqtl-discordance bash code/run_all.sh` does NOT do what it looks like,
+> and this file told readers to use it until 2026-10-07.** The image sets
+> `ENTRYPOINT ["/bin/bash", "/app/code/run_all.sh"]`, so a trailing command is passed to that
+> entrypoint as *arguments* — it is not executed. Measured: the invocation ran the image's own
+> `/app/code/run_all.sh` instead of the mounted one, printed
+> `Figures written to: /app/figures/`, and with `--rm` every figure was discarded at exit. It
+> reported success while doing none of what was asked. Anything after the image name is only
+> a *command* if the image has no `ENTRYPOINT`, or if you pass `--entrypoint` and give the
+> shell a `-c` string as above; form 1 avoids the question entirely and is the one to use.
+
 The smoke test must pass from a clean clone before any release that changes code. Record the result in the `CHANGELOG.md` entry for that version.
+
+The figures that form 1 writes will **not** be byte-identical to the committed `figures/*.png`
+unless you are on the machine that produced them — this image links zlib 1.3.2, the committed
+files were made with 1.3.1, and the compressed IDAT differs while the images are pixel-identical.
+Compare them with `scripts/compare_figures_pixels.py`, not with `sha256sum`; see
+[`../figures/README.md`](../figures/README.md) §"Compare by pixel, not by byte".
