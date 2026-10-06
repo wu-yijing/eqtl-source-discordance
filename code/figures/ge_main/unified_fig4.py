@@ -17,8 +17,7 @@ Figure_4.pdf 反推参数、并独立重算三个数据点后重建；详见 reb
   4. 面板无标题（现行版已无，保持）
   5. ρ/n 标注沿用现行的 ±0.163 / ∓0.157 数据单位边界避让
 """
-import os, csv, sys, zipfile
-import xml.etree.ElementTree as ET
+import os, csv, sys
 import numpy as np
 from scipy import stats
 import matplotlib
@@ -30,27 +29,18 @@ import figstyle_ge as G
 
 _REPO = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
 DATA_Z = os.environ.get('TWAS_DATA_Z') or os.path.join(_REPO, 'data', 'derived')
-# The submitted Supporting Information is the journal's document and is not redistributed
-# here, so it has to come from the reader. Until 2026-10-07 this fell back to
-#   E:\workbuddy\GE投稿资料\_修订_20260930\Supporting_Information_GenetEpidemiol_20260930.docx
-# — one machine's path — which meant Figure 4 of the manuscript could not be produced
-# anywhere else, and failed in the shipped container with a bare FileNotFoundError naming a
-# directory the reader has never had. Now it resolves from the environment, then from the
-# archive's own manuscript/ directory, and otherwise stops with the instruction instead of a
-# path.
-SI = (os.environ.get('SI_DOCX') or os.environ.get('AF1_DOCX')
-      or os.path.join(_REPO, 'manuscript', 'Supporting_Information.docx'))
-if not os.path.isfile(SI):
-    raise SystemExit(
-        "unified_fig4.py needs the submitted Supporting Information (it reads two of the\n"
-        "numbers it plots from Note S4). Supply it and re-run:\n"
-        "    SI_DOCX=/path/to/Supporting_Information.docx python3 unified_fig4.py\n"
-        "or set AF1_DOCX, or place it at manuscript/Supporting_Information.docx.\n"
-        "Looked at: %s" % SI)
+# The housekeeping panel used to be read out of the submitted Supporting Information's
+# Table S6, through a hardcoded Windows path — which meant Figure 4 could not be built
+# anywhere but one machine, and failed in the shipped container naming a directory no reader
+# has. It did not need to be: Table S6 IS data/derived/hk_official_Z.csv. GAP-1 was closed
+# on 2026-10-03 by shipping that layer, and the substitution was verified the strong way on
+# 2026-10-07 — with the journal document absent entirely, reproduce.sh rebuilds Figure 4
+# from this archive layer alone and the PNG is byte-identical to the submitted one.
+# scripts/check_fig4_hk_source.py guards the archive side of that (n = 72, rho = +0.64).
+# The Supporting Information is no longer an input to this figure.
 OUT = os.environ.get('FIG_OUT') or os.path.join(os.path.dirname(os.path.abspath(__file__)), 'unified')
 FIG_H = float(os.environ.get('FIG4_H', '3.30'))     # 保持原高 3.2 in 附近，只加宽
 
-W = '{http://schemas.openxmlformats.org/wordprocessingml/2006/main}'
 MISSING = {'', 'NA', 'NaN', '—', '–', '-', 'n/a'}
 G.apply_rcparams()
 C_TEST, C_HK, C_SCZ = '#C0392B', '#1E8449', '#2471A3'
@@ -73,44 +63,18 @@ def rho_ci(x, y):
     return r, n, np.tanh(z - 1.96 * se), np.tanh(z + 1.96 * se)
 
 
-def cells_of(tr):
-    out = []
-    for tc in tr.findall(W + 'tc'):
-        txt = ' '.join(x.text or '' for x in tc.iter(W + 't')).strip()
-        span = 1
-        tcPr = tc.find(W + 'tcPr')
-        if tcPr is not None:
-            gs = tcPr.find(W + 'gridSpan')
-            if gs is not None:
-                span = int(gs.get(W + 'val'))
-        out.extend([txt] * span)
-    return out
-
-
 rows = list(csv.DictReader(open(os.path.join(DATA_Z, 'gtex_official_Z.csv'), encoding='utf-8-sig')))
 r_t, n_t, lo_t, hi_t = rho_ci(np.array([f(r['Z_Whole_Blood']) for r in rows]),
                               np.array([f(r['Z_Nerve_Tibial']) for r in rows]))
 
-z = zipfile.ZipFile(SI)
-body = ET.fromstring(z.read('word/document.xml')).find(W + 'body')
-T = None
-for tb in [ch for ch in list(body) if ch.tag == W + 'tbl']:
-    trs = tb.findall(W + 'tr')
-    if 'S-PrediXcan Z, Nerve_Tibial' in ' '.join(cells_of(trs[0])) and \
-       'S-PrediXcan Z, Whole_Blood' in ' '.join(cells_of(trs[0])):
-        T = trs
-        break
-h0 = cells_of(T[0])
-zi3 = [h0.index('S-PrediXcan Z, Nerve_Tibial') + k for k in range(3)]
-zj3 = [h0.index('S-PrediXcan Z, Whole_Blood') + k for k in range(3)]
+# Housekeeping control set, from the archive (see the note at DATA_Z). Same rows and same
+# column semantics as SI Table S6: three traits (DR, DN, DPN) per tissue.
+hk = list(csv.DictReader(open(os.path.join(DATA_Z, 'hk_official_Z.csv'), encoding='utf-8-sig')))
 hk_nt, hk_wb = [], []
-for tr in T[2:]:
-    c = cells_of(tr)
-    if not c or not c[0] or len(c) <= max(zi3 + zj3):
-        continue
-    for a, b in zip(zi3, zj3):
-        hk_nt.append(f(c[a]))
-        hk_wb.append(f(c[b]))
+for r in hk:
+    for k in ('DR', 'DN', 'DPN'):
+        hk_nt.append(f(r['Z_NerveTibial_' + k]))
+        hk_wb.append(f(r['Z_WholeBlood_' + k]))
 r_hk, n_hk, lo_hk, hi_hk = rho_ci(np.array(hk_wb), np.array(hk_nt))
 
 rows = list(csv.DictReader(open(os.path.join(DATA_Z, 'scz_z_4arm_official.csv'), encoding='utf-8-sig')))

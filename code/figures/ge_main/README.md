@@ -35,13 +35,12 @@ All four PNGs are **byte-identical** to the files submitted with the manuscript.
 PDFs are identical apart from the embedded `/CreationDate` (4–6 bytes), which is why
 `reproduce.sh` compares the PNGs.
 
-## Two things the figures need that the archive does not contain
+## One thing the figures need that the archive cannot contain: Arial
 
-Both were found by running this directory in the shipped container on 2026-10-06/07, and
-both are now stated up front by `reproduce.sh` instead of surfacing as an unexplained
-`[FAIL]`:
+Found by running this directory in the shipped container on 2026-10-06/07, and now stated up
+front by `reproduce.sh` instead of surfacing as an unexplained `[FAIL]`:
 
-**1. Arial.** `figstyle_ge.py` sets `font.family = 'sans-serif'` with
+`figstyle_ge.py` sets `font.family = 'sans-serif'` with
 `FONT_STACK = ['Arial', 'Helvetica', 'Liberation Sans', 'DejaVu Sans']`, and forces
 `mathtext.rm = 'Arial'` so a single family is used throughout — the journal's requirement.
 Arial is proprietary and is deliberately **not** in `env/Dockerfile`. Where none of the
@@ -59,13 +58,17 @@ Arial made available to the container, all four figures come out **pixel-identic
 submitted ones (`scripts/compare_figures_pixels.py`, 0 differing pixels); the bytes still
 differ, for the zlib reason in `figures/README.md`.
 
-**2. The Supporting Information.** `unified_fig4.py` reads two of the numbers it plots out
-of Note S4, so it needs the submitted SI document. Until 2026-10-07 it fell back to an
-absolute path on one machine, which meant Figure 4 could not be produced anywhere else and
-failed in the container with a `FileNotFoundError` naming a directory no reader has. It now
-resolves from `SI_DOCX` (or `AF1_DOCX`), then from `manuscript/Supporting_Information.docx`,
-and otherwise stops with the instruction. Without it, `reproduce.sh` skips Figure 4 by name
-and exits non-zero — a skipped check is not a passed check.
+## The Supporting Information used to be required, and is not any more
+
+`unified_fig4.py`'s housekeeping panel was read out of the submitted SI's Table S6, through
+a hardcoded absolute path, so on any other machine — including the container — Figure 4 died
+with a `FileNotFoundError` naming a directory no reader has. That dependency was never
+necessary: Table S6 **is** `data/derived/hk_official_Z.csv`. GAP-1 was closed on 2026-10-03
+by shipping that layer, and 2026-10-07 the substitution was verified the strong way — with
+the journal document absent entirely, `reproduce.sh` rebuilds Figure 4 from the archive alone
+and the PNG is **byte-identical** to the submitted figure. `scripts/check_fig4_hk_source.py`
+guards the archive side (`n = 72`, `rho = +0.64`). The SI is no longer an input to any figure
+here, and gate 14 no longer needs one.
 
 ## Before this directory existed
 

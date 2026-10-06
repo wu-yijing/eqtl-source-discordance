@@ -482,31 +482,30 @@ echo "== 14. the four manuscript main figures rebuild byte-identically =="
 # Pillow belong to the reader, not the archive. Where they are absent the gate *skips*;
 # where it runs, all four PNGs must match or it *fails*.
 #
-# 2026-10-07 — Figure 4 additionally needs the submitted Supporting Information, because
-# unified_fig4.py reads two of the numbers it plots out of Note S4, and that document is the
-# journal's: it is not redistributed here and `manuscript/` does not exist in a clone. So
-# the gate passes $SI_DOCX/$AF1_DOCX through when the caller has one, and where it does not,
-# it requires the three figures it *can* check and records the fourth as a skip by name —
-# never as a pass, and not as a failure either, since nothing about the archive is in doubt.
+# 2026-10-07 — no Supporting Information is needed any more. Figure 4's housekeeping panel
+# used to come from SI Table S6, which kept this gate dependent on a journal document the
+# archive does not redistribute; the layer those numbers come from ships as
+# data/derived/hk_official_Z.csv, so the figure now rebuilds from a clone alone. Verified
+# by running it with no SI on the path at all. The one thing a non-Windows machine still
+# needs is Arial, which reproduce.sh announces before it compares anything.
 FIG_PY="${NUMPY_PY:-$PY}"
-GE_SI="${SI_DOCX:-${AF1_DOCX:-}}"
 if [ -z "$FIG_PY" ] || ! "$FIG_PY" -c "import numpy, scipy, matplotlib, PIL" >/dev/null 2>&1; then
   skip "the four main figures were not rebuilt: no interpreter with NumPy + SciPy + matplotlib + Pillow on PATH (set \$PY to one that has them)"
 else
   mkdir -p "$CLONE/ge_main_out"
-  ( cd "$CLONE/repo" && GE_MAIN_OUT="$CLONE/ge_main_out" PYTHON="$FIG_PY" SI_DOCX="$GE_SI" \
-      bash code/figures/ge_main/reproduce.sh ) > "$CLONE/ge_main.txt" 2>&1
-  n=$(grep -c 'identical to the submitted figure' "$CLONE/ge_main.txt")
-  if [ "$n" -eq 4 ]; then
-    ok "ge_main/reproduce.sh: all four main figures (Fig. 1-4) reproduce byte-identically"
-    grep 'identical to the submitted figure' "$CLONE/ge_main.txt" | sed 's/^ */         /'
-  elif [ "$n" -eq 3 ] && grep -q 'Figure 4 is NOT VERIFIED' "$CLONE/ge_main.txt"; then
-    ok "ge_main/reproduce.sh: Fig. 1-3 reproduce byte-identically"
-    grep 'identical to the submitted figure' "$CLONE/ge_main.txt" | sed 's/^ */         /'
-    skip "Figure 4 was NOT verified: no Supporting Information supplied (set \$SI_DOCX or \$AF1_DOCX, or place manuscript/Supporting_Information.docx). unified_fig4.py reads two of its numbers from the SI's Note S4."
+  if ( cd "$CLONE/repo" && GE_MAIN_OUT="$CLONE/ge_main_out" PYTHON="$FIG_PY" \
+       bash code/figures/ge_main/reproduce.sh ) > "$CLONE/ge_main.txt" 2>&1; then
+    n=$(grep -c 'identical to the submitted figure' "$CLONE/ge_main.txt")
+    if [ "$n" -eq 4 ]; then
+      ok "ge_main/reproduce.sh: all four main figures (Fig. 1-4) reproduce byte-identically"
+      grep 'identical to the submitted figure' "$CLONE/ge_main.txt" | sed 's/^ */         /'
+    else
+      bad "ge_main/reproduce.sh exited 0 but only $n of 4 figures matched the submitted PNGs:"
+      grep -E 'FAIL|differ' "$CLONE/ge_main.txt" | head -6 | sed 's/^/         /'
+    fi
   else
-    bad "ge_main/reproduce.sh: only $n of 4 figures matched the submitted PNGs:"
-    grep -E 'FAIL|differ|NOT VERIFIED' "$CLONE/ge_main.txt" | head -8 | sed 's/^/         /'
+    bad "ge_main/reproduce.sh FAILED — the four main figures do not rebuild from a clone:"
+    tail -10 "$CLONE/ge_main.txt" | sed 's/^/         /'
   fi
 fi
 

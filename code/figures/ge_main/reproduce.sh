@@ -28,12 +28,10 @@ KEEP=0
 
 PY="${PYTHON:-$(command -v python3 || command -v python)}"
 MISMATCH=0
-SKIPPED=0
 
 step() { printf '\n== %s ==\n' "$1"; }
 ok()   { printf '  [ ok ] %s\n' "$1"; }
 bad()  { printf '  [FAIL] %s\n' "$1"; MISMATCH=$((MISMATCH + 1)); }
-skip() { printf '  [skip] %s\n' "$1"; SKIPPED=$((SKIPPED + 1)); }
 
 echo "====================================================================="
 echo " Genetic Epidemiology main figures — rebuild (Figure 1-4)"
@@ -64,6 +62,11 @@ declare -A MAP=(
   [gtex_official_Z.csv]="gtex_Z.csv"
   [eqtlgen_official_Z.csv]="eqtlgen_Z.csv"
   [scz_z_4arm_official.csv]="scz_z_4arm.csv"
+  # unified_fig4.py's housekeeping panel used to come from the Supporting Information's
+  # Table S6. That document is the journal's and is not redistributed here — but it was
+  # never the source of record: the layer ships as data/derived/hk_official_Z.csv and the
+  # two agree exactly (30 genes, 72 pairs, rho +0.64). Added 2026-10-07.
+  [hk_official_Z.csv]="hk_official_Z.csv"
 )
 for dst in "${!MAP[@]}"; do
   src="${DATA_Z}/${MAP[$dst]}"
@@ -113,33 +116,9 @@ else
   ok "font: ${FONT_USED}   (the family the submitted figures are set in)"
 fi
 
-# unified_fig4.py reads two of the numbers it plots out of the Supporting Information's
-# Note S4, so it needs that document. Until 2026-10-07 this script did not pass it on and
-# the figure script fell back to an absolute path on one machine — which is why Figure 4 of
-# the manuscript could not be reproduced anywhere else, and why the shipped container
-# failed here with a FileNotFoundError naming a directory the reader has never had. Resolve
-# it once, here, from the same places a reader would put it.
-SI_DOCX="${SI_DOCX:-${AF1_DOCX:-}}"
-if [ -z "${SI_DOCX}" ]; then
-  for c in "${REPO}/manuscript/Supporting_Information.docx" \
-           "${REPO}/manuscript/Supporting_Information_GenetEpidemiol_20260930.docx"; do
-    [ -f "$c" ] && { SI_DOCX="$c"; break; }
-  done
-fi
-if [ -n "${SI_DOCX}" ] && [ -f "${SI_DOCX}" ]; then
-  ok "Supporting Information: ${SI_DOCX}   (used by unified_fig4.py)"
-else
-  skip "Supporting Information not supplied — Figure 4 CANNOT be rebuilt or verified"
-  skip "  supply it with SI_DOCX=/path/to/Supporting_Information.docx (or AF1_DOCX)"
-  SI_DOCX=""
-fi
-
 for n in 1 2 3 4; do
-  if [ "$n" = "4" ] && [ -z "${SI_DOCX}" ]; then
-    continue
-  fi
   if ( cd "${HERE}" && TWAS_DATA_Z="${WORK}/data" FIG_OUT="${WORK}/out" \
-        SI_DOCX="${SI_DOCX}" "${PY}" "unified_fig${n}.py" ) > "${WORK}/fig${n}.log" 2>&1; then
+        "${PY}" "unified_fig${n}.py" ) > "${WORK}/fig${n}.log" 2>&1; then
     ok "unified_fig${n}.py"
   else
     bad "unified_fig${n}.py failed — see ${WORK}/fig${n}.log"
@@ -161,11 +140,7 @@ declare -A WANT=(
 for n in 1 2 3 4; do
   p="${WORK}/out/Figure_${n}.png"
   if [ ! -f "$p" ]; then
-    if [ "$n" = "4" ] && [ -z "${SI_DOCX}" ]; then
-      skip "Figure_4.png not produced — no Supporting Information was supplied (see step 2)"
-    else
-      bad "Figure_${n}.png not produced"
-    fi
+    bad "Figure_${n}.png not produced"
     continue
   fi
   if command -v sha256sum >/dev/null 2>&1; then
@@ -194,12 +169,6 @@ echo
 echo "====================================================================="
 if [ "$MISMATCH" -gt 0 ]; then
   echo " RESULT: ${MISMATCH} failure(s). The main figures do not reproduce."
-  exit 1
-fi
-if [ "$SKIPPED" -gt 0 ]; then
-  echo " RESULT: 3 of 4 main figures reproduce byte-identically; Figure 4 is NOT VERIFIED."
-  echo "         A skipped check is not a passed check — supply the Supporting Information"
-  echo "         (SI_DOCX=/path/to/it) and re-run to verify the fourth."
   exit 1
 fi
 echo " RESULT: all four main figures reproduce byte-identically."
