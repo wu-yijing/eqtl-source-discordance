@@ -72,6 +72,13 @@
 #        3.10.8 import, and gate 13 reports "checked 15 audit-note directories".
 #    (Gate 3, verify_provenance.py, does not run in a container: it compares the manifest
 #     against `git ls-files` and .git/ is excluded from the image by design.)
+#
+#    ONE THING THE CONTAINER DOES NOT REPRODUCE BYTE-FOR-BYTE, and why it is not a defect:
+#    `figures/*.png` come out ~2 % larger here than the committed files, because this image
+#    links zlib 1.3.2 while the figures were produced with zlib 1.3.1. All eight images are
+#    PIXEL-identical (0 differing pixels; the decompressed IDAT streams match byte for
+#    byte). Do not "verify" a container run with `sha256sum figures/*.png` — use
+#    `scripts/compare_figures_pixels.py`, and see figures/README.md §"Compare by pixel".
 # =============================================================================
 
 # The readable tag is recorded here rather than as a trailing comment on the FROM line:
