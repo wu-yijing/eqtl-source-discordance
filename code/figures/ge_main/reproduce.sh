@@ -88,7 +88,9 @@ step "2. Render"
 # to DejaVu Sans and every glyph changes: measured in the shipped image, 4.3 %-9.9 % of
 # pixels differed from the submitted figures and the PDFs came out at half the size. That is
 # a font substitution, not a broken archive — but the hash comparison below cannot tell the
-# two apart, so say which one it is before it runs.
+# two apart, so say which one it is before it runs. A metric-compatible substitute
+# (Liberation Sans) lands between the two and is reported as such: measured, it still leaves
+# 1.6 %-8.0 % of pixels different, so it is a better-looking fallback rather than a fix.
 FONT_USED=$("${PY}" - <<'PY' 2>/dev/null
 from matplotlib import font_manager as fm
 for name in ['Arial', 'Helvetica', 'Liberation Sans']:
@@ -102,19 +104,32 @@ else:
     print('DejaVu Sans')
 PY
 )
-if [ "$FONT_USED" = "DejaVu Sans" ]; then
-  printf '\n  !! No Arial, Helvetica or Liberation Sans on this machine — matplotlib will use\n'
-  printf '     DejaVu Sans, so the figures below CANNOT match the submitted ones whatever\n'
-  printf '     the data says. This is a font substitution, not a data or code difference.\n'
-  printf '     To verify them, supply Arial (proprietary; not redistributable in this image).\n'
-  printf '     Inside the container that is one mount, e.g.\n'
-  printf '       docker run ... -v "C:/Windows/Fonts:/mnt/winfonts:ro" ... -c \\\n'
-  printf '         "mkdir -p /usr/share/fonts/truetype/arial && \\\n'
-  printf '          cp /mnt/winfonts/arial*.ttf /usr/share/fonts/truetype/arial/ && \\\n'
-  printf '          rm -rf /root/.cache/matplotlib && bash code/figures/ge_main/reproduce.sh"\n\n'
-else
-  ok "font: ${FONT_USED}   (the family the submitted figures are set in)"
-fi
+case "$FONT_USED" in
+  Arial)
+    ok "font: Arial   (the family the submitted figures are set in)"
+    ;;
+  Helvetica|Liberation\ Sans)
+    printf '\n  !! Font: %s — a metric-compatible SUBSTITUTE for Arial, not Arial.\n' "$FONT_USED"
+    printf '     Line breaks and spacing will be right; the glyphs will not. Measured with\n'
+    printf '     Liberation Sans in this image: 1.6 %%-8.0 %% of pixels still differ from the\n'
+    printf '     submitted figures, so they will NOT match the recorded hashes. Supply Arial\n'
+    printf '     to verify them (see the mount recipe below); adding fonts-liberation to the\n'
+    printf '     image was measured on 2026-10-07 and does not close the gap, which is why it\n'
+    printf '     is not in env/Dockerfile.\n\n'
+    ;;
+  *)
+    printf '\n  !! No Arial, Helvetica or Liberation Sans on this machine — matplotlib will use\n'
+    printf '     DejaVu Sans, so the figures below CANNOT match the submitted ones whatever\n'
+    printf '     the data says. This is a font substitution, not a data or code difference.\n'
+    printf '     Measured in this image: 4.3 %%-9.9 %% of pixels differ and the PDFs halve in\n'
+    printf '     size. To verify them, supply Arial (proprietary; not redistributable here).\n'
+    printf '     Inside the container that is one mount, e.g.\n'
+    printf '       docker run ... -v "C:/Windows/Fonts:/mnt/winfonts:ro" ... -c \\\n'
+    printf '         "mkdir -p /usr/share/fonts/truetype/arial && \\\n'
+    printf '          cp /mnt/winfonts/arial*.ttf /usr/share/fonts/truetype/arial/ && \\\n'
+    printf '          rm -rf /root/.cache/matplotlib && bash code/figures/ge_main/reproduce.sh"\n\n'
+    ;;
+esac
 
 for n in 1 2 3 4; do
   if ( cd "${HERE}" && TWAS_DATA_Z="${WORK}/data" FIG_OUT="${WORK}/out" \
