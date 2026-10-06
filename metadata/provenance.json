@@ -2949,8 +2949,8 @@
   },
   {
    "path": "scripts/audit_documents_vs_repo.py",
-   "bytes": 21304,
-   "sha256": "1feaf9d5e765a495f76715bd519bf5c6e63efb28d423bcaaba3e11339c0a5ecb"
+   "bytes": 22229,
+   "sha256": "02d5af40e967fdabd8b47f8a320809e23b454ce78ab0f1e6ff6793162ec84d98"
   },
   {
    "path": "scripts/check_archive_map.py",

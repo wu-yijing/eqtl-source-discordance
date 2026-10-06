@@ -340,13 +340,24 @@ SCRIPT_BACKED = {
 #: table rather than only the ones that come out well.
 DECLARED = {
     'S1':  'positioning table, rendered directly in the SI (no data artefact)',
-    'S6':  'GAP-1 — the corrected GTEx housekeeping layer is not in this archive',
-    'S10': 'GAP-8 — DN cross-population check, no generator',
+    # S6, S10, MS1A and MS1B were described here as OPEN gaps until 2026-10-07, which the
+    # archive map has contradicted since 2026-10-03: GAP-1 and GAP-8 are closed, the layers
+    # ship (data/derived/hk_official_Z.csv, data/derived/dn_cross_population.csv), and the
+    # cells reproduce. What is still true is narrower — this script does not *machine-check*
+    # those tables, because the mapping from their layout to the shipped file is not
+    # implemented here. Saying "not in this archive" made the report read as a defect where
+    # there is none, so the reason now states the limitation that actually exists and points
+    # at the closure record.
+    'S6':  'shipped as data/derived/hk_official_Z.csv (GAP-1 closed 2026-10-03); this script '
+           'does not machine-check its layout — see ARCHIVE_MAP.md',
+    'S10': 'shipped as data/derived/dn_cross_population.csv (GAP-8 closed 2026-10-03); this '
+           'script does not machine-check its layout — see ARCHIVE_MAP.md',
     'S12': 'document artefact (the proposed checklist itself)',
     'S14': 'document artefact (the checklist completed)',
     'S30': 'integrated assessment, rendered directly in the SI',
-    'MS1A': 'main-text Table 1(A) — rests on the housekeeping layer (GAP-1/GAP-2)',
-    'MS1B': 'main-text Table 1(B) — same housekeeping layer',
+    'MS1A': 'main-text Table 1(A) — rests on data/derived/hk_official_Z.csv; not '
+            'machine-checked here (see ARCHIVE_MAP.md)',
+    'MS1B': 'main-text Table 1(B) — same layer; not machine-checked here',
 }
 
 
