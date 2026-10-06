@@ -28,10 +28,12 @@ KEEP=0
 
 PY="${PYTHON:-$(command -v python3 || command -v python)}"
 MISMATCH=0
+SKIPPED=0
 
 step() { printf '\n== %s ==\n' "$1"; }
 ok()   { printf '  [ ok ] %s\n' "$1"; }
 bad()  { printf '  [FAIL] %s\n' "$1"; MISMATCH=$((MISMATCH + 1)); }
+skip() { printf '  [skip] %s\n' "$1"; SKIPPED=$((SKIPPED + 1)); }
 
 echo "====================================================================="
 echo " Genetic Epidemiology main figures — rebuild (Figure 1-4)"
@@ -76,9 +78,68 @@ done
 # ---------------------------------------------------------------------------
 step "2. Render"
 # ---------------------------------------------------------------------------
+# Font preflight. figstyle_ge.py typesets these figures in Arial
+# (FONT_STACK = Arial -> Helvetica -> Liberation Sans -> DejaVu Sans, and mathtext.rm is
+# forced to Arial so a single family is used throughout, as the journal requires). Arial is
+# proprietary and is NOT in the container image, so there the stack silently falls through
+# to DejaVu Sans and every glyph changes: measured in the shipped image, 4.3 %-9.9 % of
+# pixels differed from the submitted figures and the PDFs came out at half the size. That is
+# a font substitution, not a broken archive — but the hash comparison below cannot tell the
+# two apart, so say which one it is before it runs.
+FONT_USED=$("${PY}" - <<'PY' 2>/dev/null
+from matplotlib import font_manager as fm
+for name in ['Arial', 'Helvetica', 'Liberation Sans']:
+    try:
+        fm.findfont(name, fallback_to_default=False)
+        print(name)
+        break
+    except Exception:
+        continue
+else:
+    print('DejaVu Sans')
+PY
+)
+if [ "$FONT_USED" = "DejaVu Sans" ]; then
+  printf '\n  !! No Arial, Helvetica or Liberation Sans on this machine — matplotlib will use\n'
+  printf '     DejaVu Sans, so the figures below CANNOT match the submitted ones whatever\n'
+  printf '     the data says. This is a font substitution, not a data or code difference.\n'
+  printf '     To verify them, supply Arial (proprietary; not redistributable in this image).\n'
+  printf '     Inside the container that is one mount, e.g.\n'
+  printf '       docker run ... -v "C:/Windows/Fonts:/mnt/winfonts:ro" ... -c \\\n'
+  printf '         "mkdir -p /usr/share/fonts/truetype/arial && \\\n'
+  printf '          cp /mnt/winfonts/arial*.ttf /usr/share/fonts/truetype/arial/ && \\\n'
+  printf '          rm -rf /root/.cache/matplotlib && bash code/figures/ge_main/reproduce.sh"\n\n'
+else
+  ok "font: ${FONT_USED}   (the family the submitted figures are set in)"
+fi
+
+# unified_fig4.py reads two of the numbers it plots out of the Supporting Information's
+# Note S4, so it needs that document. Until 2026-10-07 this script did not pass it on and
+# the figure script fell back to an absolute path on one machine — which is why Figure 4 of
+# the manuscript could not be reproduced anywhere else, and why the shipped container
+# failed here with a FileNotFoundError naming a directory the reader has never had. Resolve
+# it once, here, from the same places a reader would put it.
+SI_DOCX="${SI_DOCX:-${AF1_DOCX:-}}"
+if [ -z "${SI_DOCX}" ]; then
+  for c in "${REPO}/manuscript/Supporting_Information.docx" \
+           "${REPO}/manuscript/Supporting_Information_GenetEpidemiol_20260930.docx"; do
+    [ -f "$c" ] && { SI_DOCX="$c"; break; }
+  done
+fi
+if [ -n "${SI_DOCX}" ] && [ -f "${SI_DOCX}" ]; then
+  ok "Supporting Information: ${SI_DOCX}   (used by unified_fig4.py)"
+else
+  skip "Supporting Information not supplied — Figure 4 CANNOT be rebuilt or verified"
+  skip "  supply it with SI_DOCX=/path/to/Supporting_Information.docx (or AF1_DOCX)"
+  SI_DOCX=""
+fi
+
 for n in 1 2 3 4; do
+  if [ "$n" = "4" ] && [ -z "${SI_DOCX}" ]; then
+    continue
+  fi
   if ( cd "${HERE}" && TWAS_DATA_Z="${WORK}/data" FIG_OUT="${WORK}/out" \
-        "${PY}" "unified_fig${n}.py" ) > "${WORK}/fig${n}.log" 2>&1; then
+        SI_DOCX="${SI_DOCX}" "${PY}" "unified_fig${n}.py" ) > "${WORK}/fig${n}.log" 2>&1; then
     ok "unified_fig${n}.py"
   else
     bad "unified_fig${n}.py failed — see ${WORK}/fig${n}.log"
@@ -99,7 +160,14 @@ declare -A WANT=(
 )
 for n in 1 2 3 4; do
   p="${WORK}/out/Figure_${n}.png"
-  if [ ! -f "$p" ]; then bad "Figure_${n}.png not produced"; continue; fi
+  if [ ! -f "$p" ]; then
+    if [ "$n" = "4" ] && [ -z "${SI_DOCX}" ]; then
+      skip "Figure_4.png not produced — no Supporting Information was supplied (see step 2)"
+    else
+      bad "Figure_${n}.png not produced"
+    fi
+    continue
+  fi
   if command -v sha256sum >/dev/null 2>&1; then
     # GNU coreutils prefixes the whole line with a backslash when the file name needs
     # escaping, and on Windows a path containing a backslash always does. That made
@@ -126,6 +194,12 @@ echo
 echo "====================================================================="
 if [ "$MISMATCH" -gt 0 ]; then
   echo " RESULT: ${MISMATCH} failure(s). The main figures do not reproduce."
+  exit 1
+fi
+if [ "$SKIPPED" -gt 0 ]; then
+  echo " RESULT: 3 of 4 main figures reproduce byte-identically; Figure 4 is NOT VERIFIED."
+  echo "         A skipped check is not a passed check — supply the Supporting Information"
+  echo "         (SI_DOCX=/path/to/it) and re-run to verify the fourth."
   exit 1
 fi
 echo " RESULT: all four main figures reproduce byte-identically."

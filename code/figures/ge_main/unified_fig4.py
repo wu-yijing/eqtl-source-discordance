@@ -28,8 +28,25 @@ import matplotlib.pyplot as plt
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import figstyle_ge as G
 
-DATA_Z = os.environ.get('TWAS_DATA_Z') or r'E:\workbuddy\TWAS-eQTL-source-confounding\data\processed_officialZ'
-SI = os.environ.get('SI_DOCX') or r'E:\workbuddy\GE投稿资料\_修订_20260930\Supporting_Information_GenetEpidemiol_20260930.docx'
+_REPO = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..'))
+DATA_Z = os.environ.get('TWAS_DATA_Z') or os.path.join(_REPO, 'data', 'derived')
+# The submitted Supporting Information is the journal's document and is not redistributed
+# here, so it has to come from the reader. Until 2026-10-07 this fell back to
+#   E:\workbuddy\GE投稿资料\_修订_20260930\Supporting_Information_GenetEpidemiol_20260930.docx
+# — one machine's path — which meant Figure 4 of the manuscript could not be produced
+# anywhere else, and failed in the shipped container with a bare FileNotFoundError naming a
+# directory the reader has never had. Now it resolves from the environment, then from the
+# archive's own manuscript/ directory, and otherwise stops with the instruction instead of a
+# path.
+SI = (os.environ.get('SI_DOCX') or os.environ.get('AF1_DOCX')
+      or os.path.join(_REPO, 'manuscript', 'Supporting_Information.docx'))
+if not os.path.isfile(SI):
+    raise SystemExit(
+        "unified_fig4.py needs the submitted Supporting Information (it reads two of the\n"
+        "numbers it plots from Note S4). Supply it and re-run:\n"
+        "    SI_DOCX=/path/to/Supporting_Information.docx python3 unified_fig4.py\n"
+        "or set AF1_DOCX, or place it at manuscript/Supporting_Information.docx.\n"
+        "Looked at: %s" % SI)
 OUT = os.environ.get('FIG_OUT') or os.path.join(os.path.dirname(os.path.abspath(__file__)), 'unified')
 FIG_H = float(os.environ.get('FIG4_H', '3.30'))     # 保持原高 3.2 in 附近，只加宽
 

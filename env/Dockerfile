@@ -79,6 +79,14 @@
 #    PIXEL-identical (0 differing pixels; the decompressed IDAT streams match byte for
 #    byte). Do not "verify" a container run with `sha256sum figures/*.png` — use
 #    `scripts/compare_figures_pixels.py`, and see figures/README.md §"Compare by pixel".
+#
+#    AND ONE IT CANNOT REPRODUCE AT ALL without help from outside: the four manuscript main
+#    figures (code/figures/ge_main/) are typeset in ARIAL. Arial is proprietary, so it is
+#    deliberately not installed here; matplotlib falls through to DejaVu Sans and 4.3 %-9.9 %
+#    of the pixels change (the PDFs halve in size). Supplying Arial makes all four
+#    pixel-identical — measured 2026-10-07 — and reproduce.sh now reports which font it
+#    resolved before it compares anything, so the substitution can no longer be mistaken for
+#    a data or code difference. Recipe: code/figures/ge_main/README.md.
 # =============================================================================
 
 # The readable tag is recorded here rather than as a trailing comment on the FROM line:

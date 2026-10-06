@@ -1199,8 +1199,8 @@
   },
   {
    "path": "code/figures/ge_main/README.md",
-   "bytes": 2575,
-   "sha256": "e44f9abe8a0a7dc2893b4b82b0818e37e9f0ca53e0f6a652b1156a9c6175aa28"
+   "bytes": 4536,
+   "sha256": "a2a9f4f167027208ebe8cec462393452d6935482fe4f9141067260dd27df49b1"
   },
   {
    "path": "code/figures/ge_main/figstyle_ge.py",
@@ -1209,8 +1209,8 @@
   },
   {
    "path": "code/figures/ge_main/reproduce.sh",
-   "bytes": 5846,
-   "sha256": "eb5d490f84e01fc844893c9120c5297729736c47a13b5a512558446e7bdca82e"
+   "bytes": 9466,
+   "sha256": "0e266adaf3e4566dd69830e31f19abbf0ffc82e925e8972d53986384b0a6855f"
   },
   {
    "path": "code/figures/ge_main/unified_fig1.py",
@@ -1219,18 +1219,18 @@
   },
   {
    "path": "code/figures/ge_main/unified_fig2.py",
-   "bytes": 5072,
-   "sha256": "293a6447fc270e719c77dc675b8329e5a02ec0770bfa868f391772ff7b9322c5"
+   "bytes": 5136,
+   "sha256": "cd17c5254e0260e7f86e7018aad5a97a8111447a5d291aed95fd51910f156423"
   },
   {
    "path": "code/figures/ge_main/unified_fig3.py",
-   "bytes": 6653,
-   "sha256": "fd90747047a7899283b8335e4449e6ff91a13a3565b692d093794a80c7c8ffe0"
+   "bytes": 6717,
+   "sha256": "cd2eb701aaa548a3598ad35fc118ba7c184f4f439f0a5e6595f4b423f4f5d995"
   },
   {
    "path": "code/figures/ge_main/unified_fig4.py",
-   "bytes": 5509,
-   "sha256": "5c40fe0c1b3ad0b524d1a4e6c8541ee5c69d4cac60319c5ea793a4f009aab68f"
+   "bytes": 6629,
+   "sha256": "9050a0c52f7e692b6f721dfad9e95e421b5e260912c3b915d8173b12b0cc1bdf"
   },
   {
    "path": "code/figures/ge_si/README.md",
@@ -2809,13 +2809,13 @@
   },
   {
    "path": "env/Dockerfile",
-   "bytes": 13749,
-   "sha256": "8cd9721a802c91bf43f8110d7f4ab009d414d48fe7ba9df4ff4d61f778071223"
+   "bytes": 14367,
+   "sha256": "5f95c99fed7cfab000b1cc1a2c8fbc10b10251cc2333922224103fae9a04d9cb"
   },
   {
    "path": "env/README.md",
-   "bytes": 8088,
-   "sha256": "797b55ab4887bc36e73d1a6ca0e48b52a7b134aff5f6b4d3ad2b4943094f5fca"
+   "bytes": 9108,
+   "sha256": "9ff38613b1a14fe0735395946a85a2e639fd70a0235873f4b59882789818a056"
   },
   {
    "path": "env/environment-upstream.yml",

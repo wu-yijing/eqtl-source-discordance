@@ -92,3 +92,12 @@ unless you are on the machine that produced them — this image links zlib 1.3.2
 files were made with 1.3.1, and the compressed IDAT differs while the images are pixel-identical.
 Compare them with `scripts/compare_figures_pixels.py`, not with `sha256sum`; see
 [`../figures/README.md`](../figures/README.md) §"Compare by pixel, not by byte".
+
+### What the container cannot reproduce, and why
+
+| Output | Status in this image |
+|---|---|
+| `figures/Fig3-8,FigS6` (BMC-generation build outputs) | **pixel-identical** to the committed files; bytes differ only by zlib |
+| The four manuscript main figures (`code/figures/ge_main/`) | produced, but **not pixel-identical** — they are typeset in **Arial**, which is proprietary and deliberately not in this image. matplotlib falls through to DejaVu Sans and 4.3 %–9.9 % of pixels change (PDFs halve in size). Supply Arial and all four become pixel-identical — measured. `reproduce.sh` now prints which font it resolved before comparing, and `ge_main/README.md` has the mount recipe. |
+| Gate 3 (`verify_provenance.py`) | cannot run: it compares against `git ls-files` and `.git/` is excluded from the image by design. Gate 13 does run, and passes. |
+| The upstream S-PrediXcan chain | cannot run: MetaXcan v0.8.1 predates numpy 2 and this image is numpy 2.4.4 — that is `env/environment-upstream.yml`'s job. |

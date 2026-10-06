@@ -22,7 +22,9 @@ import matplotlib.pyplot as plt
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import figstyle_ge as G
 
-DATA = os.environ.get('TWAS_DATA_Z') or r'E:\workbuddy\TWAS-eQTL-source-confounding\data\processed_officialZ'
+DATA = os.environ.get('TWAS_DATA_Z') or os.path.join(
+    os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', '..', '..')),
+    'data', 'derived')
 OUT = os.environ.get('FIG_OUT') or os.path.join(os.path.dirname(os.path.abspath(__file__)), 'unified')
 
 G.apply_rcparams()
