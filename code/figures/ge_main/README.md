@@ -22,18 +22,35 @@ written against the predecessor repository's names (`gtex_official_Z.csv` and so
 `INPUTS.md` section A.1 records that those five files are byte-identical to the tables in
 `data/derived/`; nothing else about the scripts is changed.
 
-## Result — measured 2026-10-03
+## Result — measured 2026-10-03, re-measured 2026-10-07
 
 ```
-Figure_1.png  eb77483eaf518887…   identical to the submitted figure
+Figure_1.png  4c690d7c8219f2ad…   identical to the submitted figure
 Figure_2.png  87ee0eaa83f37309…   identical to the submitted figure
-Figure_3.png  152f45df76e8d4ab…   identical to the submitted figure
+Figure_3.png  67d8a519e4f801f6…   identical to the submitted figure
 Figure_4.png  f29f2f56da3b6310…   identical to the submitted figure
 ```
 
 All four PNGs are **byte-identical** to the files submitted with the manuscript. The four
 PDFs are identical apart from the embedded `/CreationDate` (4–6 bytes), which is why
 `reproduce.sh` compares the PNGs.
+
+**Why two hashes moved (2026-10-07).** The manuscript's rev10 changed two of the four
+figures, so the *recorded* hashes — not the code — were what had gone stale: the archive
+still described the rev9 set while the submission had moved on.
+
+| | earlier (rev9) | now (rev10) | what changed |
+|---|---|---|---|
+| `Figure_1.png` | `eb77483e…` | `4c690d7c…` | module 5's label, now *Three nested disease-agnostic control layers* (P3-3). Same canvas 3,780 × 2,645; only that text band differs |
+| `Figure_3.png` | `152f45df…` | `67d8a519…` | panel (a) switched from Fisher-z to gene-cluster bootstrap intervals (M5); panel (b) grew from two rows to four (P2-3). Height 1,705 → 1,903 px |
+
+The two scripts were revised in the same step, so the four figures still rebuild from a
+clone alone: `unified_fig1.py` carries the new label, and `unified_fig3.py` now **reads**
+the two genome-wide rows from
+`code/analyses/reproduction_20261002/results/recompute_scz_results.json` instead of holding
+them as constants — that JSON is the output of `scripts/recompute_scz.py` section 5, and the
+figure step prints the values it read beside the manuscript's. `Figure_2` and `Figure_4`
+were not revised; their hashes are unchanged.
 
 ## One thing the figures need that the archive cannot contain: Arial
 

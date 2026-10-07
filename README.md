@@ -28,7 +28,7 @@ With the GWAS input and the analytic pipeline held fixed, we asked how much of a
 - measures source discordance on a 104-gene testbed across three diabetic microvascular complications,
 - calibrates the resulting rates against disease-agnostic controls,
 - benchmarks the framework genome-wide on an independent trait, and
-- ships two reusable instruments: a dual-source sensitivity analysis, and a TWAS-specific reporting checklist extending STREGA.
+- ships three reusable instruments: a dual-source sensitivity analysis, a nested disease-agnostic control design, and a TWAS-specific reporting checklist extending STREGA.
 
 This repository contains **code and processed data only**. Figures, figure captions, tables and table legends accompany the manuscript and its Supporting Information. Raw RNA pull-down / LC–MS/MS spectra are deposited separately in the ProteomeXchange Consortium via iProX.
 

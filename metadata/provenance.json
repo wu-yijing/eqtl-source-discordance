@@ -309,8 +309,8 @@
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 129176,
-   "sha256": "9266bb4ee00a74e26af6b53efab3430cbc45dc4d6d8896d46ae26681beac5c28"
+   "bytes": 131134,
+   "sha256": "fbe65958f52cac5112ab42fe5c34494b9c3e5ba4d3652ffdc4993a6744bdbb57"
   },
   {
    "path": "CITATION.cff",
@@ -329,8 +329,8 @@
   },
   {
    "path": "README.md",
-   "bytes": 13112,
-   "sha256": "2746384288a8d53ce09e04573d3ca3b7774c57359c61ada4f0d525d816b4b845"
+   "bytes": 13156,
+   "sha256": "f0973a05fdd0077c4e26de3c457f49c59afe75e940efc5e04891fdb5efcf2f49"
   },
   {
    "path": "code/README.md",
@@ -1199,8 +1199,8 @@
   },
   {
    "path": "code/figures/ge_main/README.md",
-   "bytes": 5346,
-   "sha256": "7d9f409a6667c0a10fed31c521dd62c1a83c1a272c16afc851e29b9e7c55a648"
+   "bytes": 6599,
+   "sha256": "30543e9f9a4c257cc1085c071b9913107804636945dce21afb0ed35c4220bb44"
   },
   {
    "path": "code/figures/ge_main/figstyle_ge.py",
@@ -1209,13 +1209,13 @@
   },
   {
    "path": "code/figures/ge_main/reproduce.sh",
-   "bytes": 9113,
-   "sha256": "b3e866571e4d17d42832497acfeee0b6636b590f62f355e6ccf2f8cc720dff18"
+   "bytes": 9448,
+   "sha256": "1f37b8bd04e8ad20eeb15fb74c6323b8f2d8213b4c4cac544f146b96b7421962"
   },
   {
    "path": "code/figures/ge_main/unified_fig1.py",
-   "bytes": 3936,
-   "sha256": "49d8404228c099b1a1ecdeeeec63a90cb70d47acb6d5818efae588f05e9571d9"
+   "bytes": 4494,
+   "sha256": "5029e803cd761cd553261c773b296bd38f563abd123e4dc6b98fd8e40467dafb"
   },
   {
    "path": "code/figures/ge_main/unified_fig2.py",
@@ -1224,8 +1224,8 @@
   },
   {
    "path": "code/figures/ge_main/unified_fig3.py",
-   "bytes": 6717,
-   "sha256": "cd2eb701aaa548a3598ad35fc118ba7c184f4f439f0a5e6595f4b423f4f5d995"
+   "bytes": 10089,
+   "sha256": "863aa35d06a526ea6985082407030c5bcdc69a693c5cfe3d76222be058b6e915"
   },
   {
    "path": "code/figures/ge_main/unified_fig4.py",
@@ -3114,8 +3114,8 @@
   },
   {
    "path": "metadata/ARCHIVE_MAP.md",
-   "bytes": 80085,
-   "sha256": "1485157475c28e12e6b3951c234b5f2dcb0cfe09dc327625c51a102d123a310f"
+   "bytes": 80978,
+   "sha256": "ab7e633781b7ccea42b9960e734772905cc6cd307d6772d39e0c0cb32a2eb3b9"
   },
   {
    "path": "metadata/PRE_REGISTRATION.md",

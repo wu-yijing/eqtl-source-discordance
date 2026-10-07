@@ -23,6 +23,37 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-07 — the main-figure hashes describe the figures the manuscript actually submits
+
+Numbers: no reported number changed. Figures and documentation only.
+
+Gate 14 reproduced the **rev9** main-figure set while the submission had moved to rev10, so a
+green gate was describing superseded files — the defect shape this archive exists to catch
+(a check reporting the wrong verdict). The two producing scripts are revised in the same step:
+
+```
+Figure_1.png   eb77483e… → 4c690d7c…   module 5's label, now "Three nested disease-agnostic
+                                       control layers" (P3-3); canvas unchanged, 3,780 × 2,645
+Figure_3.png   152f45df… → 67d8a519…   panel (a) Fisher-z → gene-cluster bootstrap intervals
+                                       (M5); panel (b) two rows → four (P2-3); 1,705 → 1,903 px
+Figure_2.png   unchanged (87ee0eaa…)   not revised
+Figure_4.png   unchanged (f29f2f56…)   not revised
+```
+
+All four still rebuild from a clone alone. `unified_fig3.py` no longer holds the two
+genome-wide Δρ rows as constants: it **reads** them from
+`code/analyses/reproduction_20261002/results/recompute_scz_results.json` — the output of
+`scripts/recompute_scz.py` section 5 — and prints what it read beside the manuscript's,
+raising if they disagree. (That section preserves the **file row order** of the genome-wide
+layers; the bootstrap index depends on it. Re-sorting lexicographically moves the upper
+endpoint to 0.0530 instead of the reported 0.0524, which is a property of the re-computation,
+not of the reported value.) `unified_fig1.py` carries the new label. `reproduce.sh` records
+the new hashes; `code/figures/ge_main/README.md` and `metadata/ARCHIVE_MAP.md` carry the
+earlier values on the record.
+
+Also corrected while here: `README.md` said the archive "ships two reusable instruments"
+where the manuscript names **three** — the third is the nested disease-agnostic control design.
+
 ### 2026-10-07 — the notes stop narrating a state the archive has moved past
 
 Numbers: **no reported number changed.** Documentation only: no script, no data layer and no

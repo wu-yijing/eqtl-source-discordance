@@ -6,8 +6,14 @@
   2. 字体 → Arial（原已用 Arial，经 figstyle 统一）
   3. 字号上调：编号 13→12、模块标题 8.6→9.0、说明文字 6.5/6.2→7.5
   4. 保留上一轮修正的模块 6 表号 "(Table S12)"
+  5. （手稿 rev10，peer-review P3-3）模块 5 的说明文字由
+     "30 disease-agnostic housekeeping controls" 改为
+     "Three nested disease-agnostic control layers" —— 正文与摘要用的是三层嵌套的
+     疾病无关对照（30 housekeeping + 44 non-candidate + 30 T2DM control）另加
+     基因组范围 SCZ 基准，原文案只列出了其中一层，与正文口径不符。
+     重出后与原图逐像素比对，仅该文本带变化（x[482,1722] y[2016,2075]，占全图 0.28%）。
 
-内容、配色、模块文案、连线弧线与原版逐字一致。
+除模块 5 的该条文案外，内容、配色、模块文案、连线弧线与原版逐字一致。
 """
 import os, sys
 import numpy as np
@@ -38,7 +44,7 @@ mods = [
     ("2", "Dual-source S-PrediXcan TWAS", "GTEx v8 MASHR (Nerve_Tibial, Whole_Blood)\nvs eQTLGen whole blood (N = 31,684)"),
     ("3", "Cross-source agreement", "Spearman rho on Z-scores\npairwise direction consistency"),
     ("4", "Two-axis partition", "diagnostic heuristic (not structural)\nresource / sample-size axis\ntissue-context axis"),
-    ("5", "Calibration & replication", "30 disease-agnostic housekeeping controls\nFinnGen R13 vs UK Biobank (DR)"),
+    ("5", "Calibration & replication", "Three nested disease-agnostic control layers\nFinnGen R13 vs UK Biobank (DR)"),
     ("6", "Evidence integration", "STREGA-based TWAS reporting checklist\n(Table S12)"),
 ]
 y0, h, w = 0.90, 0.128, 0.44

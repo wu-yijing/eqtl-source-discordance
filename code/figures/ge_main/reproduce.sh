@@ -146,10 +146,14 @@ step "3. Compare against the recorded hashes"
 # ---------------------------------------------------------------------------
 # SHA-256 of the submitted PNGs. A PNG is deterministic given the data and the
 # style module, so this is an equality test, not a similarity test.
+# [1] and [3] re-measured 2026-10-07 against manuscript rev10: Figure 1's module-5
+# label changed (P3-3) and Figure 3 was revised (M5: gene-cluster bootstrap
+# intervals in panel (a); P2-3: four forest rows in panel (b)). Earlier values were
+# eb77483e… and 152f45df…. Figure 3's height went 3,779 × 1,705 → 3,779 × 1,903 px.
 declare -A WANT=(
-  [1]=eb77483eaf5188871de97a9cffabfe86278b717ef26f4f83d722eb969b80bafb
+  [1]=4c690d7c8219f2adecfe864dc0d3a2549f02120206b2e1791de01295f589c4c6
   [2]=87ee0eaa83f3730938305f669747943101797cde5952ba5cdc0ef33c568e97b0
-  [3]=152f45df76e8d4ab9426b2314d85c38dcde930c741165af25993359ab0a001bf
+  [3]=67d8a519e4f801f65a68a1ff6140443f3aa892c77570cb6c8540d1eef1e7afc3
   [4]=f29f2f56da3b63107df27145aced3a5ffa6b16b73c2b068afaae6e81324912d1
 )
 for n in 1 2 3 4; do
