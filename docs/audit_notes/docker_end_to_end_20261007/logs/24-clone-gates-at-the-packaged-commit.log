@@ -1,0 +1,70 @@
+  [ ok ] interpreter: Python 3.13.14
+
+== cloning ==
+  [ ok ] cloned to C:\Users\ADMINI~1\AppData\Local\Temp/eqtl-verify-BtQnCU/repo
+  [ ok ] HEAD 5c4defc, 576 tracked files
+  [ ok ] the clone is clean — the committed tree is the checked-out tree
+  [ ok ] every file git intends as LF is checked out as LF (50 stored verbatim by design)
+         verbatim: i/crlf  w/crlf  attr/-text            	data/upstream/eqtlgen/official_eq_A_DN.csv
+         verbatim: i/crlf  w/crlf  attr/-text            	data/upstream/eqtlgen/official_eq_A_DPN.csv
+         verbatim: i/crlf  w/crlf  attr/-text            	data/upstream/eqtlgen/official_eq_A_DR.csv
+
+== 1. shipped inputs byte-exact ==
+  [ ok ] self-check: all shipped inputs present and byte-exact
+
+== 2. archive map is self-consistent ==
+  [ ok ] structure, column declaration, counts and locality labels agree
+
+== 3. provenance matches the clone ==
+  [ ok ] manifest: 575 entries   tracked: 576
+
+== 4. every script's path bootstrap works ==
+  [ ok ] check_wiring --self-test: the checker both passes and fails as it should
+  [ ok ] wired: 29   broken: 0   without a paths_config import: 7
+
+== 5. the reported numbers reproduce from the clone alone ==
+  [ ok ] checks: 15   mismatches: 0
+  [ ok ] [acat-o] SI S6 "ACAT-O combined P" reproduced: 87/87 at three significant figures
+
+== 6. the Table S9 pool re-derivation runs from the clone alone ==
+  [ ok ] build_pools() rebuilt POOL_A 11,820 / POOL_818 818 with no source variables set, byte-identically
+
+== 7. the only supported entry point actually runs ==
+  [ ok ] AF1_DOCX is unset — running --verify-only, so the figure scripts are not exercised
+  [ ok ] RESULT: pipeline completed with no failures.
+
+== 8. the published SI rasters reproduce, pixel for pixel ==
+  [ ok ] published-raster check: C:/Users/Administrator/.workbuddy/binaries/python/envs/default/Scripts/python.exe
+  [ ok ] all checks passed
+         ok   FigS1 re-run pixel-identical  0 px differ
+         ok   FigS1 edit size  17,589 px, bbox (1260, 1931, 2256, 2384) (recorded 17,589 px, bbox (1260, 1931, 2256, 2384))
+         ok   FigS3 re-run pixel-identical  0 px differ
+         ok   FigS3 edit size  10,587 px, bbox (1164, 1883, 68, 127) (recorded 10,587 px, bbox (1164, 1883, 68, 127))
+== 9. the shipped upstream artefacts hash to what the archive claims ==
+  [ ok ] identical 27 | differing 0 | missing 3   (of 30)
+== 10. the two external-input manifests name the same files ==
+  [ ok ] manifests : 15 file(s) in SOURCES.tsv, 15 in SHA256SUMS — same file set in both
+== 11. no tracked file is empty ==
+  [ ok ] every tracked file has content (576 files)
+
+== 12. the SI Table S4 / S26 R path runs from the clone ==
+  [warn] MatchIt 4.7.2 differs from env/renv.lock's 4.5.5 — informational: the S4 control set is measured identical under both, see s4_matchit_version_test_20261004/
+  [ ok ] emit_S4_table.R returns the archived control set (30 / 30; candidate set TRUE)
+         imputation reproduces the disclosed counts: 3 / 17 / 11
+         matched pairs: 30 / 30 candidates
+
+== 13. every audit note's MANIFEST.sha256 describes the tree it ships with ==
+  [ ok ] check_audit_manifests --self-test: the checker both passes and fails as it should
+  [ ok ] checked 16 audit-note directories: every manifest is present and matches
+
+== 14. the four manuscript main figures rebuild byte-identically ==
+  [ ok ] ge_main/reproduce.sh: all four main figures (Fig. 1-4) reproduce byte-identically
+         [ ok ] Figure_1.png  eb77483eaf518887…  identical to the submitted figure
+         [ ok ] Figure_2.png  87ee0eaa83f37309…  identical to the submitted figure
+         [ ok ] Figure_3.png  152f45df76e8d4ab…  identical to the submitted figure
+         [ ok ] Figure_4.png  f29f2f56da3b6310…  identical to the submitted figure
+
+==================================================
+ verified from a clone: 0 failure(s), 0 check(s) skipped
+ clone removed (use --keep to inspect it)
+ RESULT: a fresh clone reproduces and verifies. Safe to publish.

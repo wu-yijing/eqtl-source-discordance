@@ -1,5 +1,5 @@
-1f544e5aafcbf3713d24c4d28f57295fca699296b31ee30843a65de531a65617  COMMANDS.md
-682d0bdb3d81c1c5feed16939343625698a243eae1a83e94b9a40b01b218f6ab  README.md
+8c8dc5bf7f5bb1b18e3821f6e430be1098e4aa652a0a15dec5c332f2d9cadec5  COMMANDS.md
+3929d04443fc097f805a2c337d7368d44f213ec3d8531ccdf82d52867dc1845c  README.md
 eeabd7a09309fd7bd7b77d8ba3821a9e3acfa0947deaa11d1c078846f5f38c26  logs/01-build-1-parse-error.log
 c7db7bb318f8150b05c8d72219dd9b0fde0607b0eecc60a8846112d153291f6f  logs/02-build-2-parse-fixed-registry-unreachable.log
 823fb61b3337d5a6888adb7522bfa5a252f68fd4e610ccf9f4fc4576538db531  logs/03-build-3-mirror-configured-layer-stalls.log
@@ -23,6 +23,7 @@ e7eaea1dd00c34dbe354a61514f2fc05e0fb9fa965e4065fdee16f764d34847b  logs/20-final-
 dedfa12e396d0f4bc0919527be0e34bd1434862f0a7278b109ced4e770bca24a  logs/21-host-reference-run-all.log
 540c696dc682354e13992955a43d6d4271c55c8ac68616388de2ff065beca7e3  logs/22-host-reference-ge-main.log
 918610f4c5817d0148a26f6f3b8ef0d12bcfdcc69236adef65a49ab301689a9e  logs/23-clone-gates-at-HEAD.log
+00be2dd93b85bdab21e765993361a81adbaab32879c9dcbc0d05a5d44b215e74  logs/24-clone-gates-at-the-packaged-commit.log
 7b320f0b75b7316c596271b964932ab7aa255d46f75bb9c0648405d9b72b2d17  results/clone-gate-summary.txt
 b5d352d1f82387f8b6f5c012239dba113bdc7a2e14c75a7b45541d88243f7339  results/figure-verification.txt
 72c36bc5147a12088908a8c4f980e80c53fe8bb606bcca718c5c991542470935  results/headline-values.txt

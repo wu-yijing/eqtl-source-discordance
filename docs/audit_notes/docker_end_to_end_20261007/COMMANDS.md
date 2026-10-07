@@ -54,7 +54,7 @@ found a different defect, and a fix without the failure it fixes is only an asse
 | 5 | `05-probe-renv-transactional-rollback.log` | probe run identifying the real cause (below) |
 | 6 | `06-build-5-success-three-step-r-layer.log` | **EXIT=0** — image built |
 | 7 | `07-build-6-at-HEAD-47a0935.log` | **EXIT=0** — rebuilt so the image carries the current code |
-| 8 | *(intended as `24-…`; **not run**)* | the rebuild after `pymupdf` was declared, so step 4 runs inside it — **not taken**: the daemon could not start on the packaging host, so no such image was built. `env/environment.yml` and `env/requirements.txt` carry the declaration; README §0 records the gap |
+| 8 | *(no log — not run)* | the rebuild after `pymupdf` was declared, so step 4 runs inside it — **not taken**: the daemon could not start on the packaging host, so no such image was built. `env/environment.yml` and `env/requirements.txt` carry the declaration; README §0 records the gap |
 
 The R layer is the part that is not obvious, so it is stated plainly: on R ≥ 4.5
 `renv::restore()` **cannot** finish, because `optmatch 0.10.6` calls the un-prefixed
@@ -148,7 +148,9 @@ PY=<python> PYTHON=<python> bash scripts/verify_from_clone.sh
 The gate script clones `HEAD` and runs 14 checks **against that clone**, so it must be run
 after committing — otherwise it verifies the previous commit.
 
-Log: `23-clone-gates-at-HEAD.log`.
+Log: `23-clone-gates-at-HEAD.log` (at `47a0935`), and `24-clone-gates-at-the-packaged-commit.log`
+(re-run at packaging time, at `5c4defc` — the commit that stages this note, so gate 13 reports
+16 audit-note directories against 15 in the earlier run).
 
 ## 6. Figure comparison
 

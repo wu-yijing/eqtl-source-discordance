@@ -1,6 +1,7 @@
 # The recommended Docker path, run end to end
 
-**Date:** 2026-10-07 · **Repository HEAD:** `47a0935` + this note
+**Date:** 2026-10-07 · **Repository HEAD:** `47a0935` + this note — staged and packaged as
+`5c4defc`, which is the commit `logs/24-…` documents (§0)
 **Question this note answers:** `env/Dockerfile` is the environment this archive recommends.
 Does it actually build, run, and reproduce every reported value and figure — and what can it
 not do?
@@ -29,7 +30,8 @@ attributable rather than silent — the same rule as C9.
 | `results/clone-gate-summary.txt` | ✅ regenerated at packaging time from `logs/23-…` |
 | `results/image-fingerprint.txt` | ⚠️ **not regenerated** — PART 1 of `scripts/make_evidence.sh` needs `docker image inspect` |
 | `results/inside-image-verification.txt` | ⚠️ **not regenerated** — PART 2 needs `docker run` |
-| `logs/24-…` — the rebuild after `pymupdf` was declared, cited in §2 C1/C3 | ⚠️ **not taken** — the post-fix build and run were never re-taken, for the same reason |
+| the post-`pymupdf` rebuild — `docker build` + one `code/run_all.sh`, cited in §2 C1/C3 | ⚠️ **not taken** — no daemon, so no such image was ever built; see below |
+| `logs/24-clone-gates-at-the-packaged-commit.log` | ✅ **added at packaging time** — the 14 gates re-run against a fresh clone of `5c4defc`, the commit that stages this note: **0 failures, 0 skipped**, "Safe to publish". Gate 13 there reports **16** audit-note directories where `logs/23-…` (taken at `47a0935`) reported 15, gate 3 reports `575 entries / 576 tracked` where `logs/23-…` reported `545 / 546`, and gate 11 reports 576 files — i.e. the three gates whose numbers the packaging step itself moved |
 
 **Why the daemon could not start.** Recorded so the gap is not mistakable for a defect in the
 archive. `com.docker.backend` aborts while loading settings:
@@ -56,8 +58,21 @@ PYTHON=<python with numpy + Pillow> bash scripts/make_evidence.sh
 ```
 
 writes both missing files — and rewrites the three that ship here with the same numbers.
-`logs/24-…` is one more `docker build --progress=plain -t eqtl-discordance -f env/Dockerfile .`
-followed by one `code/run_all.sh`, which is what would put step 4's verdict line into a log.
+The post-`pymupdf` rebuild is one more
+`docker build --progress=plain -t eqtl-discordance -f env/Dockerfile .` followed by one
+`code/run_all.sh`, which is what would put step 4's verdict line into a log.
+
+**The gate suite was re-run at packaging time, and that run ships** as
+`logs/24-clone-gates-at-the-packaged-commit.log` (§7). It is taken against a fresh clone of
+`5c4defc`, the commit that stages this note, so gate 13 sees 16 audit-note directories rather
+than the 15 `logs/23-…` saw at `47a0935`. The commit that *carries* log 24 is one later than
+the commit it describes: that later commit adds the log itself, edits this note and
+`docs/audit_notes/INDEX.md`, and regenerates both `MANIFEST.sha256` here and
+`metadata/provenance.json` — the last two because adding a tracked file makes both stale, which
+is exactly what gates 13 and 3 detect. The off-by-one is inherent to the gate script (it clones
+`HEAD`, so a log that documents a commit cannot be inside it), and `COMMANDS.md` §5 already
+states it; gates 3 and 13 were therefore also re-run **directly on the final staged tree**, not
+only inside the clone.
 
 **What this does not change.** No reported number. The three claims that carry the note —
 the headline values (C4), the figure comparisons including the §4.3 font table (C6), and the
@@ -96,7 +111,7 @@ as 跑通 when **all of C1–C8 hold and C9 is honoured**.
 | C5 | Steps 3b / 3c | ✅ `[ ok ]` in the container | `logs/18-…`, `results/headline-values.txt` |
 | C6 | Figures | ✅ SI 8/8 pixel-identical; main 4/4 pixel-identical **with Arial**, 4.3–9.9 % different without it (quantified) | `results/figure-verification.txt` |
 | C7 | In-container validators | ✅ all four pass; step 4's format precheck reports `有问题的图： NONE` | **not shipped** — `results/inside-image-verification.txt` is written by `make_evidence.sh` PART 2, which needs the daemon; §0. The same four validators pass in the clone (C8, `logs/23-…`, gate 13) |
-| C8 | 14 clone gates | ✅ 0 failures / 0 skipped | `logs/23-…`, `results/clone-gate-summary.txt` |
+| C8 | 14 clone gates | ✅ 0 failures / 0 skipped | `logs/23-…` (at `47a0935`), `results/clone-gate-summary.txt`, and `logs/24-…` — re-run at packaging time on `5c4defc`, the commit that stages this note |
 | C9 | Limits named | ✅ §4 — three things, each with its reason | §4 |
 
 ---
@@ -250,7 +265,9 @@ logs/12..17-ge_main-*.log                  the main figures: the path failure, t
 logs/18..20-final-image-*.log              the runs that exposed defect 7
 logs/21..22-host-reference-*.log           the same two pipelines on the host — the reference
                                            side of every comparison above
-logs/23-clone-gates-at-HEAD.log            the gates against a fresh clone
+logs/23-clone-gates-at-HEAD.log            the gates against a fresh clone of 47a0935
+logs/24-clone-gates-at-the-packaged-       the gates re-run at packaging time, against a
+commit.log                                 fresh clone of the commit that stages this note
 ```
 
 ## 8. What this note does not claim
