@@ -48,6 +48,10 @@ any row that carries one. Dated notes keep their own text; where a verdict was r
 note now says so in place, dated, so the measurement that made the reversal possible is not
 lost with the verdict it produced.
 
+The triage rule, the item-by-item inventory, and the four-layer structure that keeps run
+artefacts and dated findings out of the deletion path are recorded in
+`docs/audit_notes/notes_cleanup_20261007.md`.
+
 ### 2026-10-04 (twenty-ninth pass) — three evidence files were emptied by my own normaliser, and a hash could not tell
 
 Numbers: **no reported number changed.** Three evidence files were rebuilt and one gate was added.
