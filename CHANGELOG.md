@@ -23,6 +23,31 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-07 — the notes stop narrating a state the archive has moved past
+
+Numbers: **no reported number changed.** Documentation only: no script, no data layer and no
+reported value is touched, and the two gates that read these files are re-run at the end.
+
+**What was stale.** SI Table S4 and SI Table S26 both reproduce, and `metadata/ARCHIVE_MAP.md`
+counts **0 🔴 and 0 ❌**, but the prose that reported the earlier state was still standing in
+five places: the README kept a dated paragraph beginning "One item is marked ❌ NOT
+REPRODUCED" and announced that it was being kept; `ARCHIVE_MAP.md` pointed the reader at "the
+❌ and the 🔴 below" when no row carries either; its GAP-11 verdict still said the pairing's
+provenance was unrecorded after `s4_pairing_provenance_20261004/` had recovered it as commit
+`1389407`; its counts line narrated a hand-written count that no longer exists; and two dated
+audit summaries still ended on verdicts the following passes had reversed.
+
+**What was deliberately kept, and why.** Every finding the withdrawn marks rested on: the
+shipped `.R` still does not return the submitted table; the `MatchIt` version is still
+falsified as the explanation (18/18 conventions identical, down to the per-pair mismatch
+strings); the archived control is still the candidate's nearest neighbour in only 3 of 30
+pairs; the candidate order's positions 16–30 are still not derivable; and the `❌`, `🔴` and
+`clone ≠ result` labels stay defined although no row uses them, because
+`scripts/check_archive_map.py` validates the vocabulary and `scripts/cut_release.sh` reports
+any row that carries one. Dated notes keep their own text; where a verdict was reversed the
+note now says so in place, dated, so the measurement that made the reversal possible is not
+lost with the verdict it produced.
+
 ### 2026-10-04 (twenty-ninth pass) — three evidence files were emptied by my own normaliser, and a hash could not tell
 
 Numbers: **no reported number changed.** Three evidence files were rebuilt and one gate was added.

@@ -309,8 +309,8 @@
   },
   {
    "path": "CHANGELOG.md",
-   "bytes": 127135,
-   "sha256": "970e4be201d6baaeb84a2dc7fa9457bad83fd41723cec49d00f7ca25ba487194"
+   "bytes": 128970,
+   "sha256": "cfe5b8910f52484f089157dd119167d33b9d9bbe2d6750677bf74abbf51d8369"
   },
   {
    "path": "CITATION.cff",
@@ -329,8 +329,8 @@
   },
   {
    "path": "README.md",
-   "bytes": 14607,
-   "sha256": "3954e4672f1d8986c732e8b02f96a67636373a05507aa6e8ab39a201b5f00688"
+   "bytes": 13112,
+   "sha256": "2746384288a8d53ce09e04573d3ca3b7774c57359c61ada4f0d525d816b4b845"
   },
   {
    "path": "code/README.md",
@@ -2074,8 +2074,8 @@
   },
   {
    "path": "docs/audit_notes/INDEX.md",
-   "bytes": 28602,
-   "sha256": "7e092e80ee201349f4ab7192d1a25801d74555e771fa1d23da0f5baecba7fe40"
+   "bytes": 29757,
+   "sha256": "a380075541ad3991ca59b812d4125070268d4f8099252974b3983bc5168ded1c"
   },
   {
    "path": "docs/audit_notes/R2残余差异消除方案_20261002.md",
@@ -2309,8 +2309,8 @@
   },
   {
    "path": "docs/audit_notes/open_items_closure_20261004/MANIFEST.sha256",
-   "bytes": 1622,
-   "sha256": "17240292327d9a131cbacb247837cf997169936809ed7442f8826e09ee90e6aa"
+   "bytes": 1639,
+   "sha256": "3e1b00f1efaf1dddf9ddce43426c3959745cdf8c8a86637a84654d7955d8175c"
   },
   {
    "path": "docs/audit_notes/open_items_closure_20261004/MANIFEST_REPAIR_20261005.md",
@@ -2319,8 +2319,8 @@
   },
   {
    "path": "docs/audit_notes/open_items_closure_20261004/README.md",
-   "bytes": 21147,
-   "sha256": "ff7bc5e5954ea49c0926c45a23bd8e91396b6eb4a17b59a3690688f306d187e9"
+   "bytes": 22071,
+   "sha256": "36fe7ba2139392b2e26afeb81b3f2979d18102f47606581a8f091dac423000bd"
   },
   {
    "path": "docs/audit_notes/open_items_closure_20261004/figs1/design_comparison.png",
@@ -2434,8 +2434,8 @@
   },
   {
    "path": "docs/audit_notes/s4_matchit_version_test_20261004/MANIFEST.sha256",
-   "bytes": 1214,
-   "sha256": "3466a9f245018e7d06323904e65e6fd2161c5af685d46b2e501ae9390900bbf1"
+   "bytes": 1227,
+   "sha256": "7c3887c7f0b1964ce87f7363b60967ad6edbcf950c5f768551c8e72d061e6295"
   },
   {
    "path": "docs/audit_notes/s4_matchit_version_test_20261004/MANIFEST_REPAIR_20261005.md",
@@ -2444,8 +2444,8 @@
   },
   {
    "path": "docs/audit_notes/s4_matchit_version_test_20261004/README.md",
-   "bytes": 9055,
-   "sha256": "d33108405caf2c396a2ce7ef84e6b5873767c786d5bc79f0535cb89586e7fcc4"
+   "bytes": 10118,
+   "sha256": "902d539797432796251e8517f27343902d5987b55fffaefa0cde7637426835be"
   },
   {
    "path": "docs/audit_notes/s4_matchit_version_test_20261004/logs/ab_matchit455.log",
@@ -3109,8 +3109,8 @@
   },
   {
    "path": "metadata/ARCHIVE_MAP.md",
-   "bytes": 79127,
-   "sha256": "85ec6993a014dec8a96233c3b6836bed7ee2533f191c330f02f312cdd183d522"
+   "bytes": 80085,
+   "sha256": "1485157475c28e12e6b3951c234b5f2dcb0cfe09dc327625c51a102d123a310f"
   },
   {
    "path": "metadata/PRE_REGISTRATION.md",

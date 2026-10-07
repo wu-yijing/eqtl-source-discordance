@@ -11,7 +11,7 @@ rounded off.
 
 | # | Item | Outcome |
 |---|---|---|
-| 1 | **SI Table S4 / S26** — R 4.5.2 + MatchIt not available | ❌ **Tested and it does NOT reproduce.** The environment *was* available (R 4.5.2 at `D:\R\R-4.5.2`, MatchIt/cobalt/optmatch in the win-library). Six conventions were run; the best matches **2 of 30** control assignments. Root causes measured, see §1. **This contradicts `metadata/ARCHIVE_MAP.md`, which marks S4 ✅ / `clone`.** |
+| 1 | **SI Table S4 / S26** — R 4.5.2 + MatchIt not available | ❌ **Tested and it does NOT reproduce.** The environment *was* available (R 4.5.2 at `D:\R\R-4.5.2`, MatchIt/cobalt/optmatch in the win-library). Six conventions were run; the best matches **2 of 30** control assignments. Root causes measured, see §1. **This contradicted `metadata/ARCHIVE_MAP.md`, which then marked S4 ✅ / `clone`.** *(2026-10-07: the ✅ was re-earned on measurement rather than withdrawn — `../s4_specification_sweep_20261004/`, `../s4_q1_reproduction_20261004/` — so no row carries ❌ or 🔴 today. The measurement above stands, and is the reason the original ✅ could not be taken on trust.)* |
 | 2 | **SI Fig. S1 "family-B" generator** | 🟡 **Generator family identified; residual difference localised and explained.** Two independent generator families both emit 3188 × 3076; the published raster is 3189 × 3077. The three-way visual comparison shows the **same flowchart**; the difference is a **different green-box string** plus ~9 % of pixels differing at 1–8 grey levels (font rasterisation). Artefact-level closure was already in-tree and stands. See §2. |
 | 3 | **Docs revision registry lags the submitted files** (`[UNRECOGNISED]`) | ✅ **Closed.** `paths_config.py` now registers manuscript rev5/rev6/rev7 and SI rev1_dates / rev1_dates_minimal / rev3 / rev4 / rev5. Verified: `[UNRECOGNISED]` → `[ok]` with the revision named. See §3. |
 | 4 | **SI rev5 layout regression** (19 → 25 parts; `tblPrEx` 2,160 → 0) | ✅ **Structure restored.** Rebuilt from rev4's package with rev5's two content edits: 19 parts, `tblPrEx` 2,160, `tblCellPr`-family counts back to rev4's, and **text identical to rev5**. See §4. |
@@ -306,6 +306,15 @@ is a font-rasterisation build, not a missing generator), and one is **blocked by
 machine's policy** (the SI PDF render). The S4 result is the most consequential: a table the
 archive marks ✅ / "a fresh clone re-runs it end to end" **does not re-run**, and three
 distinct defects in the shipped path were measured rather than suspected.
+
+*(2026-10-07: the S4 half of this summary was reversed the same day, on measurement. The
+control set and the table reproduce **30/30** and byte-identically under a table re-emitted
+from the documented specification, and the step that wrote the pairing is recovered as
+commit `1389407` — see `../s4_specification_sweep_20261004/`,
+`../s4_q1_reproduction_20261004/` and `../s4_pairing_provenance_20261004/`. So
+`ARCHIVE_MAP.md` no longer over-claims S4, and no row carries ❌ or 🔴. The three defects
+in the shipped path are still real and still measured: they are the reason the original ✅
+could not be taken as written.)*
 
 ## Note on the elision in `the `MatchIt` row of the environment table` (2026-10-04)
 

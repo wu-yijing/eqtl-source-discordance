@@ -23,8 +23,18 @@ Not "similar" — **byte-identical**. All eighteen conventions, and the full tex
 each candidate was assigned instead, agree between the two versions. The version does not enter
 this computation.
 
-**The surviving explanation is falsified. SI Table S4 remains ❌ NOT REPRODUCED, and the mark now
+**The surviving explanation is falsified. SI Table S4 was left ❌ NOT REPRODUCED, and the mark now
 rests on a measured base rather than on a narrowed suspicion.**
+
+> ***(2026-10-07 — the ❌ did not stand, and this note is what made that testable.)***
+> `../s4_pairing_provenance_20261004/` then recovered the step that wrote the pairing
+> (commit `1389407`), `../s4_specification_sweep_20261004/` re-emitted the table from
+> the documented specification, and `../s4_q1_reproduction_20261004/` re-ran it
+> first-party: the control set reproduces **30/30** and the table is byte-identical
+> (`38e49d56…`). What this note establishes is untouched, and it is the load-bearing
+> part — **the `MatchIt` version is falsified**, 18/18 conventions identical down to the
+> per-pair mismatch strings, and the archived control is the candidate's nearest
+> neighbour in only 3 of 30 pairs. Current status: `metadata/ARCHIVE_MAP.md`.
 
 ## 1. How the test was built
 
@@ -116,11 +126,14 @@ down as one.
   measurement. `metadata/ARCHIVE_MAP.md` row S4 and GAP-11 are updated accordingly.
 - **Does not**: change any reported number, any file in `data/`, or either submitted document.
   Nothing about the paper's conclusions turns on these 30 control assignments — the row was already
-  ❌ and stays ❌.
+  ❌ at this point. *(2026-10-07: it no longer is; see the note at the head of this file.)*
 - **Still owed**: the manuscript-side question is now sharper and simpler — *which* matched set does
   the paper report, and what produced it? `Table_S2_Matched_Controls.csv` and the archived file
   disagree on six controls, and neither is reproduced by any tested specification. That needs the
   original analysis log, not a search, and it cannot be settled from this repository.
+  *(2026-10-07: both halves were settled without it — which set the paper reports by
+  `../s4_reported_run_20261004/`, and what produced its pairing by
+  `../s4_pairing_provenance_20261004/`. The measurement above stands.)*
 
 ## 5. Reproducing this
 
