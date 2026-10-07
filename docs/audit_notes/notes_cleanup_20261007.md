@@ -101,7 +101,7 @@
 
 ## 5. 核验
 
-改动后（提交 `3fc4345`）本地三项门禁全绿，并从克隆复检：
+改动后本地三项门禁全绿，并从克隆复检（下表计数取自 `3fc4345`，其树为 tracked 583）：
 
 ```
 check_archive_map.py      : 13 tables, 47 item rows, 5 locality labels   [ ok ]
@@ -113,6 +113,11 @@ verify_from_clone.sh      : 0 failure(s), 4 check(s) skipped
 4 项 skip 均为本机解释器缺 NumPy / Pillow / matplotlib 所致，脚本自己声明
 "A skipped check is not a passed check"，故不声称全量通过。`metadata/provenance.json`
 与两个受影响目录的 `MANIFEST.sha256` 已按仓库机制重建。
+
+**计数随本次记录自身 +1。** `ab23462` 加入本文件后，树为 tracked **584** / hashed 583 / 1 exclusion，
+克隆门禁 11 相应打印 `(584 files)`——两张表相差 1 是这一条文件所致，不是两次运行的口径差异。
+两个提交已于 2026-10-07 推送；推送前先 `git fetch` 确认远端未移动（`0 behind / 2 ahead`），
+故为快进，远端 `main` = `ab23462`。
 
 ## 6. 未处理项（有意留下）
 
