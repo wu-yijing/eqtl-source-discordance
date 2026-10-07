@@ -1,8 +1,8 @@
   [ ok ] interpreter: Python 3.13.14
 
 == cloning ==
-  [ ok ] cloned to C:\Users\ADMINI~1\AppData\Local\Temp/eqtl-verify-BtQnCU/repo
-  [ ok ] HEAD 5c4defc, 576 tracked files
+  [ ok ] cloned to C:\Users\ADMINI~1\AppData\Local\Temp/eqtl-verify-M09bEs/repo
+  [ ok ] HEAD 0d07229, 583 tracked files
   [ ok ] the clone is clean — the committed tree is the checked-out tree
   [ ok ] every file git intends as LF is checked out as LF (50 stored verbatim by design)
          verbatim: i/crlf  w/crlf  attr/-text            	data/upstream/eqtlgen/official_eq_A_DN.csv
@@ -16,7 +16,7 @@
   [ ok ] structure, column declaration, counts and locality labels agree
 
 == 3. provenance matches the clone ==
-  [ ok ] manifest: 575 entries   tracked: 576
+  [ ok ] manifest: 582 entries   tracked: 583
 
 == 4. every script's path bootstrap works ==
   [ ok ] check_wiring --self-test: the checker both passes and fails as it should
@@ -45,7 +45,7 @@
 == 10. the two external-input manifests name the same files ==
   [ ok ] manifests : 15 file(s) in SOURCES.tsv, 15 in SHA256SUMS — same file set in both
 == 11. no tracked file is empty ==
-  [ ok ] every tracked file has content (576 files)
+  [ ok ] every tracked file has content (583 files)
 
 == 12. the SI Table S4 / S26 R path runs from the clone ==
   [warn] MatchIt 4.7.2 differs from env/renv.lock's 4.5.5 — informational: the S4 control set is measured identical under both, see s4_matchit_version_test_20261004/

@@ -80,14 +80,21 @@ dependency change the figures": it does not.
 
 ### 0.6 The gate suite re-run at packaging time
 
-`logs/24-clone-gates-at-the-packaged-commit.log` is the 14 gates run against a fresh clone at
-the packaging commit: **0 failures, 0 skipped**, "Safe to publish". Gate 13 there reports
-**16** audit-note directories where `logs/23-…` (taken at `47a0935`) reported 15, gate 3
-`576 / 577` where it reported `545 / 546`, and gate 11 577 files — the three gates whose
-numbers the packaging step itself moves. The commit that *carries* this log is one later than
-the commit it describes, because the gate script clones `HEAD` and a log cannot be inside the
-commit it documents; `COMMANDS.md` §5 already states that off-by-one. Gates 3 and 13 were
-therefore also re-run **directly against the final staged tree**, not only inside the clone.
+`logs/24-clone-gates-at-the-packaged-commit.log` is the 14 gates run against a fresh clone of
+`0d07229`, the packaging commit: **0 failures, 0 skipped**, 28 `[ ok ]`, "Safe to publish".
+Gate 13 there reports **16** audit-note directories where `logs/23-…` (taken at `47a0935`)
+reported 15, gate 3 `582 / 583` where it reported `545 / 546`, and gate 11 583 files — the
+three gates whose numbers the packaging step itself moves. The commit that *carries* this log
+is one later than the commit it describes, because the gate script clones `HEAD` and a log
+cannot be inside the commit it documents; `COMMANDS.md` §5 already states that off-by-one.
+Gates 3 and 13 were therefore also re-run **directly against the final staged tree**, not only
+inside the clone.
+
+An earlier re-run at `ddf0189` failed gate 3 for a real reason, and it is worth recording
+because it is the archive's own gates catching the packaging step: `metadata/provenance.json`
+had been regenerated against an index in which `code/run_all.sh` was still the pre-change blob,
+so it recorded 15,951 bytes for a file the commit shipped at 16,642. `0d07229` corrects it and
+the run above is the one after. Nothing handwritten here would have caught that.
 
 **What this does not change.** No reported number. Headline values (C4), the figure
 comparisons including the §4.3 font table (C6) and the 14 clone gates (C8) were all
