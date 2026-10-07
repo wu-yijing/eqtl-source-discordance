@@ -114,10 +114,13 @@ verify_from_clone.sh      : 0 failure(s), 4 check(s) skipped
 "A skipped check is not a passed check"，故不声称全量通过。`metadata/provenance.json`
 与两个受影响目录的 `MANIFEST.sha256` 已按仓库机制重建。
 
-**计数随本次记录自身 +1。** `ab23462` 加入本文件后，树为 tracked **584** / hashed 583 / 1 exclusion，
+**计数随本记录自身 +1。** `ab23462` 加入本文件后，树为 tracked **584** / hashed 583 / 1 exclusion，
 克隆门禁 11 相应打印 `(584 files)`——两张表相差 1 是这一条文件所致，不是两次运行的口径差异。
-两个提交已于 2026-10-07 推送；推送前先 `git fetch` 确认远端未移动（`0 behind / 2 ahead`），
-故为快进，远端 `main` = `ab23462`。
+
+**远端 tip 不写死在这里。** 读取请用 `git ls-remote origin refs/heads/main`。这不是回避：
+**本记录的每一个提交都会立刻改变它自己写下的 tip**，把 tip 写进正文等于制造一条注定过时的
+断言——正是本次清理要消除的那一类。可复述的是推送时的做法：先 `git fetch` 确认无分叉
+（2026-10-07 推送时为 `0 behind`），故均为快进；本地 `HEAD` 与 `origin/main` 一致。
 
 ## 6. 未处理项（有意留下）
 
