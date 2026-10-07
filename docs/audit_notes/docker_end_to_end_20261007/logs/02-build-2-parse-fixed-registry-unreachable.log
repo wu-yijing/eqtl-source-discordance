@@ -1,0 +1,23 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 6.54kB done
+#1 DONE 0.1s
+
+#2 [internal] load metadata for docker.io/continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1
+#2 ERROR: failed to do request: Head "https://registry-1.docker.io/v2/continuumio/miniconda3/manifests/sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1": dialing registry-1.docker.io:443 container via direct connection because Docker Desktop has no HTTPS proxy: connecting to registry-1.docker.io:443: dial tcp [2a03:2880:f111:83:face:b00c:0:25de]:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.
+------
+ > [internal] load metadata for docker.io/continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1:
+------
+Dockerfile:53
+--------------------
+  51 |     # it never reached the pull, let alone the reproduciblity claims below.
+  52 |     #   pinned as  : continuumio/miniconda3:26.7.1-1  (== :latest, resolved 2026-10-03)
+  53 | >>> FROM continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1 AS base
+  54 |     
+  55 |     LABEL maintainer="Yijing Wu <ellwyj1@outlook.com>"
+--------------------
+ERROR: failed to build: failed to solve: continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1: failed to resolve source metadata for docker.io/continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1: failed to do request: Head "https://registry-1.docker.io/v2/continuumio/miniconda3/manifests/sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1": dialing registry-1.docker.io:443 container via direct connection because Docker Desktop has no HTTPS proxy: connecting to registry-1.docker.io:443: dial tcp [2a03:2880:f111:83:face:b00c:0:25de]:443: connectex: A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond.
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/jngt8xhn3ucktvev0aege29xo
+EXIT=1

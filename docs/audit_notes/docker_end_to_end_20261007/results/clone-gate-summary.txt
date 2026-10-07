@@ -1,0 +1,25 @@
+# The repository's own 14 gates, run against a fresh clone of the commit this note
+# ships with. Quoted from ../logs/23-clone-gates-at-HEAD.log.
+# Regenerate on a new HEAD: bash scripts/verify_from_clone.sh > that log, then
+#   grep -cE '\[ ok \]|\[FAIL\]|\[skip\]' it
+
+   12:== 1. shipped inputs byte-exact ==
+   15:== 2. archive map is self-consistent ==
+   18:== 3. provenance matches the clone ==
+   21:== 4. every script's path bootstrap works ==
+   25:== 5. the reported numbers reproduce from the clone alone ==
+   29:== 6. the Table S9 pool re-derivation runs from the clone alone ==
+   32:== 7. the only supported entry point actually runs ==
+   36:== 8. the published SI rasters reproduce, pixel for pixel ==
+   43:== 9. the shipped upstream artefacts hash to what the archive claims ==
+   45:== 10. the two external-input manifests name the same files ==
+   47:== 11. no tracked file is empty ==
+   50:== 12. the SI Table S4 / S26 R path runs from the clone ==
+   56:== 13. every audit note's MANIFEST.sha256 describes the tree it ships with ==
+   60:== 14. the four manuscript main figures rebuild byte-identically ==
+   68: verified from a clone: 0 failure(s), 0 check(s) skipped
+
+## counts in that run
+   \[ ok \]   28
+   \[FAIL\]   0
+   \[skip\]   0

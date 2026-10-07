@@ -1,0 +1,35 @@
+# Headline values: the container's run against the host's run.
+# Lines are quoted from files under ../logs/ with their line numbers, so each one
+# can be located in the original log.
+
+## container     (logs/18-final-image-readme-form-full-pipeline.log)
+
+   131:  pairs                : 96   (manuscript: 96)   ok
+   132:  direction consistency: 68.8% (manuscript: 68.8%)  ok
+   133:  Spearman rho         : 0.3898 (manuscript: 0.39)   ok
+   134:  max |Z| GTEx/eQTLGen : 2.6809 / 2.8258
+
+   137:== 3b. SI Table S5a row 3 — the sqrt(N_e) direct-weighting row ==
+   138:  [ ok ] m6_ne_weighted_sensitivity.py: SI Table S5a row 3 reproduces (+2.09 / Q 76.6 / I² 98.7%)
+   140:== 3c. SI Table S4 — the candidate processing order is an artefact ==
+   141:  [ ok ] check_s4_order.py: the candidate order is explicit and agrees with Table S4
+   153: RESULT: pipeline completed with no failures.
+
+## host          (logs/21-host-reference-run-all.log)
+
+   131:  pairs                : 96   (manuscript: 96)   ok
+   132:  direction consistency: 68.8% (manuscript: 68.8%)  ok
+   133:  Spearman rho         : 0.3898 (manuscript: 0.39)   ok
+   134:  max |Z| GTEx/eQTLGen : 2.6809 / 2.8258
+
+   137:== 3b. SI Table S5a row 3 — the sqrt(N_e) direct-weighting row ==
+   138:  [ ok ] m6_ne_weighted_sensitivity.py: SI Table S5a row 3 reproduces (+2.09 / Q 76.6 / I² 98.7%)
+   140:== 3c. SI Table S4 — the candidate processing order is an artefact ==
+   141:  [ ok ] check_s4_order.py: the candidate order is explicit and agrees with Table S4
+   184: RESULT: pipeline completed with no failures.
+
+## the agreement, stated once
+   Both sides print the same three numbers the manuscript reports:
+     96 pairs / 68.8 % direction consistency / rho = 0.3898 (manuscript: 0.39).
+   Steps 3b (SI Table S5a row 3: +2.09, Q 76.6, I^2 98.7 %) and 3c (SI Table S4
+   candidate order) report [ ok ] on both sides.

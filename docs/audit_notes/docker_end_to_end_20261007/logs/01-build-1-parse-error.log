@@ -1,0 +1,18 @@
+2026/10/06 22:08:18 http2: server: error reading preface from client //./pipe/dockerDesktopLinuxEngine: file has already been closed
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 6.09kB done
+#1 DONE 0.0s
+Dockerfile:47
+--------------------
+  45 |     # =============================================================================
+  46 |     
+  47 | >>> FROM continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1 AS base   # continuumio/miniconda3:26.7.1-1 (== :latest, resolved 2026-10-03)
+  48 |     
+  49 |     LABEL maintainer="Yijing Wu <ellwyj1@outlook.com>"
+--------------------
+ERROR: failed to build: failed to solve: dockerfile parse error on line 47: FROM requires either one or three arguments
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/cg3e9opae5xy97nkpff1pa2n9
+EXIT=1

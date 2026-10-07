@@ -1,0 +1,1291 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 9.63kB done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1
+#2 DONE 6.3s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 1.01kB done
+#3 DONE 0.0s
+
+#4 [ 1/14] FROM docker.io/continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1
+#4 resolve docker.io/continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1 0.0s done
+#4 sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1 1.61kB / 1.61kB done
+#4 sha256:08e13ed38d9807f7bf2093ed0ba6403343bce05e83df6b6866d9223060bd4e6f 1.06kB / 1.06kB done
+#4 sha256:8769d9a9fc12eea293dd5952700b0aa3544e7e591e2dd805b64f0f4b9c370428 6.54kB / 6.54kB done
+#4 ...
+
+#5 [internal] load build context
+#5 transferring context: 49.58MB 4.9s done
+#5 DONE 4.9s
+
+#4 [ 1/14] FROM docker.io/continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1
+#4 extracting 6310eb16bf42
+#4 extracting 6310eb16bf42 1.4s done
+#4 extracting 363c17fedf13
+#4 extracting 363c17fedf13 3.3s done
+#4 extracting 9f8cdfaa41cd
+#4 extracting 9f8cdfaa41cd done
+#4 extracting 70c399ad66be
+#4 extracting 70c399ad66be 5.0s
+#4 extracting 70c399ad66be 9.4s done
+#4 DONE 3707.5s
+
+#6 [ 2/14] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     patch     libcurl4-openssl-dev     libssl-dev     libxml2-dev     libgit2-dev     wget     ca-certificates     git     && rm -rf /var/lib/apt/lists/*
+#6 0.422 Get:1 http://deb.debian.org/debian trixie InRelease [140 kB]
+#6 1.101 Get:2 http://deb.debian.org/debian trixie-updates InRelease [47.3 kB]
+#6 1.819 Get:3 http://deb.debian.org/debian-security trixie-security InRelease [43.4 kB]
+#6 3.021 Get:4 http://deb.debian.org/debian trixie/main amd64 Packages [9678 kB]
+#6 343.5 Get:5 http://deb.debian.org/debian trixie-updates/main amd64 Packages [4412 B]
+#6 343.6 Get:6 http://deb.debian.org/debian-security trixie-security/main amd64 Packages [264 kB]
+#6 353.6 Fetched 10.2 MB in 5min 53s (28.8 kB/s)
+#6 353.6 Reading package lists...
+#6 354.1 Reading package lists...
+#6 354.6 Building dependency tree...
+#6 354.8 Reading state information...
+#6 355.0 wget is already the newest version (1.25.0-2).
+#6 355.0 ca-certificates is already the newest version (20250419).
+#6 355.0 git is already the newest version (1:2.47.3-0+deb13u1).
+#6 355.0 The following additional packages will be installed:
+#6 355.0   binutils binutils-common binutils-x86-64-linux-gnu comerr-dev cpp cpp-14
+#6 355.0   cpp-14-x86-64-linux-gnu cpp-x86-64-linux-gnu dpkg-dev g++ g++-14
+#6 355.0   g++-14-x86-64-linux-gnu g++-x86-64-linux-gnu gcc gcc-14
+#6 355.0   gcc-14-x86-64-linux-gnu gcc-x86-64-linux-gnu krb5-multidev libasan8
+#6 355.0   libbinutils libbrotli-dev libc-bin libc-dev-bin libc6 libc6-dev libcc1-0
+#6 355.0   libcom-err2 libcrypt-dev libctf-nobfd0 libctf0 libcurl3t64-gnutls
+#6 355.0   libcurl4t64 libdpkg-perl libevent-2.1-7t64 libgcc-14-dev libgit2-1.9
+#6 355.0   libgmp-dev libgmpxx4ldbl libgnutls-dane0t64 libgnutls-openssl27t64
+#6 355.0   libgnutls28-dev libgomp1 libgprofng0 libgssrpc4t64 libhttp-parser-dev
+#6 355.0   libhttp-parser2.9 libhwasan0 libidn2-dev libisl23 libitm1 libjansson4
+#6 355.0   libkadm5clnt-mit12 libkadm5srv-mit12 libkdb5-10t64 libkrb5-dev libldap-dev
+#6 355.0   liblsan0 libmbedcrypto16 libmbedtls-dev libmbedtls21 libmbedx509-7 libmpc3
+#6 355.0   libmpfr6 libnghttp2-dev libnghttp3-dev libp11-kit-dev libpcre2-16-0
+#6 355.0   libpcre2-32-0 libpcre2-8-0 libpcre2-dev libpcre2-posix3 libpkgconf3
+#6 355.0   libpsl-dev libquadmath0 librtmp-dev libsframe1 libssh2-1-dev libssh2-1t64
+#6 355.0   libssl3t64 libstdc++-14-dev libtasn1-6-dev libtsan2 libubsan1 libunbound8
+#6 355.0   libxml2 libzstd-dev linux-libc-dev make nettle-dev openssl
+#6 355.0   openssl-provider-legacy pkgconf pkgconf-bin rpcsvc-proto xz-utils zlib1g-dev
+#6 355.0 Suggested packages:
+#6 355.0   binutils-doc gprofng-gui binutils-gold doc-base cpp-doc gcc-14-locales
+#6 355.0   cpp-14-doc debian-keyring debian-tag2upload-keyring g++-multilib
+#6 355.0   g++-14-multilib gcc-14-doc gcc-multilib manpages-dev autoconf automake
+#6 355.0   libtool flex bison gdb gcc-doc gcc-14-multilib gdb-x86-64-linux-gnu krb5-doc
+#6 355.0   libc-devtools glibc-doc libcurl4-doc libidn-dev sq | sqop | rsop | gosop
+#6 355.0   | pgpainless-cli | gpg-sq | gnupg bzr gmp-doc libgmp10-doc libmpfr-dev
+#6 355.0   dns-root-data gnutls-bin gnutls-doc krb5-user libmbedtls-doc libnghttp2-doc
+#6 355.0   p11-kit-doc libssl-doc libstdc++-14-doc make-doc ed diffutils-doc
+#6 355.0 Recommended packages:
+#6 355.0   fakeroot sq | sqop | rsop | gosop | pgpainless-cli | gpg-sq | gnupg
+#6 355.0   libalgorithm-merge-perl manpages manpages-dev libfile-fcntllock-perl
+#6 355.0   liblocale-gettext-perl libtasn1-doc
+#6 355.3 The following NEW packages will be installed:
+#6 355.3   binutils binutils-common binutils-x86-64-linux-gnu build-essential
+#6 355.3   comerr-dev cpp cpp-14 cpp-14-x86-64-linux-gnu cpp-x86-64-linux-gnu dpkg-dev
+#6 355.3   g++ g++-14 g++-14-x86-64-linux-gnu g++-x86-64-linux-gnu gcc gcc-14
+#6 355.3   gcc-14-x86-64-linux-gnu gcc-x86-64-linux-gnu krb5-multidev libasan8
+#6 355.3   libbinutils libbrotli-dev libc-dev-bin libc6-dev libcc1-0 libcrypt-dev
+#6 355.3   libctf-nobfd0 libctf0 libcurl4-openssl-dev libcurl4t64 libdpkg-perl
+#6 355.3   libevent-2.1-7t64 libgcc-14-dev libgit2-1.9 libgit2-dev libgmp-dev
+#6 355.3   libgmpxx4ldbl libgnutls-dane0t64 libgnutls-openssl27t64 libgnutls28-dev
+#6 355.3   libgomp1 libgprofng0 libgssrpc4t64 libhttp-parser-dev libhttp-parser2.9
+#6 355.3   libhwasan0 libidn2-dev libisl23 libitm1 libjansson4 libkadm5clnt-mit12
+#6 355.3   libkadm5srv-mit12 libkdb5-10t64 libkrb5-dev libldap-dev liblsan0
+#6 355.3   libmbedcrypto16 libmbedtls-dev libmbedtls21 libmbedx509-7 libmpc3 libmpfr6
+#6 355.3   libnghttp2-dev libnghttp3-dev libp11-kit-dev libpcre2-16-0 libpcre2-32-0
+#6 355.3   libpcre2-dev libpcre2-posix3 libpkgconf3 libpsl-dev libquadmath0 librtmp-dev
+#6 355.3   libsframe1 libssh2-1-dev libssl-dev libstdc++-14-dev libtasn1-6-dev libtsan2
+#6 355.3   libubsan1 libunbound8 libxml2 libxml2-dev libzstd-dev linux-libc-dev make
+#6 355.3   nettle-dev patch pkgconf pkgconf-bin rpcsvc-proto xz-utils zlib1g-dev
+#6 355.3 The following packages will be upgraded:
+#6 355.3   libc-bin libc6 libcom-err2 libcurl3t64-gnutls libpcre2-8-0 libssh2-1t64
+#6 355.3   libssl3t64 openssl openssl-provider-legacy
+#6 355.7 9 upgraded, 93 newly installed, 0 to remove and 17 not upgraded.
+#6 355.7 Need to get 103 MB of archives.
+#6 355.7 After this operation, 351 MB of additional disk space will be used.
+#6 355.7 Get:1 http://deb.debian.org/debian trixie/main amd64 libc6 amd64 2.41-12+deb13u4 [2847 kB]
+#6 448.9 Get:2 http://deb.debian.org/debian trixie/main amd64 libc-bin amd64 2.41-12+deb13u4 [638 kB]
+#6 472.4 Get:3 http://deb.debian.org/debian-security trixie-security/main amd64 libpcre2-8-0 amd64 10.46-1~deb13u3 [299 kB]
+#6 484.3 Get:4 http://deb.debian.org/debian-security trixie-security/main amd64 openssl-provider-legacy amd64 3.5.7-1~deb13u3 [316 kB]
+#6 497.2 Get:5 http://deb.debian.org/debian-security trixie-security/main amd64 libssl3t64 amd64 3.5.7-1~deb13u3 [2458 kB]
+#6 577.7 Get:6 http://deb.debian.org/debian trixie/main amd64 xz-utils amd64 5.8.1-1+deb13u1 [659 kB]
+#6 603.0 Get:7 http://deb.debian.org/debian trixie/main amd64 libsframe1 amd64 2.44-3 [78.4 kB]
+#6 605.6 Get:8 http://deb.debian.org/debian trixie/main amd64 binutils-common amd64 2.44-3 [2509 kB]
+#6 693.8 Get:9 http://deb.debian.org/debian trixie/main amd64 libbinutils amd64 2.44-3 [534 kB]
+#6 716.8 Get:10 http://deb.debian.org/debian trixie/main amd64 libgprofng0 amd64 2.44-3 [808 kB]
+#6 748.8 Get:11 http://deb.debian.org/debian trixie/main amd64 libctf-nobfd0 amd64 2.44-3 [156 kB]
+#6 762.8 Get:12 http://deb.debian.org/debian trixie/main amd64 libctf0 amd64 2.44-3 [88.6 kB]
+#6 765.5 Get:13 http://deb.debian.org/debian trixie/main amd64 libjansson4 amd64 2.14-2+b3 [39.8 kB]
+#6 766.5 Get:14 http://deb.debian.org/debian trixie/main amd64 binutils-x86-64-linux-gnu amd64 2.44-3 [1014 kB]
+#6 806.0 Get:15 http://deb.debian.org/debian trixie/main amd64 binutils amd64 2.44-3 [265 kB]
+#6 820.3 Get:16 http://deb.debian.org/debian trixie/main amd64 libc-dev-bin amd64 2.41-12+deb13u4 [60.0 kB]
+#6 825.3 Get:17 http://deb.debian.org/debian-security trixie-security/main amd64 linux-libc-dev all 6.12.111-1 [2988 kB]
+#6 945.5 Get:18 http://deb.debian.org/debian trixie/main amd64 libcrypt-dev amd64 1:4.4.38-1 [119 kB]
+#6 951.6 Get:19 http://deb.debian.org/debian trixie/main amd64 rpcsvc-proto amd64 1.4.3-1 [63.3 kB]
+#6 954.8 Get:20 http://deb.debian.org/debian trixie/main amd64 libc6-dev amd64 2.41-12+deb13u4 [1995 kB]
+#6 1023.8 Get:21 http://deb.debian.org/debian trixie/main amd64 libisl23 amd64 0.27-1 [659 kB]
+#6 1048.2 Get:22 http://deb.debian.org/debian trixie/main amd64 libmpfr6 amd64 4.2.2-1 [729 kB]
+#6 1072.2 Get:23 http://deb.debian.org/debian trixie/main amd64 libmpc3 amd64 1.3.1-1+b3 [52.2 kB]
+#6 1074.4 Get:24 http://deb.debian.org/debian trixie/main amd64 cpp-14-x86-64-linux-gnu amd64 14.2.0-19 [11.0 MB]
+#6 1466.4 Get:25 http://deb.debian.org/debian trixie/main amd64 cpp-14 amd64 14.2.0-19 [1280 B]
+#6 1466.4 Get:26 http://deb.debian.org/debian trixie/main amd64 cpp-x86-64-linux-gnu amd64 4:14.2.0-1 [4840 B]
+#6 1466.4 Get:27 http://deb.debian.org/debian trixie/main amd64 cpp amd64 4:14.2.0-1 [1568 B]
+#6 1466.9 Get:28 http://deb.debian.org/debian trixie/main amd64 libcc1-0 amd64 14.2.0-19 [42.8 kB]
+#6 1468.3 Get:29 http://deb.debian.org/debian trixie/main amd64 libgomp1 amd64 14.2.0-19 [137 kB]
+#6 1473.6 Get:30 http://deb.debian.org/debian trixie/main amd64 libitm1 amd64 14.2.0-19 [26.0 kB]
+#6 1474.8 Get:31 http://deb.debian.org/debian trixie/main amd64 libasan8 amd64 14.2.0-19 [2725 kB]
+#6 1575.0 Get:32 http://deb.debian.org/debian trixie/main amd64 liblsan0 amd64 14.2.0-19 [1204 kB]
+#6 1621.1 Get:33 http://deb.debian.org/debian trixie/main amd64 libtsan2 amd64 14.2.0-19 [2460 kB]
+#6 1711.1 Get:34 http://deb.debian.org/debian trixie/main amd64 libubsan1 amd64 14.2.0-19 [1074 kB]
+#6 1753.6 Get:35 http://deb.debian.org/debian trixie/main amd64 libhwasan0 amd64 14.2.0-19 [1488 kB]
+#6 1807.7 Get:36 http://deb.debian.org/debian trixie/main amd64 libquadmath0 amd64 14.2.0-19 [145 kB]
+#6 1810.8 Get:37 http://deb.debian.org/debian trixie/main amd64 libgcc-14-dev amd64 14.2.0-19 [2672 kB]
+#6 1903.1 Get:38 http://deb.debian.org/debian trixie/main amd64 gcc-14-x86-64-linux-gnu amd64 14.2.0-19 [21.4 MB]
+#6 2624.4 Get:39 http://deb.debian.org/debian trixie/main amd64 gcc-14 amd64 14.2.0-19 [540 kB]
+#6 2643.7 Get:40 http://deb.debian.org/debian trixie/main amd64 gcc-x86-64-linux-gnu amd64 4:14.2.0-1 [1436 B]
+#6 2643.7 Get:41 http://deb.debian.org/debian trixie/main amd64 gcc amd64 4:14.2.0-1 [5136 B]
+#6 2643.7 Get:42 http://deb.debian.org/debian trixie/main amd64 libstdc++-14-dev amd64 14.2.0-19 [2376 kB]
+#6 2727.2 Get:43 http://deb.debian.org/debian trixie/main amd64 g++-14-x86-64-linux-gnu amd64 14.2.0-19 [12.1 MB]
+#6 3115.8 Get:44 http://deb.debian.org/debian trixie/main amd64 g++-14 amd64 14.2.0-19 [22.5 kB]
+#6 3116.4 Get:45 http://deb.debian.org/debian trixie/main amd64 g++-x86-64-linux-gnu amd64 4:14.2.0-1 [1200 B]
+#6 3116.4 Get:46 http://deb.debian.org/debian trixie/main amd64 g++ amd64 4:14.2.0-1 [1344 B]
+#6 3116.9 Get:47 http://deb.debian.org/debian trixie/main amd64 make amd64 4.4.1-2 [463 kB]
+#6 3131.8 Get:48 http://deb.debian.org/debian trixie/main amd64 libdpkg-perl all 1.22.22 [651 kB]
+#6 3157.0 Get:49 http://deb.debian.org/debian trixie/main amd64 patch amd64 2.8-2 [134 kB]
+#6 3160.8 Get:50 http://deb.debian.org/debian trixie/main amd64 dpkg-dev all 1.22.22 [1337 kB]
+#6 3200.6 Get:51 http://deb.debian.org/debian trixie/main amd64 build-essential amd64 12.12 [4624 B]
+#6 3202.0 Get:52 http://deb.debian.org/debian trixie/main amd64 libcom-err2 amd64 1.47.2-3+b12 [25.0 kB]
+#6 3202.0 Get:53 http://deb.debian.org/debian trixie/main amd64 comerr-dev amd64 2.1-1.47.2-3+b12 [56.7 kB]
+#6 3203.5 Get:54 http://deb.debian.org/debian trixie/main amd64 libgssrpc4t64 amd64 1.21.3-5+deb13u1 [60.1 kB]
+#6 3204.9 Get:55 http://deb.debian.org/debian trixie/main amd64 libkadm5clnt-mit12 amd64 1.21.3-5+deb13u1 [42.6 kB]
+#6 3206.1 Get:56 http://deb.debian.org/debian trixie/main amd64 libkdb5-10t64 amd64 1.21.3-5+deb13u1 [42.8 kB]
+#6 3208.1 Get:57 http://deb.debian.org/debian trixie/main amd64 libkadm5srv-mit12 amd64 1.21.3-5+deb13u1 [54.4 kB]
+#6 3210.0 Get:58 http://deb.debian.org/debian trixie/main amd64 krb5-multidev amd64 1.21.3-5+deb13u1 [126 kB]
+#6 3213.3 Get:59 http://deb.debian.org/debian trixie/main amd64 libbrotli-dev amd64 1.1.0-2+b7 [316 kB]
+#6 3222.6 Get:60 http://deb.debian.org/debian trixie/main amd64 libssh2-1t64 amd64 1.11.1-1+deb13u2 [245 kB]
+#6 3228.7 Get:61 http://deb.debian.org/debian trixie/main amd64 libcurl3t64-gnutls amd64 8.14.1-2+deb13u5 [384 kB]
+#6 3239.6 Get:62 http://deb.debian.org/debian trixie/main amd64 libcurl4t64 amd64 8.14.1-2+deb13u5 [391 kB]
+#6 3253.0 Get:63 http://deb.debian.org/debian trixie/main amd64 libidn2-dev amd64 2.3.8-2 [103 kB]
+#6 3257.0 Get:64 http://deb.debian.org/debian trixie/main amd64 libkrb5-dev amd64 1.21.3-5+deb13u1 [16.2 kB]
+#6 3257.3 Get:65 http://deb.debian.org/debian trixie/main amd64 libldap-dev amd64 2.6.10+dfsg-1 [312 kB]
+#6 3266.3 Get:66 http://deb.debian.org/debian trixie/main amd64 libpkgconf3 amd64 1.8.1-4 [36.4 kB]
+#6 3267.3 Get:67 http://deb.debian.org/debian trixie/main amd64 pkgconf-bin amd64 1.8.1-4 [30.2 kB]
+#6 3268.3 Get:68 http://deb.debian.org/debian trixie/main amd64 pkgconf amd64 1.8.1-4 [26.2 kB]
+#6 3268.8 Get:69 http://deb.debian.org/debian trixie/main amd64 libnghttp2-dev amd64 1.64.0-1.1+deb13u1 [117 kB]
+#6 3271.8 Get:70 http://deb.debian.org/debian trixie/main amd64 libnghttp3-dev amd64 1.8.0-1 [91.3 kB]
+#6 3275.2 Get:71 http://deb.debian.org/debian trixie/main amd64 libpsl-dev amd64 0.21.2-1.1+b1 [77.6 kB]
+#6 3276.5 Get:72 http://deb.debian.org/debian trixie/main amd64 libgmpxx4ldbl amd64 2:6.3.0+dfsg-3 [329 kB]
+#6 3287.1 Get:73 http://deb.debian.org/debian trixie/main amd64 libgmp-dev amd64 2:6.3.0+dfsg-3 [642 kB]
+#6 3308.5 Get:74 http://deb.debian.org/debian-security trixie-security/main amd64 libevent-2.1-7t64 amd64 2.1.13-stable-1~deb13u1 [183 kB]
+#6 3313.5 Get:75 http://deb.debian.org/debian-security trixie-security/main amd64 libunbound8 amd64 1.26.1-0+deb13u1 [643 kB]
+#6 3331.5 Get:76 http://deb.debian.org/debian trixie/main amd64 libgnutls-dane0t64 amd64 3.8.9-3+deb13u4 [456 kB]
+#6 3343.2 Get:77 http://deb.debian.org/debian trixie/main amd64 libgnutls-openssl27t64 amd64 3.8.9-3+deb13u4 [456 kB]
+#6 3354.2 Get:78 http://deb.debian.org/debian trixie/main amd64 libp11-kit-dev amd64 0.25.5-3 [208 kB]
+#6 3360.7 Get:79 http://deb.debian.org/debian trixie/main amd64 libtasn1-6-dev amd64 4.20.0-2+deb13u1 [99.3 kB]
+#6 3363.6 Get:80 http://deb.debian.org/debian trixie/main amd64 nettle-dev amd64 3.10.1-1 [1318 kB]
+#6 3396.7 Get:81 http://deb.debian.org/debian trixie/main amd64 libgnutls28-dev amd64 3.8.9-3+deb13u4 [1411 kB]
+#6 3438.1 Get:82 http://deb.debian.org/debian trixie/main amd64 zlib1g-dev amd64 1:1.3.dfsg+really1.3.1-1+b1 [920 kB]
+#6 3461.5 Get:83 http://deb.debian.org/debian trixie/main amd64 librtmp-dev amd64 2.4+20151223.gitfa8646d.1-2+b5 [68.0 kB]
+#6 3462.4 Get:84 http://deb.debian.org/debian-security trixie-security/main amd64 libssl-dev amd64 3.5.7-1~deb13u3 [2968 kB]
+#6 3550.6 Get:85 http://deb.debian.org/debian trixie/main amd64 libssh2-1-dev amd64 1.11.1-1+deb13u2 [394 kB]
+#6 3560.7 Get:86 http://deb.debian.org/debian trixie/main amd64 libzstd-dev amd64 1.5.7+dfsg-1 [371 kB]
+#6 3569.7 Get:87 http://deb.debian.org/debian trixie/main amd64 libcurl4-openssl-dev amd64 8.14.1-2+deb13u5 [511 kB]
+#6 3583.8 Get:88 http://deb.debian.org/debian trixie/main amd64 libhttp-parser2.9 amd64 2.9.4-6+b2 [21.2 kB]
+#6 3584.1 Get:89 http://deb.debian.org/debian trixie/main amd64 libmbedcrypto16 amd64 3.6.6-0.1~deb13u1 [365 kB]
+#6 3594.2 Get:90 http://deb.debian.org/debian trixie/main amd64 libmbedx509-7 amd64 3.6.6-0.1~deb13u1 [155 kB]
+#6 3598.0 Get:91 http://deb.debian.org/debian trixie/main amd64 libmbedtls21 amd64 3.6.6-0.1~deb13u1 [246 kB]
+#6 3606.0 Get:92 http://deb.debian.org/debian trixie/main amd64 libgit2-1.9 amd64 1.9.0+ds-2+deb13u1 [556 kB]
+#6 3619.2 Get:93 http://deb.debian.org/debian trixie/main amd64 libhttp-parser-dev amd64 2.9.4-6+b2 [20.9 kB]
+#6 3619.5 Get:94 http://deb.debian.org/debian trixie/main amd64 libmbedtls-dev amd64 3.6.6-0.1~deb13u1 [844 kB]
+#6 3643.2 Get:95 http://deb.debian.org/debian-security trixie-security/main amd64 libpcre2-16-0 amd64 10.46-1~deb13u3 [282 kB]
+#6 3649.7 Get:96 http://deb.debian.org/debian-security trixie-security/main amd64 libpcre2-32-0 amd64 10.46-1~deb13u3 [269 kB]
+#6 3657.2 Get:97 http://deb.debian.org/debian-security trixie-security/main amd64 libpcre2-posix3 amd64 10.46-1~deb13u3 [64.1 kB]
+#6 3659.3 Get:98 http://deb.debian.org/debian-security trixie-security/main amd64 libpcre2-dev amd64 10.46-1~deb13u3 [851 kB]
+#6 3682.4 Get:99 http://deb.debian.org/debian trixie/main amd64 libgit2-dev amd64 1.9.0+ds-2+deb13u1 [846 kB]
+#6 3706.9 Get:100 http://deb.debian.org/debian trixie/main amd64 libxml2 amd64 2.12.7+dfsg+really2.9.14-2.1+deb13u3 [700 kB]
+#6 3728.2 Get:101 http://deb.debian.org/debian trixie/main amd64 libxml2-dev amd64 2.12.7+dfsg+really2.9.14-2.1+deb13u3 [795 kB]
+#6 3750.4 Get:102 http://deb.debian.org/debian-security trixie-security/main amd64 openssl amd64 3.5.7-1~deb13u3 [1508 kB]
+#6 3788.8 debconf: unable to initialize frontend: Dialog
+#6 3788.8 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#6 3788.8 debconf: falling back to frontend: Readline
+#6 3788.8 debconf: unable to initialize frontend: Readline
+#6 3788.8 debconf: (This frontend requires a controlling tty.)
+#6 3788.8 debconf: falling back to frontend: Teletype
+#6 3788.8 debconf: unable to initialize frontend: Teletype
+#6 3788.8 debconf: (This frontend requires a controlling tty.)
+#6 3788.8 debconf: falling back to frontend: Noninteractive
+#6 3790.8 Preconfiguring packages ...
+#6 3790.9 Fetched 103 MB in 57min 13s (29.9 kB/s)
+#6 3790.9 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 11751 files and directories currently installed.)
+#6 3790.9 Preparing to unpack .../libc6_2.41-12+deb13u4_amd64.deb ...
+#6 3791.0 debconf: unable to initialize frontend: Dialog
+#6 3791.0 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#6 3791.0 debconf: falling back to frontend: Readline
+#6 3791.1 debconf: unable to initialize frontend: Readline
+#6 3791.1 debconf: (This frontend requires a controlling tty.)
+#6 3791.1 debconf: falling back to frontend: Teletype
+#6 3791.1 debconf: unable to initialize frontend: Teletype
+#6 3791.1 debconf: (This frontend requires a controlling tty.)
+#6 3791.1 debconf: falling back to frontend: Noninteractive
+#6 3791.1 Unpacking libc6:amd64 (2.41-12+deb13u4) over (2.41-12+deb13u3) ...
+#6 3792.1 Setting up libc6:amd64 (2.41-12+deb13u4) ...
+#6 3792.2 debconf: unable to initialize frontend: Dialog
+#6 3792.2 debconf: (TERM is not set, so the dialog frontend is not usable.)
+#6 3792.2 debconf: falling back to frontend: Readline
+#6 3792.2 debconf: unable to initialize frontend: Readline
+#6 3792.2 debconf: (This frontend requires a controlling tty.)
+#6 3792.2 debconf: falling back to frontend: Teletype
+#6 3792.2 debconf: unable to initialize frontend: Teletype
+#6 3792.2 debconf: (This frontend requires a controlling tty.)
+#6 3792.2 debconf: falling back to frontend: Noninteractive
+#6 3792.3 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 11751 files and directories currently installed.)
+#6 3792.3 Preparing to unpack .../libc-bin_2.41-12+deb13u4_amd64.deb ...
+#6 3792.3 Unpacking libc-bin (2.41-12+deb13u4) over (2.41-12+deb13u3) ...
+#6 3792.4 Setting up libc-bin (2.41-12+deb13u4) ...
+#6 3792.6 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 11751 files and directories currently installed.)
+#6 3792.6 Preparing to unpack .../libpcre2-8-0_10.46-1~deb13u3_amd64.deb ...
+#6 3792.6 Unpacking libpcre2-8-0:amd64 (10.46-1~deb13u3) over (10.46-1~deb13u1) ...
+#6 3792.6 Setting up libpcre2-8-0:amd64 (10.46-1~deb13u3) ...
+#6 3792.7 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 11751 files and directories currently installed.)
+#6 3792.7 Preparing to unpack .../openssl-provider-legacy_3.5.7-1~deb13u3_amd64.deb ...
+#6 3792.7 Unpacking openssl-provider-legacy (3.5.7-1~deb13u3) over (3.5.7-1~deb13u2) ...
+#6 3792.7 Setting up openssl-provider-legacy (3.5.7-1~deb13u3) ...
+#6 3792.8 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 11751 files and directories currently installed.)
+#6 3792.8 Preparing to unpack .../libssl3t64_3.5.7-1~deb13u3_amd64.deb ...
+#6 3792.8 Unpacking libssl3t64:amd64 (3.5.7-1~deb13u3) over (3.5.7-1~deb13u2) ...
+#6 3793.0 Setting up libssl3t64:amd64 (3.5.7-1~deb13u3) ...
+#6 3793.0 Selecting previously unselected package xz-utils.
+#6 3793.0 (Reading database ... (Reading database ... 5%(Reading database ... 10%(Reading database ... 15%(Reading database ... 20%(Reading database ... 25%(Reading database ... 30%(Reading database ... 35%(Reading database ... 40%(Reading database ... 45%(Reading database ... 50%(Reading database ... 55%(Reading database ... 60%(Reading database ... 65%(Reading database ... 70%(Reading database ... 75%(Reading database ... 80%(Reading database ... 85%(Reading database ... 90%(Reading database ... 95%(Reading database ... 100%(Reading database ... 11751 files and directories currently installed.)
+#6 3793.0 Preparing to unpack .../00-xz-utils_5.8.1-1+deb13u1_amd64.deb ...
+#6 3793.0 Unpacking xz-utils (5.8.1-1+deb13u1) ...
+#6 3793.1 Selecting previously unselected package libsframe1:amd64.
+#6 3793.1 Preparing to unpack .../01-libsframe1_2.44-3_amd64.deb ...
+#6 3793.1 Unpacking libsframe1:amd64 (2.44-3) ...
+#6 3793.1 Selecting previously unselected package binutils-common:amd64.
+#6 3793.1 Preparing to unpack .../02-binutils-common_2.44-3_amd64.deb ...
+#6 3793.1 Unpacking binutils-common:amd64 (2.44-3) ...
+#6 3793.3 Selecting previously unselected package libbinutils:amd64.
+#6 3793.3 Preparing to unpack .../03-libbinutils_2.44-3_amd64.deb ...
+#6 3793.3 Unpacking libbinutils:amd64 (2.44-3) ...
+#6 3793.3 Selecting previously unselected package libgprofng0:amd64.
+#6 3793.3 Preparing to unpack .../04-libgprofng0_2.44-3_amd64.deb ...
+#6 3793.3 Unpacking libgprofng0:amd64 (2.44-3) ...
+#6 3793.4 Selecting previously unselected package libctf-nobfd0:amd64.
+#6 3793.4 Preparing to unpack .../05-libctf-nobfd0_2.44-3_amd64.deb ...
+#6 3793.4 Unpacking libctf-nobfd0:amd64 (2.44-3) ...
+#6 3793.5 Selecting previously unselected package libctf0:amd64.
+#6 3793.5 Preparing to unpack .../06-libctf0_2.44-3_amd64.deb ...
+#6 3793.5 Unpacking libctf0:amd64 (2.44-3) ...
+#6 3793.5 Selecting previously unselected package libjansson4:amd64.
+#6 3793.5 Preparing to unpack .../07-libjansson4_2.14-2+b3_amd64.deb ...
+#6 3793.5 Unpacking libjansson4:amd64 (2.14-2+b3) ...
+#6 3793.6 Selecting previously unselected package binutils-x86-64-linux-gnu.
+#6 3793.6 Preparing to unpack .../08-binutils-x86-64-linux-gnu_2.44-3_amd64.deb ...
+#6 3793.6 Unpacking binutils-x86-64-linux-gnu (2.44-3) ...
+#6 3793.7 Selecting previously unselected package binutils.
+#6 3793.7 Preparing to unpack .../09-binutils_2.44-3_amd64.deb ...
+#6 3793.7 Unpacking binutils (2.44-3) ...
+#6 3793.7 Selecting previously unselected package libc-dev-bin.
+#6 3793.7 Preparing to unpack .../10-libc-dev-bin_2.41-12+deb13u4_amd64.deb ...
+#6 3793.7 Unpacking libc-dev-bin (2.41-12+deb13u4) ...
+#6 3793.8 Selecting previously unselected package linux-libc-dev.
+#6 3793.8 Preparing to unpack .../11-linux-libc-dev_6.12.111-1_all.deb ...
+#6 3793.8 Unpacking linux-libc-dev (6.12.111-1) ...
+#6 3794.0 Selecting previously unselected package libcrypt-dev:amd64.
+#6 3794.0 Preparing to unpack .../12-libcrypt-dev_1%3a4.4.38-1_amd64.deb ...
+#6 3794.0 Unpacking libcrypt-dev:amd64 (1:4.4.38-1) ...
+#6 3794.0 Selecting previously unselected package rpcsvc-proto.
+#6 3794.0 Preparing to unpack .../13-rpcsvc-proto_1.4.3-1_amd64.deb ...
+#6 3794.0 Unpacking rpcsvc-proto (1.4.3-1) ...
+#6 3794.1 Selecting previously unselected package libc6-dev:amd64.
+#6 3794.1 Preparing to unpack .../14-libc6-dev_2.41-12+deb13u4_amd64.deb ...
+#6 3794.1 Unpacking libc6-dev:amd64 (2.41-12+deb13u4) ...
+#6 3794.2 Selecting previously unselected package libisl23:amd64.
+#6 3794.2 Preparing to unpack .../15-libisl23_0.27-1_amd64.deb ...
+#6 3794.2 Unpacking libisl23:amd64 (0.27-1) ...
+#6 3794.3 Selecting previously unselected package libmpfr6:amd64.
+#6 3794.3 Preparing to unpack .../16-libmpfr6_4.2.2-1_amd64.deb ...
+#6 3794.3 Unpacking libmpfr6:amd64 (4.2.2-1) ...
+#6 3794.3 Selecting previously unselected package libmpc3:amd64.
+#6 3794.3 Preparing to unpack .../17-libmpc3_1.3.1-1+b3_amd64.deb ...
+#6 3794.3 Unpacking libmpc3:amd64 (1.3.1-1+b3) ...
+#6 3794.4 Selecting previously unselected package cpp-14-x86-64-linux-gnu.
+#6 3794.4 Preparing to unpack .../18-cpp-14-x86-64-linux-gnu_14.2.0-19_amd64.deb ...
+#6 3794.4 Unpacking cpp-14-x86-64-linux-gnu (14.2.0-19) ...
+#6 3794.8 Selecting previously unselected package cpp-14.
+#6 3794.8 Preparing to unpack .../19-cpp-14_14.2.0-19_amd64.deb ...
+#6 3794.8 Unpacking cpp-14 (14.2.0-19) ...
+#6 3794.8 Selecting previously unselected package cpp-x86-64-linux-gnu.
+#6 3794.8 Preparing to unpack .../20-cpp-x86-64-linux-gnu_4%3a14.2.0-1_amd64.deb ...
+#6 3794.8 Unpacking cpp-x86-64-linux-gnu (4:14.2.0-1) ...
+#6 3794.9 Selecting previously unselected package cpp.
+#6 3794.9 Preparing to unpack .../21-cpp_4%3a14.2.0-1_amd64.deb ...
+#6 3794.9 Unpacking cpp (4:14.2.0-1) ...
+#6 3794.9 Selecting previously unselected package libcc1-0:amd64.
+#6 3794.9 Preparing to unpack .../22-libcc1-0_14.2.0-19_amd64.deb ...
+#6 3794.9 Unpacking libcc1-0:amd64 (14.2.0-19) ...
+#6 3795.0 Selecting previously unselected package libgomp1:amd64.
+#6 3795.0 Preparing to unpack .../23-libgomp1_14.2.0-19_amd64.deb ...
+#6 3795.0 Unpacking libgomp1:amd64 (14.2.0-19) ...
+#6 3795.0 Selecting previously unselected package libitm1:amd64.
+#6 3795.0 Preparing to unpack .../24-libitm1_14.2.0-19_amd64.deb ...
+#6 3795.0 Unpacking libitm1:amd64 (14.2.0-19) ...
+#6 3795.1 Selecting previously unselected package libasan8:amd64.
+#6 3795.1 Preparing to unpack .../25-libasan8_14.2.0-19_amd64.deb ...
+#6 3795.1 Unpacking libasan8:amd64 (14.2.0-19) ...
+#6 3795.2 Selecting previously unselected package liblsan0:amd64.
+#6 3795.2 Preparing to unpack .../26-liblsan0_14.2.0-19_amd64.deb ...
+#6 3795.2 Unpacking liblsan0:amd64 (14.2.0-19) ...
+#6 3795.3 Selecting previously unselected package libtsan2:amd64.
+#6 3795.3 Preparing to unpack .../27-libtsan2_14.2.0-19_amd64.deb ...
+#6 3795.3 Unpacking libtsan2:amd64 (14.2.0-19) ...
+#6 3795.4 Selecting previously unselected package libubsan1:amd64.
+#6 3795.4 Preparing to unpack .../28-libubsan1_14.2.0-19_amd64.deb ...
+#6 3795.4 Unpacking libubsan1:amd64 (14.2.0-19) ...
+#6 3795.5 Selecting previously unselected package libhwasan0:amd64.
+#6 3795.5 Preparing to unpack .../29-libhwasan0_14.2.0-19_amd64.deb ...
+#6 3795.5 Unpacking libhwasan0:amd64 (14.2.0-19) ...
+#6 3795.6 Selecting previously unselected package libquadmath0:amd64.
+#6 3795.6 Preparing to unpack .../30-libquadmath0_14.2.0-19_amd64.deb ...
+#6 3795.6 Unpacking libquadmath0:amd64 (14.2.0-19) ...
+#6 3795.6 Selecting previously unselected package libgcc-14-dev:amd64.
+#6 3795.7 Preparing to unpack .../31-libgcc-14-dev_14.2.0-19_amd64.deb ...
+#6 3795.7 Unpacking libgcc-14-dev:amd64 (14.2.0-19) ...
+#6 3796.0 Selecting previously unselected package gcc-14-x86-64-linux-gnu.
+#6 3796.0 Preparing to unpack .../32-gcc-14-x86-64-linux-gnu_14.2.0-19_amd64.deb ...
+#6 3796.0 Unpacking gcc-14-x86-64-linux-gnu (14.2.0-19) ...
+#6 3796.5 Selecting previously unselected package gcc-14.
+#6 3796.5 Preparing to unpack .../33-gcc-14_14.2.0-19_amd64.deb ...
+#6 3796.5 Unpacking gcc-14 (14.2.0-19) ...
+#6 3796.5 Selecting previously unselected package gcc-x86-64-linux-gnu.
+#6 3796.5 Preparing to unpack .../34-gcc-x86-64-linux-gnu_4%3a14.2.0-1_amd64.deb ...
+#6 3796.5 Unpacking gcc-x86-64-linux-gnu (4:14.2.0-1) ...
+#6 3796.5 Selecting previously unselected package gcc.
+#6 3796.5 Preparing to unpack .../35-gcc_4%3a14.2.0-1_amd64.deb ...
+#6 3796.5 Unpacking gcc (4:14.2.0-1) ...
+#6 3796.6 Selecting previously unselected package libstdc++-14-dev:amd64.
+#6 3796.6 Preparing to unpack .../36-libstdc++-14-dev_14.2.0-19_amd64.deb ...
+#6 3796.6 Unpacking libstdc++-14-dev:amd64 (14.2.0-19) ...
+#6 3796.8 Selecting previously unselected package g++-14-x86-64-linux-gnu.
+#6 3796.8 Preparing to unpack .../37-g++-14-x86-64-linux-gnu_14.2.0-19_amd64.deb ...
+#6 3796.8 Unpacking g++-14-x86-64-linux-gnu (14.2.0-19) ...
+#6 3797.3 Selecting previously unselected package g++-14.
+#6 3797.3 Preparing to unpack .../38-g++-14_14.2.0-19_amd64.deb ...
+#6 3797.3 Unpacking g++-14 (14.2.0-19) ...
+#6 3797.3 Selecting previously unselected package g++-x86-64-linux-gnu.
+#6 3797.3 Preparing to unpack .../39-g++-x86-64-linux-gnu_4%3a14.2.0-1_amd64.deb ...
+#6 3797.3 Unpacking g++-x86-64-linux-gnu (4:14.2.0-1) ...
+#6 3797.4 Selecting previously unselected package g++.
+#6 3797.4 Preparing to unpack .../40-g++_4%3a14.2.0-1_amd64.deb ...
+#6 3797.4 Unpacking g++ (4:14.2.0-1) ...
+#6 3797.4 Selecting previously unselected package make.
+#6 3797.4 Preparing to unpack .../41-make_4.4.1-2_amd64.deb ...
+#6 3797.4 Unpacking make (4.4.1-2) ...
+#6 3797.5 Selecting previously unselected package libdpkg-perl.
+#6 3797.5 Preparing to unpack .../42-libdpkg-perl_1.22.22_all.deb ...
+#6 3797.5 Unpacking libdpkg-perl (1.22.22) ...
+#6 3797.6 Selecting previously unselected package patch.
+#6 3797.6 Preparing to unpack .../43-patch_2.8-2_amd64.deb ...
+#6 3797.6 Unpacking patch (2.8-2) ...
+#6 3797.6 Selecting previously unselected package dpkg-dev.
+#6 3797.6 Preparing to unpack .../44-dpkg-dev_1.22.22_all.deb ...
+#6 3797.6 Unpacking dpkg-dev (1.22.22) ...
+#6 3797.7 Selecting previously unselected package build-essential.
+#6 3797.7 Preparing to unpack .../45-build-essential_12.12_amd64.deb ...
+#6 3797.7 Unpacking build-essential (12.12) ...
+#6 3797.7 Preparing to unpack .../46-libcom-err2_1.47.2-3+b12_amd64.deb ...
+#6 3797.7 Unpacking libcom-err2:amd64 (1.47.2-3+b12) over (1.47.2-3+b11) ...
+#6 3797.8 Selecting previously unselected package comerr-dev:amd64.
+#6 3797.8 Preparing to unpack .../47-comerr-dev_2.1-1.47.2-3+b12_amd64.deb ...
+#6 3797.8 Unpacking comerr-dev:amd64 (2.1-1.47.2-3+b12) ...
+#6 3797.8 Selecting previously unselected package libgssrpc4t64:amd64.
+#6 3797.8 Preparing to unpack .../48-libgssrpc4t64_1.21.3-5+deb13u1_amd64.deb ...
+#6 3797.8 Unpacking libgssrpc4t64:amd64 (1.21.3-5+deb13u1) ...
+#6 3797.9 Selecting previously unselected package libkadm5clnt-mit12:amd64.
+#6 3797.9 Preparing to unpack .../49-libkadm5clnt-mit12_1.21.3-5+deb13u1_amd64.deb ...
+#6 3797.9 Unpacking libkadm5clnt-mit12:amd64 (1.21.3-5+deb13u1) ...
+#6 3797.9 Selecting previously unselected package libkdb5-10t64:amd64.
+#6 3797.9 Preparing to unpack .../50-libkdb5-10t64_1.21.3-5+deb13u1_amd64.deb ...
+#6 3797.9 Unpacking libkdb5-10t64:amd64 (1.21.3-5+deb13u1) ...
+#6 3798.0 Selecting previously unselected package libkadm5srv-mit12:amd64.
+#6 3798.0 Preparing to unpack .../51-libkadm5srv-mit12_1.21.3-5+deb13u1_amd64.deb ...
+#6 3798.0 Unpacking libkadm5srv-mit12:amd64 (1.21.3-5+deb13u1) ...
+#6 3798.0 Selecting previously unselected package krb5-multidev:amd64.
+#6 3798.0 Preparing to unpack .../52-krb5-multidev_1.21.3-5+deb13u1_amd64.deb ...
+#6 3798.0 Unpacking krb5-multidev:amd64 (1.21.3-5+deb13u1) ...
+#6 3798.0 Selecting previously unselected package libbrotli-dev:amd64.
+#6 3798.1 Preparing to unpack .../53-libbrotli-dev_1.1.0-2+b7_amd64.deb ...
+#6 3798.1 Unpacking libbrotli-dev:amd64 (1.1.0-2+b7) ...
+#6 3798.1 Preparing to unpack .../54-libssh2-1t64_1.11.1-1+deb13u2_amd64.deb ...
+#6 3798.1 Unpacking libssh2-1t64:amd64 (1.11.1-1+deb13u2) over (1.11.1-1+deb13u1) ...
+#6 3798.2 Preparing to unpack .../55-libcurl3t64-gnutls_8.14.1-2+deb13u5_amd64.deb ...
+#6 3798.2 Unpacking libcurl3t64-gnutls:amd64 (8.14.1-2+deb13u5) over (8.14.1-2+deb13u4) ...
+#6 3798.3 Selecting previously unselected package libcurl4t64:amd64.
+#6 3798.3 Preparing to unpack .../56-libcurl4t64_8.14.1-2+deb13u5_amd64.deb ...
+#6 3798.3 Unpacking libcurl4t64:amd64 (8.14.1-2+deb13u5) ...
+#6 3798.3 Selecting previously unselected package libidn2-dev:amd64.
+#6 3798.3 Preparing to unpack .../57-libidn2-dev_2.3.8-2_amd64.deb ...
+#6 3798.3 Unpacking libidn2-dev:amd64 (2.3.8-2) ...
+#6 3798.4 Selecting previously unselected package libkrb5-dev:amd64.
+#6 3798.4 Preparing to unpack .../58-libkrb5-dev_1.21.3-5+deb13u1_amd64.deb ...
+#6 3798.4 Unpacking libkrb5-dev:amd64 (1.21.3-5+deb13u1) ...
+#6 3798.4 Selecting previously unselected package libldap-dev:amd64.
+#6 3798.4 Preparing to unpack .../59-libldap-dev_2.6.10+dfsg-1_amd64.deb ...
+#6 3798.4 Unpacking libldap-dev:amd64 (2.6.10+dfsg-1) ...
+#6 3798.5 Selecting previously unselected package libpkgconf3:amd64.
+#6 3798.5 Preparing to unpack .../60-libpkgconf3_1.8.1-4_amd64.deb ...
+#6 3798.5 Unpacking libpkgconf3:amd64 (1.8.1-4) ...
+#6 3798.5 Selecting previously unselected package pkgconf-bin.
+#6 3798.5 Preparing to unpack .../61-pkgconf-bin_1.8.1-4_amd64.deb ...
+#6 3798.5 Unpacking pkgconf-bin (1.8.1-4) ...
+#6 3798.5 Selecting previously unselected package pkgconf:amd64.
+#6 3798.5 Preparing to unpack .../62-pkgconf_1.8.1-4_amd64.deb ...
+#6 3798.6 Unpacking pkgconf:amd64 (1.8.1-4) ...
+#6 3798.6 Selecting previously unselected package libnghttp2-dev:amd64.
+#6 3798.6 Preparing to unpack .../63-libnghttp2-dev_1.64.0-1.1+deb13u1_amd64.deb ...
+#6 3798.6 Unpacking libnghttp2-dev:amd64 (1.64.0-1.1+deb13u1) ...
+#6 3798.6 Selecting previously unselected package libnghttp3-dev:amd64.
+#6 3798.6 Preparing to unpack .../64-libnghttp3-dev_1.8.0-1_amd64.deb ...
+#6 3798.6 Unpacking libnghttp3-dev:amd64 (1.8.0-1) ...
+#6 3798.7 Selecting previously unselected package libpsl-dev:amd64.
+#6 3798.7 Preparing to unpack .../65-libpsl-dev_0.21.2-1.1+b1_amd64.deb ...
+#6 3798.7 Unpacking libpsl-dev:amd64 (0.21.2-1.1+b1) ...
+#6 3798.7 Selecting previously unselected package libgmpxx4ldbl:amd64.
+#6 3798.7 Preparing to unpack .../66-libgmpxx4ldbl_2%3a6.3.0+dfsg-3_amd64.deb ...
+#6 3798.7 Unpacking libgmpxx4ldbl:amd64 (2:6.3.0+dfsg-3) ...
+#6 3798.8 Selecting previously unselected package libgmp-dev:amd64.
+#6 3798.8 Preparing to unpack .../67-libgmp-dev_2%3a6.3.0+dfsg-3_amd64.deb ...
+#6 3798.8 Unpacking libgmp-dev:amd64 (2:6.3.0+dfsg-3) ...
+#6 3798.8 Selecting previously unselected package libevent-2.1-7t64:amd64.
+#6 3798.8 Preparing to unpack .../68-libevent-2.1-7t64_2.1.13-stable-1~deb13u1_amd64.deb ...
+#6 3798.8 Unpacking libevent-2.1-7t64:amd64 (2.1.13-stable-1~deb13u1) ...
+#6 3798.9 Selecting previously unselected package libunbound8:amd64.
+#6 3798.9 Preparing to unpack .../69-libunbound8_1.26.1-0+deb13u1_amd64.deb ...
+#6 3798.9 Unpacking libunbound8:amd64 (1.26.1-0+deb13u1) ...
+#6 3798.9 Selecting previously unselected package libgnutls-dane0t64:amd64.
+#6 3798.9 Preparing to unpack .../70-libgnutls-dane0t64_3.8.9-3+deb13u4_amd64.deb ...
+#6 3799.0 Unpacking libgnutls-dane0t64:amd64 (3.8.9-3+deb13u4) ...
+#6 3799.0 Selecting previously unselected package libgnutls-openssl27t64:amd64.
+#6 3799.0 Preparing to unpack .../71-libgnutls-openssl27t64_3.8.9-3+deb13u4_amd64.deb ...
+#6 3799.0 Unpacking libgnutls-openssl27t64:amd64 (3.8.9-3+deb13u4) ...
+#6 3799.0 Selecting previously unselected package libp11-kit-dev:amd64.
+#6 3799.0 Preparing to unpack .../72-libp11-kit-dev_0.25.5-3_amd64.deb ...
+#6 3799.0 Unpacking libp11-kit-dev:amd64 (0.25.5-3) ...
+#6 3799.1 Selecting previously unselected package libtasn1-6-dev:amd64.
+#6 3799.1 Preparing to unpack .../73-libtasn1-6-dev_4.20.0-2+deb13u1_amd64.deb ...
+#6 3799.1 Unpacking libtasn1-6-dev:amd64 (4.20.0-2+deb13u1) ...
+#6 3799.1 Selecting previously unselected package nettle-dev:amd64.
+#6 3799.1 Preparing to unpack .../74-nettle-dev_3.10.1-1_amd64.deb ...
+#6 3799.1 Unpacking nettle-dev:amd64 (3.10.1-1) ...
+#6 3799.2 Selecting previously unselected package libgnutls28-dev:amd64.
+#6 3799.2 Preparing to unpack .../75-libgnutls28-dev_3.8.9-3+deb13u4_amd64.deb ...
+#6 3799.2 Unpacking libgnutls28-dev:amd64 (3.8.9-3+deb13u4) ...
+#6 3799.3 Selecting previously unselected package zlib1g-dev:amd64.
+#6 3799.3 Preparing to unpack .../76-zlib1g-dev_1%3a1.3.dfsg+really1.3.1-1+b1_amd64.deb ...
+#6 3799.3 Unpacking zlib1g-dev:amd64 (1:1.3.dfsg+really1.3.1-1+b1) ...
+#6 3799.3 Selecting previously unselected package librtmp-dev:amd64.
+#6 3799.3 Preparing to unpack .../77-librtmp-dev_2.4+20151223.gitfa8646d.1-2+b5_amd64.deb ...
+#6 3799.3 Unpacking librtmp-dev:amd64 (2.4+20151223.gitfa8646d.1-2+b5) ...
+#6 3799.4 Selecting previously unselected package libssl-dev:amd64.
+#6 3799.4 Preparing to unpack .../78-libssl-dev_3.5.7-1~deb13u3_amd64.deb ...
+#6 3799.4 Unpacking libssl-dev:amd64 (3.5.7-1~deb13u3) ...
+#6 3799.5 Selecting previously unselected package libssh2-1-dev:amd64.
+#6 3799.5 Preparing to unpack .../79-libssh2-1-dev_1.11.1-1+deb13u2_amd64.deb ...
+#6 3799.5 Unpacking libssh2-1-dev:amd64 (1.11.1-1+deb13u2) ...
+#6 3799.6 Selecting previously unselected package libzstd-dev:amd64.
+#6 3799.6 Preparing to unpack .../80-libzstd-dev_1.5.7+dfsg-1_amd64.deb ...
+#6 3799.6 Unpacking libzstd-dev:amd64 (1.5.7+dfsg-1) ...
+#6 3799.7 Selecting previously unselected package libcurl4-openssl-dev:amd64.
+#6 3799.7 Preparing to unpack .../81-libcurl4-openssl-dev_8.14.1-2+deb13u5_amd64.deb ...
+#6 3799.7 Unpacking libcurl4-openssl-dev:amd64 (8.14.1-2+deb13u5) ...
+#6 3799.8 Selecting previously unselected package libhttp-parser2.9:amd64.
+#6 3799.8 Preparing to unpack .../82-libhttp-parser2.9_2.9.4-6+b2_amd64.deb ...
+#6 3799.8 Unpacking libhttp-parser2.9:amd64 (2.9.4-6+b2) ...
+#6 3799.8 Selecting previously unselected package libmbedcrypto16:amd64.
+#6 3799.8 Preparing to unpack .../83-libmbedcrypto16_3.6.6-0.1~deb13u1_amd64.deb ...
+#6 3799.8 Unpacking libmbedcrypto16:amd64 (3.6.6-0.1~deb13u1) ...
+#6 3799.9 Selecting previously unselected package libmbedx509-7:amd64.
+#6 3799.9 Preparing to unpack .../84-libmbedx509-7_3.6.6-0.1~deb13u1_amd64.deb ...
+#6 3799.9 Unpacking libmbedx509-7:amd64 (3.6.6-0.1~deb13u1) ...
+#6 3799.9 Selecting previously unselected package libmbedtls21:amd64.
+#6 3799.9 Preparing to unpack .../85-libmbedtls21_3.6.6-0.1~deb13u1_amd64.deb ...
+#6 3799.9 Unpacking libmbedtls21:amd64 (3.6.6-0.1~deb13u1) ...
+#6 3800.0 Selecting previously unselected package libgit2-1.9:amd64.
+#6 3800.0 Preparing to unpack .../86-libgit2-1.9_1.9.0+ds-2+deb13u1_amd64.deb ...
+#6 3800.0 Unpacking libgit2-1.9:amd64 (1.9.0+ds-2+deb13u1) ...
+#6 3800.0 Selecting previously unselected package libhttp-parser-dev:amd64.
+#6 3800.0 Preparing to unpack .../87-libhttp-parser-dev_2.9.4-6+b2_amd64.deb ...
+#6 3800.0 Unpacking libhttp-parser-dev:amd64 (2.9.4-6+b2) ...
+#6 3800.1 Selecting previously unselected package libmbedtls-dev:amd64.
+#6 3800.1 Preparing to unpack .../88-libmbedtls-dev_3.6.6-0.1~deb13u1_amd64.deb ...
+#6 3800.1 Unpacking libmbedtls-dev:amd64 (3.6.6-0.1~deb13u1) ...
+#6 3800.3 Selecting previously unselected package libpcre2-16-0:amd64.
+#6 3800.3 Preparing to unpack .../89-libpcre2-16-0_10.46-1~deb13u3_amd64.deb ...
+#6 3800.3 Unpacking libpcre2-16-0:amd64 (10.46-1~deb13u3) ...
+#6 3800.4 Selecting previously unselected package libpcre2-32-0:amd64.
+#6 3800.4 Preparing to unpack .../90-libpcre2-32-0_10.46-1~deb13u3_amd64.deb ...
+#6 3800.4 Unpacking libpcre2-32-0:amd64 (10.46-1~deb13u3) ...
+#6 3800.4 Selecting previously unselected package libpcre2-posix3:amd64.
+#6 3800.4 Preparing to unpack .../91-libpcre2-posix3_10.46-1~deb13u3_amd64.deb ...
+#6 3800.4 Unpacking libpcre2-posix3:amd64 (10.46-1~deb13u3) ...
+#6 3800.5 Selecting previously unselected package libpcre2-dev:amd64.
+#6 3800.5 Preparing to unpack .../92-libpcre2-dev_10.46-1~deb13u3_amd64.deb ...
+#6 3800.5 Unpacking libpcre2-dev:amd64 (10.46-1~deb13u3) ...
+#6 3800.5 Selecting previously unselected package libgit2-dev:amd64.
+#6 3800.5 Preparing to unpack .../93-libgit2-dev_1.9.0+ds-2+deb13u1_amd64.deb ...
+#6 3800.6 Unpacking libgit2-dev:amd64 (1.9.0+ds-2+deb13u1) ...
+#6 3800.6 Selecting previously unselected package libxml2:amd64.
+#6 3800.6 Preparing to unpack .../94-libxml2_2.12.7+dfsg+really2.9.14-2.1+deb13u3_amd64.deb ...
+#6 3800.6 Unpacking libxml2:amd64 (2.12.7+dfsg+really2.9.14-2.1+deb13u3) ...
+#6 3800.7 Selecting previously unselected package libxml2-dev:amd64.
+#6 3800.7 Preparing to unpack .../95-libxml2-dev_2.12.7+dfsg+really2.9.14-2.1+deb13u3_amd64.deb ...
+#6 3800.7 Unpacking libxml2-dev:amd64 (2.12.7+dfsg+really2.9.14-2.1+deb13u3) ...
+#6 3800.8 Preparing to unpack .../96-openssl_3.5.7-1~deb13u3_amd64.deb ...
+#6 3800.8 Unpacking openssl (3.5.7-1~deb13u3) over (3.5.7-1~deb13u2) ...
+#6 3800.9 Setting up libgnutls-openssl27t64:amd64 (3.8.9-3+deb13u4) ...
+#6 3800.9 Setting up libzstd-dev:amd64 (1.5.7+dfsg-1) ...
+#6 3800.9 Setting up binutils-common:amd64 (2.44-3) ...
+#6 3801.0 Setting up linux-libc-dev (6.12.111-1) ...
+#6 3801.0 Setting up libctf-nobfd0:amd64 (2.44-3) ...
+#6 3801.0 Setting up libevent-2.1-7t64:amd64 (2.1.13-stable-1~deb13u1) ...
+#6 3801.0 Setting up libcom-err2:amd64 (1.47.2-3+b12) ...
+#6 3801.0 Setting up libgomp1:amd64 (14.2.0-19) ...
+#6 3801.0 Setting up libpcre2-16-0:amd64 (10.46-1~deb13u3) ...
+#6 3801.0 Setting up libsframe1:amd64 (2.44-3) ...
+#6 3801.1 Setting up libjansson4:amd64 (2.14-2+b3) ...
+#6 3801.1 Setting up libpsl-dev:amd64 (0.21.2-1.1+b1) ...
+#6 3801.1 Setting up libpcre2-32-0:amd64 (10.46-1~deb13u3) ...
+#6 3801.1 Setting up libunbound8:amd64 (1.26.1-0+deb13u1) ...
+#6 3801.1 Setting up libpkgconf3:amd64 (1.8.1-4) ...
+#6 3801.1 Setting up libgmpxx4ldbl:amd64 (2:6.3.0+dfsg-3) ...
+#6 3801.1 Setting up rpcsvc-proto (1.4.3-1) ...
+#6 3801.1 Setting up libgnutls-dane0t64:amd64 (3.8.9-3+deb13u4) ...
+#6 3801.2 Setting up make (4.4.1-2) ...
+#6 3801.2 Setting up libmpfr6:amd64 (4.2.2-1) ...
+#6 3801.2 Setting up libgssrpc4t64:amd64 (1.21.3-5+deb13u1) ...
+#6 3801.2 Setting up libldap-dev:amd64 (2.6.10+dfsg-1) ...
+#6 3801.2 Setting up xz-utils (5.8.1-1+deb13u1) ...
+#6 3801.2 update-alternatives: using /usr/bin/xz to provide /usr/bin/lzma (lzma) in auto mode
+#6 3801.2 update-alternatives: warning: skip creation of /usr/share/man/man1/lzma.1.gz because associated file /usr/share/man/man1/xz.1.gz (of link group lzma) doesn't exist
+#6 3801.2 update-alternatives: warning: skip creation of /usr/share/man/man1/unlzma.1.gz because associated file /usr/share/man/man1/unxz.1.gz (of link group lzma) doesn't exist
+#6 3801.2 update-alternatives: warning: skip creation of /usr/share/man/man1/lzcat.1.gz because associated file /usr/share/man/man1/xzcat.1.gz (of link group lzma) doesn't exist
+#6 3801.2 update-alternatives: warning: skip creation of /usr/share/man/man1/lzmore.1.gz because associated file /usr/share/man/man1/xzmore.1.gz (of link group lzma) doesn't exist
+#6 3801.2 update-alternatives: warning: skip creation of /usr/share/man/man1/lzless.1.gz because associated file /usr/share/man/man1/xzless.1.gz (of link group lzma) doesn't exist
+#6 3801.2 update-alternatives: warning: skip creation of /usr/share/man/man1/lzdiff.1.gz because associated file /usr/share/man/man1/xzdiff.1.gz (of link group lzma) doesn't exist
+#6 3801.2 update-alternatives: warning: skip creation of /usr/share/man/man1/lzcmp.1.gz because associated file /usr/share/man/man1/xzcmp.1.gz (of link group lzma) doesn't exist
+#6 3801.2 update-alternatives: warning: skip creation of /usr/share/man/man1/lzgrep.1.gz because associated file /usr/share/man/man1/xzgrep.1.gz (of link group lzma) doesn't exist
+#6 3801.2 update-alternatives: warning: skip creation of /usr/share/man/man1/lzegrep.1.gz because associated file /usr/share/man/man1/xzegrep.1.gz (of link group lzma) doesn't exist
+#6 3801.2 update-alternatives: warning: skip creation of /usr/share/man/man1/lzfgrep.1.gz because associated file /usr/share/man/man1/xzfgrep.1.gz (of link group lzma) doesn't exist
+#6 3801.2 Setting up libquadmath0:amd64 (14.2.0-19) ...
+#6 3801.2 Setting up libssl-dev:amd64 (3.5.7-1~deb13u3) ...
+#6 3801.2 Setting up libmpc3:amd64 (1.3.1-1+b3) ...
+#6 3801.3 Setting up patch (2.8-2) ...
+#6 3801.3 Setting up pkgconf-bin (1.8.1-4) ...
+#6 3801.3 Setting up libidn2-dev:amd64 (2.3.8-2) ...
+#6 3801.3 Setting up libdpkg-perl (1.22.22) ...
+#6 3801.3 Setting up libnghttp3-dev:amd64 (1.8.0-1) ...
+#6 3801.3 Setting up libubsan1:amd64 (14.2.0-19) ...
+#6 3801.3 Setting up libpcre2-posix3:amd64 (10.46-1~deb13u3) ...
+#6 3801.4 Setting up libhwasan0:amd64 (14.2.0-19) ...
+#6 3801.4 Setting up libcrypt-dev:amd64 (1:4.4.38-1) ...
+#6 3801.4 Setting up libasan8:amd64 (14.2.0-19) ...
+#6 3801.4 Setting up libmbedcrypto16:amd64 (3.6.6-0.1~deb13u1) ...
+#6 3801.4 Setting up libssh2-1t64:amd64 (1.11.1-1+deb13u2) ...
+#6 3801.4 Setting up libtsan2:amd64 (14.2.0-19) ...
+#6 3801.5 Setting up libbinutils:amd64 (2.44-3) ...
+#6 3801.5 Setting up libisl23:amd64 (0.27-1) ...
+#6 3801.5 Setting up libc-dev-bin (2.41-12+deb13u4) ...
+#6 3801.5 Setting up libtasn1-6-dev:amd64 (4.20.0-2+deb13u1) ...
+#6 3801.5 Setting up openssl (3.5.7-1~deb13u3) ...
+#6 3801.5 Setting up libxml2:amd64 (2.12.7+dfsg+really2.9.14-2.1+deb13u3) ...
+#6 3801.6 Setting up libcc1-0:amd64 (14.2.0-19) ...
+#6 3801.6 Setting up libbrotli-dev:amd64 (1.1.0-2+b7) ...
+#6 3801.6 Setting up liblsan0:amd64 (14.2.0-19) ...
+#6 3801.6 Setting up libp11-kit-dev:amd64 (0.25.5-3) ...
+#6 3801.6 Setting up libitm1:amd64 (14.2.0-19) ...
+#6 3801.6 Setting up libhttp-parser2.9:amd64 (2.9.4-6+b2) ...
+#6 3801.6 Setting up libkadm5clnt-mit12:amd64 (1.21.3-5+deb13u1) ...
+#6 3801.7 Setting up libctf0:amd64 (2.44-3) ...
+#6 3801.7 Setting up libhttp-parser-dev:amd64 (2.9.4-6+b2) ...
+#6 3801.7 Setting up libgmp-dev:amd64 (2:6.3.0+dfsg-3) ...
+#6 3801.7 Setting up nettle-dev:amd64 (3.10.1-1) ...
+#6 3801.7 Setting up libcurl4t64:amd64 (8.14.1-2+deb13u5) ...
+#6 3801.7 Setting up libkdb5-10t64:amd64 (1.21.3-5+deb13u1) ...
+#6 3801.7 Setting up libcurl3t64-gnutls:amd64 (8.14.1-2+deb13u5) ...
+#6 3801.8 Setting up pkgconf:amd64 (1.8.1-4) ...
+#6 3801.8 Setting up libxml2-dev:amd64 (2.12.7+dfsg+really2.9.14-2.1+deb13u3) ...
+#6 3801.8 Setting up libgprofng0:amd64 (2.44-3) ...
+#6 3801.8 Setting up libmbedx509-7:amd64 (3.6.6-0.1~deb13u1) ...
+#6 3801.8 Setting up cpp-14-x86-64-linux-gnu (14.2.0-19) ...
+#6 3801.8 Setting up cpp-14 (14.2.0-19) ...
+#6 3801.8 Setting up libmbedtls21:amd64 (3.6.6-0.1~deb13u1) ...
+#6 3801.9 Setting up libkadm5srv-mit12:amd64 (1.21.3-5+deb13u1) ...
+#6 3801.9 Setting up libc6-dev:amd64 (2.41-12+deb13u4) ...
+#6 3801.9 Setting up libgcc-14-dev:amd64 (14.2.0-19) ...
+#6 3801.9 Setting up libstdc++-14-dev:amd64 (14.2.0-19) ...
+#6 3801.9 Setting up binutils-x86-64-linux-gnu (2.44-3) ...
+#6 3801.9 Setting up cpp-x86-64-linux-gnu (4:14.2.0-1) ...
+#6 3802.0 Setting up libgnutls28-dev:amd64 (3.8.9-3+deb13u4) ...
+#6 3802.0 Setting up libnghttp2-dev:amd64 (1.64.0-1.1+deb13u1) ...
+#6 3802.0 Setting up libpcre2-dev:amd64 (10.46-1~deb13u3) ...
+#6 3802.0 Setting up binutils (2.44-3) ...
+#6 3802.0 Setting up libmbedtls-dev:amd64 (3.6.6-0.1~deb13u1) ...
+#6 3802.0 Setting up dpkg-dev (1.22.22) ...
+#6 3802.1 Setting up comerr-dev:amd64 (2.1-1.47.2-3+b12) ...
+#6 3802.1 Setting up libgit2-1.9:amd64 (1.9.0+ds-2+deb13u1) ...
+#6 3802.1 Setting up zlib1g-dev:amd64 (1:1.3.dfsg+really1.3.1-1+b1) ...
+#6 3802.1 Setting up cpp (4:14.2.0-1) ...
+#6 3802.1 Setting up gcc-14-x86-64-linux-gnu (14.2.0-19) ...
+#6 3802.2 Setting up krb5-multidev:amd64 (1.21.3-5+deb13u1) ...
+#6 3802.2 Setting up gcc-x86-64-linux-gnu (4:14.2.0-1) ...
+#6 3802.2 Setting up gcc-14 (14.2.0-19) ...
+#6 3802.2 Setting up libkrb5-dev:amd64 (1.21.3-5+deb13u1) ...
+#6 3802.2 Setting up librtmp-dev:amd64 (2.4+20151223.gitfa8646d.1-2+b5) ...
+#6 3802.2 Setting up libssh2-1-dev:amd64 (1.11.1-1+deb13u2) ...
+#6 3802.3 Setting up g++-14-x86-64-linux-gnu (14.2.0-19) ...
+#6 3802.3 Setting up g++-x86-64-linux-gnu (4:14.2.0-1) ...
+#6 3802.3 Setting up g++-14 (14.2.0-19) ...
+#6 3802.3 Setting up libgit2-dev:amd64 (1.9.0+ds-2+deb13u1) ...
+#6 3802.3 Setting up gcc (4:14.2.0-1) ...
+#6 3802.3 Setting up libcurl4-openssl-dev:amd64 (8.14.1-2+deb13u5) ...
+#6 3802.4 Setting up g++ (4:14.2.0-1) ...
+#6 3802.4 update-alternatives: using /usr/bin/g++ to provide /usr/bin/c++ (c++) in auto mode
+#6 3802.4 Setting up build-essential (12.12) ...
+#6 3802.4 Processing triggers for libc-bin (2.41-12+deb13u4) ...
+#6 DONE 3802.7s
+
+#7 [ 3/14] COPY env/environment.yml /tmp/environment.yml
+#7 DONE 0.1s
+
+#8 [ 4/14] RUN conda env create -f /tmp/environment.yml &&     conda clean -afy &&     rm /tmp/environment.yml
+#8 0.804 Retrieving notices: ...working... done
+#8 2.312 Channels:
+#8 2.312  - conda-forge
+#8 2.312  - defaults
+#8 2.312 Platform: linux-64
+#8 2.312 Collecting package metadata (repodata.json): ...working... done
+#8 33.12 Solving environment: ...working... done
+#8 36.45 
+#8 36.45 ## Package Plan ##
+#8 36.45 
+#8 36.45   environment location: /opt/conda/envs/twas-eqtl
+#8 36.45 
+#8 36.45   added / updated specs:
+#8 36.45     - pip
+#8 36.45     - python=3.13.12
+#8 36.45 
+#8 36.45 
+#8 36.45 The following packages will be downloaded:
+#8 36.45 
+#8 36.45     package                    |            build
+#8 36.45     ---------------------------|-----------------
+#8 36.45     _openmp_mutex-4.5          |           20_gnu          28 KB  conda-forge
+#8 36.45     bzip2-1.0.8                |      hda65f42_10         252 KB  conda-forge
+#8 36.45     ca-certificates-2026.7.22  |       hbd8a1cb_0         129 KB  conda-forge
+#8 36.45     ld_impl_linux-64-2.46.1    |default_hbd61a6d_102         728 KB  conda-forge
+#8 36.45     libexpat-2.8.5             |       hd2095e1_0          76 KB  conda-forge
+#8 36.45     libffi-3.5.2               |       h3435931_0          57 KB  conda-forge
+#8 36.45     libgcc-16.2.0              |       ha9f2e26_7         1.0 MB  conda-forge
+#8 36.45     libgomp-16.2.0             |       he0feb66_7         626 KB  conda-forge
+#8 36.45     liblzma-5.8.3              |       hb03c661_1         110 KB  conda-forge
+#8 36.45     libmpdec-4.0.0             |       hb03c661_2          91 KB  conda-forge
+#8 36.45     libsqlite-3.53.4           |     h0737f62_103         945 KB  conda-forge
+#8 36.45     libuuid-2.42.4             |       hcfc3c73_0          34 KB  conda-forge
+#8 36.45     libzlib-1.3.2              |       h25fd6f3_3          62 KB  conda-forge
+#8 36.45     ncurses-6.6                |       hdb14827_1         890 KB  conda-forge
+#8 36.45     openssl-3.6.5              |       h781a0a9_0         3.0 MB  conda-forge
+#8 36.45     pip-26.2.1                 |     pyh145f28c_0         1.1 MB  conda-forge
+#8 36.45     python-3.13.12             |hc97d973_100_cp313        35.6 MB  conda-forge
+#8 36.45     python_abi-3.13            |          9_cp313           7 KB  conda-forge
+#8 36.45     readline-8.3               |       hd6e31c0_1         341 KB  conda-forge
+#8 36.45     tk-8.6.13                  | noxft_h1df4ec4_4         3.4 MB  conda-forge
+#8 36.45     tzdata-2026c               |       h151e31d_0         116 KB  conda-forge
+#8 36.45     zstd-1.5.7                 |       hb78ec9c_7         587 KB  conda-forge
+#8 36.45     ------------------------------------------------------------
+#8 36.45                                            Total:        49.2 MB
+#8 36.45 
+#8 36.45 The following NEW packages will be INSTALLED:
+#8 36.45 
+#8 36.45   _openmp_mutex      conda-forge/linux-64::_openmp_mutex-4.5-20_gnu 
+#8 36.45   bzip2              conda-forge/linux-64::bzip2-1.0.8-hda65f42_10 
+#8 36.45   ca-certificates    conda-forge/noarch::ca-certificates-2026.7.22-hbd8a1cb_0 
+#8 36.45   ld_impl_linux-64   conda-forge/linux-64::ld_impl_linux-64-2.46.1-default_hbd61a6d_102 
+#8 36.45   libexpat           conda-forge/linux-64::libexpat-2.8.5-hd2095e1_0 
+#8 36.45   libffi             conda-forge/linux-64::libffi-3.5.2-h3435931_0 
+#8 36.45   libgcc             conda-forge/linux-64::libgcc-16.2.0-ha9f2e26_7 
+#8 36.45   libgomp            conda-forge/linux-64::libgomp-16.2.0-he0feb66_7 
+#8 36.45   liblzma            conda-forge/linux-64::liblzma-5.8.3-hb03c661_1 
+#8 36.45   libmpdec           conda-forge/linux-64::libmpdec-4.0.0-hb03c661_2 
+#8 36.45   libsqlite          conda-forge/linux-64::libsqlite-3.53.4-h0737f62_103 
+#8 36.45   libuuid            conda-forge/linux-64::libuuid-2.42.4-hcfc3c73_0 
+#8 36.45   libzlib            conda-forge/linux-64::libzlib-1.3.2-h25fd6f3_3 
+#8 36.45   ncurses            conda-forge/linux-64::ncurses-6.6-hdb14827_1 
+#8 36.45   openssl            conda-forge/linux-64::openssl-3.6.5-h781a0a9_0 
+#8 36.45   pip                conda-forge/noarch::pip-26.2.1-pyh145f28c_0 
+#8 36.45   python             conda-forge/linux-64::python-3.13.12-hc97d973_100_cp313 
+#8 36.45   python_abi         conda-forge/noarch::python_abi-3.13-9_cp313 
+#8 36.45   readline           conda-forge/linux-64::readline-8.3-hd6e31c0_1 
+#8 36.45   tk                 conda-forge/linux-64::tk-8.6.13-noxft_h1df4ec4_4 
+#8 36.45   tzdata             conda-forge/noarch::tzdata-2026c-h151e31d_0 
+#8 36.45   zstd               conda-forge/linux-64::zstd-1.5.7-hb78ec9c_7 
+#8 36.45 
+#8 36.45 
+#8 36.45 
+#8 36.45 Downloading and Extracting Packages: ...working... done
+#8 139.3 Preparing transaction: ...working... done
+#8 142.8 Verifying transaction: ...working... done
+#8 147.4 Executing transaction: ...working... done
+#8 153.0 Installing pip dependencies: ...working... Ran pip subprocess with arguments:
+#8 2530.5 ['/opt/conda/envs/twas-eqtl/bin/python', '-m', 'pip', 'install', '-U', '-r', '/tmp/condaenv.28r6j385.requirements.txt', '--exists-action=b']
+#8 2530.5 Pip subprocess output:
+#8 2530.5 Collecting numpy==2.4.4 (from -r /tmp/condaenv.28r6j385.requirements.txt (line 1))
+#8 2530.5   Downloading numpy-2.4.4-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (6.6 kB)
+#8 2530.5 Collecting pandas==3.0.3 (from -r /tmp/condaenv.28r6j385.requirements.txt (line 2))
+#8 2530.5   Downloading pandas-3.0.3-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl.metadata (79 kB)
+#8 2530.5 Collecting scipy==1.17.1 (from -r /tmp/condaenv.28r6j385.requirements.txt (line 3))
+#8 2530.5   Downloading scipy-1.17.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (62 kB)
+#8 2530.5 Collecting statsmodels==0.14.6 (from -r /tmp/condaenv.28r6j385.requirements.txt (line 4))
+#8 2530.5   Downloading statsmodels-0.14.6-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl.metadata (9.5 kB)
+#8 2530.5 Collecting matplotlib==3.10.8 (from -r /tmp/condaenv.28r6j385.requirements.txt (line 5))
+#8 2530.5   Downloading matplotlib-3.10.8-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (52 kB)
+#8 2530.5 Collecting seaborn==0.13.2 (from -r /tmp/condaenv.28r6j385.requirements.txt (line 6))
+#8 2530.5   Downloading seaborn-0.13.2-py3-none-any.whl.metadata (5.4 kB)
+#8 2530.5 Collecting scikit-learn==1.7.2 (from -r /tmp/condaenv.28r6j385.requirements.txt (line 7))
+#8 2530.5   Downloading scikit_learn-1.7.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (11 kB)
+#8 2530.5 Collecting pyarrow==22.0.0 (from -r /tmp/condaenv.28r6j385.requirements.txt (line 8))
+#8 2530.5   Downloading pyarrow-22.0.0-cp313-cp313-manylinux_2_28_x86_64.whl.metadata (3.2 kB)
+#8 2530.5 Collecting python-docx==1.2.0 (from -r /tmp/condaenv.28r6j385.requirements.txt (line 9))
+#8 2530.5   Downloading python_docx-1.2.0-py3-none-any.whl.metadata (2.0 kB)
+#8 2530.5 Collecting pillow==12.3.0 (from -r /tmp/condaenv.28r6j385.requirements.txt (line 10))
+#8 2530.5   Downloading pillow-12.3.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (9.1 kB)
+#8 2530.5 Collecting python-dateutil>=2.8.2 (from pandas==3.0.3->-r /tmp/condaenv.28r6j385.requirements.txt (line 2))
+#8 2530.5   Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl.metadata (8.4 kB)
+#8 2530.5 Collecting patsy>=0.5.6 (from statsmodels==0.14.6->-r /tmp/condaenv.28r6j385.requirements.txt (line 4))
+#8 2530.5   Downloading patsy-1.0.3-py2.py3-none-any.whl.metadata (3.7 kB)
+#8 2530.5 Collecting packaging>=21.3 (from statsmodels==0.14.6->-r /tmp/condaenv.28r6j385.requirements.txt (line 4))
+#8 2530.5   Downloading packaging-26.3-py3-none-any.whl.metadata (3.5 kB)
+#8 2530.5 Collecting contourpy>=1.0.1 (from matplotlib==3.10.8->-r /tmp/condaenv.28r6j385.requirements.txt (line 5))
+#8 2530.5   Downloading contourpy-1.4.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl.metadata (3.8 kB)
+#8 2530.5 Collecting cycler>=0.10 (from matplotlib==3.10.8->-r /tmp/condaenv.28r6j385.requirements.txt (line 5))
+#8 2530.5   Downloading cycler-0.12.1-py3-none-any.whl.metadata (3.8 kB)
+#8 2530.5 Collecting fonttools>=4.22.0 (from matplotlib==3.10.8->-r /tmp/condaenv.28r6j385.requirements.txt (line 5))
+#8 2530.5   Downloading fonttools-4.66.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (130 kB)
+#8 2530.5 Collecting kiwisolver>=1.3.1 (from matplotlib==3.10.8->-r /tmp/condaenv.28r6j385.requirements.txt (line 5))
+#8 2530.5   Downloading kiwisolver-1.5.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl.metadata (5.2 kB)
+#8 2530.5 Collecting pyparsing>=3 (from matplotlib==3.10.8->-r /tmp/condaenv.28r6j385.requirements.txt (line 5))
+#8 2530.5   Downloading pyparsing-3.3.3-py3-none-any.whl.metadata (5.9 kB)
+#8 2530.5 Collecting joblib>=1.2.0 (from scikit-learn==1.7.2->-r /tmp/condaenv.28r6j385.requirements.txt (line 7))
+#8 2530.5   Downloading joblib-1.6.0-py3-none-any.whl.metadata (6.5 kB)
+#8 2530.5 Collecting threadpoolctl>=3.1.0 (from scikit-learn==1.7.2->-r /tmp/condaenv.28r6j385.requirements.txt (line 7))
+#8 2530.5   Downloading threadpoolctl-3.7.0-py3-none-any.whl.metadata (24 kB)
+#8 2530.5 Collecting lxml>=3.1.0 (from python-docx==1.2.0->-r /tmp/condaenv.28r6j385.requirements.txt (line 9))
+#8 2530.5   Downloading lxml-6.1.3-cp313-cp313-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl.metadata (3.3 kB)
+#8 2530.5 Collecting typing_extensions>=4.9.0 (from python-docx==1.2.0->-r /tmp/condaenv.28r6j385.requirements.txt (line 9))
+#8 2530.5   Downloading typing_extensions-4.16.0-py3-none-any.whl.metadata (3.3 kB)
+#8 2530.5 Collecting cloudpickle>=3.0 (from joblib>=1.2.0->scikit-learn==1.7.2->-r /tmp/condaenv.28r6j385.requirements.txt (line 7))
+#8 2530.5   Downloading cloudpickle-3.1.2-py3-none-any.whl.metadata (7.1 kB)
+#8 2530.5 Collecting six>=1.5 (from python-dateutil>=2.8.2->pandas==3.0.3->-r /tmp/condaenv.28r6j385.requirements.txt (line 2))
+#8 2530.5   Downloading six-1.17.0-py2.py3-none-any.whl.metadata (1.7 kB)
+#8 2530.5 Downloading numpy-2.4.4-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (16.6 MB)
+#8 2530.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 16.6/16.6 MB 56.6 kB/s  0:05:19
+#8 2530.5 Downloading pandas-3.0.3-cp313-cp313-manylinux_2_24_x86_64.manylinux_2_28_x86_64.whl (10.9 MB)
+#8 2530.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.9/10.9 MB 67.3 kB/s  0:03:22
+#8 2530.5 Downloading scipy-1.17.1-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (35.2 MB)
+#8 2530.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 35.2/35.2 MB 59.6 kB/s  0:10:10
+#8 2530.5 Downloading statsmodels-0.14.6-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (10.3 MB)
+#8 2530.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 10.3/10.3 MB 69.3 kB/s  0:02:26
+#8 2530.5 Downloading matplotlib-3.10.8-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (8.7 MB)
+#8 2530.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 8.7/8.7 MB 68.0 kB/s  0:01:53
+#8 2530.5 Downloading seaborn-0.13.2-py3-none-any.whl (294 kB)
+#8 2530.5 Downloading scikit_learn-1.7.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (9.4 MB)
+#8 2530.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 9.4/9.4 MB 85.9 kB/s  0:02:05
+#8 2530.5 Downloading pyarrow-22.0.0-cp313-cp313-manylinux_2_28_x86_64.whl (47.7 MB)
+#8 2530.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 47.7/47.7 MB 112.1 kB/s  0:08:37
+#8 2530.5 Downloading python_docx-1.2.0-py3-none-any.whl (252 kB)
+#8 2530.5 Downloading pillow-12.3.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.9 MB)
+#8 2530.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 121.4 kB/s  0:01:01
+#8 2530.5 Downloading contourpy-1.4.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (384 kB)
+#8 2530.5 Downloading cycler-0.12.1-py3-none-any.whl (8.3 kB)
+#8 2530.5 Downloading fonttools-4.66.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (5.4 MB)
+#8 2530.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.4/5.4 MB 121.9 kB/s  0:00:46
+#8 2530.5 Downloading joblib-1.6.0-py3-none-any.whl (306 kB)
+#8 2530.5 Downloading cloudpickle-3.1.2-py3-none-any.whl (22 kB)
+#8 2530.5 Downloading kiwisolver-1.5.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.5 MB)
+#8 2530.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.5/1.5 MB 138.4 kB/s  0:00:11
+#8 2530.5 Downloading lxml-6.1.3-cp313-cp313-manylinux_2_26_x86_64.manylinux_2_28_x86_64.whl (5.2 MB)
+#8 2530.5    ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 5.2/5.2 MB 134.3 kB/s  0:00:39
+#8 2530.5 Downloading packaging-26.3-py3-none-any.whl (129 kB)
+#8 2530.5 Downloading patsy-1.0.3-py2.py3-none-any.whl (233 kB)
+#8 2530.5 Downloading pyparsing-3.3.3-py3-none-any.whl (126 kB)
+#8 2530.5 Downloading python_dateutil-2.9.0.post0-py2.py3-none-any.whl (229 kB)
+#8 2530.5 Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+#8 2530.5 Downloading threadpoolctl-3.7.0-py3-none-any.whl (26 kB)
+#8 2530.5 Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+#8 2530.5 Installing collected packages: typing_extensions, threadpoolctl, six, pyparsing, pyarrow, pillow, packaging, numpy, lxml, kiwisolver, fonttools, cycler, cloudpickle, scipy, python-docx, python-dateutil, patsy, joblib, contourpy, scikit-learn, pandas, matplotlib, statsmodels, seaborn
+#8 2530.5 
+#8 2530.5 Successfully installed cloudpickle-3.1.2 contourpy-1.4.0 cycler-0.12.1 fonttools-4.66.1 joblib-1.6.0 kiwisolver-1.5.1 lxml-6.1.3 matplotlib-3.10.8 numpy-2.4.4 packaging-26.3 pandas-3.0.3 patsy-1.0.3 pillow-12.3.0 pyarrow-22.0.0 pyparsing-3.3.3 python-dateutil-2.9.0.post0 python-docx-1.2.0 scikit-learn-1.7.2 scipy-1.17.1 seaborn-0.13.2 six-1.17.0 statsmodels-0.14.6 threadpoolctl-3.7.0 typing_extensions-4.16.0
+#8 2530.5 
+#8 2530.5 done
+#8 2530.5 WARNING conda.conda_pypi.main:notify_externally_managed_future(156): 
+#8 2530.5   Did you know? You can install many PyPI packages with conda
+#8 2530.5   using the conda-pypi beta. Get started:
+#8 2530.5     https://docs.conda.io/projects/conda/en/stable/new-features.html
+#8 2530.5 
+#8 2530.5 #
+#8 2530.5 # To activate this environment, use
+#8 2530.5 #
+#8 2530.5 #     $ conda activate twas-eqtl
+#8 2530.5 #
+#8 2530.5 # To deactivate an active environment, use
+#8 2530.5 #
+#8 2530.5 #     $ conda deactivate
+#8 2530.5 
+#8 2530.5 
+#8 2530.5 Channel "defaults" has the following notices:
+#8 2530.5   [info] -- Thu Aug  6 00:00:00 2026
+#8 2530.5   main-x (Anaconda's new authenticated channel) is now generally available, with thousands of additional packages from our secure supply chain. Get started at: https://anaconda.com/docs/getting-started/main-x?utm_source=channel_notices
+#8 2530.5 
+#8 2532.2 Will remove 1 package cache(s).
+#8 DONE 2539.2s
+
+#9 [ 5/14] RUN git clone https://github.com/hakyimlab/MetaXcan.git /opt/MetaXcan &&     cd /opt/MetaXcan &&     git checkout tags/v0.8.1 &&     find /opt/MetaXcan -name "*.pyc" -delete
+#9 2.226 Cloning into '/opt/MetaXcan'...
+#9 114.6 Note: switching to 'tags/v0.8.1'.
+#9 114.6 
+#9 114.6 You are in 'detached HEAD' state. You can look around, make experimental
+#9 114.6 changes and commit them, and you can discard any commits you make in this
+#9 114.6 state without impacting any branches by switching back to a branch.
+#9 114.6 
+#9 114.6 If you want to create a new branch to retain commits you create, you may
+#9 114.6 do so (now or later) by using -c with the switch command. Example:
+#9 114.6 
+#9 114.6   git switch -c <new-branch-name>
+#9 114.6 
+#9 114.6 Or undo this operation with:
+#9 114.6 
+#9 114.6   git switch -
+#9 114.6 
+#9 114.6 Turn off this advice by setting config variable advice.detachedHead to false
+#9 114.6 
+#9 114.6 HEAD is now at 964f1fd update conda env  for #191 merge changes
+#9 DONE 114.7s
+
+#10 [ 6/14] WORKDIR /app
+#10 DONE 0.0s
+
+#11 [ 7/14] COPY . /app/
+#11 DONE 1.1s
+
+#12 [ 8/14] RUN conda install -y -n twas-eqtl -c conda-forge r-base=4.5.2 &&     conda clean -afy
+#12 1.367 Channels:
+#12 1.367  - conda-forge
+#12 1.367  - defaults
+#12 1.367 Platform: linux-64
+#12 1.367 Collecting package metadata (repodata.json): ...working... done
+#12 17.34 Solving environment: ...working... done
+#12 25.57 
+#12 25.57 ## Package Plan ##
+#12 25.57 
+#12 25.57   environment location: /opt/conda/envs/twas-eqtl
+#12 25.57 
+#12 25.57   added / updated specs:
+#12 25.57     - r-base=4.5.2
+#12 25.57 
+#12 25.57 
+#12 25.57 The following packages will be downloaded:
+#12 25.57 
+#12 25.57     package                    |            build
+#12 25.57     ---------------------------|-----------------
+#12 25.57     _r-mutex-1.0.1             |      anacondar_1           3 KB  conda-forge
+#12 25.57     binutils_impl_linux-64-2.46.1|default_hfdba357_102         3.5 MB  conda-forge
+#12 25.57     bwidget-1.10.1             |       hfc2019e_3         131 KB  conda-forge
+#12 25.57     c-ares-1.34.8              |       hebe6cf0_2         223 KB  conda-forge
+#12 25.57     cairo-1.18.4               |       h3c89d7e_3         968 KB  conda-forge
+#12 25.57     curl-8.22.0                |       ha042cf0_0         192 KB  conda-forge
+#12 25.57     font-ttf-dejavu-sans-mono-2.37|       hab24e00_0         388 KB  conda-forge
+#12 25.57     font-ttf-inconsolata-3.000 |       h77eed37_0          94 KB  conda-forge
+#12 25.57     font-ttf-source-code-pro-2.038|       h77eed37_0         684 KB  conda-forge
+#12 25.57     font-ttf-ubuntu-0.83       |       h77eed37_3         1.5 MB  conda-forge
+#12 25.57     fontconfig-2.18.3          |       h4db4eae_1         289 KB  conda-forge
+#12 25.57     fonts-conda-ecosystem-1    |                0           4 KB  conda-forge
+#12 25.57     fonts-conda-forge-1        |       hc364b38_1           4 KB  conda-forge
+#12 25.57     fribidi-1.0.17             |       h7cc23a3_0          63 KB  conda-forge
+#12 25.57     gcc_impl_linux-64-16.2.0   |       h9891192_7        82.1 MB  conda-forge
+#12 25.57     gfortran_impl_linux-64-16.2.0|       hf930d89_7        20.2 MB  conda-forge
+#12 25.57     graphite2-1.3.15           |       h54a6638_1         100 KB  conda-forge
+#12 25.57     gsl-2.7                    |       he838d99_0         3.2 MB  conda-forge
+#12 25.57     gxx_impl_linux-64-16.2.0   |       h0d273dc_7        16.2 MB  conda-forge
+#12 25.57     icu-78.3                   |  py310h44b86e0_2        13.8 MB  conda-forge
+#12 25.57     kernel-headers_linux-64-6.12.0|       he073ed8_6         1.5 MB  conda-forge
+#12 25.57     keyutils-1.6.3             |       h7cc23a3_1         132 KB  conda-forge
+#12 25.57     krb5-1.22.2                |       hbc21106_2         1.3 MB  conda-forge
+#12 25.57     lerc-4.2.0                 |       hdb68285_0         265 KB  conda-forge
+#12 25.57     libblas-3.11.0             |11_h4a7cf45_openblas          18 KB  conda-forge
+#12 25.57     libcblas-3.11.0            |11_h0358290_openblas          18 KB  conda-forge
+#12 25.57     libcurl-8.22.0             |       ha042cf0_0         488 KB  conda-forge
+#12 25.57     libdeflate-1.25            |       hd45a770_1          72 KB  conda-forge
+#12 25.57     libedit-3.1.20250104       | pl5321h373387f_1         132 KB  conda-forge
+#12 25.57     libev-4.33                 |       h280c20c_3          42 KB  conda-forge
+#12 25.57     libfreetype-2.14.3         |       ha770c72_2           8 KB  conda-forge
+#12 25.57     libfreetype6-2.14.3        |       h5e6c136_2         379 KB  conda-forge
+#12 25.57     libgcc-devel_linux-64-16.2.0|     he3ce08f_107         3.0 MB  conda-forge
+#12 25.57     libgcc-ng-16.2.0           |       h69a702a_7          28 KB  conda-forge
+#12 25.57     libgfortran-16.2.0         |       h69a702a_7          28 KB  conda-forge
+#12 25.57     libgfortran-ng-16.2.0      |       h69a702a_7          28 KB  conda-forge
+#12 25.57     libgfortran5-16.2.0        |       h6b99dfc_7         2.4 MB  conda-forge
+#12 25.57     libglib-2.88.3             |       h0d30a3d_0         4.5 MB  conda-forge
+#12 25.57     libharfbuzz-14.4.0         |       h23af247_1         1.3 MB  conda-forge
+#12 25.57     libiconv-1.18              |       h0cb94f2_3         771 KB  conda-forge
+#12 25.57     libjpeg-turbo-3.2.0        |       hb03c661_1         635 KB  conda-forge
+#12 25.57     liblapack-3.11.0           |11_h47877c9_openblas          18 KB  conda-forge
+#12 25.57     libnghttp2-1.68.1          |       h74cf4be_1         635 KB  conda-forge
+#12 25.57     libopenblas-0.3.34         |pthreads_hf13c14d_2         6.5 MB  conda-forge
+#12 25.57     libpng-1.6.59              |       h922cc85_0         309 KB  conda-forge
+#12 25.57     libpsl-0.23.1              |       hd9e3e90_1          71 KB  conda-forge
+#12 25.57     libsanitizer-16.2.0        |       h3048135_7         7.7 MB  conda-forge
+#12 25.57     libsqlite-3.53.4           |     h0737f62_102         947 KB  conda-forge
+#12 25.57     libssh2-1.11.1             |       h6154650_1         299 KB  conda-forge
+#12 25.57     libstdcxx-16.2.0           |       h934c35e_7         6.3 MB  conda-forge
+#12 25.57     libstdcxx-devel_linux-64-16.2.0|     h86e191b_107        22.2 MB  conda-forge
+#12 25.57     libstdcxx-ng-16.2.0        |       hdf11a46_7          28 KB  conda-forge
+#12 25.57     libtiff-4.7.2              |       hcc2c06a_1         449 KB  conda-forge
+#12 25.57     libwebp-base-1.6.0         |       hd42ef1d_1         418 KB  conda-forge
+#12 25.57     libxcb-1.17.0              |       hb83e432_2         386 KB  conda-forge
+#12 25.57     make-4.4.1                 |       hb03c661_3         499 KB  conda-forge
+#12 25.57     pango-1.58.2               |       h7bb47b9_1         461 KB  conda-forge
+#12 25.57     pcre2-10.47                |       h8b3dc9c_1         1.2 MB  conda-forge
+#12 25.57     pixman-0.46.4              |       h54a6638_3         368 KB  conda-forge
+#12 25.57     pthread-stubs-0.4          |    h7cc23a3_1004           9 KB  conda-forge
+#12 25.57     r-base-4.5.2               |       h1fbe982_4        26.1 MB  conda-forge
+#12 25.57     sed-4.10                   |       h19d0853_0         262 KB  conda-forge
+#12 25.57     sysroot_linux-64-2.39      |       hc4b9eeb_6        40.1 MB  conda-forge
+#12 25.57     tktable-2.10               |      h0eb2ad0_11         101 KB  conda-forge
+#12 25.57     xorg-libice-1.1.2          |       h280c20c_0          61 KB  conda-forge
+#12 25.57     xorg-libsm-1.2.6           |       h0d788c3_1          30 KB  conda-forge
+#12 25.57     xorg-libx11-1.8.13         |       he1eb515_1         820 KB  conda-forge
+#12 25.57     xorg-libxau-1.0.12         |       h7cc23a3_2          18 KB  conda-forge
+#12 25.57     xorg-libxdmcp-1.1.5        |       h7cc23a3_2          22 KB  conda-forge
+#12 25.57     xorg-libxext-1.3.7         |       h7cc23a3_1          52 KB  conda-forge
+#12 25.57     xorg-libxrender-0.9.12     |       hb03c661_1          34 KB  conda-forge
+#12 25.57     xorg-libxt-1.3.1           |       h7cc23a3_1         375 KB  conda-forge
+#12 25.57     ------------------------------------------------------------
+#12 25.57                                            Total:       277.3 MB
+#12 25.57 
+#12 25.57 The following NEW packages will be INSTALLED:
+#12 25.57 
+#12 25.57   _r-mutex           conda-forge/noarch::_r-mutex-1.0.1-anacondar_1 
+#12 25.57   binutils_impl_lin~ conda-forge/linux-64::binutils_impl_linux-64-2.46.1-default_hfdba357_102 
+#12 25.57   bwidget            conda-forge/linux-64::bwidget-1.10.1-hfc2019e_3 
+#12 25.57   c-ares             conda-forge/linux-64::c-ares-1.34.8-hebe6cf0_2 
+#12 25.57   cairo              conda-forge/linux-64::cairo-1.18.4-h3c89d7e_3 
+#12 25.57   curl               conda-forge/linux-64::curl-8.22.0-ha042cf0_0 
+#12 25.57   font-ttf-dejavu-s~ conda-forge/noarch::font-ttf-dejavu-sans-mono-2.37-hab24e00_0 
+#12 25.57   font-ttf-inconsol~ conda-forge/noarch::font-ttf-inconsolata-3.000-h77eed37_0 
+#12 25.57   font-ttf-source-c~ conda-forge/noarch::font-ttf-source-code-pro-2.038-h77eed37_0 
+#12 25.57   font-ttf-ubuntu    conda-forge/noarch::font-ttf-ubuntu-0.83-h77eed37_3 
+#12 25.57   fontconfig         conda-forge/linux-64::fontconfig-2.18.3-h4db4eae_1 
+#12 25.57   fonts-conda-ecosy~ conda-forge/noarch::fonts-conda-ecosystem-1-0 
+#12 25.57   fonts-conda-forge  conda-forge/noarch::fonts-conda-forge-1-hc364b38_1 
+#12 25.57   fribidi            conda-forge/linux-64::fribidi-1.0.17-h7cc23a3_0 
+#12 25.57   gcc_impl_linux-64  conda-forge/linux-64::gcc_impl_linux-64-16.2.0-h9891192_7 
+#12 25.57   gfortran_impl_lin~ conda-forge/linux-64::gfortran_impl_linux-64-16.2.0-hf930d89_7 
+#12 25.57   graphite2          conda-forge/linux-64::graphite2-1.3.15-h54a6638_1 
+#12 25.57   gsl                conda-forge/linux-64::gsl-2.7-he838d99_0 
+#12 25.57   gxx_impl_linux-64  conda-forge/linux-64::gxx_impl_linux-64-16.2.0-h0d273dc_7 
+#12 25.57   icu                conda-forge/linux-64::icu-78.3-py310h44b86e0_2 
+#12 25.57   kernel-headers_li~ conda-forge/noarch::kernel-headers_linux-64-6.12.0-he073ed8_6 
+#12 25.57   keyutils           conda-forge/linux-64::keyutils-1.6.3-h7cc23a3_1 
+#12 25.57   krb5               conda-forge/linux-64::krb5-1.22.2-hbc21106_2 
+#12 25.57   lerc               conda-forge/linux-64::lerc-4.2.0-hdb68285_0 
+#12 25.57   libblas            conda-forge/linux-64::libblas-3.11.0-11_h4a7cf45_openblas 
+#12 25.57   libcblas           conda-forge/linux-64::libcblas-3.11.0-11_h0358290_openblas 
+#12 25.57   libcurl            conda-forge/linux-64::libcurl-8.22.0-ha042cf0_0 
+#12 25.57   libdeflate         conda-forge/linux-64::libdeflate-1.25-hd45a770_1 
+#12 25.57   libedit            conda-forge/linux-64::libedit-3.1.20250104-pl5321h373387f_1 
+#12 25.57   libev              conda-forge/linux-64::libev-4.33-h280c20c_3 
+#12 25.57   libfreetype        conda-forge/linux-64::libfreetype-2.14.3-ha770c72_2 
+#12 25.57   libfreetype6       conda-forge/linux-64::libfreetype6-2.14.3-h5e6c136_2 
+#12 25.57   libgcc-devel_linu~ conda-forge/noarch::libgcc-devel_linux-64-16.2.0-he3ce08f_107 
+#12 25.57   libgcc-ng          conda-forge/linux-64::libgcc-ng-16.2.0-h69a702a_7 
+#12 25.57   libgfortran        conda-forge/linux-64::libgfortran-16.2.0-h69a702a_7 
+#12 25.57   libgfortran-ng     conda-forge/linux-64::libgfortran-ng-16.2.0-h69a702a_7 
+#12 25.57   libgfortran5       conda-forge/linux-64::libgfortran5-16.2.0-h6b99dfc_7 
+#12 25.57   libglib            conda-forge/linux-64::libglib-2.88.3-h0d30a3d_0 
+#12 25.57   libharfbuzz        conda-forge/linux-64::libharfbuzz-14.4.0-h23af247_1 
+#12 25.57   libiconv           conda-forge/linux-64::libiconv-1.18-h0cb94f2_3 
+#12 25.57   libjpeg-turbo      conda-forge/linux-64::libjpeg-turbo-3.2.0-hb03c661_1 
+#12 25.57   liblapack          conda-forge/linux-64::liblapack-3.11.0-11_h47877c9_openblas 
+#12 25.57   libnghttp2         conda-forge/linux-64::libnghttp2-1.68.1-h74cf4be_1 
+#12 25.57   libopenblas        conda-forge/linux-64::libopenblas-0.3.34-pthreads_hf13c14d_2 
+#12 25.57   libpng             conda-forge/linux-64::libpng-1.6.59-h922cc85_0 
+#12 25.57   libpsl             conda-forge/linux-64::libpsl-0.23.1-hd9e3e90_1 
+#12 25.57   libsanitizer       conda-forge/linux-64::libsanitizer-16.2.0-h3048135_7 
+#12 25.57   libssh2            conda-forge/linux-64::libssh2-1.11.1-h6154650_1 
+#12 25.57   libstdcxx          conda-forge/linux-64::libstdcxx-16.2.0-h934c35e_7 
+#12 25.57   libstdcxx-devel_l~ conda-forge/noarch::libstdcxx-devel_linux-64-16.2.0-h86e191b_107 
+#12 25.57   libstdcxx-ng       conda-forge/linux-64::libstdcxx-ng-16.2.0-hdf11a46_7 
+#12 25.57   libtiff            conda-forge/linux-64::libtiff-4.7.2-hcc2c06a_1 
+#12 25.57   libwebp-base       conda-forge/linux-64::libwebp-base-1.6.0-hd42ef1d_1 
+#12 25.57   libxcb             conda-forge/linux-64::libxcb-1.17.0-hb83e432_2 
+#12 25.57   make               conda-forge/linux-64::make-4.4.1-hb03c661_3 
+#12 25.57   pango              conda-forge/linux-64::pango-1.58.2-h7bb47b9_1 
+#12 25.57   pcre2              conda-forge/linux-64::pcre2-10.47-h8b3dc9c_1 
+#12 25.57   pixman             conda-forge/linux-64::pixman-0.46.4-h54a6638_3 
+#12 25.57   pthread-stubs      conda-forge/linux-64::pthread-stubs-0.4-h7cc23a3_1004 
+#12 25.57   r-base             conda-forge/linux-64::r-base-4.5.2-h1fbe982_4 
+#12 25.57   sed                conda-forge/linux-64::sed-4.10-h19d0853_0 
+#12 25.57   sysroot_linux-64   conda-forge/noarch::sysroot_linux-64-2.39-hc4b9eeb_6 
+#12 25.57   tktable            conda-forge/linux-64::tktable-2.10-h0eb2ad0_11 
+#12 25.57   xorg-libice        conda-forge/linux-64::xorg-libice-1.1.2-h280c20c_0 
+#12 25.57   xorg-libsm         conda-forge/linux-64::xorg-libsm-1.2.6-h0d788c3_1 
+#12 25.57   xorg-libx11        conda-forge/linux-64::xorg-libx11-1.8.13-he1eb515_1 
+#12 25.57   xorg-libxau        conda-forge/linux-64::xorg-libxau-1.0.12-h7cc23a3_2 
+#12 25.57   xorg-libxdmcp      conda-forge/linux-64::xorg-libxdmcp-1.1.5-h7cc23a3_2 
+#12 25.57   xorg-libxext       conda-forge/linux-64::xorg-libxext-1.3.7-h7cc23a3_1 
+#12 25.57   xorg-libxrender    conda-forge/linux-64::xorg-libxrender-0.9.12-hb03c661_1 
+#12 25.57   xorg-libxt         conda-forge/linux-64::xorg-libxt-1.3.1-h7cc23a3_1 
+#12 25.57 
+#12 25.57 The following packages will be REVISED:
+#12 25.57 
+#12 25.57   libsqlite                             3.53.4-h0737f62_103 --> 3.53.4-h0737f62_102 
+#12 25.57 
+#12 25.57 
+#12 25.57 
+#12 25.57 Downloading and Extracting Packages: ...working... done
+#12 101.5 Preparing transaction: ...working... done
+#12 102.0 Verifying transaction: ...working... done
+#12 103.3 Executing transaction: ...working... done
+#12 103.9 WARNING conda.conda_pypi.main:notify_externally_managed_future(156): 
+#12 103.9   Did you know? You can install many PyPI packages with conda
+#12 103.9   using the conda-pypi beta. Get started:
+#12 103.9     https://docs.conda.io/projects/conda/en/stable/new-features.html
+#12 103.9 
+#12 127.4 Will remove 1 package cache(s).
+#12 DONE 128.8s
+
+#13 [ 9/14] RUN R -e "install.packages('renv', repos='https://cloud.r-project.org')"
+#13 5.103 
+#13 5.103 R version 4.5.2 (2025-10-31) -- "[Not] Part in a Rumble"
+#13 5.103 Copyright (C) 2025 The R Foundation for Statistical Computing
+#13 5.103 Platform: x86_64-conda-linux-gnu
+#13 5.103 
+#13 5.103 R is free software and comes with ABSOLUTELY NO WARRANTY.
+#13 5.103 You are welcome to redistribute it under certain conditions.
+#13 5.103 Type 'license()' or 'licence()' for distribution details.
+#13 5.103 
+#13 5.103 R is a collaborative project with many contributors.
+#13 5.103 Type 'contributors()' for more information and
+#13 5.103 'citation()' on how to cite R or R packages in publications.
+#13 5.103 
+#13 5.103 Type 'demo()' for some demos, 'help()' for on-line help, or
+#13 5.103 'help.start()' for an HTML browser interface to help.
+#13 5.103 Type 'q()' to quit R.
+#13 5.103 
+#13 5.982 > install.packages('renv', repos='https://cloud.r-project.org')
+#13 7.195 trying URL 'https://cloud.r-project.org/src/contrib/renv_1.3.1.tar.gz'
+#13 7.382 Content type 'application/x-gzip' length 1571942 bytes (1.5 MB)
+#13 7.391 ==================================================
+#13 8.228 downloaded 1.5 MB
+#13 8.228 
+#13 8.884 * installing *source* package ‘renv’ ...
+#13 8.884 ** this is package ‘renv’ version ‘1.3.1’
+#13 8.901 ** package ‘renv’ successfully unpacked and MD5 sums checked
+#13 8.901 ** using staged installation
+#13 8.924 ** R
+#13 9.027 ** inst
+#13 9.032 ** byte-compile and prepare package for lazy loading
+#13 20.69 ** libs
+#13 20.69 using C compiler: ‘x86_64-conda-linux-gnu-cc (conda-forge gcc 16.2.0-7) 16.2.0’
+#13 20.69 x86_64-conda-linux-gnu-cc -I"/opt/conda/envs/twas-eqtl/lib/R/include" -DNDEBUG   -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /opt/conda/envs/twas-eqtl/include -I/opt/conda/envs/twas-eqtl/include -Wl,-rpath-link,/opt/conda/envs/twas-eqtl/lib    -fpic  -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /opt/conda/envs/twas-eqtl/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1771898340574/work=/usr/local/src/conda/r-base-4.5.2 -fdebug-prefix-map=/opt/conda/envs/twas-eqtl=/usr/local/src/conda-prefix  -c renv.c -o renv.o
+#13 20.69 x86_64-conda-linux-gnu-cc -shared -L/opt/conda/envs/twas-eqtl/lib/R/lib -Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/opt/conda/envs/twas-eqtl/lib -Wl,-rpath-link,/opt/conda/envs/twas-eqtl/lib -L/opt/conda/envs/twas-eqtl/lib -o renv.so renv.o -L/opt/conda/envs/twas-eqtl/lib/R/lib -lR
+#13 20.69 ** help
+#13 20.81 *** installing help indices
+#13 20.93 *** copying figures
+#13 20.93 ** building package indices
+#13 21.24 ** installing vignettes
+#13 21.25 ** testing if installed package can be loaded from temporary location
+#13 21.52 ** checking absolute paths in shared objects and dynamic libraries
+#13 21.53 ** testing if installed package can be loaded from final location
+#13 22.04 ** testing if installed package keeps a record of temporary installation path
+#13 22.05 * DONE (renv)
+#13 22.07 
+#13 22.07 The downloaded source packages are in
+#13 22.07 	‘/tmp/RtmpL46vMr/downloaded_packages’
+#13 22.07 Updating HTML index of packages in '.Library'
+#13 22.07 Making 'packages.html' ... done
+#13 22.09 > 
+#13 DONE 22.6s
+
+#14 [10/14] RUN R -e "renv::restore(lockfile='/app/env/renv.lock', library=.libPaths()[1], prompt=FALSE)"     || echo "renv::restore() stopped before finishing — expected on R >= 4.5 (optmatch); the patched build is the next step"
+#14 1.349 
+#14 1.349 R version 4.5.2 (2025-10-31) -- "[Not] Part in a Rumble"
+#14 1.349 Copyright (C) 2025 The R Foundation for Statistical Computing
+#14 1.349 Platform: x86_64-conda-linux-gnu
+#14 1.349 
+#14 1.349 R is free software and comes with ABSOLUTELY NO WARRANTY.
+#14 1.349 You are welcome to redistribute it under certain conditions.
+#14 1.349 Type 'license()' or 'licence()' for distribution details.
+#14 1.349 
+#14 1.349 R is a collaborative project with many contributors.
+#14 1.349 Type 'contributors()' for more information and
+#14 1.349 'citation()' on how to cite R or R packages in publications.
+#14 1.349 
+#14 1.349 Type 'demo()' for some demos, 'help()' for on-line help, or
+#14 1.349 'help.start()' for an HTML browser interface to help.
+#14 1.349 Type 'q()' to quit R.
+#14 1.349 
+#14 1.430 > renv::restore(lockfile='/app/env/renv.lock', library=.libPaths()[1], prompt=FALSE)
+#14 1.587 The following package(s) will be updated:
+#14 1.587 
+#14 1.587 # CRAN -----------------------------------------------------------------------
+#14 1.587 - cobalt          [* -> 4.5.2]
+#14 1.587 - MatchIt         [* -> 4.5.5]
+#14 1.587 - optmatch        [* -> 0.10.6]
+#14 1.587 - Rcpp            [* -> 1.0.12]
+#14 1.587 - RcppArmadillo   [* -> 0.12.8.4.0]
+#14 1.587 
+#14 1.858 - Querying repositories for available source packages ... Done!
+#14 6.952 # Downloading packages -------------------------------------------------------
+#14 7.248 [?25l  (0/36) Downloading: backports, utf8, RColorBrewer, labeling, ...                                                                                              [32m✔[0m labeling 0.4.3                           [10 kB in 0.17s]
+#14 7.707   (1/36) Downloading: backports, utf8, RColorBrewer, R6, ...                                                                                                    [32m✔[0m backports 1.5.1                          [30 kB in 0.22s]
+#14 7.755   (2/36) Downloading: utf8, RColorBrewer, R6, RcppArmadillo, ...                                                                                                [32m✔[0m R6 2.6.1                                 [65 kB in 0.23s]
+#14 7.767   (3/36) Downloading: utf8, RColorBrewer, RcppArmadillo, tidyselect, ...                                                                                        [32m✔[0m pkgconfig 2.0.3                          [6 kB in 0.3s]
+#14 7.835   (4/36) Downloading: utf8, RColorBrewer, RcppArmadillo, tidyselect, ...                                                                                        [32m✔[0m gtable 0.3.6                             [148 kB in 0.33s]
+#14 7.864   (5/36) Downloading: utf8, RColorBrewer, RcppArmadillo, tidyselect, ...                                                                                        [32m✔[0m glue 1.8.1                               [130 kB in 0.34s]
+#14 7.872   (6/36) Downloading: utf8, RColorBrewer, RcppArmadillo, tidyselect, ...                                                                                        [32m✔[0m tidyselect 1.2.1                         [104 kB in 0.38s]
+#14 7.910   (7/36) Downloading: utf8, RColorBrewer, RcppArmadillo, farver, ...                                                                                            [32m✔[0m utf8 1.2.6                               [244 kB in 0.42s]
+#14 7.952   (8/36) Downloading: RColorBrewer, RcppArmadillo, farver, magrittr, ...                                                                                        [32m✔[0m tibble 3.3.1                             [557 kB in 0.49s]
+#14 8.028   (9/36) Downloading: RColorBrewer, RcppArmadillo, farver, magrittr, ...                                                                                        [32m✔[0m rlemon 0.2.1                             [493 kB in 0.59s]
+#14 8.121   (10/36) Downloading: RColorBrewer, RcppArmadillo, farver, magrittr, ...                                                                                       [32m✔[0m RColorBrewer 1.1-3                       [12 kB in 0.61s]
+#14 8.141   (11/36) Downloading: RcppArmadillo, farver, magrittr, gridExtra, ...                                                                                          [32m✔[0m dplyr 1.2.1                              [924 kB in 0.5s]
+#14 8.202   (12/36) Downloading: RcppArmadillo, farver, magrittr, gridExtra, ...                                                                                          [32m✔[0m generics 0.1.4                           [47 kB in 0.55s]
+#14 8.306   (13/36) Downloading: RcppArmadillo, farver, magrittr, gridExtra, ...                                                                                          [32m✔[0m cpp11 0.5.5                              [305 kB in 0.55s]
+#14 8.317   (14/36) Downloading: RcppArmadillo, farver, magrittr, gridExtra, ...                                                                                          [32m✔[0m lifecycle 1.0.5                          [107 kB in 0.49s]
+#14 8.320   (15/36) Downloading: RcppArmadillo, farver, magrittr, gridExtra, ...                                                                                          [32m✔[0m farver 2.1.2                             [1.3 MB in 0.82s]
+#14 8.351   (16/36) Downloading: RcppArmadillo, magrittr, gridExtra, optmatch, ...                                                                                        [32m✔[0m optmatch 0.10.6                          [1.1 MB in 0.85s]
+#14 8.385   (17/36) Downloading: RcppArmadillo, magrittr, gridExtra, ggplot2, ...                                                                                         [32m✔[0m gridExtra 2.3.1                          [481 kB in 0.86s]
+#14 8.389   (18/36) Downloading: RcppArmadillo, magrittr, ggplot2, cli, ...                                                                                               [32m✔[0m magrittr 2.0.5                           [282 kB in 0.91s]
+#14 8.441   (19/36) Downloading: RcppArmadillo, ggplot2, cli, S7, ...                                                                                                     [32m✔[0m S7 0.2.2                                 [185 kB in 0.56s]
+#14 8.473   (20/36) Downloading: RcppArmadillo, ggplot2, cli, viridisLite, ...                                                                                            [32m✔[0m scales 1.4.0                             [329 kB in 0.53s]
+#14 8.562   (21/36) Downloading: RcppArmadillo, ggplot2, cli, viridisLite, ...                                                                                            [32m✔[0m RcppProgress 0.4.2                       [12 kB in 0.59s]
+#14 8.714   (22/36) Downloading: RcppArmadillo, ggplot2, cli, viridisLite, ...                                                                                            [32m✔[0m cli 3.6.6                                [644 kB in 0.93s]
+#14 8.801   (23/36) Downloading: RcppArmadillo, ggplot2, viridisLite, vctrs, ...                                                                                          [32m✔[0m withr 3.0.3                              [104 kB in 0.71s]
+#14 9.021   (24/36) Downloading: RcppArmadillo, ggplot2, viridisLite, vctrs, ...                                                                                          [32m✔[0m viridisLite 0.4.3                        [1.3 MB in 1.2s]
+#14 9.170   (25/36) Downloading: RcppArmadillo, ggplot2, vctrs, isoband, ...                                                                                              [32m✔[0m RcppArmadillo 0.12.8.4.0                 [1.4 MB in 1.7s]
+#14 9.210   (26/36) Downloading: ggplot2, vctrs, isoband, chk, ...                                                                                                        [32m✔[0m pillar 1.11.1                            [410 kB in 1.2s]
+#14 9.500   (27/36) Downloading: ggplot2, vctrs, isoband, chk, ...                                                                                                        [32m✔[0m crayon 1.5.3                             [40 kB in 1.1s]
+#14 9.524   (28/36) Downloading: ggplot2, vctrs, isoband, chk, ...                                                                                                        [32m✔[0m vctrs 0.7.3                              [1.1 MB in 1.4s]
+#14 9.528   (29/36) Downloading: ggplot2, isoband, chk, cobalt, ...                                                                                                       [32m✔[0m rlang 1.3.0                              [784 kB in 1.2s]
+#14 9.660   (30/36) Downloading: ggplot2, isoband, chk, cobalt, ...                                                                                                       [32m✔[0m isoband 0.3.0                            [1.6 MB in 1.8s]
+#14 10.04   (31/36) Downloading: ggplot2, chk, cobalt, Rcpp, ...                                                                                                          [32m✔[0m chk 0.11.0                               [704 kB in 1.7s]
+#14 10.04   (32/36) Downloading: ggplot2, cobalt, Rcpp, MatchIt                                                                                                           [32m✔[0m MatchIt 4.5.5                            [1.8 MB in 2.2s]
+#14 10.57   (33/36) Downloading: ggplot2, cobalt, Rcpp                                                                                                                    [32m✔[0m ggplot2 4.0.3                            [6.3 MB in 2.8s]
+#14 10.71   (34/36) Downloading: cobalt, Rcpp                                                                                                                             [32m✔[0m cobalt 4.5.2                             [2.5 MB in 2.4s]
+#14 10.76   (35/36) Downloading: Rcpp                                                                                                                                     [32m✔[0m Rcpp 1.0.12                              [3.4 MB in 3.2s]
+#14 12.23                                                                                 Successfully downloaded 36 packages in 5 seconds.
+#14 12.23 
+#14 12.23 # Installing packages --------------------------------------------------------
+#14 13.07   (0/36) Installing: backports, cli, cpp11, crayon                                (0/36) Installing: backports, cli, cpp11, crayon                                (0/36) Installing: backports, cli, cpp11, crayon                                (0/36) Installing: backports, cli, cpp11, crayon                                (0/36) Installing: backports, cli, cpp11, crayon                                (0/36) Installing: backports, cli, cpp11, crayon                                (0/36) Installing: backports, cli, cpp11, crayon                                (0/36) Installing: backports, cli, cpp11, crayon                                                                                                              [32m✔[0m cpp11 0.5.5                              [built from source in 30s]
+#14 44.34   (1/36) Installing: backports, cli, crayon                                       (1/36) Installing: backports, cli, crayon, farver                                                                                                             [32m✔[0m crayon 1.5.3                             [built from source in 31s]
+#14 45.55   (2/36) Installing: backports, cli, farver                                       (2/36) Installing: backports, cli, farver, generics                                                                                                           [32m✔[0m backports 1.5.1                          [built from source in 33s]
+#14 46.53   (3/36) Installing: cli, farver, generics                                        (3/36) Installing: cli, farver, generics, glue                                  (3/36) Installing: cli, farver, generics, glue                                  (3/36) Installing: cli, farver, generics, glue                                                                                                                [32m✔[0m generics 0.1.4                           [built from source in 3.0s]
+#14 49.69   (4/36) Installing: cli, farver, glue                                            (4/36) Installing: cli, farver, glue, labeling                                  (4/36) Installing: cli, farver, glue, labeling                                                                                                                [32m✔[0m glue 1.8.1                               [built from source in 3.6s]
+#14 50.82   (5/36) Installing: cli, farver, labeling                                        (5/36) Installing: cli, farver, labeling, magrittr                              (5/36) Installing: cli, farver, labeling, magrittr                                                                                                            [32m✔[0m labeling 0.4.3                           [built from source in 2.8s]
+#14 52.91   (6/36) Installing: cli, farver, magrittr                                        (6/36) Installing: cli, farver, magrittr, pkgconfig                             (6/36) Installing: cli, farver, magrittr, pkgconfig                                                                                                           [32m✔[0m magrittr 2.0.5                           [built from source in 3.0s]
+#14 54.11   (7/36) Installing: cli, farver, pkgconfig                                       (7/36) Installing: cli, farver, pkgconfig, R6                                   (7/36) Installing: cli, farver, pkgconfig, R6                                                                                                                 [32m✔[0m pkgconfig 2.0.3                          [built from source in 2.2s]
+#14 58.84   (8/36) Installing: cli, farver, R6                                              (8/36) Installing: cli, farver, R6, RColorBrewer                                                                                                              [32m✔[0m R6 2.6.1                                 [built from source in 4.8s]
+#14 60.25   (9/36) Installing: cli, farver, RColorBrewer                                    (9/36) Installing: cli, farver, RColorBrewer, Rcpp                              (9/36) Installing: cli, farver, RColorBrewer, Rcpp                              (9/36) Installing: cli, farver, RColorBrewer, Rcpp                                                                                                            [32m✔[0m RColorBrewer 1.1-3                       [built from source in 4.0s]
+#14 63.48   (10/36) Installing: cli, farver, Rcpp                                           (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                           [31m✖[0m cli 3.6.6                               
+#14 3628.3 [31m✖[0m farver 2.1.2                            
+#14 3628.3 [31m✖[0m Rcpp 1.0.12                             
+#14 3628.3 [31m✖[0m RcppProgress 0.4.2                      
+#14 3628.8 Rolled back installation of 10 packages due to errors.
+#14 3629.0 
+#14 3629.0 The following package(s) were not installed successfully:
+#14 3629.0 - [cli]: install failed
+#14 3629.0 - [farver]: install failed
+#14 3629.0 - [Rcpp]: install failed
+#14 3629.0 - [RcppProgress]: install failed
+#14 3629.0 - [chk]: dependency failed (lifecycle)
+#14 3629.0 - [cobalt]: dependency failed (ggplot2, gtable, gridExtra, chk)
+#14 3629.0 - [dplyr]: dependency failed (cli, lifecycle, pillar, tibble, tidyselect, vctrs)
+#14 3629.0 - [ggplot2]: dependency failed (cli, gtable, isoband, lifecycle, scales, vctrs)
+#14 3629.0 - [gridExtra]: dependency failed (gtable)
+#14 3629.0 - [gtable]: dependency failed (cli, lifecycle)
+#14 3629.0 - [isoband]: dependency failed (cli)
+#14 3629.0 - [lifecycle]: dependency failed (cli)
+#14 3629.0 - [MatchIt]: dependency failed (chk, Rcpp, RcppProgress)
+#14 3629.0 - [optmatch]: dependency failed (Rcpp, dplyr, tibble, rlemon)
+#14 3629.0 - [pillar]: dependency failed (cli, lifecycle, vctrs)
+#14 3629.0 - [RcppArmadillo]: dependency failed (Rcpp)
+#14 3629.0 - [rlemon]: dependency failed (Rcpp)
+#14 3629.0 - [scales]: dependency failed (cli, farver, lifecycle)
+#14 3629.0 - [tibble]: dependency failed (cli, lifecycle, pillar, vctrs)
+#14 3629.0 - [tidyselect]: dependency failed (cli, lifecycle, vctrs)
+#14 3629.0 - [vctrs]: dependency failed (cli, lifecycle)
+#14 3629.0 You may need to manually download and install these packages.
+#14 3629.0 
+#14 3629.0 # cli ------------------------------------------------------------------------
+#14 3629.0 worker process timed out
+#14 3629.0 
+#14 3629.0 # farver ---------------------------------------------------------------------
+#14 3629.0 worker process timed out
+#14 3629.0 
+#14 3629.0 # Rcpp -----------------------------------------------------------------------
+#14 3629.0 worker process timed out
+#14 3629.0 
+#14 3629.0 # RcppProgress ---------------------------------------------------------------
+#14 3629.0 worker process timed out
+#14 3629.0 
+#14 3629.1 [?25hError: failed to install "MatchIt", "cobalt", "optmatch", "Rcpp", "RcppArmadillo"
+#14 3629.9 Traceback (most recent calls last):
+#14 3629.9 4: renv::restore(lockfile = "/app/env/renv.lock", library = .libPaths()[1], 
+#14 3629.9        prompt = FALSE)
+#14 3629.9 3: renv_restore_run_actions(project, diff, current, lockfile, rebuild, 
+#14 3629.9        strict, descriptions, retry)
+#14 3629.9 2: stopf("failed to install %s", paste(dQuote(failed), collapse = ", "))
+#14 3629.9 1: stop(sprintf(fmt, ...), call. = call.)
+#14 3630.0 Execution halted
+#14 3630.4 renv::restore() stopped before finishing — expected on R >= 4.5 (optmatch); the patched build is the next step
+#14 DONE 3630.7s
+
+#15 [11/14] RUN cd /tmp &&     wget -q https://cloud.r-project.org/src/contrib/Archive/optmatch/optmatch_0.10.6.tar.gz &&     tar -xzf optmatch_0.10.6.tar.gz &&     patch -p1 --forward -i /app/env/patches/optmatch-0.10.6-R4.5-calloc.patch &&     R CMD INSTALL --no-multiarch optmatch &&     rm -rf /tmp/optmatch*
+#15 1.676 patching file optmatch/src/map.cc
+#15 1.676 patching file optmatch/src/r_smahal.cc
+#15 1.676 patching file optmatch/src/smahal.cc
+#15 1.677 patching file optmatch/src/subsetInfSparseMatrix.cc
+#15 2.071 * installing to library ‘/opt/conda/envs/twas-eqtl/lib/R/library’
+#15 2.079 ERROR: dependencies ‘Rcpp’, ‘dplyr’, ‘tibble’, ‘rlemon’ are not available for package ‘optmatch’
+#15 2.079 Perhaps try a variation of:
+#15 2.079 install.packages(c('Rcpp', 'dplyr', 'tibble', 'rlemon'))
+#15 2.079 * removing ‘/opt/conda/envs/twas-eqtl/lib/R/library/optmatch’
+#15 ERROR: process "/bin/sh -c cd /tmp &&     wget -q https://cloud.r-project.org/src/contrib/Archive/optmatch/optmatch_0.10.6.tar.gz &&     tar -xzf optmatch_0.10.6.tar.gz &&     patch -p1 --forward -i /app/env/patches/optmatch-0.10.6-R4.5-calloc.patch &&     R CMD INSTALL --no-multiarch optmatch &&     rm -rf /tmp/optmatch*" did not complete successfully: exit code: 1
+------
+ > [11/14] RUN cd /tmp &&     wget -q https://cloud.r-project.org/src/contrib/Archive/optmatch/optmatch_0.10.6.tar.gz &&     tar -xzf optmatch_0.10.6.tar.gz &&     patch -p1 --forward -i /app/env/patches/optmatch-0.10.6-R4.5-calloc.patch &&     R CMD INSTALL --no-multiarch optmatch &&     rm -rf /tmp/optmatch*:
+1.676 patching file optmatch/src/map.cc
+1.676 patching file optmatch/src/r_smahal.cc
+1.676 patching file optmatch/src/smahal.cc
+1.677 patching file optmatch/src/subsetInfSparseMatrix.cc
+2.071 * installing to library ‘/opt/conda/envs/twas-eqtl/lib/R/library’
+2.079 ERROR: dependencies ‘Rcpp’, ‘dplyr’, ‘tibble’, ‘rlemon’ are not available for package ‘optmatch’
+2.079 Perhaps try a variation of:
+2.079 install.packages(c('Rcpp', 'dplyr', 'tibble', 'rlemon'))
+2.079 * removing ‘/opt/conda/envs/twas-eqtl/lib/R/library/optmatch’
+------
+Dockerfile:144
+--------------------
+ 143 |     # no algorithm, argument, tolerance or data structure is touched).
+ 144 | >>> RUN cd /tmp && \
+ 145 | >>>     wget -q https://cloud.r-project.org/src/contrib/Archive/optmatch/optmatch_0.10.6.tar.gz && \
+ 146 | >>>     tar -xzf optmatch_0.10.6.tar.gz && \
+ 147 | >>>     patch -p1 --forward -i /app/env/patches/optmatch-0.10.6-R4.5-calloc.patch && \
+ 148 | >>>     R CMD INSTALL --no-multiarch optmatch && \
+ 149 | >>>     rm -rf /tmp/optmatch*
+ 150 |     
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c cd /tmp &&     wget -q https://cloud.r-project.org/src/contrib/Archive/optmatch/optmatch_0.10.6.tar.gz &&     tar -xzf optmatch_0.10.6.tar.gz &&     patch -p1 --forward -i /app/env/patches/optmatch-0.10.6-R4.5-calloc.patch &&     R CMD INSTALL --no-multiarch optmatch &&     rm -rf /tmp/optmatch*" did not complete successfully: exit code: 1
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/t9p5ppffq1k4tz47icb695705
+EXIT=1

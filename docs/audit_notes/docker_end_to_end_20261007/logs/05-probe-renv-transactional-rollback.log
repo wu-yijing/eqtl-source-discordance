@@ -1,0 +1,516 @@
+#0 building with "desktop-linux" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile:
+#1 transferring dockerfile: 9.88kB 0.0s done
+#1 DONE 0.6s
+
+#2 [internal] load metadata for docker.io/continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context:
+#3 transferring context: 1.01kB done
+#3 DONE 0.4s
+
+#4 [ 1/15] FROM docker.io/continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 57.38kB 0.1s done
+#5 DONE 0.6s
+
+#6 [ 2/15] RUN apt-get update && apt-get install -y --no-install-recommends     build-essential     patch     libcurl4-openssl-dev     libssl-dev     libxml2-dev     libgit2-dev     wget     ca-certificates     git     && rm -rf /var/lib/apt/lists/*
+#6 CACHED
+
+#7 [ 3/15] COPY env/environment.yml /tmp/environment.yml
+#7 CACHED
+
+#8 [ 4/15] RUN conda env create -f /tmp/environment.yml &&     conda clean -afy &&     rm /tmp/environment.yml
+#8 CACHED
+
+#9 [ 5/15] RUN git clone https://github.com/hakyimlab/MetaXcan.git /opt/MetaXcan &&     cd /opt/MetaXcan &&     git checkout tags/v0.8.1 &&     find /opt/MetaXcan -name "*.pyc" -delete
+#9 CACHED
+
+#10 [ 6/15] WORKDIR /app
+#10 CACHED
+
+#11 [ 7/15] COPY . /app/
+#11 DONE 6.8s
+
+#12 [ 8/15] RUN conda install -y -n twas-eqtl -c conda-forge r-base=4.5.2 &&     conda clean -afy
+#12 4.827 Channels:
+#12 4.827  - conda-forge
+#12 4.827  - defaults
+#12 4.827 Platform: linux-64
+#12 4.827 Collecting package metadata (repodata.json): ...working... done
+#12 23.24 Solving environment: ...working... done
+#12 43.25 
+#12 43.25 ## Package Plan ##
+#12 43.25 
+#12 43.25   environment location: /opt/conda/envs/twas-eqtl
+#12 43.25 
+#12 43.25   added / updated specs:
+#12 43.25     - r-base=4.5.2
+#12 43.25 
+#12 43.25 
+#12 43.25 The following packages will be downloaded:
+#12 43.25 
+#12 43.25     package                    |            build
+#12 43.25     ---------------------------|-----------------
+#12 43.25     _r-mutex-1.0.1             |      anacondar_1           3 KB  conda-forge
+#12 43.25     binutils_impl_linux-64-2.46.1|default_hfdba357_102         3.5 MB  conda-forge
+#12 43.25     bwidget-1.10.1             |       hfc2019e_3         131 KB  conda-forge
+#12 43.25     c-ares-1.34.8              |       hebe6cf0_2         223 KB  conda-forge
+#12 43.25     cairo-1.18.4               |       h3c89d7e_3         968 KB  conda-forge
+#12 43.25     curl-8.22.0                |       ha042cf0_0         192 KB  conda-forge
+#12 43.25     font-ttf-dejavu-sans-mono-2.37|       hab24e00_0         388 KB  conda-forge
+#12 43.25     font-ttf-inconsolata-3.000 |       h77eed37_0          94 KB  conda-forge
+#12 43.25     font-ttf-source-code-pro-2.038|       h77eed37_0         684 KB  conda-forge
+#12 43.25     font-ttf-ubuntu-0.83       |       h77eed37_3         1.5 MB  conda-forge
+#12 43.25     fontconfig-2.18.3          |       h4db4eae_1         289 KB  conda-forge
+#12 43.25     fonts-conda-ecosystem-1    |                0           4 KB  conda-forge
+#12 43.25     fonts-conda-forge-1        |       hc364b38_1           4 KB  conda-forge
+#12 43.25     fribidi-1.0.17             |       h7cc23a3_0          63 KB  conda-forge
+#12 43.25     gcc_impl_linux-64-16.2.0   |       h9891192_7        82.1 MB  conda-forge
+#12 43.25     gfortran_impl_linux-64-16.2.0|       hf930d89_7        20.2 MB  conda-forge
+#12 43.25     graphite2-1.3.15           |       h54a6638_1         100 KB  conda-forge
+#12 43.25     gsl-2.7                    |       he838d99_0         3.2 MB  conda-forge
+#12 43.25     gxx_impl_linux-64-16.2.0   |       h0d273dc_7        16.2 MB  conda-forge
+#12 43.25     icu-78.3                   |  py310h44b86e0_2        13.8 MB  conda-forge
+#12 43.25     kernel-headers_linux-64-6.12.0|       he073ed8_6         1.5 MB  conda-forge
+#12 43.25     keyutils-1.6.3             |       h7cc23a3_1         132 KB  conda-forge
+#12 43.25     krb5-1.22.2                |       hbc21106_2         1.3 MB  conda-forge
+#12 43.25     lerc-4.2.0                 |       hdb68285_0         265 KB  conda-forge
+#12 43.25     libblas-3.11.0             |11_h4a7cf45_openblas          18 KB  conda-forge
+#12 43.25     libcblas-3.11.0            |11_h0358290_openblas          18 KB  conda-forge
+#12 43.25     libcurl-8.22.0             |       ha042cf0_0         488 KB  conda-forge
+#12 43.25     libdeflate-1.25            |       hd45a770_1          72 KB  conda-forge
+#12 43.25     libedit-3.1.20250104       | pl5321h373387f_1         132 KB  conda-forge
+#12 43.25     libev-4.33                 |       h280c20c_3          42 KB  conda-forge
+#12 43.25     libfreetype-2.14.3         |       ha770c72_2           8 KB  conda-forge
+#12 43.25     libfreetype6-2.14.3        |       h5e6c136_2         379 KB  conda-forge
+#12 43.25     libgcc-devel_linux-64-16.2.0|     he3ce08f_107         3.0 MB  conda-forge
+#12 43.25     libgcc-ng-16.2.0           |       h69a702a_7          28 KB  conda-forge
+#12 43.25     libgfortran-16.2.0         |       h69a702a_7          28 KB  conda-forge
+#12 43.25     libgfortran-ng-16.2.0      |       h69a702a_7          28 KB  conda-forge
+#12 43.25     libgfortran5-16.2.0        |       h6b99dfc_7         2.4 MB  conda-forge
+#12 43.25     libglib-2.88.3             |       h0d30a3d_0         4.5 MB  conda-forge
+#12 43.25     libharfbuzz-14.4.0         |       h23af247_1         1.3 MB  conda-forge
+#12 43.25     libiconv-1.18              |       h0cb94f2_3         771 KB  conda-forge
+#12 43.25     libjpeg-turbo-3.2.0        |       hb03c661_1         635 KB  conda-forge
+#12 43.25     liblapack-3.11.0           |11_h47877c9_openblas          18 KB  conda-forge
+#12 43.25     libnghttp2-1.68.1          |       h74cf4be_1         635 KB  conda-forge
+#12 43.25     libopenblas-0.3.34         |pthreads_hf13c14d_2         6.5 MB  conda-forge
+#12 43.25     libpng-1.6.59              |       h922cc85_0         309 KB  conda-forge
+#12 43.25     libpsl-0.23.1              |       hd9e3e90_1          71 KB  conda-forge
+#12 43.25     libsanitizer-16.2.0        |       h3048135_7         7.7 MB  conda-forge
+#12 43.25     libsqlite-3.53.4           |     h0737f62_102         947 KB  conda-forge
+#12 43.25     libssh2-1.11.1             |       h6154650_1         299 KB  conda-forge
+#12 43.25     libstdcxx-16.2.0           |       h934c35e_7         6.3 MB  conda-forge
+#12 43.25     libstdcxx-devel_linux-64-16.2.0|     h86e191b_107        22.2 MB  conda-forge
+#12 43.25     libstdcxx-ng-16.2.0        |       hdf11a46_7          28 KB  conda-forge
+#12 43.25     libtiff-4.7.2              |       hcc2c06a_1         449 KB  conda-forge
+#12 43.25     libwebp-base-1.6.0         |       hd42ef1d_1         418 KB  conda-forge
+#12 43.25     libxcb-1.17.0              |       hb83e432_2         386 KB  conda-forge
+#12 43.25     make-4.4.1                 |       hb03c661_3         499 KB  conda-forge
+#12 43.25     pango-1.58.2               |       h7bb47b9_1         461 KB  conda-forge
+#12 43.25     pcre2-10.47                |       h8b3dc9c_1         1.2 MB  conda-forge
+#12 43.25     pixman-0.46.4              |       h54a6638_3         368 KB  conda-forge
+#12 43.25     pthread-stubs-0.4          |    h7cc23a3_1004           9 KB  conda-forge
+#12 43.25     r-base-4.5.2               |       h1fbe982_4        26.1 MB  conda-forge
+#12 43.25     sed-4.10                   |       h19d0853_0         262 KB  conda-forge
+#12 43.25     sysroot_linux-64-2.39      |       hc4b9eeb_6        40.1 MB  conda-forge
+#12 43.25     tktable-2.10               |      h0eb2ad0_11         101 KB  conda-forge
+#12 43.25     xorg-libice-1.1.2          |       h280c20c_0          61 KB  conda-forge
+#12 43.25     xorg-libsm-1.2.6           |       h0d788c3_1          30 KB  conda-forge
+#12 43.25     xorg-libx11-1.8.13         |       he1eb515_1         820 KB  conda-forge
+#12 43.25     xorg-libxau-1.0.12         |       h7cc23a3_2          18 KB  conda-forge
+#12 43.25     xorg-libxdmcp-1.1.5        |       h7cc23a3_2          22 KB  conda-forge
+#12 43.25     xorg-libxext-1.3.7         |       h7cc23a3_1          52 KB  conda-forge
+#12 43.25     xorg-libxrender-0.9.12     |       hb03c661_1          34 KB  conda-forge
+#12 43.25     xorg-libxt-1.3.1           |       h7cc23a3_1         375 KB  conda-forge
+#12 43.25     ------------------------------------------------------------
+#12 43.25                                            Total:       277.3 MB
+#12 43.25 
+#12 43.25 The following NEW packages will be INSTALLED:
+#12 43.25 
+#12 43.25   _r-mutex           conda-forge/noarch::_r-mutex-1.0.1-anacondar_1 
+#12 43.25   binutils_impl_lin~ conda-forge/linux-64::binutils_impl_linux-64-2.46.1-default_hfdba357_102 
+#12 43.25   bwidget            conda-forge/linux-64::bwidget-1.10.1-hfc2019e_3 
+#12 43.25   c-ares             conda-forge/linux-64::c-ares-1.34.8-hebe6cf0_2 
+#12 43.25   cairo              conda-forge/linux-64::cairo-1.18.4-h3c89d7e_3 
+#12 43.25   curl               conda-forge/linux-64::curl-8.22.0-ha042cf0_0 
+#12 43.25   font-ttf-dejavu-s~ conda-forge/noarch::font-ttf-dejavu-sans-mono-2.37-hab24e00_0 
+#12 43.25   font-ttf-inconsol~ conda-forge/noarch::font-ttf-inconsolata-3.000-h77eed37_0 
+#12 43.25   font-ttf-source-c~ conda-forge/noarch::font-ttf-source-code-pro-2.038-h77eed37_0 
+#12 43.25   font-ttf-ubuntu    conda-forge/noarch::font-ttf-ubuntu-0.83-h77eed37_3 
+#12 43.25   fontconfig         conda-forge/linux-64::fontconfig-2.18.3-h4db4eae_1 
+#12 43.25   fonts-conda-ecosy~ conda-forge/noarch::fonts-conda-ecosystem-1-0 
+#12 43.25   fonts-conda-forge  conda-forge/noarch::fonts-conda-forge-1-hc364b38_1 
+#12 43.25   fribidi            conda-forge/linux-64::fribidi-1.0.17-h7cc23a3_0 
+#12 43.25   gcc_impl_linux-64  conda-forge/linux-64::gcc_impl_linux-64-16.2.0-h9891192_7 
+#12 43.25   gfortran_impl_lin~ conda-forge/linux-64::gfortran_impl_linux-64-16.2.0-hf930d89_7 
+#12 43.25   graphite2          conda-forge/linux-64::graphite2-1.3.15-h54a6638_1 
+#12 43.25   gsl                conda-forge/linux-64::gsl-2.7-he838d99_0 
+#12 43.25   gxx_impl_linux-64  conda-forge/linux-64::gxx_impl_linux-64-16.2.0-h0d273dc_7 
+#12 43.25   icu                conda-forge/linux-64::icu-78.3-py310h44b86e0_2 
+#12 43.25   kernel-headers_li~ conda-forge/noarch::kernel-headers_linux-64-6.12.0-he073ed8_6 
+#12 43.25   keyutils           conda-forge/linux-64::keyutils-1.6.3-h7cc23a3_1 
+#12 43.25   krb5               conda-forge/linux-64::krb5-1.22.2-hbc21106_2 
+#12 43.25   lerc               conda-forge/linux-64::lerc-4.2.0-hdb68285_0 
+#12 43.25   libblas            conda-forge/linux-64::libblas-3.11.0-11_h4a7cf45_openblas 
+#12 43.25   libcblas           conda-forge/linux-64::libcblas-3.11.0-11_h0358290_openblas 
+#12 43.25   libcurl            conda-forge/linux-64::libcurl-8.22.0-ha042cf0_0 
+#12 43.25   libdeflate         conda-forge/linux-64::libdeflate-1.25-hd45a770_1 
+#12 43.25   libedit            conda-forge/linux-64::libedit-3.1.20250104-pl5321h373387f_1 
+#12 43.25   libev              conda-forge/linux-64::libev-4.33-h280c20c_3 
+#12 43.25   libfreetype        conda-forge/linux-64::libfreetype-2.14.3-ha770c72_2 
+#12 43.25   libfreetype6       conda-forge/linux-64::libfreetype6-2.14.3-h5e6c136_2 
+#12 43.25   libgcc-devel_linu~ conda-forge/noarch::libgcc-devel_linux-64-16.2.0-he3ce08f_107 
+#12 43.25   libgcc-ng          conda-forge/linux-64::libgcc-ng-16.2.0-h69a702a_7 
+#12 43.25   libgfortran        conda-forge/linux-64::libgfortran-16.2.0-h69a702a_7 
+#12 43.25   libgfortran-ng     conda-forge/linux-64::libgfortran-ng-16.2.0-h69a702a_7 
+#12 43.25   libgfortran5       conda-forge/linux-64::libgfortran5-16.2.0-h6b99dfc_7 
+#12 43.25   libglib            conda-forge/linux-64::libglib-2.88.3-h0d30a3d_0 
+#12 43.25   libharfbuzz        conda-forge/linux-64::libharfbuzz-14.4.0-h23af247_1 
+#12 43.25   libiconv           conda-forge/linux-64::libiconv-1.18-h0cb94f2_3 
+#12 43.25   libjpeg-turbo      conda-forge/linux-64::libjpeg-turbo-3.2.0-hb03c661_1 
+#12 43.25   liblapack          conda-forge/linux-64::liblapack-3.11.0-11_h47877c9_openblas 
+#12 43.25   libnghttp2         conda-forge/linux-64::libnghttp2-1.68.1-h74cf4be_1 
+#12 43.25   libopenblas        conda-forge/linux-64::libopenblas-0.3.34-pthreads_hf13c14d_2 
+#12 43.25   libpng             conda-forge/linux-64::libpng-1.6.59-h922cc85_0 
+#12 43.25   libpsl             conda-forge/linux-64::libpsl-0.23.1-hd9e3e90_1 
+#12 43.25   libsanitizer       conda-forge/linux-64::libsanitizer-16.2.0-h3048135_7 
+#12 43.25   libssh2            conda-forge/linux-64::libssh2-1.11.1-h6154650_1 
+#12 43.25   libstdcxx          conda-forge/linux-64::libstdcxx-16.2.0-h934c35e_7 
+#12 43.25   libstdcxx-devel_l~ conda-forge/noarch::libstdcxx-devel_linux-64-16.2.0-h86e191b_107 
+#12 43.25   libstdcxx-ng       conda-forge/linux-64::libstdcxx-ng-16.2.0-hdf11a46_7 
+#12 43.25   libtiff            conda-forge/linux-64::libtiff-4.7.2-hcc2c06a_1 
+#12 43.25   libwebp-base       conda-forge/linux-64::libwebp-base-1.6.0-hd42ef1d_1 
+#12 43.25   libxcb             conda-forge/linux-64::libxcb-1.17.0-hb83e432_2 
+#12 43.25   make               conda-forge/linux-64::make-4.4.1-hb03c661_3 
+#12 43.25   pango              conda-forge/linux-64::pango-1.58.2-h7bb47b9_1 
+#12 43.25   pcre2              conda-forge/linux-64::pcre2-10.47-h8b3dc9c_1 
+#12 43.25   pixman             conda-forge/linux-64::pixman-0.46.4-h54a6638_3 
+#12 43.25   pthread-stubs      conda-forge/linux-64::pthread-stubs-0.4-h7cc23a3_1004 
+#12 43.25   r-base             conda-forge/linux-64::r-base-4.5.2-h1fbe982_4 
+#12 43.25   sed                conda-forge/linux-64::sed-4.10-h19d0853_0 
+#12 43.25   sysroot_linux-64   conda-forge/noarch::sysroot_linux-64-2.39-hc4b9eeb_6 
+#12 43.25   tktable            conda-forge/linux-64::tktable-2.10-h0eb2ad0_11 
+#12 43.25   xorg-libice        conda-forge/linux-64::xorg-libice-1.1.2-h280c20c_0 
+#12 43.25   xorg-libsm         conda-forge/linux-64::xorg-libsm-1.2.6-h0d788c3_1 
+#12 43.25   xorg-libx11        conda-forge/linux-64::xorg-libx11-1.8.13-he1eb515_1 
+#12 43.25   xorg-libxau        conda-forge/linux-64::xorg-libxau-1.0.12-h7cc23a3_2 
+#12 43.25   xorg-libxdmcp      conda-forge/linux-64::xorg-libxdmcp-1.1.5-h7cc23a3_2 
+#12 43.25   xorg-libxext       conda-forge/linux-64::xorg-libxext-1.3.7-h7cc23a3_1 
+#12 43.25   xorg-libxrender    conda-forge/linux-64::xorg-libxrender-0.9.12-hb03c661_1 
+#12 43.25   xorg-libxt         conda-forge/linux-64::xorg-libxt-1.3.1-h7cc23a3_1 
+#12 43.25 
+#12 43.25 The following packages will be REVISED:
+#12 43.25 
+#12 43.25   libsqlite                             3.53.4-h0737f62_103 --> 3.53.4-h0737f62_102 
+#12 43.25 
+#12 43.25 
+#12 43.25 
+#12 43.25 Downloading and Extracting Packages: ...working... done
+#12 68.53 Preparing transaction: ...working... done
+#12 68.86 Verifying transaction: ...working... done
+#12 69.65 Executing transaction: ...working... done
+#12 70.22 WARNING conda.conda_pypi.main:notify_externally_managed_future(156): 
+#12 70.22   Did you know? You can install many PyPI packages with conda
+#12 70.22   using the conda-pypi beta. Get started:
+#12 70.22     https://docs.conda.io/projects/conda/en/stable/new-features.html
+#12 70.22 
+#12 72.34 Will remove 1 package cache(s).
+#12 DONE 73.2s
+
+#13 [ 9/15] RUN R -e "install.packages('renv', repos='https://cloud.r-project.org')"
+#13 0.777 
+#13 0.777 R version 4.5.2 (2025-10-31) -- "[Not] Part in a Rumble"
+#13 0.777 Copyright (C) 2025 The R Foundation for Statistical Computing
+#13 0.777 Platform: x86_64-conda-linux-gnu
+#13 0.777 
+#13 0.777 R is free software and comes with ABSOLUTELY NO WARRANTY.
+#13 0.777 You are welcome to redistribute it under certain conditions.
+#13 0.777 Type 'license()' or 'licence()' for distribution details.
+#13 0.777 
+#13 0.777 R is a collaborative project with many contributors.
+#13 0.777 Type 'contributors()' for more information and
+#13 0.777 'citation()' on how to cite R or R packages in publications.
+#13 0.777 
+#13 0.777 Type 'demo()' for some demos, 'help()' for on-line help, or
+#13 0.777 'help.start()' for an HTML browser interface to help.
+#13 0.777 Type 'q()' to quit R.
+#13 0.777 
+#13 0.912 > install.packages('renv', repos='https://cloud.r-project.org')
+#13 1.991 trying URL 'https://cloud.r-project.org/src/contrib/renv_1.3.1.tar.gz'
+#13 2.174 Content type 'application/x-gzip' length 1571942 bytes (1.5 MB)
+#13 2.181 ==================================================
+#13 2.487 downloaded 1.5 MB
+#13 2.487 
+#13 3.143 * installing *source* package ‘renv’ ...
+#13 3.143 ** this is package ‘renv’ version ‘1.3.1’
+#13 3.159 ** package ‘renv’ successfully unpacked and MD5 sums checked
+#13 3.159 ** using staged installation
+#13 3.179 ** R
+#13 3.281 ** inst
+#13 3.288 ** byte-compile and prepare package for lazy loading
+#13 14.17 ** libs
+#13 14.17 using C compiler: ‘x86_64-conda-linux-gnu-cc (conda-forge gcc 16.2.0-7) 16.2.0’
+#13 14.17 x86_64-conda-linux-gnu-cc -I"/opt/conda/envs/twas-eqtl/lib/R/include" -DNDEBUG   -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /opt/conda/envs/twas-eqtl/include -I/opt/conda/envs/twas-eqtl/include -Wl,-rpath-link,/opt/conda/envs/twas-eqtl/lib    -fpic  -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /opt/conda/envs/twas-eqtl/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1771898340574/work=/usr/local/src/conda/r-base-4.5.2 -fdebug-prefix-map=/opt/conda/envs/twas-eqtl=/usr/local/src/conda-prefix  -c renv.c -o renv.o
+#13 14.17 x86_64-conda-linux-gnu-cc -shared -L/opt/conda/envs/twas-eqtl/lib/R/lib -Wl,-O2 -Wl,--sort-common -Wl,--as-needed -Wl,-z,relro -Wl,-z,now -Wl,--disable-new-dtags -Wl,--gc-sections -Wl,--allow-shlib-undefined -Wl,-rpath,/opt/conda/envs/twas-eqtl/lib -Wl,-rpath-link,/opt/conda/envs/twas-eqtl/lib -L/opt/conda/envs/twas-eqtl/lib -o renv.so renv.o -L/opt/conda/envs/twas-eqtl/lib/R/lib -lR
+#13 14.17 ** help
+#13 14.31 *** installing help indices
+#13 14.44 *** copying figures
+#13 14.44 ** building package indices
+#13 14.72 ** installing vignettes
+#13 14.72 ** testing if installed package can be loaded from temporary location
+#13 15.04 ** checking absolute paths in shared objects and dynamic libraries
+#13 15.07 ** testing if installed package can be loaded from final location
+#13 15.71 ** testing if installed package keeps a record of temporary installation path
+#13 15.73 * DONE (renv)
+#13 15.76 
+#13 15.76 The downloaded source packages are in
+#13 15.76 	‘/tmp/RtmpSyrn5B/downloaded_packages’
+#13 15.77 Updating HTML index of packages in '.Library'
+#13 15.77 Making 'packages.html' ... done
+#13 15.78 > 
+#13 DONE 15.9s
+
+#14 [10/15] RUN R -e "o <- options(); print(o[grep('^renv', names(o))]); e <- Sys.getenv(); print(e[grep('^RENV', names(e))]); print(packageVersion('renv')); print(parallel::detectCores())"
+#14 0.263 
+#14 0.263 R version 4.5.2 (2025-10-31) -- "[Not] Part in a Rumble"
+#14 0.263 Copyright (C) 2025 The R Foundation for Statistical Computing
+#14 0.263 Platform: x86_64-conda-linux-gnu
+#14 0.263 
+#14 0.266 R is free software and comes with ABSOLUTELY NO WARRANTY.
+#14 0.266 You are welcome to redistribute it under certain conditions.
+#14 0.266 Type 'license()' or 'licence()' for distribution details.
+#14 0.266 
+#14 0.266 R is a collaborative project with many contributors.
+#14 0.266 Type 'contributors()' for more information and
+#14 0.266 'citation()' on how to cite R or R packages in publications.
+#14 0.266 
+#14 0.266 Type 'demo()' for some demos, 'help()' for on-line help, or
+#14 0.266 'help.start()' for an HTML browser interface to help.
+#14 0.266 Type 'q()' to quit R.
+#14 0.266 
+#14 0.354 > o <- options(); print(o[grep('^renv', names(o))]); e <- Sys.getenv(); print(e[grep('^RENV', names(e))]); print(packageVersion('renv')); print(parallel::detectCores())
+#14 0.354 named list()
+#14 0.355 
+#14 0.357 [1] ‘1.3.1’
+#14 0.370 [1] 12
+#14 0.370 > 
+#14 DONE 0.4s
+
+#15 [11/15] RUN R -e "renv::restore(lockfile='/app/env/renv.lock', library=.libPaths()[1], prompt=FALSE)"     || echo "renv::restore() stopped before finishing — expected on R >= 4.5 (optmatch); the patched build is the next step"
+#15 0.233 
+#15 0.233 R version 4.5.2 (2025-10-31) -- "[Not] Part in a Rumble"
+#15 0.233 Copyright (C) 2025 The R Foundation for Statistical Computing
+#15 0.233 Platform: x86_64-conda-linux-gnu
+#15 0.233 
+#15 0.233 R is free software and comes with ABSOLUTELY NO WARRANTY.
+#15 0.233 You are welcome to redistribute it under certain conditions.
+#15 0.233 Type 'license()' or 'licence()' for distribution details.
+#15 0.233 
+#15 0.233 R is a collaborative project with many contributors.
+#15 0.233 Type 'contributors()' for more information and
+#15 0.233 'citation()' on how to cite R or R packages in publications.
+#15 0.233 
+#15 0.233 Type 'demo()' for some demos, 'help()' for on-line help, or
+#15 0.233 'help.start()' for an HTML browser interface to help.
+#15 0.233 Type 'q()' to quit R.
+#15 0.233 
+#15 0.327 > renv::restore(lockfile='/app/env/renv.lock', library=.libPaths()[1], prompt=FALSE)
+#15 0.502 The following package(s) will be updated:
+#15 0.502 
+#15 0.502 # CRAN -----------------------------------------------------------------------
+#15 0.502 - cobalt          [* -> 4.5.2]
+#15 0.502 - MatchIt         [* -> 4.5.5]
+#15 0.502 - optmatch        [* -> 0.10.6]
+#15 0.502 - Rcpp            [* -> 1.0.12]
+#15 0.502 - RcppArmadillo   [* -> 0.12.8.4.0]
+#15 0.502 
+#15 0.822 - Querying repositories for available source packages ... Done!
+#15 6.856 # Downloading packages -------------------------------------------------------
+#15 7.138 [?25l  (0/36) Downloading: backports, utf8, RColorBrewer, labeling, ...                                                                                              [32m✔[0m RColorBrewer 1.1-3                       [12 kB in 0.21s]
+#15 7.539   (1/36) Downloading: backports, utf8, labeling, R6, ...                                                                                                        [32m✔[0m labeling 0.4.3                           [10 kB in 0.24s]
+#15 7.567   (2/36) Downloading: backports, utf8, R6, RcppArmadillo, ...                                                                                                   [32m✔[0m pkgconfig 2.0.3                          [6 kB in 0.29s]
+#15 7.618   (3/36) Downloading: backports, utf8, R6, RcppArmadillo, ...                                                                                                   [32m✔[0m backports 1.5.1                          [30 kB in 0.32s]
+#15 7.644   (4/36) Downloading: utf8, R6, RcppArmadillo, tidyselect, ...                                                                                                  [32m✔[0m R6 2.6.1                                 [65 kB in 0.32s]
+#15 7.649   (5/36) Downloading: utf8, RcppArmadillo, tidyselect, farver, ...                                                                                              [32m✔[0m generics 0.1.4                           [47 kB in 0.14s]
+#15 7.709   (6/36) Downloading: utf8, RcppArmadillo, tidyselect, farver, ...                                                                                              [32m✔[0m gtable 0.3.6                             [148 kB in 0.4s]
+#15 7.729   (7/36) Downloading: utf8, RcppArmadillo, tidyselect, farver, ...                                                                                              [32m✔[0m tidyselect 1.2.1                         [104 kB in 0.43s]
+#15 7.755   (8/36) Downloading: utf8, RcppArmadillo, farver, magrittr, ...                                                                                                [32m✔[0m magrittr 2.0.5                           [282 kB in 0.56s]
+#15 7.888   (9/36) Downloading: utf8, RcppArmadillo, farver, rlemon, ...                                                                                                  [32m✔[0m utf8 1.2.6                               [244 kB in 0.57s]
+#15 7.898   (10/36) Downloading: RcppArmadillo, farver, rlemon, glue, ...                                                                                                 [32m✔[0m cpp11 0.5.5                              [305 kB in 0.33s]
+#15 7.949   (11/36) Downloading: RcppArmadillo, farver, rlemon, glue, ...                                                                                                 [32m✔[0m tibble 3.3.1                             [557 kB in 0.63s]
+#15 7.962   (12/36) Downloading: RcppArmadillo, farver, rlemon, glue, ...                                                                                                 [32m✔[0m gridExtra 2.3.1                          [481 kB in 0.69s]
+#15 8.017   (13/36) Downloading: RcppArmadillo, farver, rlemon, glue, ...                                                                                                 [32m✔[0m dplyr 1.2.1                              [924 kB in 0.52s]
+#15 8.059   (14/36) Downloading: RcppArmadillo, farver, rlemon, glue, ...                                                                                                 [32m✔[0m lifecycle 1.0.5                          [107 kB in 0.42s]
+#15 8.064   (15/36) Downloading: RcppArmadillo, farver, rlemon, glue, ...                                                                                                 [32m✔[0m glue 1.8.1                               [130 kB in 0.88s]
+#15 8.211   (16/36) Downloading: RcppArmadillo, farver, rlemon, optmatch, ...                                                                                             [32m✔[0m rlemon 0.2.1                             [493 kB in 0.9s]
+#15 8.230   (17/36) Downloading: RcppArmadillo, farver, optmatch, ggplot2, ...                                                                                            [32m✔[0m optmatch 0.10.6                          [1.1 MB in 0.95s]
+#15 8.277   (18/36) Downloading: RcppArmadillo, farver, ggplot2, cli, ...                                                                                                 [32m✔[0m S7 0.2.2                                 [185 kB in 0.64s]
+#15 8.372   (19/36) Downloading: RcppArmadillo, farver, ggplot2, cli, ...                                                                                                 [32m✔[0m farver 2.1.2                             [1.3 MB in 1.2s]
+#15 8.564   (20/36) Downloading: RcppArmadillo, ggplot2, cli, viridisLite, ...                                                                                            [32m✔[0m scales 1.4.0                             [329 kB in 0.68s]
+#15 8.571   (21/36) Downloading: RcppArmadillo, ggplot2, cli, viridisLite, ...                                                                                            [32m✔[0m withr 3.0.3                              [104 kB in 0.6s]
+#15 8.615   (22/36) Downloading: RcppArmadillo, ggplot2, cli, viridisLite, ...                                                                                            [32m✔[0m RcppArmadillo 0.12.8.4.0                 [1.4 MB in 1.4s]
+#15 8.777   (23/36) Downloading: ggplot2, cli, viridisLite, RcppProgress, ...                                                                                             [32m✔[0m cli 3.6.6                                [644 kB in 1.1s]
+#15 8.810   (24/36) Downloading: ggplot2, viridisLite, RcppProgress, vctrs, ...                                                                                           [32m✔[0m RcppProgress 0.4.2                       [12 kB in 0.98s]
+#15 8.881   (25/36) Downloading: ggplot2, viridisLite, vctrs, isoband, ...                                                                                                [32m✔[0m pillar 1.11.1                            [410 kB in 1.0s]
+#15 9.083   (26/36) Downloading: ggplot2, viridisLite, vctrs, isoband, ...                                                                                                [32m✔[0m viridisLite 0.4.3                        [1.3 MB in 1.4s]
+#15 9.112   (27/36) Downloading: ggplot2, vctrs, isoband, chk, ...                                                                                                        [32m✔[0m vctrs 0.7.3                              [1.1 MB in 1.2s]
+#15 9.116   (28/36) Downloading: ggplot2, isoband, chk, cobalt, ...                                                                                                       [32m✔[0m isoband 0.3.0                            [1.6 MB in 1.2s]
+#15 9.179   (29/36) Downloading: ggplot2, chk, cobalt, Rcpp, ...                                                                                                          [32m✔[0m crayon 1.5.3                             [40 kB in 0.87s]
+#15 9.437   (30/36) Downloading: ggplot2, chk, cobalt, Rcpp, ...                                                                                                          [32m✔[0m rlang 1.3.0                              [784 kB in 1.2s]
+#15 9.598   (31/36) Downloading: ggplot2, chk, cobalt, Rcpp, ...                                                                                                          [32m✔[0m ggplot2 4.0.3                            [6.3 MB in 2.3s]
+#15 9.960   (32/36) Downloading: chk, cobalt, Rcpp, MatchIt                                                                                                               [32m✔[0m chk 0.11.0                               [704 kB in 2.0s]
+#15 10.06   (33/36) Downloading: cobalt, Rcpp, MatchIt                                                                                                                    [32m✔[0m MatchIt 4.5.5                            [1.8 MB in 2.0s]
+#15 10.24   (34/36) Downloading: cobalt, Rcpp                                                                                                                             [32m✔[0m cobalt 4.5.2                             [2.5 MB in 2.2s]
+#15 10.43   (35/36) Downloading: Rcpp                                                                                                                                     [32m✔[0m Rcpp 1.0.12                              [3.4 MB in 2.3s]
+#15 10.53                                                                                 Successfully downloaded 36 packages in 3.4 seconds.
+#15 10.53 
+#15 10.53 # Installing packages --------------------------------------------------------
+#15 11.06   (0/36) Installing: backports, cli, cpp11, crayon                                (0/36) Installing: backports, cli, cpp11, crayon                                (0/36) Installing: backports, cli, cpp11, crayon                                (0/36) Installing: backports, cli, cpp11, crayon                                (0/36) Installing: backports, cli, cpp11, crayon                                                                                                              [32m✔[0m cpp11 0.5.5                              [built from source in 2.0s]
+#15 13.11   (1/36) Installing: backports, cli, crayon                                       (1/36) Installing: backports, cli, crayon, farver                               (1/36) Installing: backports, cli, crayon, farver                                                                                                             [32m✔[0m backports 1.5.1                          [built from source in 2.8s]
+#15 13.92   (2/36) Installing: cli, crayon, farver                                          (2/36) Installing: cli, crayon, farver, generics                                                                                                              [32m✔[0m crayon 1.5.3                             [built from source in 2.9s]
+#15 13.95   (3/36) Installing: cli, farver, generics                                        (3/36) Installing: cli, farver, generics, glue                                  (3/36) Installing: cli, farver, generics, glue                                  (3/36) Installing: cli, farver, generics, glue                                                                                                                [32m✔[0m generics 0.1.4                           [built from source in 1.9s]
+#15 15.89   (4/36) Installing: cli, farver, glue                                            (4/36) Installing: cli, farver, glue, labeling                                  (4/36) Installing: cli, farver, glue, labeling                                                                                                                [32m✔[0m glue 1.8.1                               [built from source in 2.6s]
+#15 16.57   (5/36) Installing: cli, farver, labeling                                        (5/36) Installing: cli, farver, labeling, magrittr                              (5/36) Installing: cli, farver, labeling, magrittr                                                                                                            [32m✔[0m labeling 0.4.3                           [built from source in 2.2s]
+#15 18.14   (6/36) Installing: cli, farver, magrittr                                        (6/36) Installing: cli, farver, magrittr, pkgconfig                             (6/36) Installing: cli, farver, magrittr, pkgconfig                                                                                                           [32m✔[0m magrittr 2.0.5                           [built from source in 2.3s]
+#15 18.90   (7/36) Installing: cli, farver, pkgconfig                                       (7/36) Installing: cli, farver, pkgconfig, R6                                   (7/36) Installing: cli, farver, pkgconfig, R6                                                                                                                 [32m✔[0m pkgconfig 2.0.3                          [built from source in 1.7s]
+#15 19.90   (8/36) Installing: cli, farver, R6                                              (8/36) Installing: cli, farver, R6, RColorBrewer                                (8/36) Installing: cli, farver, R6, RColorBrewer                                                                                                              [32m✔[0m R6 2.6.1                                 [built from source in 2.0s]
+#15 20.93   (9/36) Installing: cli, farver, RColorBrewer                                    (9/36) Installing: cli, farver, RColorBrewer, Rcpp                              (9/36) Installing: cli, farver, RColorBrewer, Rcpp                                                                                                            [32m✔[0m RColorBrewer 1.1-3                       [built from source in 2.3s]
+#15 22.30   (10/36) Installing: cli, farver, Rcpp                                           (10/36) Installing: cli, farver, Rcpp, RcppProgress                             (10/36) Installing: cli, farver, Rcpp, RcppProgress                                                                                                           [32m✔[0m RcppProgress 0.4.2                       [built from source in 1.4s]
+#15 23.82   (11/36) Installing: cli, farver, Rcpp                                           (11/36) Installing: cli, farver, Rcpp, rlang                                    (11/36) Installing: cli, farver, Rcpp, rlang                                                                                                                  [32m✔[0m cli 3.6.6                                [built from source in 15s]
+#15 26.13   (12/36) Installing: farver, Rcpp, rlang                                         (12/36) Installing: farver, Rcpp, rlang, S7                                     (12/36) Installing: farver, Rcpp, rlang, S7                                                                                                                   [32m✔[0m S7 0.2.2                                 [built from source in 4.0s]
+#15 30.25   (13/36) Installing: farver, Rcpp, rlang                                         (13/36) Installing: farver, Rcpp, rlang, utf8                                   (13/36) Installing: farver, Rcpp, rlang, utf8                                                                                                                 [32m✔[0m utf8 1.2.6                               [built from source in 4.7s]
+#15 35.12   (14/36) Installing: farver, Rcpp, rlang                                         (14/36) Installing: farver, Rcpp, rlang, viridisLite                            (14/36) Installing: farver, Rcpp, rlang, viridisLite                                                                                                          [32m✔[0m viridisLite 0.4.3                        [built from source in 1.6s]
+#15 36.89   (15/36) Installing: farver, Rcpp, rlang                                         (15/36) Installing: farver, Rcpp, rlang, withr                                  (15/36) Installing: farver, Rcpp, rlang, withr                                                                                                                [32m✔[0m withr 3.0.3                              [built from source in 2.3s]
+#15 39.38   (16/36) Installing: farver, Rcpp, rlang                                         (16/36) Installing: farver, Rcpp, rlang                                                                                                                       [32m✔[0m rlang 1.3.0                              [built from source in 16s]
+#15 39.70   (17/36) Installing: farver, Rcpp                                                (17/36) Installing: farver, Rcpp, isoband, lifecycle                            (17/36) Installing: farver, Rcpp, isoband, lifecycle                            (17/36) Installing: farver, Rcpp, isoband, lifecycle                                                                                                          [32m✔[0m lifecycle 1.0.5                          [built from source in 2.6s]
+#15 42.49   (18/36) Installing: farver, Rcpp, isoband                                       (18/36) Installing: farver, Rcpp, isoband, chk                                  (18/36) Installing: farver, Rcpp, isoband, chk                                                                                                                [32m✔[0m chk 0.11.0                               [built from source in 3.9s]
+#15 46.53   (19/36) Installing: farver, Rcpp, isoband                                       (19/36) Installing: farver, Rcpp, isoband, gtable                               (19/36) Installing: farver, Rcpp, isoband, gtable                                                                                                             [32m✔[0m farver 2.1.2                             [built from source in 35s]
+#15 48.36   (20/36) Installing: Rcpp, isoband, gtable                                       (20/36) Installing: Rcpp, isoband, gtable, vctrs                                (20/36) Installing: Rcpp, isoband, gtable, vctrs                                                                                                              [32m✔[0m gtable 0.3.6                             [built from source in 3.3s]
+#15 49.95   (21/36) Installing: Rcpp, isoband, vctrs                                        (21/36) Installing: Rcpp, isoband, vctrs, scales                                (21/36) Installing: Rcpp, isoband, vctrs, scales                                                                                                              [32m✔[0m isoband 0.3.0                            [built from source in 11s]
+#15 50.77   (22/36) Installing: Rcpp, vctrs, scales                                         (22/36) Installing: Rcpp, vctrs, scales, gridExtra                              (22/36) Installing: Rcpp, vctrs, scales, gridExtra                                                                                                            [32m✔[0m gridExtra 2.3.1                          [built from source in 4.9s]
+#15 55.83   (23/36) Installing: Rcpp, vctrs, scales                                         (23/36) Installing: Rcpp, vctrs, scales                                                                                                                       [32m✔[0m scales 1.4.0                             [built from source in 7.6s]
+#15 57.55   (24/36) Installing: Rcpp, vctrs                                                 (24/36) Installing: Rcpp, vctrs                                                                                                                               [32m✔[0m Rcpp 1.0.12                              [built from source in 38s]
+#15 59.14   (25/36) Installing: vctrs                                                       (25/36) Installing: vctrs, MatchIt, RcppArmadillo, rlemon                       (25/36) Installing: vctrs, MatchIt, RcppArmadillo, rlemon                       (25/36) Installing: vctrs, MatchIt, RcppArmadillo, rlemon                       (25/36) Installing: vctrs, MatchIt, RcppArmadillo, rlemon                       (25/36) Installing: vctrs, MatchIt, RcppArmadillo, rlemon                       (25/36) Installing: vctrs, MatchIt, RcppArmadillo, rlemon                       (25/36) Installing: vctrs, MatchIt, RcppArmadillo, rlemon                       (25/36) Installing: vctrs, MatchIt, RcppArmadillo, rlemon                       (25/36) Installing: vctrs, MatchIt, RcppArmadillo, rlemon                       (25/36) Installing: vctrs, MatchIt, RcppArmadillo, rlemon                                                                                                     [32m✔[0m vctrs 0.7.3                              [built from source in 56s]
+#15 105.3   (26/36) Installing: MatchIt, RcppArmadillo, rlemon                              (26/36) Installing: MatchIt, RcppArmadillo, rlemon, ggplot2                                                                                                   [32m✔[0m RcppArmadillo 0.12.8.4.0                 [built from source in 46s]
+#15 105.9   (27/36) Installing: MatchIt, rlemon, ggplot2                                    (27/36) Installing: MatchIt, rlemon, ggplot2, pillar                            (27/36) Installing: MatchIt, rlemon, ggplot2, pillar                            (27/36) Installing: MatchIt, rlemon, ggplot2, pillar                            (27/36) Installing: MatchIt, rlemon, ggplot2, pillar                                                                                                          [32m✔[0m pillar 1.11.1                            [built from source in 5.6s]
+#15 111.8   (28/36) Installing: MatchIt, rlemon, ggplot2                                    (28/36) Installing: MatchIt, rlemon, ggplot2, tidyselect                        (28/36) Installing: MatchIt, rlemon, ggplot2, tidyselect                                                                                                      [32m✔[0m tidyselect 1.2.1                         [built from source in 3.4s]
+#15 115.6   (29/36) Installing: MatchIt, rlemon, ggplot2                                    (29/36) Installing: MatchIt, rlemon, ggplot2, tibble                            (29/36) Installing: MatchIt, rlemon, ggplot2, tibble                                                                                                          [32m✔[0m tibble 3.3.1                             [built from source in 5.2s]
+#15 123.2   (30/36) Installing: MatchIt, rlemon, ggplot2                                    (30/36) Installing: MatchIt, rlemon, ggplot2, dplyr                             (30/36) Installing: MatchIt, rlemon, ggplot2, dplyr                             (30/36) Installing: MatchIt, rlemon, ggplot2, dplyr                             (30/36) Installing: MatchIt, rlemon, ggplot2, dplyr                                                                                                           [32m✔[0m ggplot2 4.0.3                            [built from source in 31s]
+#15 136.2   (31/36) Installing: MatchIt, rlemon, dplyr                                      (31/36) Installing: MatchIt, rlemon, dplyr, cobalt                                                                                                            [32m✔[0m MatchIt 4.5.5                            [built from source in 1.3m]
+#15 136.7   (32/36) Installing: rlemon, dplyr, cobalt                                       (32/36) Installing: rlemon, dplyr, cobalt                                       (32/36) Installing: rlemon, dplyr, cobalt                                                                                                                     [32m✔[0m dplyr 1.2.1                              [built from source in 15s]
+#15 138.1   (33/36) Installing: rlemon, cobalt                                              (33/36) Installing: rlemon, cobalt                                              (33/36) Installing: rlemon, cobalt                                              (33/36) Installing: rlemon, cobalt                                              (33/36) Installing: rlemon, cobalt                                                                                                                            [32m✔[0m cobalt 4.5.2                             [built from source in 20s]
+#15 156.2   (34/36) Installing: rlemon                                                      (34/36) Installing: rlemon                                                      (34/36) Installing: rlemon                                                                                                                                    [32m✔[0m rlemon 0.2.1                             [built from source in 1.8m]
+#15 164.4   (35/36) Installing: optmatch                                                    (35/36) Installing: optmatch                                                    (35/36) Installing: optmatch                                                                                                                                  [31m✖[0m optmatch 0.10.6                         
+#15 171.4 Rolled back installation of 35 packages due to errors.
+#15 171.4 
+#15 171.4 The following package(s) were not installed successfully:
+#15 171.4 - [optmatch]: install failed
+#15 171.4 You may need to manually download and install these packages.
+#15 171.4 
+#15 171.4 # optmatch -------------------------------------------------------------------
+#15 171.4 * installing *source* package ‘optmatch’ ...
+#15 171.4 ** this is package ‘optmatch’ version ‘0.10.6’
+#15 171.4 ** package ‘optmatch’ successfully unpacked and MD5 sums checked
+#15 171.4 ** using staged installation
+#15 171.4 ** libs
+#15 171.4 using C compiler: ‘x86_64-conda-linux-gnu-cc (conda-forge gcc 16.2.0-7) 16.2.0’
+#15 171.4 using C++ compiler: ‘x86_64-conda-linux-gnu-c++ (conda-forge gcc 16.2.0-7) 16.2.0’
+#15 171.4 x86_64-conda-linux-gnu-c++ -std=gnu++17 -I"/opt/conda/envs/twas-eqtl/lib/R/include" -DNDEBUG -DUSE_FC_LEN_T -I'/opt/conda/envs/twas-eqtl/lib/R/library/.renv/1/Rcpp/include' -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /opt/conda/envs/twas-eqtl/include -I/opt/conda/envs/twas-eqtl/include -Wl,-rpath-link,/opt/conda/envs/twas-eqtl/lib    -fpic  -fvisibility-inlines-hidden  -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /opt/conda/envs/twas-eqtl/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1771898340574/work=/usr/local/src/conda/r-base-4.5.2 -fdebug-prefix-map=/opt/conda/envs/twas-eqtl=/usr/local/src/conda-prefix   -c RcppExports.cpp -o RcppExports.o
+#15 171.4 x86_64-conda-linux-gnu-c++ -std=gnu++17 -I"/opt/conda/envs/twas-eqtl/lib/R/include" -DNDEBUG -DUSE_FC_LEN_T -I'/opt/conda/envs/twas-eqtl/lib/R/library/.renv/1/Rcpp/include' -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /opt/conda/envs/twas-eqtl/include -I/opt/conda/envs/twas-eqtl/include -Wl,-rpath-link,/opt/conda/envs/twas-eqtl/lib    -fpic  -fvisibility-inlines-hidden  -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /opt/conda/envs/twas-eqtl/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1771898340574/work=/usr/local/src/conda/r-base-4.5.2 -fdebug-prefix-map=/opt/conda/envs/twas-eqtl=/usr/local/src/conda-prefix   -c cuseful.cc -o cuseful.o
+#15 171.4 x86_64-conda-linux-gnu-c++ -std=gnu++17 -I"/opt/conda/envs/twas-eqtl/lib/R/include" -DNDEBUG -DUSE_FC_LEN_T -I'/opt/conda/envs/twas-eqtl/lib/R/library/.renv/1/Rcpp/include' -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /opt/conda/envs/twas-eqtl/include -I/opt/conda/envs/twas-eqtl/include -Wl,-rpath-link,/opt/conda/envs/twas-eqtl/lib    -fpic  -fvisibility-inlines-hidden  -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /opt/conda/envs/twas-eqtl/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1771898340574/work=/usr/local/src/conda/r-base-4.5.2 -fdebug-prefix-map=/opt/conda/envs/twas-eqtl=/usr/local/src/conda-prefix   -c distances.cc -o distances.o
+#15 171.4 x86_64-conda-linux-gnu-c++ -std=gnu++17 -I"/opt/conda/envs/twas-eqtl/lib/R/include" -DNDEBUG -DUSE_FC_LEN_T -I'/opt/conda/envs/twas-eqtl/lib/R/library/.renv/1/Rcpp/include' -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /opt/conda/envs/twas-eqtl/include -I/opt/conda/envs/twas-eqtl/include -Wl,-rpath-link,/opt/conda/envs/twas-eqtl/lib    -fpic  -fvisibility-inlines-hidden  -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /opt/conda/envs/twas-eqtl/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1771898340574/work=/usr/local/src/conda/r-base-4.5.2 -fdebug-prefix-map=/opt/conda/envs/twas-eqtl=/usr/local/src/conda-prefix   -c ism.cc -o ism.o
+#15 171.4 x86_64-conda-linux-gnu-c++ -std=gnu++17 -I"/opt/conda/envs/twas-eqtl/lib/R/include" -DNDEBUG -DUSE_FC_LEN_T -I'/opt/conda/envs/twas-eqtl/lib/R/library/.renv/1/Rcpp/include' -DNDEBUG -D_FORTIFY_SOURCE=2 -O2 -isystem /opt/conda/envs/twas-eqtl/include -I/opt/conda/envs/twas-eqtl/include -Wl,-rpath-link,/opt/conda/envs/twas-eqtl/lib    -fpic  -fvisibility-inlines-hidden  -fmessage-length=0 -march=nocona -mtune=haswell -ftree-vectorize -fPIC -fstack-protector-strong -fno-plt -O2 -ffunction-sections -pipe -isystem /opt/conda/envs/twas-eqtl/include -fdebug-prefix-map=/home/conda/feedstock_root/build_artifacts/r-base-split_1771898340574/work=/usr/local/src/conda/r-base-4.5.2 -fdebug-prefix-map=/opt/conda/envs/twas-eqtl=/usr/local/src/conda-prefix   -c map.cc -o map.o
+#15 171.4 map.cc: In function 'MAP* create_map(SEXP)':
+#15 171.4 map.cc:47:31: error: expected primary-expression before ')' token
+#15 171.4    47 |   MAP * strpos = Calloc(1, MAP);
+#15 171.4       |                               ^
+#15 171.4 map.cc:47:18: error: 'Calloc' was not declared in this scope; did you mean 'calloc'?
+#15 171.4    47 |   MAP * strpos = Calloc(1, MAP);
+#15 171.4       |                  ^~~~~~
+#15 171.4       |                  calloc
+#15 171.4 map.cc:48:32: error: expected primary-expression before 'struct'
+#15 171.4    48 |   strpos->hash_tab = Calloc(1, struct hsearch_data);
+#15 171.4       |                                ^~~~~~
+#15 171.4 map.cc:52:41: error: expected primary-expression before ')' token
+#15 171.4    52 |   strpos->entries = Calloc(n_strs, ENTRY);
+#15 171.4       |                                         ^
+#15 171.4 map.cc: In function 'void delete_map(MAP*)':
+#15 171.4 map.cc:75:3: error: 'Free' was not declared in this scope; did you mean 'free'?
+#15 171.4    75 |   Free(strpos->entries);
+#15 171.4       |   ^~~~
+#15 171.4       |   free
+#15 171.4 map.cc: In function 'int hcreate_r(size_t, hsearch_data*)':
+#15 171.4 map.cc:164:58: error: expected primary-expression before ')' token
+#15 171.4   164 |   htab->table = (_ENTRY *) Calloc (htab->size + 1, _ENTRY);
+#15 171.4       |                                                          ^
+#15 171.4 map.cc:164:28: error: 'Calloc' was not declared in this scope; did you mean 'calloc'?
+#15 171.4   164 |   htab->table = (_ENTRY *) Calloc (htab->size + 1, _ENTRY);
+#15 171.4       |                            ^~~~~~
+#15 171.4       |                            calloc
+#15 171.4 map.cc: In function 'void hdestroy_r(hsearch_data*)':
+#15 171.4 map.cc:181:3: error: 'Free' was not declared in this scope; did you mean 'free'?
+#15 171.4   181 |   Free(htab->table);
+#15 171.4       |   ^~~~
+#15 171.4       |   free
+#15 171.4 make: *** [/opt/conda/envs/twas-eqtl/lib/R/etc/Makeconf:209: map.o] Error 1
+#15 171.4 ERROR: compilation failed for package ‘optmatch’
+#15 171.4 * removing ‘/opt/conda/envs/twas-eqtl/lib/R/library/.renv/1/optmatch’
+#15 171.4 
+#15 171.4 [?25hError: failed to install "optmatch"
+#15 171.7 Traceback (most recent calls last):
+#15 171.7 4: renv::restore(lockfile = "/app/env/renv.lock", library = .libPaths()[1], 
+#15 171.7        prompt = FALSE)
+#15 171.7 3: renv_restore_run_actions(project, diff, current, lockfile, rebuild, 
+#15 171.7        strict, descriptions, retry)
+#15 171.7 2: stopf("failed to install %s", paste(dQuote(failed), collapse = ", "))
+#15 171.7 1: stop(sprintf(fmt, ...), call. = call.)
+#15 171.7 Execution halted
+#15 171.8 renv::restore() stopped before finishing — expected on R >= 4.5 (optmatch); the patched build is the next step
+#15 DONE 172.7s
+
+#16 [12/15] RUN cd /tmp &&     wget -q https://cloud.r-project.org/src/contrib/Archive/optmatch/optmatch_0.10.6.tar.gz &&     tar -xzf optmatch_0.10.6.tar.gz &&     patch -p1 --forward -i /app/env/patches/optmatch-0.10.6-R4.5-calloc.patch &&     R CMD INSTALL --no-multiarch optmatch &&     rm -rf /tmp/optmatch*
+#16 2.440 patching file optmatch/src/map.cc
+#16 2.440 patching file optmatch/src/r_smahal.cc
+#16 2.440 patching file optmatch/src/smahal.cc
+#16 2.440 patching file optmatch/src/subsetInfSparseMatrix.cc
+#16 2.628 * installing to library ‘/opt/conda/envs/twas-eqtl/lib/R/library’
+#16 2.635 ERROR: dependencies ‘Rcpp’, ‘dplyr’, ‘tibble’, ‘rlemon’ are not available for package ‘optmatch’
+#16 2.635 Perhaps try a variation of:
+#16 2.635 install.packages(c('Rcpp', 'dplyr', 'tibble', 'rlemon'))
+#16 2.635 * removing ‘/opt/conda/envs/twas-eqtl/lib/R/library/optmatch’
+#16 ERROR: process "/bin/sh -c cd /tmp &&     wget -q https://cloud.r-project.org/src/contrib/Archive/optmatch/optmatch_0.10.6.tar.gz &&     tar -xzf optmatch_0.10.6.tar.gz &&     patch -p1 --forward -i /app/env/patches/optmatch-0.10.6-R4.5-calloc.patch &&     R CMD INSTALL --no-multiarch optmatch &&     rm -rf /tmp/optmatch*" did not complete successfully: exit code: 1
+------
+ > [12/15] RUN cd /tmp &&     wget -q https://cloud.r-project.org/src/contrib/Archive/optmatch/optmatch_0.10.6.tar.gz &&     tar -xzf optmatch_0.10.6.tar.gz &&     patch -p1 --forward -i /app/env/patches/optmatch-0.10.6-R4.5-calloc.patch &&     R CMD INSTALL --no-multiarch optmatch &&     rm -rf /tmp/optmatch*:
+2.440 patching file optmatch/src/map.cc
+2.440 patching file optmatch/src/r_smahal.cc
+2.440 patching file optmatch/src/smahal.cc
+2.440 patching file optmatch/src/subsetInfSparseMatrix.cc
+2.628 * installing to library ‘/opt/conda/envs/twas-eqtl/lib/R/library’
+2.635 ERROR: dependencies ‘Rcpp’, ‘dplyr’, ‘tibble’, ‘rlemon’ are not available for package ‘optmatch’
+2.635 Perhaps try a variation of:
+2.635 install.packages(c('Rcpp', 'dplyr', 'tibble', 'rlemon'))
+2.635 * removing ‘/opt/conda/envs/twas-eqtl/lib/R/library/optmatch’
+------
+Dockerfile:147
+--------------------
+ 146 |     # no algorithm, argument, tolerance or data structure is touched).
+ 147 | >>> RUN cd /tmp && \
+ 148 | >>>     wget -q https://cloud.r-project.org/src/contrib/Archive/optmatch/optmatch_0.10.6.tar.gz && \
+ 149 | >>>     tar -xzf optmatch_0.10.6.tar.gz && \
+ 150 | >>>     patch -p1 --forward -i /app/env/patches/optmatch-0.10.6-R4.5-calloc.patch && \
+ 151 | >>>     R CMD INSTALL --no-multiarch optmatch && \
+ 152 | >>>     rm -rf /tmp/optmatch*
+ 153 |     
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c cd /tmp &&     wget -q https://cloud.r-project.org/src/contrib/Archive/optmatch/optmatch_0.10.6.tar.gz &&     tar -xzf optmatch_0.10.6.tar.gz &&     patch -p1 --forward -i /app/env/patches/optmatch-0.10.6-R4.5-calloc.patch &&     R CMD INSTALL --no-multiarch optmatch &&     rm -rf /tmp/optmatch*" did not complete successfully: exit code: 1
+
+View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux/lqmketyup3y6r0j4sl9sa8ocj
+EXIT=1

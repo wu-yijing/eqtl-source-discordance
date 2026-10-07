@@ -1,0 +1,156 @@
+=====================================================================
+ eQTL-source discordance in TWAS — reproduction pipeline
+ repo        : /app
+ data layer  : /app/data/derived   (authoritative)
+ figure code : /app/code/figures   (authoritative)
+ started     : Tue Oct  6 23:00:31 UTC 2026
+=====================================================================
+
+== 0. Preflight ==
+  [ ok ] python: /opt/conda/envs/twas-eqtl/bin/python3
+  [ ok ] authoritative data and figure directories present
+  [skip] data/superseded/ present; not used as an input layer (the one exception is the SI Fig. S2 step, see below)
+  [ ok ] no figure script references data/processed/
+
+== 1. Figure pipeline (authoritative order) ==
+  [ ok ] Supporting Information supplied via AF1_DOCX: /work/_si.docx
+Figure 5 — 官方 Z 下 DR 候选基因 |Ze| 前 11:
+   TUBB      eQTLGen +11.893  GTEx NT +0.852  model 359/1848
+   RPS18     eQTLGen  +3.275  GTEx NT +1.131  model 379/992
+   RNH1      eQTLGen  +2.306  GTEx NT +2.667  model 726/898
+   XRCC6     eQTLGen  +1.510  GTEx NT +0.826  model 495/512
+   RPS25     eQTLGen  +1.320  GTEx NT +1.860  model 174/182
+   RPS16     eQTLGen  -1.091  GTEx NT -0.110  model 386/406
+   ACTB      eQTLGen  +1.085  GTEx NT -1.083  model 23/23
+   RPS13     eQTLGen  +1.073  GTEx NT -0.031  model 136/145
+   YWHAQ     eQTLGen  +1.060  GTEx NT no model  model 398/422
+   GAPDH     eQTLGen  +1.053  GTEx NT +0.659  model 520/563
+   CKAP4     eQTLGen  +0.987  GTEx NT -0.562  model 633/659
+Fig5 redrawn (official Z)
+
+Figure 7 panel (a) — 官方 Z: GTEx NT [2.668 1.696 1.63 ]  eQTLGen [2.306 1.153 1.614]
+Fig7 redrawn (official Z)
+
+backups -> /app/figures/_backup_before_officialZ_redraw_20260917
+backup contents: ['Fig3.pdf', 'Fig3.png', 'Fig4.pdf', 'Fig4.png', 'Fig5.pdf', 'Fig5.png', 'Fig7.pdf', 'Fig7.png', 'Fig8.png']
+  [ ok ] 01_redraw_Fig5_Fig7.py
+Fig3: n=96 consistency=68.8% rho=0.3896 naiveP=8.7e-05 max|Ze|=2.83 max|Zg|=2.68
+Fig3 redrawn
+SKIP Fig6 —— 权威脚本是 08_redraw_Fig6_labels_20260920.py
+Fig6 redrawn
+   GTEx           Candidate    {'DR': '2/28', 'DN': '4/28', 'DPN': '2/28'}
+   eQTLGen        Candidate    {'DR': '3/27', 'DN': '2/27', 'DPN': '3/27'}
+   GTEx           Non-Candidate {'DR': '3/27', 'DN': '1/27', 'DPN': '4/27'}
+   eQTLGen        Non-Candidate {'DR': '1/0', 'DN': '1/0', 'DPN': '1/0'}
+   GTEx           T2DM control {'DR': '3/19', 'DN': '1/19', 'DPN': '2/19'}
+   eQTLGen        T2DM control {'DR': '2/17', 'DN': '0/17', 'DPN': '1/17'}
+   GTEx           Housekeeping {'DR': '1/0', 'DN': '1/0', 'DPN': '1/0'}
+   eQTLGen        Housekeeping {'DR': '4/27', 'DN': '0/27', 'DPN': '3/27'}
+
+backups -> /app/figures/_backup_before_officialZ_redraw_20260917 ['Fig3.pdf', 'Fig3.png', 'Fig4.pdf', 'Fig4.png', 'Fig5.pdf', 'Fig5.png', 'Fig7.pdf', 'Fig7.png', 'Fig8.png']
+  [ ok ] 02_redraw_Fig3.py
+AF1 tables resolved: ['S1', 'S10', 'S11', 'S12', 'S13', 'S14', 'S15', 'S16', 'S17', 'S18', 'S19', 'S2', 'S20', 'S21', 'S22', 'S23', 'S24', 'S25', 'S26', 'S27', 'S28', 'S29', 'S3', 'S30', 'S4', 'S5a', 'S5b', 'S6', 'S7', 'S8', 'S9']
+testbed tissue-only: rho=0.414 n=138 CI 0.265-0.543  consistency=65.9%
+S5 cols NT: [5, 6, 7] WB: [8, 9, 10]
+housekeeping tissue-only: rho=0.636 n=72 CI 0.475-0.756
+SCZ tissue-only: rho=0.418 n=8890 CI 0.401-0.435  consistency=66.7%
+Fig8 redrawn
+backups: ['Fig3.pdf', 'Fig3.png', 'Fig4.pdf', 'Fig4.png', 'Fig5.pdf', 'Fig5.png', 'Fig7.pdf', 'Fig7.png', 'Fig8.pdf', 'Fig8.png']
+  [ ok ] 04_redraw_Fig8.py
+共同宇宙: 135 对 / 45 基因
+共同宇宙 ρ: panel=0.4630 tissue=0.4097 dual=0.4433
+Δρ: dual-panel = -0.0197   dual-tissue = +0.0336
+bootstrap 结果: {"delta_dual_panel": {"point": -0.0197, "ci95": [-0.127, 0.09], "p": 0.764}, "delta_dual_tissue": {"point": 0.0336, "ci95": [-0.214, 0.28], "p": 0.777}}
+稿件声称: dual-panel = -0.020, 95% CI -0.125 to +0.089, P = 0.74 ; dual-tissue = +0.033, 95% CI -0.217 to +0.274, P = 0.78
+Fisher-z CI: [(np.float64(0.362), np.float64(0.6)), (np.float64(0.265), np.float64(0.543)), (np.float64(0.323), np.float64(0.548))]
+Fig4 redrawn
+backups: ['Fig3.pdf', 'Fig3.png', 'Fig4.pdf', 'Fig4.png', 'Fig5.pdf', 'Fig5.png', 'Fig7.pdf', 'Fig7.png', 'Fig8.pdf', 'Fig8.png']
+  [ ok ] 06_redraw_Fig4.py
+AF1 tables resolved: ['S1', 'S10', 'S11', 'S12', 'S13', 'S14', 'S15', 'S16', 'S17', 'S18', 'S19', 'S2', 'S20', 'S21', 'S22', 'S23', 'S24', 'S25', 'S26', 'S27', 'S28', 'S29', 'S3', 'S30', 'S4', 'S5a', 'S5b', 'S6', 'S7', 'S8', 'S9']
+OK  S18 回归断言：全部 24 组 k/N 与 SI Table S18 逐格一致
+OK  最大 Clopper-Pearson 上界 = 39.6%  ->  ylim = 0..45%
+OK  wrote Fig6.png  184368 mode=RGB dpi=(599.9988, 599.9988) size=(3990, 1800)
+OK  wrote Fig6.pdf  17223 bytes
+OK  backup -> /app/figures/_backup_before_v5Fig6_labels_20260920
+   DR   GTEx     ['2/28', '3/27', '3/19', '4/29']
+   DR   eQTLGen  ['3/27', '1/25', '2/17', '4/27']
+   DN   GTEx     ['4/28', '1/27', '1/19', '0/29']
+   DN   eQTLGen  ['2/27', '3/25', '0/17', '0/27']
+   DPN  GTEx     ['2/28', '4/27', '2/19', '1/29']
+   DPN  eQTLGen  ['3/27', '2/25', '1/17', '3/27']
+  [ ok ] 08_redraw_Fig6_labels_20260920.py
+OK 检测边界与 Table S19 的 9 个层逐点一致
+OK FigS6 written: /app/figures/FigS6.png mode=RGB size=(3990, 1800) dpi=(599.9988, 599.9988)
+   pdf bytes = 20895
+  [ ok ] 10_redraw_FigS6_20260921.py
+  [skip] 03_redraw_Fig6.py (hard-deprecated by design; Fig. 6 comes from 08)
+  [ ok ] recovered/gen_figs4.py (SI Fig. S2): medians 374 / 632 / 669 reproduce
+
+== 2. Read-only verification scripts ==
+eQTLGen 测试集对数: 288
+panel-only 宇宙 159 对 / 53 基因
+tissue-only 宇宙 138 对 / 46 基因
+dual 宇宙 198 对 / 66 基因
+四臂共同宇宙 135 对 / 45 基因
+面板基因数 53 / 46 / 66 ; 共同 45
+
+=== (A) 各臂在自身完整宇宙（full-pair）===
+   {'arm': 'panel-only', 'n': 159, 'rho': 0.4904, 'consistency': 71.1, 'k': 113}
+   {'arm': 'tissue-only', 'n': 138, 'rho': 0.4138, 'consistency': 65.9, 'k': 91}
+   {'arm': 'dual', 'n': 198, 'rho': 0.4421, 'consistency': 67.2, 'k': 133}
+=== (B) 四臂共同宇宙 ===
+   {'arm': 'panel-only', 'n': 135, 'rho': 0.463, 'consistency': 70.4, 'k': 95}
+   {'arm': 'tissue-only', 'n': 135, 'rho': 0.4097, 'consistency': 65.2, 'k': 88}
+   {'arm': 'dual', 'n': 135, 'rho': 0.4433, 'consistency': 67.4, 'k': 91}
+
+=== 稿件中的三套值 ===
+  Table 3b full-pair : panel 0.490 (71.1%) / tissue 0.414 (65.9%) / dual 0.442 (67.2%)
+  正文 §3.3 45 基因共同宇宙: panel 0.463 (70.4%) / tissue 0.410 (65.2%) / dual 0.443 (67.4%)
+  Fig.4 脚本硬编码     : panel 0.355 (67.3%) / tissue 0.422 (67.3%) / dual 0.287 (59.2%)
+  [ ok ] 05_recompute_arms.py
+genes 15875 | eq 10357  wb 10876  nt 13463  multi 8890
+complete-case (4 arms) n = 8315   <-- 稿件称 8,315
+tissue-only available n  = 8890   <-- 稿件称 8,890
+panel-only available n   = 9048   <-- 稿件称 9,048
+
+=== 稿件 §3.6 声称：panel 0.469 / tissue 0.420 / dual 0.447 ===
+complete-case (n = 8,315 宇宙):
+  panel-only (eqZ vs wbZ)          n= 8315  rho=+0.4690  consistency=67.2%
+  tissue-only (wbZ vs ntZ)         n= 8315  rho=+0.4199  consistency=66.8%
+  dual (eqZ vs multiZ)             n= 8315  rho=+0.4465  consistency=66.7%
+available-case:
+  panel-only                       n= 9048  rho=+0.4665  consistency=67.1%
+  tissue-only (n = 8,890)          n= 8890  rho=+0.4184  consistency=66.7%
+
+经验零假设（panel-only, min|Z| < 0.5）: 1989/3617 = 55.0%   <-- 稿件称 54.9% (1,987/3,617)
+
+（本脚本只读归档层 /app/data/derived/scz_z_4arm.csv；旧版会从会话临时目录复制到此处，2026-09-20 起不再需要）
+  [ ok ] 07_verify_SCZ_denominators.py
+
+== 3. Headline values recomputed from the authoritative layer ==
+  pairs                : 96   (manuscript: 96)   ok
+  direction consistency: 68.8% (manuscript: 68.8%)  ok
+  Spearman rho         : 0.3898 (manuscript: 0.39)   ok
+  max |Z| GTEx/eQTLGen : 2.6809 / 2.8258
+  [ ok ] headline values reproduce
+
+== 3b. SI Table S5a row 3 — the sqrt(N_e) direct-weighting row ==
+  [ ok ] m6_ne_weighted_sensitivity.py: SI Table S5a row 3 reproduces (+2.09 / Q 76.6 / I² 98.7%)
+
+== 3c. SI Table S4 — the candidate processing order is an artefact ==
+  [ ok ] check_s4_order.py: the candidate order is explicit and agrees with Table S4
+           [info] 15 of 30 candidates tie at PullDown_Unused = 0; positions 16-30 are not derivable from any shipped key
+
+== 4. Figure format precheck ==
+Traceback (most recent call last):
+  File "/app/code/figures/11_figure_precheck.py", line 14, in <module>
+    import fitz  # PyMuPDF
+    ^^^^^^^^^^^
+ModuleNotFoundError: No module named 'fitz'
+  [skip] precheck reported non-blocking findings
+
+=====================================================================
+ RESULT: pipeline completed with no failures.
+ Figures written to: /app/figures/
+=====================================================================
+EXIT=0

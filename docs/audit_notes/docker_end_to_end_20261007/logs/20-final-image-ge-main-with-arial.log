@@ -1,0 +1,40 @@
+=====================================================================
+ Genetic Epidemiology main figures — rebuild (Figure 1-4)
+ repo      : /app
+ data      : /app/data/derived
+ output    : /out
+ python    : /opt/conda/envs/twas-eqtl/bin/python3
+=====================================================================
+
+== 0. Preflight ==
+  [ ok ] python module: numpy
+  [ ok ] python module: scipy
+  [ ok ] python module: matplotlib
+  [ ok ] python module: PIL
+
+== 1. Filename view of data/derived/ that the figure scripts read ==
+  [ ok ] primary_arm_96pairs_official.csv  <-  data/derived/primary_arm_96pairs.csv
+  [ ok ] gtex_official_Z.csv  <-  data/derived/gtex_Z.csv
+  [ ok ] scz_z_4arm_official.csv  <-  data/derived/scz_z_4arm.csv
+  [ ok ] hk_official_Z.csv  <-  data/derived/hk_official_Z.csv
+  [ ok ] eqtlgen_official_Z.csv  <-  data/derived/eqtlgen_Z.csv
+
+== 2. Render ==
+  [ ok ] font: Arial   (the family the submitted figures are set in)
+  [ ok ] unified_fig1.py
+  [ ok ] unified_fig2.py
+  [ ok ] unified_fig3.py
+  [ ok ] unified_fig4.py
+
+== 3. Compare against the recorded hashes ==
+  [FAIL] Figure_1.png  010a174514cdec30…  != eb77483eaf518887…
+  [FAIL] Figure_2.png  1305688efb3a6af4…  != 87ee0eaa83f37309…
+  [FAIL] Figure_3.png  25732a079eea372f…  != 152f45df76e8d4ab…
+  [FAIL] Figure_4.png  64e50f75967b9fc4…  != f29f2f56da3b6310…
+
+  note: the PDFs are byte-identical apart from the embedded /CreationDate
+        (4-6 bytes), which is why the comparison is made on the PNGs.
+
+=====================================================================
+ RESULT: 4 failure(s). The main figures do not reproduce.
+EXIT=1
