@@ -29,6 +29,14 @@ pyarrow==22.0.0
 python-docx==1.2.0
 pillow==12.3.0
 
+# Step 4 of code/run_all.sh reads the rendered PDFs' page geometry and font tables
+# (`code/figures/11_figure_precheck.py` imports `fitz`). Added 2026-10-07 — it was declared
+# in neither this file nor environment.yml, so step 4 raised ModuleNotFoundError in the
+# shipped image; run_all.sh then reported it as "precheck reported non-blocking findings",
+# which reads as a completed check with advisories. Measured: the precheck had never run
+# inside the image. Version = the one the producing machine has.
+pymupdf==1.27.2.3
+
 # Note: S-PrediXcan is run separately via the command line (official MetaXcan
 #       v0.8.1, installed from source — see env/Dockerfile).
 # Note: Mahalanobis matching uses the R `MatchIt` package (env/renv.lock).

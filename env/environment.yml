@@ -35,3 +35,11 @@ dependencies:
     # note of the same name in requirements.txt. Added 2026-10-04.
     - python-docx==1.2.0
     - pillow==12.3.0
+    # Reading the *page geometry and font tables* of the rendered PDFs, for step 4 of
+    # code/run_all.sh (code/figures/11_figure_precheck.py imports `fitz`). Added
+    # 2026-10-07: it was missing here and from requirements.txt, so step 4 raised
+    # ModuleNotFoundError in the shipped image and — because run_all.sh mapped any
+    # non-zero exit to "precheck reported non-blocking findings" — the step was reported
+    # as having run and found advisories when it had not run at all. Measured:
+    # the precheck had never executed inside env/Dockerfile's image.
+    - pymupdf==1.27.2.3

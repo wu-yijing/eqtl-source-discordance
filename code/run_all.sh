@@ -262,7 +262,29 @@ fi
 step "4. Figure format precheck"
 # ---------------------------------------------------------------------------
 if [ -f "${FIGDIR}/11_figure_precheck.py" ] && [ "${MODE}" != "--verify-only" ]; then
-  ( cd "${FIGDIR}" && "${PYTHON}" 11_figure_precheck.py ) || skip "precheck reported non-blocking findings"
+  # 2026-10-07 — this step had two outcomes reported as one. Any non-zero exit became
+  # "[skip] precheck reported non-blocking findings", which reads as *ran and found
+  # advisories*; and on success the step printed its table with no verdict line at all, so
+  # it never entered this run's accounting either. Measured inside the image shipped by
+  # env/Dockerfile: `import fitz` raised ModuleNotFoundError, because PyMuPDF was declared
+  # in neither env/environment.yml nor env/requirements.txt although this step imports it —
+  # so step 4 had never executed there, while the report said nothing was wrong.
+  # Now: a completed run states its verdict, a missing module is named, a crash is a failure.
+  if ( cd "${FIGDIR}" && "${PYTHON}" 11_figure_precheck.py ) > "${TMPD}/_precheck.txt" 2>&1; then
+    sed 's/^/         /' "${TMPD}/_precheck.txt"
+    if grep -q '有问题的图：NONE' "${TMPD}/_precheck.txt"; then
+      ok "11_figure_precheck.py: page size, font type, min point size and dpi all within limits"
+    else
+      skip "11_figure_precheck.py ran and reported figure(s) outside the format limits (non-blocking, listed above)"
+      grep '有问题的图：' "${TMPD}/_precheck.txt" | sed 's/^/         /'
+    fi
+  elif grep -q 'ModuleNotFoundError' "${TMPD}/_precheck.txt"; then
+    skip "11_figure_precheck.py could not run — a module it imports is not installed:"
+    grep -E 'No module named' "${TMPD}/_precheck.txt" | tail -1 | sed 's/^/         /'
+  else
+    bad "11_figure_precheck.py FAILED:"
+    tail -8 "${TMPD}/_precheck.txt" | sed 's/^/         /'
+  fi
 else
   skip "11_figure_precheck.py"
 fi
