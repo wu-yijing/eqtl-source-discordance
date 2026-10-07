@@ -299,8 +299,8 @@
   },
   {
    "path": ".gitignore",
-   "bytes": 4094,
-   "sha256": "d8485f6e908f96bff8de3a80d27f4bcf738998419a27837a108dca5985ab5edb"
+   "bytes": 4150,
+   "sha256": "3c7318f81905987a728cad8ab32facec79496efba7cf6820395f5b63da3a8125"
   },
   {
    "path": ".zenodo.json",
@@ -1324,8 +1324,8 @@
   },
   {
    "path": "code/run_all.sh",
-   "bytes": 14468,
-   "sha256": "dcb89a6b2a89fdcfd1c5eb54a2158ce2bd13f34c3b002698303015186c0c5e14"
+   "bytes": 15951,
+   "sha256": "88bed6d37e6d79fb17fdc953fc73d65e4cb49ed01dc84576ec26bdd3b9c502c2"
   },
   {
    "path": "code/run_spredixcan.sh",
@@ -2074,8 +2074,8 @@
   },
   {
    "path": "docs/audit_notes/INDEX.md",
-   "bytes": 24141,
-   "sha256": "0370e8e404486c7c44fdf904f22ebdc725551386241b5b47bf4b3f382a0cc26c"
+   "bytes": 28186,
+   "sha256": "6f47d63a5569d3db5c820b84cbc4a98e7adff042be063fec980bd52b8a36dd61"
   },
   {
    "path": "docs/audit_notes/R2残余差异消除方案_20261002.md",
@@ -2096,6 +2096,156 @@
    "path": "docs/audit_notes/db_content_hashing_20261005/README.md",
    "bytes": 5500,
    "sha256": "f4e846b8916053f1371ddfb1846ea5420512c6e676534c45de49f9328377a7d0"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/COMMANDS.md",
+   "bytes": 8391,
+   "sha256": "1f544e5aafcbf3713d24c4d28f57295fca699296b31ee30843a65de531a65617"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/MANIFEST.sha256",
+   "bytes": 3068,
+   "sha256": "2d571d8a1c08bc220d137ecd872d62e30780bb2a7b50040bd795c2bb798af6d6"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/README.md",
+   "bytes": 19691,
+   "sha256": "682d0bdb3d81c1c5feed16939343625698a243eae1a83e94b9a40b01b218f6ab"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/01-build-1-parse-error.log",
+   "bytes": 958,
+   "sha256": "eeabd7a09309fd7bd7b77d8ba3821a9e3acfa0947deaa11d1c078846f5f38c26"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/02-build-2-parse-fixed-registry-unreachable.log",
+   "bytes": 2413,
+   "sha256": "c7db7bb318f8150b05c8d72219dd9b0fde0607b0eecc60a8846112d153291f6f"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/03-build-3-mirror-configured-layer-stalls.log",
+   "bytes": 113017,
+   "sha256": "823fb61b3337d5a6888adb7522bfa5a252f68fd4e610ccf9f4fc4576538db531"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/04-build-4-renv-worker-timeout-at-r-packages.log",
+   "bytes": 113765,
+   "sha256": "4d32802979ff219a91d6a2b83d8805453501118943e706e7f5a1cbd17a1e267b"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/05-probe-renv-transactional-rollback.log",
+   "bytes": 57552,
+   "sha256": "fc627281510e65d9e5fc763a6230c07ae290f3daaefb9d8c8a7c68e63a4a41d4"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/06-build-5-success-three-step-r-layer.log",
+   "bytes": 67415,
+   "sha256": "a19b3cbc1630ad9306b2db4d525de994e5351477eea08f4f42bb5d493b554787"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/07-build-6-at-HEAD-47a0935.log",
+   "bytes": 68136,
+   "sha256": "6bd2ec44cfef73cb0c16213c3bb37628ad9861689e89184cbfa4da0a0188bd3a"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/08-run-default-verify-only.log",
+   "bytes": 7667,
+   "sha256": "f0bb280e2416ba1c1f4d3a3bbfceff80883d4cdf91129e09cf9e343835b3b893"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/09-run-full-pipeline-figures-and-si.log",
+   "bytes": 8422,
+   "sha256": "b1331c8821a73884c5889cf46912ebb7e4a643e2f9990a511ae86e499b40a785"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/10-run-mount-work-entrypoint-not-honoured.log",
+   "bytes": 8871,
+   "sha256": "ddc0b8cd68475721a48216de4346218bd7718ba849f59814dfb29646e2b90615"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/11-run-mount-work-entrypoint-corrected.log",
+   "bytes": 8905,
+   "sha256": "fc5cd5e110965a8d5cab576cea05a0d53f1f44fbb583f3ab696370d51a317d9a"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/12-ge_main-fig4-hardcoded-path-failure.log",
+   "bytes": 1914,
+   "sha256": "b1d944c02379e8f61e8a8ea4140b2eaa360966c9a1c977a736dd943cfb40ddc2"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/13-ge_main-four-figures-after-path-fix.log",
+   "bytes": 1515,
+   "sha256": "bb164cb02d5841045a52e2c544587111e0419afbd05f02b10591c3f1a733de01"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/14-ge_main-with-arial-pixel-identical.log",
+   "bytes": 1515,
+   "sha256": "85b2608cfe35283192debf240a888d28ac043ec4d1982d99278a4903af5b0904"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/15-ge_main-font-preflight-dejavu-warning.log",
+   "bytes": 2253,
+   "sha256": "8ddf69a0174b88df79ac00e051ebf0b9e1995090557816405bb43167d49dfa2c"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/16-ge_main-no-si-all-four-scripts.log",
+   "bytes": 2246,
+   "sha256": "57bc891d65d1ff622173921f4343206d395b2c2073c9b5e519019c22b24f2973"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/17-ge_main-fonts-liberation-substitute.log",
+   "bytes": 1659,
+   "sha256": "057ea2c34e7fc8e8e17dc9ebc3995704896a90f61e571ff6495533de56a00f63"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/18-final-image-readme-form-full-pipeline.log",
+   "bytes": 8422,
+   "sha256": "b1c9ceebbcd784d054cad0a6a72aad2aa623a1d2a984ff52dd6ccf29c1c24ba3"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/19-final-image-ge-main-no-si.log",
+   "bytes": 2321,
+   "sha256": "fb9799fd208bd0cf3dda682c7cf5d2bfc99bb49da7f34b6f432f666c785741d2"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/20-final-image-ge-main-with-arial.log",
+   "bytes": 1647,
+   "sha256": "e7eaea1dd00c34dbe354a61514f2fc05e0fb9fa965e4065fdee16f764d34847b"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/21-host-reference-run-all.log",
+   "bytes": 11364,
+   "sha256": "dedfa12e396d0f4bc0919527be0e34bd1434862f0a7278b109ced4e770bca24a"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/22-host-reference-ge-main.log",
+   "bytes": 1907,
+   "sha256": "540c696dc682354e13992955a43d6d4271c55c8ac68616388de2ff065beca7e3"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/logs/23-clone-gates-at-HEAD.log",
+   "bytes": 4029,
+   "sha256": "918610f4c5817d0148a26f6f3b8ef0d12bcfdcc69236adef65a49ab301689a9e"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/results/clone-gate-summary.txt",
+   "bytes": 1265,
+   "sha256": "7b320f0b75b7316c596271b964932ab7aa255d46f75bb9c0648405d9b72b2d17"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/results/figure-verification.txt",
+   "bytes": 6178,
+   "sha256": "b5d352d1f82387f8b6f5c012239dba113bdc7a2e14c75a7b45541d88243f7339"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/results/headline-values.txt",
+   "bytes": 1893,
+   "sha256": "72c36bc5147a12088908a8c4f980e80c53fe8bb606bcca718c5c991542470935"
+  },
+  {
+   "path": "docs/audit_notes/docker_end_to_end_20261007/scripts/make_evidence.sh",
+   "bytes": 11705,
+   "sha256": "81e88a25ba8f44edb786086ac26992805dd6b282834a58ac7e29e9a0103a1426"
   },
   {
    "path": "docs/audit_notes/env_and_boundaries_20261005/MANIFEST.sha256",
@@ -2824,8 +2974,8 @@
   },
   {
    "path": "env/environment.yml",
-   "bytes": 1564,
-   "sha256": "9231990ac940d3afb0e5eacff0e2ad8e3c7ede66d960956b1dc0b78cb203ae91"
+   "bytes": 2161,
+   "sha256": "2ec52ca0ac9003baa2484c2548da0935c19528b457f2bbd1d8f9da02f726d4b2"
   },
   {
    "path": "env/patches/optmatch-0.10.6-R4.5-calloc.patch",
@@ -2839,8 +2989,8 @@
   },
   {
    "path": "env/requirements.txt",
-   "bytes": 1669,
-   "sha256": "1d52260e5e3f553c031e1e28583b7533e9cd8b50be975b62cd28daaefde1e43b"
+   "bytes": 2198,
+   "sha256": "f2cea2f80e836e76ebc2a354a162370e67e3353813f8eada166ceb3c6c68503e"
   },
   {
    "path": "env/setup_r_env.sh",
@@ -3013,12 +3163,12 @@
    "sha256": "25410afb8d1a34599f3cc87015f2fbd4bd59d211376f20bae1813bb196c6734d"
   }
  ],
- "file_count": 545,
+ "file_count": 575,
  "excluded": [
   {
    "path": "metadata/provenance.json",
    "reason": "the manifest cannot hash itself; its own content is regenerated by this script"
   }
  ],
- "tracked_file_count": 546
+ "tracked_file_count": 576
 }
