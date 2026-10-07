@@ -1324,8 +1324,8 @@
   },
   {
    "path": "code/run_all.sh",
-   "bytes": 15951,
-   "sha256": "88bed6d37e6d79fb17fdc953fc73d65e4cb49ed01dc84576ec26bdd3b9c502c2"
+   "bytes": 16642,
+   "sha256": "b2ccb106a72a6e36ef7306961299dfb6481527c102ffc4aec8781331380a8200"
   },
   {
    "path": "code/run_spredixcan.sh",
