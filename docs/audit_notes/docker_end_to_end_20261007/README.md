@@ -1,7 +1,7 @@
 # The recommended Docker path, run end to end
 
-**Date:** 2026-10-07 · **Repository HEAD:** `47a0935` + this note — staged and packaged as
-`5c4defc`, which is the commit `logs/24-…` documents (§0)
+**Date:** 2026-10-07 · **Repository HEAD:** `47a0935` + this note, packaged as the commit
+`logs/24-…` documents (§0.6)
 **Question this note answers:** `env/Dockerfile` is the environment this archive recommends.
 Does it actually build, run, and reproduce every reported value and figure — and what can it
 not do?
@@ -9,75 +9,90 @@ not do?
 **Short answer:** it builds (EXIT=0), it runs (EXIT=0), and the values and figures reproduce.
 Getting there exposed **eight defects, six of which are invisible unless the thing is
 executed** — including one that had never been built at all and one whose failure was
-reported as a success. The list is in §3; the limits that remain are in §4.
+reported as a success. The list is in §3; the limits that remain are in §4. Assembling this
+record then found **two more of exactly the same shape in the note's own tooling** — a step
+that ran clean and was reported as a skip, and an image identity replaced by a template error
+(§0.3).
 
 ---
 
 ## 0. Packaging record — 2026-10-07
 
-This note, the logs and the evidence files under `results/` were assembled into the
-repository on 2026-10-07. Two of the five `results/` files cited below are written by parts
-of `scripts/make_evidence.sh` that need a **running Docker daemon**, and the packaging host's
-daemon could not start. This section records the packaging step itself, so that the gap is
-attributable rather than silent — the same rule as C9.
+The note, the logs and the evidence under `results/` were assembled into the repository in
+two passes on 2026-10-07: the first with **no Docker daemon on the packaging host**, the
+second after the daemon was restored. This section records the packaging step itself, because
+it produced two defects in this note's own tooling (§0.3) and one correction to what the
+first pass wrote down (§0.4).
 
-| Item | Status at packaging time |
+### 0.1 What ships
+
+| Item | Provenance |
 |---|---|
-| `logs/01…23` — 23 logs: six build attempts and the probe that identified defect 3, the pipeline runs (default, full, the entrypoint trap and its correction), the main-figure runs, the final-image runs, the two host references and the clone gates | ✅ shipped verbatim, as captured |
-| `COMMANDS.md` — every command, in order, each with the log it produced | ✅ shipped |
-| `results/headline-values.txt` | ✅ regenerated at packaging time from `logs/18-…` and `logs/21-…` |
-| `results/figure-verification.txt` | ✅ regenerated at packaging time, by `scripts/compare_figures_pixels.py`, against the produced figure sets — the percentages reproduce the §4.3 table exactly |
-| `results/clone-gate-summary.txt` | ✅ regenerated at packaging time from `logs/23-…` |
-| `results/image-fingerprint.txt` | ⚠️ **not regenerated** — PART 1 of `scripts/make_evidence.sh` needs `docker image inspect` |
-| `results/inside-image-verification.txt` | ⚠️ **not regenerated** — PART 2 needs `docker run` |
-| the post-`pymupdf` rebuild — `docker build` + one `code/run_all.sh`, cited in §2 C1/C3 | ⚠️ **not taken** — no daemon, so no such image was ever built; see below |
-| `logs/24-clone-gates-at-the-packaged-commit.log` | ✅ **added at packaging time** — the 14 gates re-run against a fresh clone of `5c4defc`, the commit that stages this note: **0 failures, 0 skipped**, "Safe to publish". Gate 13 there reports **16** audit-note directories where `logs/23-…` (taken at `47a0935`) reported 15, gate 3 reports `575 entries / 576 tracked` where `logs/23-…` reported `545 / 546`, and gate 11 reports 576 files — i.e. the three gates whose numbers the packaging step itself moved |
+| `logs/01…23` | the run, verbatim: six build attempts and the probe that identified defect 3, the pipeline runs (default, full, the entrypoint trap and its correction), the main-figure runs, the final-image runs, the two host references and the clone gates |
+| `logs/25…28` | added at packaging time — the rebuild, its run, the rebuild after the defect-9 fix, and its run (§0.3, §0.5) |
+| `logs/24-…` | the gate suite re-run at packaging time (§0.6) |
+| `COMMANDS.md` | every command, in order, each with the log it produced |
+| all five files under `results/` | written by `bash scripts/make_evidence.sh` against the image of §0.2 — derived, not copied |
 
-**Why the daemon could not start.** Recorded so the gap is not mistakable for a defect in the
-archive. `com.docker.backend` aborts while loading settings:
+### 0.2 The image every number here was measured on
 
-```
-initializing backend: initializing settings loader and loading startup providers:
-loading settings from providers: saving settings to file:
-rename C:\Users\Administrator\.docker\daemon.json.tmp-… C:\Users\Administrator\.docker\daemon.json:
-Access is denied.
-```
+`eqtl-discordance:latest` · `image_id sha256:a8b0ae74e0c1…` · built `2026-10-07T07:03:43Z` ·
+`3,826,567,401` bytes · `ENTRYPOINT ["/bin/bash", "/app/code/run_all.sh"]` · `working_dir /app`.
+`results/image-fingerprint.txt` records this in full, together with the base-image digest
+`env/Dockerfile` pins, resolved against the registry rather than taken on trust, and
+`results/inside-image-verification.txt` records the same image from the inside: Python 3.13.12
+and R 4.5.2, all eleven declared Python dependencies importable, `MatchIt 4.5.5 + optmatch
+0.10.6 + cobalt 4.5.2` loading, gate 13 and the three other validators passing, and step 4's
+format precheck exiting 0 with `有问题的图： NONE`.
 
-Measured on the host: creating, appending to and deleting a file under `~/.docker/` all
-succeed, but **replacing** an existing one is refused (`WinError 5`) — and the same refusal
-reaches the backend's own named pipe (`remove \\.\pipe\errorReporter: Access is denied`). The
-engine therefore never comes up and no `docker image inspect` is possible. This is a
-host-level restriction on file replacement (a security product / filter driver), not
-something the archive controls, and it is why the two PART 1/PART 2 files and `logs/24-…`
-are absent while the other three `results/` files could be re-derived.
+### 0.3 Two defects the packaging step found — in this note's own tooling
 
-**How to close the gap.** On a host where the daemon starts:
+Both were found by **executing** the packaging code, not by reading it, and both are the same
+shape as the eight in §3: a check that reports the wrong verdict.
 
-```bash
-PYTHON=<python with numpy + Pillow> bash scripts/make_evidence.sh
-```
+| # | Defect | How it announced itself | Fix |
+|---|---|---|---|
+| 9 | **`code/run_all.sh` reported a clean step 4 as a skip.** The §3.7 fix tested `grep -q '有问题的图：NONE'`, but `11_figure_precheck.py` prints the verdict with `print('有问题的图：', problems or 'NONE')` — one space more. The match never fired, so a clean precheck fell through to `[skip] … ran and reported figure(s) outside the format limits`, which is the opposite of its result | `logs/26-…`: step 4 runs for the first time, prints its table with `有问题的图： NONE`, and is reported as a skip | compare with whitespace stripped (`tr -d '[:space:]'`) instead of guessing the separator; the same run then reports `[ ok ]` — `logs/28-…` |
+| 10 | **PART 1 of `scripts/make_evidence.sh` shipped an empty image identity.** Its `docker image inspect --format` referenced `{{.Config.Cmd}}`, and this image sets no `CMD`. Docker renders these templates with `missingkey=error`, so the absent key aborted the whole inspect — id, size, created time and entrypoint were all replaced by a template error | the first `results/image-fingerprint.txt` had a `template parsing error` where the identity table belongs | read every `Config` field through `index .Config "…"`, which yields the zero value for an absent key instead of erroring |
 
-writes both missing files — and rewrites the three that ship here with the same numbers.
-The post-`pymupdf` rebuild is one more
-`docker build --progress=plain -t eqtl-discordance -f env/Dockerfile .` followed by one
-`code/run_all.sh`, which is what would put step 4's verdict line into a log.
+Neither changes a reported number; both are recorded because a fix without the failure it
+fixes is only an assertion, which is this note's own standard.
 
-**The gate suite was re-run at packaging time, and that run ships** as
-`logs/24-clone-gates-at-the-packaged-commit.log` (§7). It is taken against a fresh clone of
-`5c4defc`, the commit that stages this note, so gate 13 sees 16 audit-note directories rather
-than the 15 `logs/23-…` saw at `47a0935`. The commit that *carries* log 24 is one later than
-the commit it describes: that later commit adds the log itself, edits this note and
-`docs/audit_notes/INDEX.md`, and regenerates both `MANIFEST.sha256` here and
-`metadata/provenance.json` — the last two because adding a tracked file makes both stale, which
-is exactly what gates 13 and 3 detect. The off-by-one is inherent to the gate script (it clones
-`HEAD`, so a log that documents a commit cannot be inside it), and `COMMANDS.md` §5 already
-states it; gates 3 and 13 were therefore also re-run **directly on the final staged tree**, not
-only inside the clone.
+### 0.4 A correction to the first pass
 
-**What this does not change.** No reported number. The three claims that carry the note —
-the headline values (C4), the figure comparisons including the §4.3 font table (C6), and the
-14 clone gates (C8) — are all shipped, and the figure and gate evidence was re-derived at
-packaging time rather than copied.
+The first pass recorded that the post-`pymupdf` rebuild "was not taken". **That was wrong**,
+and the packaging step found it by measuring: the image already on the host carries
+`pymupdf 1.27.2.3` — `docker run … python3 -c "import fitz"` succeeds on it — so the rebuild
+had in fact run earlier on 2026-10-07, and only its log failed to survive. The first pass
+inferred "not run" from an absent log while the daemon was down and could not check. With the
+daemon up, the rebuild was re-run against the whole current tree (`logs/25-…`), the image
+identity captured (`results/image-fingerprint.txt`), and the tree rebuilt once more after the
+defect-9 fix (`logs/27-…`). `COMMANDS.md` §2's row 8 is restored accordingly.
+
+### 0.5 The figure evidence was re-derived on the rebuilt image, and did not move
+
+The three font conditions were re-run against the rebuilt image. Every output is
+**byte-identical** to what the earlier image produced — `Figure_1.png` `010a174514cdec30…`
+with Arial, `a2320405442606e1…` with nothing supplied, `edd3d94978a76d55…` with
+`fonts-liberation` — so §4.3's table and `results/figure-verification.txt` describe the
+rebuilt image exactly as they described the previous one. That is the answer to "does adding a
+dependency change the figures": it does not.
+
+### 0.6 The gate suite re-run at packaging time
+
+`logs/24-clone-gates-at-the-packaged-commit.log` is the 14 gates run against a fresh clone at
+the packaging commit: **0 failures, 0 skipped**, "Safe to publish". Gate 13 there reports
+**16** audit-note directories where `logs/23-…` (taken at `47a0935`) reported 15, gate 3
+`576 / 577` where it reported `545 / 546`, and gate 11 577 files — the three gates whose
+numbers the packaging step itself moves. The commit that *carries* this log is one later than
+the commit it describes, because the gate script clones `HEAD` and a log cannot be inside the
+commit it documents; `COMMANDS.md` §5 already states that off-by-one. Gates 3 and 13 were
+therefore also re-run **directly against the final staged tree**, not only inside the clone.
+
+**What this does not change.** No reported number. Headline values (C4), the figure
+comparisons including the §4.3 font table (C6) and the 14 clone gates (C8) were all
+re-derived at packaging time rather than copied, and the two packaging defects (§0.3) were in
+the checks, not in the pipeline they check.
 
 ---
 
@@ -104,13 +119,13 @@ as 跑通 when **all of C1–C8 hold and C9 is honoured**.
 
 | # | Criterion | Result | Evidence |
 |---|---|---|---|
-| C1 | Build | ✅ **EXIT=0**, 3.74 GB, `R stack OK: MatchIt 4.5.5 + optmatch 0.10.6` | `logs/06-…`, `logs/07-…`; the image fingerprint and the build re-taken after `pymupdf` was declared are **not shipped** — §0 |
+| C1 | Build | ✅ **EXIT=0**, 3.83 GB, `R stack OK: MatchIt 4.5.5 + optmatch 0.10.6` | `logs/06-…`, `logs/07-…`, `logs/25-…` (re-run at packaging time), `logs/27-…`; `results/image-fingerprint.txt` — `image_id sha256:a8b0ae74e0c1…`, `3,826,567,401` bytes |
 | C2 | Documented invocations | ✅ both forms EXIT=0 | `logs/18-…` (form 1), `logs/11-…` (form 2) |
-| C3 | Every pipeline step executes | ✅ after the fix in §3.7 — step 4 now runs and states its verdict | **not shipped** — the post-fix run that shows it (`logs/24-…`) could not be re-taken; §0. Every *pre-fix* log shows the `ModuleNotFoundError` this fixed (`logs/08-…`, `09-…`, `10-…`, `11-…`, `18-…`) |
+| C3 | Every pipeline step executes | ✅ after the fixes in §3.7 and §0.3 — step 4 runs and states its verdict | `logs/26-…` (step 4 runs for the first time; its verdict was mis-reported as a skip — defect 9) and `logs/28-…` (`[ ok ] 11_figure_precheck.py: page size, font type, min point size and dpi all within limits`). Every pre-fix log shows the `ModuleNotFoundError` this fixed: `logs/08-…`, `09-…`, `10-…`, `11-…`, `18-…` |
 | C4 | Headline values | ✅ `96 pairs / 68.8 % / rho = 0.3898` — identical to the host and to the manuscript | `results/headline-values.txt` |
 | C5 | Steps 3b / 3c | ✅ `[ ok ]` in the container | `logs/18-…`, `results/headline-values.txt` |
 | C6 | Figures | ✅ SI 8/8 pixel-identical; main 4/4 pixel-identical **with Arial**, 4.3–9.9 % different without it (quantified) | `results/figure-verification.txt` |
-| C7 | In-container validators | ✅ all four pass; step 4's format precheck reports `有问题的图： NONE` | **not shipped** — `results/inside-image-verification.txt` is written by `make_evidence.sh` PART 2, which needs the daemon; §0. The same four validators pass in the clone (C8, `logs/23-…`, gate 13) |
+| C7 | In-container validators | ✅ all four pass; step 4's format precheck exits 0 and reports `有问题的图： NONE` | `results/inside-image-verification.txt` — produced inside the image: `MatchIt 4.5.5 + optmatch 0.10.6 + cobalt 4.5.2`, gate 13, `check_archive_map`, `check_s4_order` and `check_fig4_hk_source` all pass. The same four validators also pass in the clone (C8) |
 | C8 | 14 clone gates | ✅ 0 failures / 0 skipped | `logs/23-…` (at `47a0935`), `results/clone-gate-summary.txt`, and `logs/24-…` — re-run at packaging time on `5c4defc`, the commit that stages this note |
 | C9 | Limits named | ✅ §4 — three things, each with its reason | §4 |
 
@@ -233,24 +248,27 @@ PYTHON=<python with numpy + Pillow> bash scripts/make_evidence.sh
 
 The script's header states, for each part, what it needs and what it does when a part cannot
 run: a part that could not run is **printed as such** and does not turn the exit status green.
-That is the same rule as C9.
+That is the same rule as C9. PART 1 and PART 2 need a running daemon (`docker image inspect`
+and `docker run`); the figure comparisons additionally need the produced figure sets, named by
+five environment variables in the header. The two font-substitution comparisons are declared
+`expect-diff`, so their difference — which is their result — does not fail the run; a missing
+file or a shape change in them still does. The full invocation is `COMMANDS.md` §7.
 
 ---
 
 ## 7. Contents of this directory
 
 ```
-README.md                                  this note (§0 records what shipped and what
-                                           could not be re-taken at packaging time)
+README.md                                  this note (§0 is the packaging record)
 COMMANDS.md                                every command run, in order, with its log
 MANIFEST.sha256                            hashes of everything below (gate 13 checks it)
 scripts/make_evidence.sh                   regenerates results/ (§6)
-results/image-fingerprint.txt              NOT SHIPPED, see §0 — docker client/server, image
-                                           id, created, size, entrypoint, ENV; base digest
-results/inside-image-verification.txt      NOT SHIPPED, see §0 — produced inside the image:
-                                           interpreter versions, every declared Python
-                                           dependency imported, the pinned R stack loaded,
-                                           gate 13 and three other validators, step 4
+results/image-fingerprint.txt              docker client/server, image id, created, size,
+                                           entrypoint, ENV; the base digest re-checked
+results/inside-image-verification.txt      produced inside the image: interpreter versions,
+                                           every declared Python dependency imported, the
+                                           pinned R stack loaded, gate 13 and three other
+                                           validators, and step 4's format precheck
 results/headline-values.txt                headline values from the container's log and the
                                            host's log, quoted with line numbers
 results/figure-verification.txt            pixel comparisons: SI figures, main figures with
@@ -267,7 +285,18 @@ logs/21..22-host-reference-*.log           the same two pipelines on the host �
                                            side of every comparison above
 logs/23-clone-gates-at-HEAD.log            the gates against a fresh clone of 47a0935
 logs/24-clone-gates-at-the-packaged-       the gates re-run at packaging time, against a
-commit.log                                 fresh clone of the commit that stages this note
+commit.log                                 fresh clone of the packaging commit (§0.6)
+logs/25-build-7-rebuild-after-pymupdf.log  the rebuild at packaging time: the pinned tag on
+                                           its own comment line, the three-step R layer, the
+                                           C toolchain, `R stack OK` (defects 1-4's fixes all
+                                           in one build)
+logs/26-run-step-4-runs-and-misreports-    the pipeline in the rebuilt image: step 4 executes
+clean-as-skip.log                          for the first time and its clean verdict is
+                                           reported as a skip — defect 9, the negative
+logs/27-build-8-rebuild-after-the-         the rebuild that carries the defect-9 fix
+defect-9-fix.log
+logs/28-run-step-4-reports-ok.log          the same pipeline after the fix: step 4 reports
+                                           `[ ok ] … all within limits` — C3's evidence
 ```
 
 ## 8. What this note does not claim

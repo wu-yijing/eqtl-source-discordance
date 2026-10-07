@@ -272,7 +272,15 @@ if [ -f "${FIGDIR}/11_figure_precheck.py" ] && [ "${MODE}" != "--verify-only" ];
   # Now: a completed run states its verdict, a missing module is named, a crash is a failure.
   if ( cd "${FIGDIR}" && "${PYTHON}" 11_figure_precheck.py ) > "${TMPD}/_precheck.txt" 2>&1; then
     sed 's/^/         /' "${TMPD}/_precheck.txt"
-    if grep -q '有问题的图：NONE' "${TMPD}/_precheck.txt"; then
+    # 2026-10-07, defect 9 — the first version of this fix matched the literal
+    # '有问题的图：NONE', but 11_figure_precheck.py prints the verdict with
+    # `print('有问题的图：', problems or 'NONE')`, so the bytes on the wire are
+    # '有问题的图： NONE' — one space more. The match therefore never fired and a clean
+    # precheck was reported as "[skip] ran and reported figure(s) outside the format
+    # limits". Compare with whitespace stripped instead of guessing the separator; the
+    # only way this branch can be reached with a clean run is if the string itself moves.
+    verdict="$(grep '有问题的图：' "${TMPD}/_precheck.txt" | tail -1 | tr -d '[:space:]')"
+    if [ "${verdict}" = '有问题的图：NONE' ]; then
       ok "11_figure_precheck.py: page size, font type, min point size and dpi all within limits"
     else
       skip "11_figure_precheck.py ran and reported figure(s) outside the format limits (non-blocking, listed above)"

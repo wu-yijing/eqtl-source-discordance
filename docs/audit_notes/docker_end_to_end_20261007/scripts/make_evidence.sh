@@ -27,6 +27,9 @@
 #
 # Exit status: 0 if every part that could run agreed; 1 if any comparison failed. A part
 # that could not run does not turn the exit status green or red — it is printed as such.
+# The two font-substitution comparisons (§4.3) are declared `expect-diff`: a pixel difference
+# in them IS the result and does not set the exit status, while a missing file or a shape
+# change in them still does. Without that, a run in which nothing was wrong exited 1.
 set -u
 
 HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
@@ -51,14 +54,20 @@ say "PART 1 — image fingerprint -> results/image-fingerprint.txt"
   docker version --format 'client {{.Client.Version}}  server {{.Server.Version}}  {{.Server.Os}}/{{.Server.Arch}}' 2>&1
   echo
   echo "## image identity"
+  # 2026-10-07, defect 10 — `{{.Config.Cmd}}` aborted the whole inspect on an image that
+  # sets no CMD: Docker renders these templates with `missingkey=error`, so the absent key
+  # is an error, and it printed an error INSTEAD of the id, size, created time and
+  # entrypoint — PART 1 shipped an empty identity section. `{{if .Config.Cmd}}` fails the
+  # same way. `index` bypasses `missingkey` and yields the zero value for an absent key, so
+  # every Config field is read through it.
   docker image inspect "$IMAGE" \
     --format 'repo_tags      {{.RepoTags}}
 image_id       {{.Id}}
 created        {{.Created}}
 size_bytes     {{.Size}}
-entrypoint     {{.Config.Entrypoint}}
-cmd            {{.Config.Cmd}}
-working_dir    {{.Config.WorkingDir}}' 2>&1
+entrypoint     {{index .Config "Entrypoint"}}
+cmd            {{index .Config "Cmd"}}
+working_dir    {{index .Config "WorkingDir"}}' 2>&1
   echo
   echo "## base image the Dockerfile pins, as resolved at build time"
   echo "   FROM continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1"
@@ -168,15 +177,28 @@ say "PART 4 — figure comparison by pixel -> results/figure-verification.txt"
   echo "# stream differs while the image does not. scripts/compare_figures_pixels.py is the"
   echo "# check; sha256sum is not."
   echo
-  run_cmp() {   # name, reference, candidate
+  run_cmp() {   # name, reference, candidate, [expect-diff]
     echo "## $1"
     echo "   reference : $2"
     echo "   candidate : $3"
     echo
     if [ -d "$2" ] && [ -d "$3" ]; then
-      ( cd "$REPO" && "$PY" scripts/compare_figures_pixels.py "$2" "$3" 2>&1 ) | sed 's/^/   /'
-      rc=${PIPESTATUS[0]}
-      [ "$rc" -ne 0 ] && FAIL=1
+      out="$( cd "$REPO" && "$PY" scripts/compare_figures_pixels.py "$2" "$3" 2>&1 )"
+      rc=$?
+      printf '%s\n' "$out" | sed 's/^/   /'
+      if [ "$rc" -ne 0 ]; then
+        # 2026-10-07 — the two font-substitution comparisons are MEANT to differ: that is
+        # their result (README §4.3). Counting them as failures made this script exit 1 on
+        # a run where nothing was wrong, which is the same class of defect the note is
+        # about. They are declared with `expect-diff`, and a missing file or a shape change
+        # in them is still a failure — only a real pixel difference is expected.
+        if [ "${4:-}" = "expect-diff" ] && ! printf '%s\n' "$out" | grep -qE 'missing|SHAPE'; then
+          echo "   [expected] a font substitution, not a reproduction failure — README §4.3;"
+          echo "              this comparison does not set the exit status."
+        else
+          FAIL=1
+        fi
+      fi
     else
       echo "   not available: one of the directories was not supplied."
       echo "   Supply it via the environment variable in this script's header and re-run."
@@ -188,9 +210,9 @@ say "PART 4 — figure comparison by pixel -> results/figure-verification.txt"
   run_cmp "main figures (Fig. 1-4) — container + Arial vs the host reference (must be pixel-identical)" \
           "${MAIN_FIGS_HOST:-}" "${MAIN_FIGS_ARIAL:-}"
   run_cmp "main figures — container WITHOUT Arial (DejaVu Sans fallback): a font substitution, quantified" \
-          "${MAIN_FIGS_HOST:-}" "${MAIN_FIGS_DEJAVU:-}"
+          "${MAIN_FIGS_HOST:-}" "${MAIN_FIGS_DEJAVU:-}" expect-diff
   run_cmp "main figures — container with fonts-liberation instead of Arial (measured 2026-10-07, to decide whether to add it)" \
-          "${MAIN_FIGS_HOST:-}" "${MAIN_FIGS_LIBERATION:-}"
+          "${MAIN_FIGS_HOST:-}" "${MAIN_FIGS_LIBERATION:-}" expect-diff
   echo "## byte-level, for the record"
   echo "   On the host the four main figures are byte-identical to the submitted files;"
   echo "   code/figures/ge_main/reproduce.sh asserts exactly that and prints"

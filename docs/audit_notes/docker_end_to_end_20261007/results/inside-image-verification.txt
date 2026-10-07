@@ -1,0 +1,64 @@
+# Everything below was produced INSIDE eqtl-discordance, on the code baked into it.
+# Regenerate: bash scripts/make_evidence.sh
+
+## the image is not a git checkout (by design) — state it rather than assume it
+   no .git/: scripts/verify_provenance.py (gate 3) cannot run here
+
+## interpreter versions
+   3.13.12 /opt/conda/envs/twas-eqtl/bin/python3
+   R version 4.5.2 (2025-10-31) -- "[Not] Part in a Rumble"
+
+## declared Python dependencies, imported
+   numpy          2.4.4
+   pandas         3.0.3
+   scipy          1.17.1
+   statsmodels    0.14.6
+   matplotlib     3.10.8
+   seaborn        0.13.2
+   scikit-learn   1.7.2
+   pyarrow        22.0.0
+   python-docx    1.2.0
+   pillow         12.3.0
+   pymupdf        1.27.2.3
+   declared-and-importable: ALL
+
+## pinned R stack (the check the build asserts)
+R version 4.5.2 (2025-10-31) -- "[Not] Part in a Rumble"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: x86_64-conda-linux-gnu
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
++ ", as.character(packageVersion("MatchIt")), as.character(packageVersion("optmatch")), as.character(packageVersion("cobalt"))))
+   MatchIt 4.5.5 + optmatch 0.10.6 + cobalt 4.5.2; library(MatchIt) loads
+
+## gate 13 — scripts/check_audit_manifests.py
+checked 16 audit-note directories: every manifest is present and matches
+RESULT: every audit note's MANIFEST.sha256 describes the tree that ships.
+
+## archive-map machine counts — scripts/check_archive_map.py
+  archive map: 13 tables, 47 item rows, 5 locality labels
+  [ ok ] structure, column declaration, counts and locality labels agree
+
+## SI Table S4 candidate order — scripts/check_s4_order.py
+
+  RESULT: the candidate order is explicit, agrees with the matched table, and its derivable part is derivable.
+
+## Figure 4 housekeeping panel source — scripts/check_fig4_hk_source.py
+
+ RESULT: Figure 4's housekeeping panel still comes from the archive layer.
+
+## step 4 of code/run_all.sh, run directly: the figure format precheck
+   (PyMuPDF was declared in neither environment.yml nor requirements.txt until
+    2026-10-07, so this raised ModuleNotFoundError and the step never ran here.)
+FigS6      pdf      168.9 x 76.2 (2.22:1)  Type0     6.00 [+2.7 pp] OK
+           png      3990 x 1800            RGB       dpi=599.9988 
+==============================================================================
+有问题的图： NONE
+   precheck exit: 0

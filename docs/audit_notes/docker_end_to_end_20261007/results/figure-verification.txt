@@ -4,11 +4,11 @@
 # check; sha256sum is not.
 
 ## SI figures (Fig. 3-8, S6; Fig. S4 is .gitignore'd on purpose) — container output vs the committed figures/
-   reference : E:/workbuddy/eqtl-source-discordance/figures
-   candidate : /e/workbuddy/_docker_run/figures
+   reference : /e/workbuddy/eqtl-source-discordance/figures
+   candidate : E:/workbuddy/_docker_run/final_d/figures
 
    reference : E:/workbuddy/eqtl-source-discordance/figures
-   candidate : E:/workbuddy/_docker_run/figures
+   candidate : E:/workbuddy/_docker_run/final_d/figures
    
      [ ok  ] Fig3.png    byte-diff 3990x1860  pixel-identical
      [ ok  ] Fig4.png    byte-diff 3990x1800  pixel-identical
@@ -30,11 +30,11 @@
             That is a zlib build difference (1.3.1 vs 1.3.2), not a reproduction failure — see this script's docstring.
 
 ## main figures (Fig. 1-4) — container + Arial vs the host reference (must be pixel-identical)
-   reference : /e/workbuddy/_host_run/ge_main/out
-   candidate : /e/workbuddy/_docker_run/final_c/out
+   reference : E:/workbuddy/_host_run/ge_main/out
+   candidate : E:/workbuddy/_docker_run/final_d/ge_main_arial/out
 
    reference : E:/workbuddy/_host_run/ge_main/out
-   candidate : E:/workbuddy/_docker_run/final_c/out
+   candidate : E:/workbuddy/_docker_run/final_d/ge_main_arial/out
    
      [ ok  ] Figure_1.png byte-diff 3780x2645  pixel-identical
      [ ok  ] Figure_2.png byte-diff 3779x1761  pixel-identical
@@ -50,11 +50,11 @@
             That is a zlib build difference (1.3.1 vs 1.3.2), not a reproduction failure — see this script's docstring.
 
 ## main figures — container WITHOUT Arial (DejaVu Sans fallback): a font substitution, quantified
-   reference : /e/workbuddy/_host_run/ge_main/out
-   candidate : /e/workbuddy/_docker_run/final_b/out
+   reference : E:/workbuddy/_host_run/ge_main/out
+   candidate : E:/workbuddy/_docker_run/final_d/ge_main_dejavu/out
 
    reference : E:/workbuddy/_host_run/ge_main/out
-   candidate : E:/workbuddy/_docker_run/final_b/out
+   candidate : E:/workbuddy/_docker_run/final_d/ge_main_dejavu/out
    
      [ FAIL] Figure_1.png byte-diff 3780x2645  445774 differing px (4.4586%), max delta 250
      [ FAIL] Figure_2.png byte-diff 3779x1761  656280 differing px (9.8617%), max delta 255
@@ -67,13 +67,15 @@
      [info] Figure_4.pdf   41805 vs   19916 bytes  differs beyond embedded dates (Flate streams carry the zlib difference)
    
     RESULT: 4 figure(s) are NOT pixel-identical.
+   [expected] a font substitution, not a reproduction failure — README §4.3;
+              this comparison does not set the exit status.
 
 ## main figures — container with fonts-liberation instead of Arial (measured 2026-10-07, to decide whether to add it)
-   reference : /e/workbuddy/_host_run/ge_main/out
-   candidate : /e/workbuddy/_docker_run/ge_main5/out
+   reference : E:/workbuddy/_host_run/ge_main/out
+   candidate : E:/workbuddy/_docker_run/final_d/ge_main_liberation/out
 
    reference : E:/workbuddy/_host_run/ge_main/out
-   candidate : E:/workbuddy/_docker_run/ge_main5/out
+   candidate : E:/workbuddy/_docker_run/final_d/ge_main_liberation/out
    
      [ FAIL] Figure_1.png byte-diff 3780x2645  161298 differing px (1.6133%), max delta 250
      [ FAIL] Figure_2.png byte-diff 3779x1761  534095 differing px (8.0257%), max delta 255
@@ -86,6 +88,8 @@
      [info] Figure_4.pdf   41805 vs   19413 bytes  differs beyond embedded dates (Flate streams carry the zlib difference)
    
     RESULT: 4 figure(s) are NOT pixel-identical.
+   [expected] a font substitution, not a reproduction failure — README §4.3;
+              this comparison does not set the exit status.
 
 ## byte-level, for the record
    On the host the four main figures are byte-identical to the submitted files;

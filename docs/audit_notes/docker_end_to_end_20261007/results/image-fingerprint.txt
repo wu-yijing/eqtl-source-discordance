@@ -1,0 +1,26 @@
+# The image every claim in this note was measured on.
+# Regenerate: bash scripts/make_evidence.sh
+
+## docker client / server
+client 29.8.2  server 29.8.2  linux/amd64
+
+## image identity
+repo_tags      [eqtl-discordance:latest]
+image_id       sha256:a8b0ae74e0c10829d0c88d7c5d59674c77b9046fba439cf7d94a176ea82c6eab
+created        2026-10-07T07:03:43.6712965Z
+size_bytes     3826567401
+entrypoint     [/bin/bash /app/code/run_all.sh]
+cmd            <no value>
+working_dir    /app
+
+## base image the Dockerfile pins, as resolved at build time
+   FROM continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1
+resolved_id    sha256:8769d9a9fc12eea293dd5952700b0aa3544e7e591e2dd805b64f0f4b9c370428
+repo_digests   [docker.1panel.live/continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1 continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf431bb149912dc6c9e4c1]
+
+## image ENV (as the container sees it)
+PATH=/opt/conda/envs/twas-eqtl/bin:/opt/MetaXcan/software:/opt/conda/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+LANG=C.UTF-8
+LC_ALL=C.UTF-8
+CONDA_DEFAULT_ENV=twas-eqtl
+
