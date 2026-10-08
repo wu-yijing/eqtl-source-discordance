@@ -12,8 +12,14 @@
      疾病无关对照（30 housekeeping + 44 non-candidate + 30 T2DM control）另加
      基因组范围 SCZ 基准，原文案只列出了其中一层，与正文口径不符。
      重出后与原图逐像素比对，仅该文本带变化（x[482,1722] y[2016,2075]，占全图 0.28%）。
+  6. （手稿 rev13，peer-review P2-6）模块 4 的说明文字由
+     "diagnostic heuristic (not structural)" 改为 "diagnostic heuristic (not a decomposition)"
+     —— 正文全稿不使用 "structural" 一词（正文口径是 "a two-axis diagnostic partition" /
+     "bounded rather than decomposed into a source-attributable error rate"），该括注是
+     早期框架的残留；投稿信已在同一轮改为 "rather than a decomposition into separately
+     identifiable axes"。改后三个载体（正文 / 图内 / 投稿信）用同一说法。
 
-除模块 5 的该条文案外，内容、配色、模块文案、连线弧线与原版逐字一致。
+除模块 5 与模块 4 的上述两条文案外，内容、配色、模块文案、连线弧线与原版逐字一致。
 """
 import os, sys
 import numpy as np
@@ -43,7 +49,7 @@ mods = [
     ("1", "Testbed construction", "104-gene HOTAIR-interactome panel\n30 candidate + 44 non-candidate\n+ 30 T2DM control"),
     ("2", "Dual-source S-PrediXcan TWAS", "GTEx v8 MASHR (Nerve_Tibial, Whole_Blood)\nvs eQTLGen whole blood (N = 31,684)"),
     ("3", "Cross-source agreement", "Spearman rho on Z-scores\npairwise direction consistency"),
-    ("4", "Two-axis partition", "diagnostic heuristic (not structural)\nresource / sample-size axis\ntissue-context axis"),
+    ("4", "Two-axis partition", "diagnostic heuristic (not a decomposition)\nresource / sample-size axis\ntissue-context axis"),
     ("5", "Calibration & replication", "Three nested disease-agnostic control layers\nFinnGen R13 vs UK Biobank (DR)"),
     ("6", "Evidence integration", "STREGA-based TWAS reporting checklist\n(Table S12)"),
 ]

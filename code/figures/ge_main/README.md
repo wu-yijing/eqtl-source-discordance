@@ -22,10 +22,10 @@ written against the predecessor repository's names (`gtex_official_Z.csv` and so
 `INPUTS.md` section A.1 records that those five files are byte-identical to the tables in
 `data/derived/`; nothing else about the scripts is changed.
 
-## Result — measured 2026-10-03, re-measured 2026-10-07
+## Result — measured 2026-10-03, re-measured 2026-10-07 and 2026-10-08
 
 ```
-Figure_1.png  4c690d7c8219f2ad…   identical to the submitted figure
+Figure_1.png  cac6cea86b8f3085…   identical to the submitted figure
 Figure_2.png  87ee0eaa83f37309…   identical to the submitted figure
 Figure_3.png  67d8a519e4f801f6…   identical to the submitted figure
 Figure_4.png  f29f2f56da3b6310…   identical to the submitted figure
@@ -51,6 +51,14 @@ the two genome-wide rows from
 them as constants — that JSON is the output of `scripts/recompute_scz.py` section 5, and the
 figure step prints the values it read beside the manuscript's. `Figure_2` and `Figure_4`
 were not revised; their hashes are unchanged.
+
+**One more hash moved (2026-10-08).** `Figure_1.png` `4c690d7c…` → `cac6cea8…`: the
+manuscript's rev13 changed module 4's label from *diagnostic heuristic (not structural)* to
+*diagnostic heuristic (not a decomposition)*. No form of "structural" occurs in the
+manuscript — its register is *a two-axis diagnostic partition* / *bounded rather than
+decomposed into a source-attributable error rate* — so the label was a residue of the
+earlier framing, and the cover letter was brought to the same wording in the same round.
+Same canvas 3,780 × 2,645 px; 0.078% of pixels differ, in one text band.
 
 ## One thing the figures need that the archive cannot contain: Arial
 

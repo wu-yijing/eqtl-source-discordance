@@ -134,7 +134,7 @@ DOCS = {
     'manuscript': dict(env='REPRO_MS_DOCX',
                        default=os.path.join(REPO, 'manuscript', 'Manuscript.docx'),
                        expect='Manuscript_GenetEpidemiol_20260930.docx',
-                       md5='2c13e37093d86e364b8933fe32ff8afd', bytes=31258,
+                       md5='7699ecc627a1ebfc55cb55bdb67bd59f', bytes=32345,
                        what='the submitted manuscript',
                        revisions=[
                            dict(md5='dbbe4f81a6fe9433b6a28019c6538eab', bytes=30524,
@@ -170,11 +170,32 @@ DOCS = {
                            dict(md5='2c13e37093d86e364b8933fe32ff8afd', bytes=31258,
                                 label='revision 2026-10-06 (rev9: current main commit '
                                       '1a9ebc6 added; no number changed)'),
+                           # --- added 2026-10-07 / 2026-10-08 ---
+                           # The rev9 comment above is history and stays accurate for rev9:
+                           # rev9 did append a moving "current main commit 1a9ebc6". rev12
+                           # removed it again, replacing it with the immutable tag plus a
+                           # pointer to CHANGELOG, because a pointer to main goes stale on
+                           # the next commit — which is exactly what happened to rev9's.
+                           # Nothing after rev9 names a moving commit.
+                           dict(md5='85a01f984f53cc5e847177ab20a3345f', bytes=31597,
+                                label='revision 2026-10-07 (rev10: peer-review fixes; SI Table '
+                                      'S17 and Figures 1/3 also changed, no manuscript number '
+                                      'changed)'),
+                           dict(md5='7220aa0d5fb1e5b934b211eb17e25aeb', bytes=31782,
+                                label='revision 2026-10-07 (rev11: prominence pass over title, '
+                                      'abstract and section openings; text only)'),
+                           dict(md5='d339c9e9549e01ac13dc3aa4da3db3d4', bytes=31886,
+                                label='revision 2026-10-07 (rev12: S20 range, S12->S5b pointer, '
+                                      'M4 sentence, and the moving main pointer replaced by the '
+                                      'immutable tag; no number changed)'),
+                           dict(md5='7699ecc627a1ebfc55cb55bdb67bd59f', bytes=32345,
+                                label='revision 2026-10-08 (rev13: fourth-round P1/P2 fixes; no '
+                                      'number changed)'),
                        ]),
     'si': dict(env='REPRO_SI_DOCX',
                default=os.path.join(REPO, 'manuscript', 'Supporting_Information.docx'),
                expect='Supporting_Information_GenetEpidemiol_20260930.docx',
-               md5='502f79eb565ae648a6ada03041964b9c', bytes=1464207,
+               md5='6607b7d3b3ee7ccbe278ed487ba7d522', bytes=1569752,
                what='the submitted Supporting Information',
                revisions=[
                    dict(md5='bd50b7f819db7851c50ddfa76ae336eb', bytes=1462835,
@@ -219,6 +240,21 @@ DOCS = {
                    dict(md5='502f79eb565ae648a6ada03041964b9c', bytes=1464207,
                         label='revision 2026-10-06 (rev9: Note S4 carries the current main '
                               'commit, matching the manuscript; no number changed)'),
+                   # --- added 2026-10-07 / 2026-10-08 ---
+                   # rev10 is the only revision in this series that ADDS reported values:
+                   # three rows in Table S17 (gene-cluster bootstrap intervals and
+                   # cluster-robust P for the three partition arms). rev11 removes rev9's
+                   # moving "current main commit" from Note S4, matching the manuscript's
+                   # rev12/rev13 wording (the immutable tag + CHANGELOG), so still no number
+                   # changes. rev11 was re-serialised by the local Office editor SDK — see
+                   # the package note in INPUTS.md §B.1; rendering is unchanged.
+                   dict(md5='7eecc66058d4322bcbf3542d51f5c635', bytes=1472508,
+                        label='revision 2026-10-07 (rev10: Table S17 gains three rows — '
+                              'gene-cluster bootstrap intervals and cluster-robust P for the '
+                              'three partition arms; reported values added, none changed)'),
+                   dict(md5='6607b7d3b3ee7ccbe278ed487ba7d522', bytes=1569752,
+                        label='revision 2026-10-08 (rev11: Note S4 re-pointed to the immutable '
+                              'tag, matching the manuscript rev12/rev13; no number changed)'),
                ]),
     'af1': dict(env='REPRO_AF1_DOCX',
                 default=os.path.join(REPO, 'manuscript', 'Additional_file_1.docx'),

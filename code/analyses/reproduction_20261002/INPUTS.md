@@ -111,7 +111,11 @@ Every revision of the two submission documents that is known to exist is listed 
 | `manuscript` | revision 2026-10-04 (rev6: v4.0.2 identifiers) | `Manuscript_GenetEpidemiol_20260930_rev6.docx` | `ca7e22a9a2e10f091b061a72fa175c95` | `389c0c2adf2fbed8…` | 31,168 |
 | `manuscript` | revision 2026-10-04 (rev7: `[39]` carrier → Zenodo) | `Manuscript_GenetEpidemiol_20260930_rev7.docx` | `27e9bf5cbf3785d930f27ee6f165c49f` | `ddf27dbb8f37d887…` | 31,190 |
 | `manuscript` | **revision 2026-10-04 (rev8: R2 §一 unrounded-value parenthetical)** | `Manuscript_GenetEpidemiol_20260930_rev8.docx` | `7fed1b504c452e16333a59d1aef6510e` | `bae04123245dfd360dcc24b4dfa380f79f25ad8b404be3b3f7176b0aa31a11ba` | 31,223 |
-| `manuscript` | **revision 2026-10-06 (rev9: the archive's commit citation brought up to date)** — newest, on disk | `Manuscript_GenetEpidemiol_20260930_rev9.docx` | `2c13e37093d86e364b8933fe32ff8afd` | `e0c1726be15b8aed9f1daf7c841567a70eef239393c1afa03831750a6da424d1` | 31,258 |
+| `manuscript` | **revision 2026-10-06 (rev9: the archive's commit citation brought up to date)** | `Manuscript_GenetEpidemiol_20260930_rev9.docx` | `2c13e37093d86e364b8933fe32ff8afd` | `e0c1726be15b8aed9f1daf7c841567a70eef239393c1afa03831750a6da424d1` | 31,258 |
+| `manuscript` | **revision 2026-10-07 (rev10: the peer-review fixes — SI Table S17 and Figures 1 and 3 also changed; no manuscript number changed)** | `Manuscript_GenetEpidemiol_20260930_rev10.docx` | `85a01f984f53cc5e847177ab20a3345f` | `2bc62e0dcbc4a8a0e7f566b9049354d0660ddd2183ef5768bceff537d1d21bc9` | 31,597 |
+| `manuscript` | revision 2026-10-07 (rev11: prominence pass over title, abstract and section openings); text only, no number changed | `Manuscript_GenetEpidemiol_20260930_rev11.docx` | `7220aa0d5fb1e5b934b211eb17e25aeb` | `f70d26b29518a2ebba52b92864e32d64540ba5982185f3e34ca8f7eea8ddb01f` | 31,782 |
+| `manuscript` | revision 2026-10-07 (rev12: the Table S20 range, the S12→S5b pointer, the M4 sentence, and the commit citation re-pointed from a moving `main` to the immutable tag); no number changed | `Manuscript_GenetEpidemiol_20260930_rev12.docx` | `d339c9e9549e01ac13dc3aa4da3db3d4` | `039a1f1d79e7f2d6cf692cf8a85a39a2e962d1efb788568c69ed090ec857f0aa` | 31,886 |
+| `manuscript` | **revision 2026-10-08 (rev13: the fourth-round P1/P2 fixes — grammar, the missing `(Table S2)`, the S5a/S5b note)** — newest, on disk | `Manuscript_GenetEpidemiol_20260930_rev13.docx` | `7699ecc627a1ebfc55cb55bdb67bd59f` | `c9727e4f2361a6b4aff959ad01d9fc8c02581e4b8343ce7039f6e2a6ca2bc2bd` | 32,345 |
 | `si` | **produced `results/`** (submitted 2026-09-30) | `Supporting_Information_GenetEpidemiol_20260930.docx` | `bd50b7f819db7851c50ddfa76ae336eb` | `132d5eb080f0021e6ee180c4b7736ada27e35a5d8e457d29815992945d17ac73` | 1,462,835 |
 | `si` | revision 2026-10-03 (rev2) | `Supporting_Information_GenetEpidemiol_20260930_rev2.docx` | `72f955c9294d5228c57288ba93617f1e` | `81692586c4164286096f6c48fd289fa7ec32d6be9c2d7fbb4d32c09c02484dd8` | 1,463,194 |
 | `si` | revision 2026-10-03 (rev1_dates, alternative take — not carried forward) | `Supporting_Information_…_rev1_dates.docx` | `0525627164458b587f0997180d9e63d9` | `3e468019c5457e1d…` | 1,560,626 |
@@ -122,8 +126,24 @@ Every revision of the two submission documents that is known to exist is listed 
 | `si` | revision 2026-10-04 (rev6: rev5 text rebuilt on rev4 structure — the layout regression repaired, no text change) | `Supporting_Information_…_rev6.docx` | `5baf40f0fbba2fb1d50367bdc7fecb85` | `da8d464bc686b2b0f6b2259dadac7b3d1449337ea992ed35f668197823538269` | 1,463,543 |
 | `si` | revision 2026-10-04 (rev7: R2 P1/P2 notes added to the Table S17 note — RNG, sorted-vector, permutation unit, sandwich/jackknife estimators) | `Supporting_Information_…_rev7.docx` | `d4ad6e348d577f55706a5d65af7ed37b` | `48135f7872b99bad125a0a0e7f0bcaf972f5575cdb9f017aae63cfe5054130e0` | 1,464,167 |
 | `si` | **revision 2026-10-04 (rev8: Table S4 re-emitted — the 30 matched-control rows carry the pairing the documented specification produces; same 30 controls, same covariate values, and Table S26 is unchanged)** | `Supporting_Information_…_rev8.docx` | `08ca0b851bccad27161599db805c2222` | `8d0a0296d80b0fef654ff44e2e85f12ed8fa19cc307ce01cc162ee9ed148c15f` | 1,464,180 |
-| `si` | **revision 2026-10-06 (rev9: Note S4's archive identifier brought in line with the manuscript — both now name the current main commit beside release v4.0.2)** — newest, on disk | `Supporting_Information_…_rev9.docx` | `502f79eb565ae648a6ada03041964b9c` | `f947007935a0deb0df0dff9f63787cc546342ce0720acbbc97e9025aaf625310` | 1,464,207 |
+| `si` | **revision 2026-10-06 (rev9: Note S4's archive identifier brought in line with the manuscript — both now name the current main commit beside release v4.0.2)** | `Supporting_Information_…_rev9.docx` | `502f79eb565ae648a6ada03041964b9c` | `f947007935a0deb0df0dff9f63787cc546342ce0720acbbc97e9025aaf625310` | 1,464,207 |
+| `si` | **revision 2026-10-07 (rev10: Table S17 gains three rows — gene-cluster bootstrap intervals and cluster-robust P for the three partition arms. The only revision in this series that ADDS reported values)** | `Supporting_Information_GenetEpidemiol_20260930_rev10.docx` | `7eecc66058d4322bcbf3542d51f5c635` | `da601a216093a9ceb279bc8733baae85dafa80802176e71b555ffb393c56a786` | 1,472,508 |
+| `si` | **revision 2026-10-08 (rev11: Note S4's archive citation re-pointed to the immutable tag, matching the manuscript rev12/rev13 wording; no number changed)** — newest, on disk | `Supporting_Information_GenetEpidemiol_20260930_rev11.docx` | `6607b7d3b3ee7ccbe278ed487ba7d522` | `1c2f3456ac24fe825c62b99092d15b585755c7144394698e9ef202fa0f595856` | 1,569,752 |
 | `af1` | — | `Additional file 1_审稿意见修订_20260917.docx` | — | — | — |
+
+> **Package note — rev10 onward were not produced by rewriting `word/document.xml` alone.** Every
+> revision up to rev9 was a surgical edit in which all other parts of the file stayed byte-identical.
+> That no longer holds: the manuscript rev10/rev11/rev12 and the SI rev10 were rebuilt by the
+> manuscript-editing tool chain, and the MS rev13 / SI rev11 of 2026-10-08 were produced through the
+> local Office editor SDK, which re-serialises every part. In SI rev11 that normalisation is visible
+> in three ways: style IDs move from numeric (`1`…`164`) to hex (`00000b`…`0000ae`); repeated
+> cell-level borders are consolidated into table-level ones; and the four PNGs are stored with
+> deflate level 0, which is why the file grows to 1,569,752 B. **None of it is visible.** The check
+> that establishes this is a page-by-page raster comparison of the two PDFs exported from Word: at
+> 200 dpi, 48 of 49 pages are pixel-identical and the 49th differs only in the Note S4 sentence that
+> was the point of the revision (bounding box x[251,1425] y[1812,1998]); the four embedded figures
+> are pixel-identical, and paragraphs (7,766), runs (7,972) and `<w:t>` elements (7,967) are
+> unchanged. Hyperlinks, fields, bookmarks, footnotes and comments are absent from both files.
 
 `af1` is read by `r3/m15/m15_pc.py` and is **optional since 2026-10-03**: the four tables S20's generator reads (S1, S2, S15, S18) also ship as `data/derived/{gene_groups,gtex_Z,eqtlgen_Z}.csv`, verified row for row identical to the document (104/104, 222/222, 90→81/81, 207/207, zero differing cells). Supply the document and it is used instead.
 

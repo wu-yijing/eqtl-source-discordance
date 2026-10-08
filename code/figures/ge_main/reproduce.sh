@@ -151,7 +151,7 @@ step "3. Compare against the recorded hashes"
 # intervals in panel (a); P2-3: four forest rows in panel (b)). Earlier values were
 # eb77483e… and 152f45df…. Figure 3's height went 3,779 × 1,705 → 3,779 × 1,903 px.
 declare -A WANT=(
-  [1]=4c690d7c8219f2adecfe864dc0d3a2549f02120206b2e1791de01295f589c4c6
+  [1]=cac6cea86b8f308514bdba80702e8a9a481ed1c90c5160113762cee3e4c870c7
   [2]=87ee0eaa83f3730938305f669747943101797cde5952ba5cdc0ef33c568e97b0
   [3]=67d8a519e4f801f65a68a1ff6140443f3aa892c77570cb6c8540d1eef1e7afc3
   [4]=f29f2f56da3b63107df27145aced3a5ffa6b16b73c2b068afaae6e81324912d1

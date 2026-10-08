@@ -23,9 +23,40 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+### 2026-10-08 — the submission documents are registered, and Figure 1 moves with manuscript rev13
+
+Numbers: no number reported in this archive changed. Registering manuscript rev10–rev13 and
+SI rev10–rev11 in `INPUTS.md` §B.1 records what the manuscript did; it does not change anything
+this archive computes. The one non-no-op inside that series is manuscript rev10 / SI rev10,
+which **added** three rows to SI Table S17 (gene-cluster bootstrap intervals and cluster-robust
+P for the three partition arms) and redrew Figures 1 and 3 — new reported values, not changed
+ones.
+
+The only artefact of *this* round that moves is `Figure_1.png`, after manuscript rev13 changed
+module 4's label:
+
+```
+Figure_1.png   4c690d7c… → cac6cea8…   module 4: "diagnostic heuristic (not structural)" →
+                                       "diagnostic heuristic (not a decomposition)". No form
+                                       of "structural" occurs in the manuscript, whose register
+                                       is "two-axis diagnostic partition" / "bounded rather than
+                                       decomposed into a source-attributable error rate"; the
+                                       cover letter was brought to the same wording. 0.078% of
+                                       pixels, one text band; canvas unchanged.
+Figure_2/3/4   unchanged
+```
+
+MS rev13 / SI rev11 were produced through the local Office editor SDK, which re-serialises the
+whole package rather than rewriting `word/document.xml` alone. That is a change in how these
+files are made, and it is stated with its verification in `INPUTS.md` §B.1: a 200-dpi
+page-by-page raster comparison of the two PDFs exported from Word shows 48 of 49 SI pages
+pixel-identical, the 49th differing only in the sentence that was the point of the revision.
+
 ### 2026-10-07 — the main-figure hashes describe the figures the manuscript actually submits
 
-Numbers: no reported number changed. Figures and documentation only.
+Numbers: no number reported in this archive changed — the scope is stated because the
+manuscript's own rev10 of the same day **added** three rows to SI Table S17. This entry's
+change is figures and documentation only.
 
 Gate 14 reproduced the **rev9** main-figure set while the submission had moved to rev10, so a
 green gate was describing superseded files — the defect shape this archive exists to catch
