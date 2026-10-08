@@ -23,6 +23,82 @@ This project has been re-archived three times. Version numbers **do not restart*
 
 ## [Unreleased]
 
+Nothing yet. The next pass starts here. `## [4.1.0]` below is the state this release ships.
+
+---
+
+## [4.1.0] — 2026-10-08
+
+**Numbers: no number reported in this archive changed anywhere in this release.** Fifteen dated
+entries sit below this heading and every one of them states its own scope; all fifteen reach the
+same verdict. No file in `data/` moved a reported value, no reproducing script was edited in a way
+that changes an output, and neither submitted document altered a value this archive computes.
+
+Two statements belong at release level rather than in a single entry.
+
+**The four main figures are byte-identical to the ones v4.0.2 shipped.** `Figure_1.png`
+`cac6cea8…`, `Figure_2.png` `87ee0eaa…`, `Figure_3.png` `67d8a519…`, `Figure_4.png`
+`f29f2f56…` — each compared against the PNG actually submitted with the manuscript. The
+sixteen document revisions registered across this release moved no figure, including the three
+that redrew Figure 1 (module 5's label at rev10, module 4's at rev13) and Figure 3 (rev10).
+
+**The document registry reaches manuscript rev17 and SI rev15** — four revisions further than
+v4.0.2's last entry, and the first time the registry has carried a revision whose *abstract* was
+rewritten. That last one is the reason for the explicit scope sentence: manuscript rev17 compresses
+the abstract from 249 to 198 words to meet the journal's stated 200-word guidance, and a compressed
+abstract is exactly the kind of edit that can quietly drop a reported value. It did not: all
+thirteen headline values the abstract carries (104-gene testbed, FinnGen R13, three disease-agnostic
+controls, 33.8% reversal, 68.8% of 96 pairs, ρ = 0.39, 74.4%, 198 pairs, nine single-source FDR
+discoveries, Δρ = +0.0265 and −0.0226, S-PrediXcan) survive verbatim, and the archive's
+own tables are untouched because the abstract is not one of its artefacts.
+
+### 2026-10-08 (thirtieth pass) — v4.1.0 is cut, and the document registry reaches rev17
+
+Numbers: **no number reported in this archive changed.** No file in `data/` changed, no reproducing
+script was edited, no gate was changed, and no figure moved. This pass bumps the release metadata,
+moves the accumulated entries under a version heading, and registers four further revisions of each
+submitted document.
+
+Release metadata, three carriers:
+
+```
+.zenodo.json        version "4.0.2" → "4.1.0"
+CITATION.cff        version 4.0.2 → 4.1.0 ; date-released "2026-10-04" → "2026-10-08"
+env/Dockerfile      LABEL version="4.0.2" → "4.1.0"
+```
+
+The `env/Dockerfile` label is bumped in the same step deliberately: v4.0.2's entry records that this
+label had drifted to `4.0.0` and that *nothing in the gate set could catch the drift*. It is still
+not checked by `cut_release.sh`; bumping it here is a manual act, and the honest record is that it
+remains manual.
+
+Registry, eight further document revisions — the four of each document that were on disk and
+unrecognised, now in `paths_config.py` and `INPUTS.md` §B.1:
+
+| Document | Revision | What it changes | Reported values |
+|---|---|---|---|
+| manuscript | rev14 | first-round peer-review fixes: the 96-pair provenance in the abstract, the FDR endpoint demoted to a bound, the sparsity disclosure, Table S31/S32 pointers | none changed |
+| manuscript | rev15 | second-round fixes: `degenerate` → `five-SNP sparsity flag` throughout, the reading guide re-pointed to Table S2, the Arial disclosure reworded | none changed |
+| manuscript | rev16 | third-round fixes: the Supporting Information manifest corrected from `Notes S1–S5; Tables S1–S30` to `Notes S1–S6; Tables S1–S32`, apostrophes normalised to the typographic form | none changed |
+| manuscript | rev17 | the abstract compressed from 249 to 198 words for the journal's 200-word guidance | **none changed** — all thirteen values verified present |
+| si | rev12 | Note S6 added; Table S31 (104 genes × 8 columns) and Table S32 (15 × 5) added; Table S27's real-data row made self-consistent at +6.01 | values **added**, none changed |
+| si | rev13 | Note S6's five medians restated at the convention the note declares; Table S32's `Direction-consistent` column renamed `Value`; checklist items 3a–3c rewritten | none changed |
+| si | rev14 | Note S6 moved to follow Note S5, and a three-line contents block added to the file head | none changed |
+| si | rev15 | the contents block re-ordered to match the page order (Figures, Notes, Tables) | none changed |
+
+**Why this registry step is not cosmetic.** The four manuscript revisions were produced by the
+local Office editor SDK and by a surgical `word/document.xml` patch respectively, and the archive's
+standing claim is that *every revision of the two submission documents that is known to exist* is
+listed. Before this pass that claim was false for eight files: a reader holding rev17 would have
+been told `[UNRECOGNISED]` and pointed at a revision list that stopped at rev13.
+
+**One thing this release does not yet carry, stated rather than implied.** The manuscript rev17
+registered here is *not* the submittable form: its Data availability statement and reference [30]
+carry six `[[TBF_release_tag]]` / `[[TBF_commit]]` / `[[TBF_date]]` tokens, which can only be filled
+once this release has been deposited and Zenodo has minted its version DOI. The backfill produces a
+further revision (rev18), exactly as v4.0.2's identifiers produced rev6 and rev7; a later release
+will register it. No tag can contain its own version DOI — the same asymmetry v4.0.2's entry records.
+
 ### 2026-10-08 — the submission documents are registered, and Figure 1 moves with manuscript rev13
 
 Numbers: no number reported in this archive changed. Registering manuscript rev10–rev13 and

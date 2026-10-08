@@ -13,8 +13,8 @@ license: MIT
 license-url: "https://opensource.org/license/mit"
 repository-code: "https://github.com/wu-yijing/eqtl-source-discordance"
 url: "https://github.com/wu-yijing/eqtl-source-discordance"
-version: 4.0.2
-date-released: "2026-10-04"
+version: 4.1.0
+date-released: "2026-10-08"
 identifiers:
   # Managed by scripts/set_doi.py from metadata/zenodo_release.json.
   # Both values below were minted by Zenodo when this release was published, and

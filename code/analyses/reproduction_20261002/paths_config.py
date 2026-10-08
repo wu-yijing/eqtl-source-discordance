@@ -134,7 +134,7 @@ DOCS = {
     'manuscript': dict(env='REPRO_MS_DOCX',
                        default=os.path.join(REPO, 'manuscript', 'Manuscript.docx'),
                        expect='Manuscript_GenetEpidemiol_20260930.docx',
-                       md5='7699ecc627a1ebfc55cb55bdb67bd59f', bytes=32345,
+                       md5='6ecab048e34c9c610e15002570a8a2d4', bytes=33723,
                        what='the submitted manuscript',
                        revisions=[
                            dict(md5='dbbe4f81a6fe9433b6a28019c6538eab', bytes=30524,
@@ -191,11 +191,37 @@ DOCS = {
                            dict(md5='7699ecc627a1ebfc55cb55bdb67bd59f', bytes=32345,
                                 label='revision 2026-10-08 (rev13: fourth-round P1/P2 fixes; no '
                                       'number changed)'),
+                           # --- added 2026-10-08 (v4.1.0): the peer-review rounds that followed
+                           # rev13, and the abstract compression. rev14-rev16 are text-only; rev17
+                           # rewrites the abstract (249 -> 198 words) for the journal's stated
+                           # 200-word guidance and is the first registered revision whose ABSTRACT
+                           # was rewritten. All thirteen headline values the abstract carries were
+                           # re-checked present; none changed. Nothing in the archive moves: no
+                           # figure, no data file, no reported value. rev17 is also NOT the
+                           # submittable form - its Data availability statement and reference [30]
+                           # carry the six [[TBF_*]] tokens that only a minted Zenodo DOI can fill.
+                           dict(md5='8b502a85d146f679d7ea68f3d1f434a9', bytes=33718,
+                                label='revision 2026-10-08 (rev14: first-round peer-review fixes - '
+                                      'abstract 96-pair provenance, FDR endpoint demoted to a bound, '
+                                      'sparsity disclosure, Table S31/S32 pointers; no number '
+                                      'changed)'),
+                           dict(md5='72a3481003f33fcbf3e6567db828744a', bytes=33783,
+                                label='revision 2026-10-08 (rev15: second-round fixes - degenerate '
+                                      '-> five-SNP sparsity flag, reading guide re-pointed to Table '
+                                      'S2, Arial disclosure reworded; no number changed)'),
+                           dict(md5='72290b86935c861e87dd2361fc250a77', bytes=33791,
+                                label='revision 2026-10-08 (rev16: third-round fixes - Supporting '
+                                      'Information manifest corrected to Notes S1-S6 / Tables '
+                                      'S1-S32, apostrophes normalised; no number changed)'),
+                           dict(md5='6ecab048e34c9c610e15002570a8a2d4', bytes=33723,
+                                label='revision 2026-10-08 (rev17: abstract compressed 249 -> 198 '
+                                      'words for the journal 200-word guidance; all thirteen '
+                                      'headline values verified present, none changed)'),
                        ]),
     'si': dict(env='REPRO_SI_DOCX',
                default=os.path.join(REPO, 'manuscript', 'Supporting_Information.docx'),
                expect='Supporting_Information_GenetEpidemiol_20260930.docx',
-               md5='6607b7d3b3ee7ccbe278ed487ba7d522', bytes=1569752,
+               md5='295107305404b02b967afd89371b7b85', bytes=1578784,
                what='the submitted Supporting Information',
                revisions=[
                    dict(md5='bd50b7f819db7851c50ddfa76ae336eb', bytes=1462835,
@@ -255,6 +281,29 @@ DOCS = {
                    dict(md5='6607b7d3b3ee7ccbe278ed487ba7d522', bytes=1569752,
                         label='revision 2026-10-08 (rev11: Note S4 re-pointed to the immutable '
                               'tag, matching the manuscript rev12/rev13; no number changed)'),
+                   # --- added 2026-10-08 (v4.1.0): the peer-review rounds that followed rev11.
+                   # rev12 ADDS reported values (Note S6; Table S31 = 104 genes x 8 columns,
+                   # Table S32 = 15 x 5; Table S27's real-data row made self-consistent at +6.01);
+                   # no existing value changes. rev13 restates Note S6's five medians at the
+                   # convention the note declares, renames Table S32's 'Direction-consistent'
+                   # column to 'Value', and rewrites checklist items 3a-3c. rev14 moves Note S6 to
+                   # follow Note S5 and adds a contents block; rev15 re-orders that block to match
+                   # the page order. Page counts 53 throughout; the four embedded figures are
+                   # untouched.
+                   dict(md5='d6d926169b9d435e06ad28bcb6e75aec', bytes=1576774,
+                        label='revision 2026-10-08 (rev12: Note S6 added, Table S31 (104 genes) and '
+                              'Table S32 added, Table S27 real-data row self-consistent at +6.01; '
+                              'values added, none changed)'),
+                   dict(md5='c3b0fe05ea2c0015b2dcb90e990c05c6', bytes=1578826,
+                        label='revision 2026-10-08 (rev13: Note S6 medians restated at the declared '
+                              'convention, Table S32 column renamed Value, checklist items 3a-3c '
+                              'rewritten; no number changed)'),
+                   dict(md5='420af043cbf98c1c9002ebc7eb94068e', bytes=1578780,
+                        label='revision 2026-10-08 (rev14: Note S6 moved to follow Note S5, contents '
+                              'block added to the file head; no number changed)'),
+                   dict(md5='295107305404b02b967afd89371b7b85', bytes=1578784,
+                        label='revision 2026-10-08 (rev15: contents block re-ordered to match the '
+                              'page order - Figures, Notes, Tables; no number changed)'),
                ]),
     'af1': dict(env='REPRO_AF1_DOCX',
                 default=os.path.join(REPO, 'manuscript', 'Additional_file_1.docx'),

@@ -99,7 +99,7 @@ FROM continuumio/miniconda3@sha256:eca594d684f495c1a02beff33a9fab53aec8c5830eaf4
 
 LABEL maintainer="Yijing Wu <ellwyj1@outlook.com>"
 LABEL description="eQTL-source discordance in TWAS — reproducibility environment (eqtl-source-discordance)"
-LABEL version="4.0.2"
+LABEL version="4.1.0"
 
 # =============================================================================
 # Stage 1: system dependencies + conda environment
