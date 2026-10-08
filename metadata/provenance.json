@@ -315,7 +315,7 @@
   {
    "path": "CITATION.cff",
    "bytes": 3284,
-   "sha256": "9a556be3cba8d3fbc99604ecf21d025507aed103195e821f00262e4390227857"
+   "sha256": "787359725da69ac6a957c3c049d387bcf964342d96cbf218088514ba1f1281ac"
   },
   {
    "path": "DOI_PENDING.md",
@@ -330,7 +330,7 @@
   {
    "path": "README.md",
    "bytes": 13156,
-   "sha256": "f0973a05fdd0077c4e26de3c457f49c59afe75e940efc5e04891fdb5efcf2f49"
+   "sha256": "6be26366571454e108f79c7f1d04255027e40c2f1e406d6e85ce09983c2dffef"
   },
   {
    "path": "code/README.md",
@@ -3135,7 +3135,7 @@
   {
    "path": "metadata/zenodo_release.json",
    "bytes": 2162,
-   "sha256": "b084527ccf4c75b15c770c37076f4a4d97295126c1744088ab26947ee20b061d"
+   "sha256": "4a25a58b2e43b200fc2edd308eb4656bbb013869ccb034e06a77714d37920a7f"
   },
   {
    "path": "scripts/audit_documents_vs_repo.py",

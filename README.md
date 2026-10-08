@@ -7,7 +7,7 @@ Analysis code, processed data and a containerized reproducibility environment fo
 
 <!-- DOI_STATUS_BEGIN — managed by scripts/set_doi.py; the pending and published variants live together in that file. Do not edit this block by hand. -->
 > **Archived, citable snapshot.** Cite the concept DOI `10.5281/zenodo.23129112` for the software and dataset —
-> it always resolves to the latest archived version — or the version DOI `10.5281/zenodo.23129431` to refer to
+> it always resolves to the latest archived version — or the version DOI `10.5281/zenodo.23235501` to refer to
 > this exact analysed snapshot. Machine-readable form: [`CITATION.cff`](CITATION.cff). The registry
 > of record is [`metadata/zenodo_release.json`](metadata/zenodo_release.json); the steps that
 > produced it are in [`DOI_PENDING.md`](DOI_PENDING.md).
